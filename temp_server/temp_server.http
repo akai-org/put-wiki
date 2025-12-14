@@ -1,0 +1,6 @@
+@temp_server_HostAddress = http://localhost:5189
+
+GET {{temp_server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
