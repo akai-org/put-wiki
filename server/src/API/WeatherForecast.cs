@@ -1,4 +1,4 @@
-namespace temp_server;
+namespace API;
 
 public class WeatherForecast
 {
