@@ -7,9 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "bunx prettier --write \"src/**/*.{js,jsx,ts,tsx,css,scss,json,md}\"",
+    "format:check": "bunx prettier --check \"src/**/*.{js,jsx,ts,tsx,css,scss,json,md}\""
   },
   "dependencies": {
+    "prettier": "^3.8.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
@@ -20,6 +23,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.2",
     "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",

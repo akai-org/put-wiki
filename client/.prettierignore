@@ -1,0 +1,25 @@
+node_modules
+
+# Build outputs
+dist
+build
+coverage
+
+# Vite
+.vite
+.vite-cache
+
+# Bun
+.bun
+bun.lock
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# Static
+public
+
+# Misc
+*.log
