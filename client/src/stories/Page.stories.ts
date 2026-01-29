@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import Page from '#pages/home';
+import Page from '@/pages/home';
 
 const meta = {
   title: 'PUT Wiki/Home Page',
