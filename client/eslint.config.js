@@ -8,7 +8,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
-import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import prettier from 'eslint-plugin-prettier/recommended';
 import query from '@tanstack/eslint-plugin-query';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
@@ -23,6 +23,7 @@ export default defineConfig([
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
       jsxA11y.flatConfigs.recommended,
+      prettier,
       query.configs['flat/recommended'],
       storybook.configs['flat/recommended'],
     ],
@@ -47,5 +48,4 @@ export default defineConfig([
       'react/react-in-jsx-scope': 'off',
     },
   },
-  eslintConfigPrettier, //should be last
 ]);

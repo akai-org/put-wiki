@@ -26,17 +26,3 @@ dist-ssr
 
 *storybook.log
 storybook-static
-
-# Env files
-.env
-.env.*
-!.env.example
-
-# Production build
-dist/
-build/
-.next/
-out/
-
-# Testing
-coverage/
