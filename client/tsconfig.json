@@ -3,18 +3,6 @@
   "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
   "compilerOptions": {
     "paths": {
-      "#components/*": ["./src/components/*"],
-      "#assets/*": ["./src/assets/*"],
-      "#utils/*": ["./src/utils/*"],
-      "#hooks/*": ["./src/hooks/*"],
-      "#styles/*": ["./src/styles/*"],
-      "#pages/*": ["./src/pages/*"],
-      "#components": ["./src/components"],
-      "#assets": ["./src/assets"],
-      "#utils": ["./src/utils"],
-      "#hooks": ["./src/hooks"],
-      "#styles": ["./src/styles"],
-      "#pages": ["./src/pages"],
       "@/*": ["./src/*"]
     }
   }
