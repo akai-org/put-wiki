@@ -2,18 +2,6 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "#components/*": ["components/*"],
-      "#assets/*": ["assets/*"],
-      "#utils/*": ["utils/*"],
-      "#hooks/*": ["hooks/*"],
-      "#styles/*": ["styles/*"],
-      "#pages/*": ["pages/*"],
-      "#components": ["components"],
-      "#assets": ["assets"],
-      "#utils": ["utils"],
-      "#hooks": ["hooks"],
-      "#styles": ["styles"],
-      "#pages": ["pages"],
       "@/*": ["./*"]
     },
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
