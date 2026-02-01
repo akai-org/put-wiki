@@ -4,5 +4,6 @@
   "trailingComma": "es5",
   "printWidth": 100,
   "semi": true,
-  "arrowParens": "always"
+  "arrowParens": "always",
+  "endOfLine": "auto"
 }
