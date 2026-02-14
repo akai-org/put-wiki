@@ -19,7 +19,7 @@ Take a look at Getting Started in CONTRIBUTING.md
 
 ## 👥 Team
 - **Project Leader:** [@username](link)
-- **Maintainers:** [@Michał Jodko](https://github.com/joszkooo), [@Piotrek Blecharski](https://github.com/zakhildev), [@Aleksander Nowicki](https://github.com/Aleks334), [@Marcin Słowikowski](https://github.com/MSZM0), [@Wojciech Stuchlak](https://github.com/hot-oranges-86), [@Antek](https://github.com/Anto-glitch)
+- **Maintainers:** [@user1](link), [@user2](link), [@user3](link), [@user4](link), [@user5](link)
 
 
 ## Documentation
