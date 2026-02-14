@@ -7,11 +7,13 @@ Interfejs użytkownika napisany w React.
 Ogólnie jaki zamysł, jak podzielona itp.
 
 ## 🛠️ Tech Stack
+
 -
 -
 -
 
 ## 🚀 Jak uruchomić (dev)?
+
 koniecznie przez dockera, uzupenianie jakichs envow itp
 
 ## Notes
