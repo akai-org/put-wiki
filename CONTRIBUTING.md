@@ -10,7 +10,7 @@ Projekt jest rozwijany w ramach koła naukowego AKAI na Politechnice Poznańskie
 
 1. **Wymagania**: Upewnij się, że masz zainstalowane: 
    - Frontend: Node.js,
-   - Backend: .NET 9 Platform,
+   - Backend: .NET 10 Platform,
    - Ogólne: Docker
 2. **Setup**:
    - Sklonuj repozytorium.
