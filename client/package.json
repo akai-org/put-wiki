@@ -14,7 +14,7 @@
     "test": "vitest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepare": "cd .. && husky client/.husky"
+    "prepare": "cd .. && node client/.husky/install.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",

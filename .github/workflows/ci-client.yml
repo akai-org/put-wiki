@@ -1,0 +1,19 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    paths:
+      - 'client/**'
+        
+env:
+  HUSKY: 0
+
+jobs:
+  quality-check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+
+    steps:
+      - uses: actions/checkout@v4
