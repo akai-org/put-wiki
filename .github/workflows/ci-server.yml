@@ -1,0 +1,32 @@
+name: CI pipeline - server
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'server/**'
+
+jobs:
+  build-and-lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore PutWiki.slnx
+        
+      - name: Check Formatting
+        run: dotnet format PutWiki.slnx --verify-no-changes --verbosity diagnostic
+
+      - name: Build and Lint
+        run: dotnet build PutWiki.slnx --configuration Release --no-restore

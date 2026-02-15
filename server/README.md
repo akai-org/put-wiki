@@ -8,10 +8,12 @@ Ogólnie jaki zamysł, jak podzielona itp.
 
 ## Tech Stack
 -
+
 -
 -
 
 ## How to run it (dev)?
+
 koniecznie przez dockera, uzupenianie jakichs envow, seedowanie bazy itp
 
 ## Testing
