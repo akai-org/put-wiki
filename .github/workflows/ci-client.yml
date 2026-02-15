@@ -1,7 +1,9 @@
-name: Frontend CI
+name: CI client
 
 on:
   pull_request:
+    branches:
+      - main
     paths:
       - 'client/**'
         
@@ -17,3 +19,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Format
+        run: bun run format
+
+      - name: Run unit tests
+        run: bun run test
