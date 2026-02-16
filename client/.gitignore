@@ -37,3 +37,6 @@ dist/
 build/
 .next/
 out/
+
+# Testing
+coverage/

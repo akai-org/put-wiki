@@ -11,14 +11,19 @@ env:
   HUSKY: 0
 
 jobs:
-  quality-check:
+  verify:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./client
-
+        
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: client/package.json
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -32,5 +37,5 @@ jobs:
       - name: Format
         run: bun run format
 
-      - name: Run unit tests
-        run: bun run test
+      - name: Unit tests
+        run: bun run test:unit
