@@ -88,7 +88,17 @@ jobs:
           --no-restore \
           --collect:"XPlat Code Coverage" \
           --results-directory ./TestResults
-  
+          
+      - name: Code coverage summary report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: server/TestResults/**/coverage.cobertura.xml
+          badge: true
+          format: markdown
+          output: both
+          
+      - name: Add code coverage PR comment
+        run: cat "$GITHUB_WORKSPACE/code-coverage-results.md" >> $GITHUB_STEP_SUMMARY  
   ci-status:
     needs: [client-verify, server-verify]
     if: always()
