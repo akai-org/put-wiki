@@ -1,0 +1,80 @@
+name: CI pipeline
+
+on:
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  HUSKY: 0
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      client: ${{ steps.filter.outputs.client }}
+      server: ${{ steps.filter.outputs.server }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            client:
+              - 'client/**'
+            server:
+              - 'server/**'
+
+  
+  client-verify:
+    needs: changes
+    if: ${{ needs.changes.outputs.client == 'true' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: client/package.json
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run lint
+      - run: bun run format
+      - run: bun run test:unit
+
+  server-verify:
+    needs: changes
+    if: ${{ needs.changes.outputs.server == 'true' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+    steps:
+      - uses: actions/checkout@v6
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: server/global.json
+      - run: dotnet restore PutWiki.slnx
+      - run: dotnet format PutWiki.slnx --verify-no-changes --verbosity diagnostic
+      - run: dotnet build PutWiki.slnx --configuration Release --no-restore
+
+  ci-status:
+    needs: [client-verify, server-verify]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check overall status
+        run: |
+          if [ "${{ needs.client-verify.result }}" == "failure" ] || [ "${{ needs.server-verify.result }}" == "failure" ]; then
+            echo "One of the builds failed"
+            exit 1
+          else
+            echo "All relevant builds passed or were skipped"
+            exit 0
+          fi
