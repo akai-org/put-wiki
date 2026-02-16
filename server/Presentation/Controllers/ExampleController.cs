@@ -7,8 +7,8 @@ namespace Presentation.Controllers;
 public class ExampleController : ControllerBase
 {
     [HttpGet]
-    public string Get()
+    public ActionResult<string> Get()
     {
-        return "Hello World!";
+        return Ok("Hello World!");
     }
 }
