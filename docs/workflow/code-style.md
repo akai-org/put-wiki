@@ -1,15 +1,14 @@
 # Code Style Guidelines
 
-## 📜 Zasady Ogólne
-1. Dbamy o czystość kodu (więcej: Clean Code A Handbook of Agile Software Craftsmanship - Robert C. Martin)
-2. Trzymamy się konwencji nazewnictwa związanych z daną technologią (platforma, język, frameworki/biblioteki). Używamy tylko angielskiego.
-3. Kiedy można stosujemy się do rad/"zasad" jak KISS, DRY, SOLID, itp.
+## General rules
+1. We try to make our code clean.
+2. We adhere to naming conventions specific to the technology in use (platform, language, frameworks/libraries). All code and documentation must be in English only.
 
-## 🎨 Frontend
-Używamy skonfigurowanego `ESLint` ([config])() oraz `Prettier` ([config])().
+## Client-side
+We utilize pre-configured `ESLint`[config](client/eslint.config.js) and `Prettier` [config](client/.prettierrc).
 
-**Przed commitem:**
-Skrypt shellowy obsługiwany przez `husky` (pre-commit git hook) uruchomi autoformatting i naprawi autofixable lint errors w kodzie. W przypadku poważniejszych błędów odrzuci commita. Jeśli pushujesz z pominięciem hooków to CI i tak odzrzuci zmiany.
+**Before committing:**
+A script managed by `husky` (pre-commit git hook) will trigger auto-formatting and attempt to fix code issues automatically. In the event of critical errors, the commit will be rejected. Even if you push by bypassing local hooks, the `CI pipeline` will still reject the changes.
 
-## ⚙️ Backend
-Formatting wymuszany przez plik `.editorconfig` ([config])()
+## Server-side
+Formatting is enforced via the `.editorconfig` [config](server/.editorconfig)

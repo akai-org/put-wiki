@@ -40,8 +40,3 @@ link do boarda figmy
 
 4.  **Pull Requests:**
     * PR-y nie trafiają na kanbana. Są tylko zlinkowane z issue (user story). Kiedy jest mergowany to issue samo trafia do done. Kiedy task jest bardzo duży można wydzielić jeszcze oddzielne issue, pod którym będą zalinkowane PR-y (raczej rzadki przypadek)
-
-
-## 🔄 Spotkania
-* **taki weekly sync:** Krótkie spotkanie – co zrobione, co blokuje.
-* **a'la retro (raz na jakis czas):** Co poszło dobrze, co poprawić w procesie, opinie członków zespołu
