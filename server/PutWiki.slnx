@@ -3,4 +3,5 @@
   <Project Path="Domain/Domain.csproj" />
   <Project Path="Infrastructure/Infrastructure.csproj" />
   <Project Path="Presentation/Presentation.csproj" />
+  <Project Path="PutWiki.UnitTests/PutWiki.UnitTests.csproj" />
 </Solution>

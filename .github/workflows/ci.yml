@@ -38,14 +38,24 @@ jobs:
         working-directory: ./client
     steps:
       - uses: actions/checkout@v6
+        
       - uses: actions/setup-node@v4
         with:
           node-version-file: client/package.json
+          
       - uses: oven-sh/setup-bun@v2
-      - run: bun install --frozen-lockfile
-      - run: bun run lint
-      - run: bun run format
-      - run: bun run test:unit
+      
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+        
+      - name: Check linting
+        run: bun run lint
+        
+      - name: Check formatting
+        run: bun run format
+        
+      - name: Perform unit tests
+        run: bun run test:unit
 
   server-verify:
     needs: changes
@@ -56,14 +66,29 @@ jobs:
         working-directory: ./server
     steps:
       - uses: actions/checkout@v6
+        
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           global-json-file: server/global.json
-      - run: dotnet restore PutWiki.slnx
-      - run: dotnet format PutWiki.slnx --verify-no-changes --verbosity diagnostic
-      - run: dotnet build PutWiki.slnx --configuration Release --no-restore
-
+          
+      - name: Restore dependencies
+        run: dotnet restore PutWiki.slnx
+      
+      - name: Check formatting
+        run: dotnet format PutWiki.slnx --verify-no-changes --verbosity diagnostic
+      
+      - name: Build and lint
+        run: dotnet build PutWiki.slnx --configuration Release --no-restore
+      
+      - name: Perform unit tests
+        run: |
+          dotnet test PutWiki.slnx \
+          --configuration Release \
+          --no-restore \
+          --collect:"XPlat Code Coverage" \
+          --results-directory ./TestResults
+  
   ci-status:
     needs: [client-verify, server-verify]
     if: always()
