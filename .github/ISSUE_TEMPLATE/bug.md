@@ -1,7 +1,10 @@
 ---
 name: Bug
 about: Something is not working as expected
-labels: ["type:bug"]
+title: ''
+labels: bug, type:task
+assignees: ''
+
 ---
 
 ## Description
