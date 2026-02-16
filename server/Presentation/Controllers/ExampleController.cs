@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Presentation.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("/")]
 public class ExampleController : ControllerBase
 {
     [HttpGet]
     public string Get()
     {
-       return "Hello World!";
+        return "Hello World!";
     }
 }

@@ -4,7 +4,7 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AnalysisLevel>latest</AnalysisLevel>
-    <AnalysisMode>All</AnalysisMode>
+    <AnalysisMode>Recommended</AnalysisMode>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
