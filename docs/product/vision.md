@@ -1,47 +1,40 @@
 # Product Vision & Scope
 
 ## 🎯 Wizja
-Długoterminowa wizja projektu - czym ma się stać.
+- Pomoc studentom w wymianie informacji odnośnie prowadzących i przedmiotów
+- Stworzenie rzetelnego źródła informacji o trudności zaliczenia i wyniesionej wiedzy z przedmiotu 
+- Stworzenie miejsca z możliwością wyrażenia anonimowej opinii o przedmiotach i prowadzących
+- Stworzenie przystępnej i wysokiej jakości bazy notatek, materiałów i przykładowych egzaminów z przedmiotów
 
 ## 🛑 Problem
-Krótki opis problemu jaki ma rozwiązać
+Chaos informacyjny spowodowany brakiem akutalnych informacji oraz ich wątpliwą jakością oraz ich duże rozproszenie.
 
 ## 👥 Stakeholderzy
-Kogo dotyczy ten projekt, np:
-- użytkownicy końcowi - studenci,
-- członkowie zespołu,
-- akai, put
+- studenci informatyki Politechniki Poznańskiej
+- członkowie zespołu
+- AKAI
+- Politechnika Poznańska
 
 - **Stakeholder 1**: jego cel
 - **Stakeholder 2**: jego cel
+- **Stakeholder 3**: jego cel
+- **Stakeholder 4**: jego cel
 
 ## Fazy projektu:
 Projekt jest długoterminowy. Pracujemy w sprintach. Poniżej fazy projektu z celem, zakresem i kryteriami sukcesu.
 
-### Faza 1: MVP (Deadline: koniec semestru letniego 2026)
+### Faza 1: Setup projektu (Deadline: koniec semestru zimowego 2025/2026)
 Roadmapa [link, github projects]()
 
-**główny cel:** krótki opis
-- szczegol 1
-- szczegol 2
+**główny cel:** Stowrzenie klarownej wizji projektu z dokumentacją i designem
+- Stowrzenie dobrze rozplanowanego repo
+- Stworzenie responsywnego designu strony
 
 #### Kryteria Sukcesu MVP
-np.
-- Aplikacja jest zdeployowana i dostępna publicznie.
-- Zarejestrowanych min. X użytkowników.
-- itp
-
-#### ✅ In Scope (co robimy w MVP z requirements.md)
-- **nazwa 1**: krótki opis (1 zdanie, ogólnie)
-- **nazwa 2**: krótki opis (1 zdanie, ogólnie)
-- **nazwa 3**: krótki opis (1 zdanie, ogólnie)
-
-#### ⏳ Out of Scope (Post-MVP - czego nie robimy teraz z requirements.md)
-- Out of Scope 1
-- Out of Scope 2
+- Setupowany github repo  
+- stworzenie dokumentacji projetkowej i templatek
+- Stworzenie lofi i wysyłanie ich go designera
 
 ## ❌ Out of Scope (całkowicie)
 Elementy, których nie będziemy realizować w ogóle:
-- **nazwa 1**: krótki opis (1 zdanie, ogólnie)
-- **nazwa 2**: krótki opis (1 zdanie, ogólnie)
-- **nazwa 3**: krótki opis (1 zdanie, ogólnie)
+- **nazwa 1**: implementacja 

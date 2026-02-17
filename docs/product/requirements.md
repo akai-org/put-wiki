@@ -7,7 +7,7 @@ co ta apka ma potrafić dlugoterminowo (elementy z listy ponizej sa sprawdzone i
 
 na poczatku pewnie wiekszosc sie bedzie pokrywac miedzy requirements a in-scope
 
-### E01: Tytul
+### E01: Wyświetlanie przedmiotów i 
 Krotki ogolny opis
 
 ### E02: Tytul
