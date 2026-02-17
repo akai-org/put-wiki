@@ -2,40 +2,35 @@
 
 > ⚠️ **Uwaga:** Szczegółowe wymagania funkcjonalne (user stories) znajdują się na kanbanie naszego projektu na **GitHub Projects** (oraz w issues). Poniższa lista definiuje główne obszary jakimi zajmuje się projekt (funkcjonalne i niefunkcjonalne)
 
-## 🧩 Wymagania funkcjonalne (nasze epic's)
-co ta apka ma potrafić dlugoterminowo (elementy z listy ponizej sa sprawdzone i wykonalne, ale priorytet to czas). Sluza tez do projektowania na przyszlosc jakies architektury itp. Tylko czesc jest w scope danej fazy projektu.
+## Wymagania funkcjonalne (nasze epic's)
 
-na poczatku pewnie wiekszosc sie bedzie pokrywac miedzy requirements a in-scope
+### E01: Wyświetlanie informacji o przedmiotach i prowadzących
+Prawdzie informacje zaczerpniętnie z usos, informatorów, stron prowadzących i baz infomracyjnych dostępne w jednym miejscu.
 
-### E01: Wyświetlanie przedmiotów i 
-Krotki ogolny opis
+### E02: Konto Studenta
+User weryfikuje się kontem usos, jest to wymagane do korzystania ze strony i może dzięki temu zamieszczać anonimowe opinie. 
 
-### E02: Tytul
-Krotki ogolny opis
+### E03: System opinii
+Opinie są dodawane przez studentów, dotyczą przedmitów lub prowadząych.
 
-### E03: Tytul
-Krotki ogolny opis
+### E04: Wyszukiwarka informacji
+Działający search engine dla naszej strony.
 
 ---
 
-## 🛡️ Wymagania niefunkcjonalne
+## Wymagania niefunkcjonalne
 
 ### Architektura i Kod
-- item 1
-- item 2
-- item 3
-
-### Wydajność i skalowalność
-- item 1
-- item 2
-- item 3
+- jednolite formatowanie kodu
+- kontorla wersji Git i zasady branch
+- trzymanie się zasad czystego kodu 
 
 ### Security
-- item 1
-- item 2
-- item 3
+- lintery
+- tokeny i sesje
+- SQL injection zabezpeiczenia
 
 ### UX/UI
-- item 1
-- item 2
-- item 3
+- Dark Mode
+- Spełnia wymagania AA WCAG 2.1
+- Responsywność

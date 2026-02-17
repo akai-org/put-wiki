@@ -1,40 +1,43 @@
 # Product Vision & Scope
 
-## 🎯 Wizja
+##  Wizja (do refrazy)
 - Pomoc studentom w wymianie informacji odnośnie prowadzących i przedmiotów
 - Stworzenie rzetelnego źródła informacji o trudności zaliczenia i wyniesionej wiedzy z przedmiotu 
 - Stworzenie miejsca z możliwością wyrażenia anonimowej opinii o przedmiotach i prowadzących
-- Stworzenie przystępnej i wysokiej jakości bazy notatek, materiałów i przykładowych egzaminów z przedmiotów
+- Stworzenie przystępnej i wysokiej jakości bazy notatek i materiałów od studentów dla studentów.
 
-## 🛑 Problem
-Chaos informacyjny spowodowany brakiem akutalnych informacji oraz ich wątpliwą jakością oraz ich duże rozproszenie.
+## Problem
+Chaos informacyjny spowodowany brakiem akutalnych informacji, wątpliwą jakością oraz ich duże rozproszenie.
 
-## 👥 Stakeholderzy
-- studenci informatyki Politechniki Poznańskiej
-- członkowie zespołu
-- AKAI
-- Politechnika Poznańska
+## Interesariusze
+- **studenci informatyki Politechniki Poznańskiej**: jego cel
+- **członkowie zespołu**: jego cel
+- **AKAI**: jego cel
+- **Politechnika Poznańska**: jego cel
 
-- **Stakeholder 1**: jego cel
-- **Stakeholder 2**: jego cel
-- **Stakeholder 3**: jego cel
-- **Stakeholder 4**: jego cel
-
+## Rodamap
+Roadmapa [link, github projects]()
 ## Fazy projektu:
 Projekt jest długoterminowy. Pracujemy w sprintach. Poniżej fazy projektu z celem, zakresem i kryteriami sukcesu.
 
 ### Faza 1: Setup projektu (Deadline: koniec semestru zimowego 2025/2026)
-Roadmapa [link, github projects]()
 
-**główny cel:** Stowrzenie klarownej wizji projektu z dokumentacją i designem
+**główny cel**: Stowrzenie klarownej wizji projektu z dokumentacją i designem
 - Stowrzenie dobrze rozplanowanego repo
 - Stworzenie responsywnego designu strony
+- Stworzenie architektury projektowej
 
-#### Kryteria Sukcesu MVP
+#### Kryteria Sukcesu
 - Setupowany github repo  
-- stworzenie dokumentacji projetkowej i templatek
+- Stworzenie dokumentacji projetkowej i templatek
 - Stworzenie lofi i wysyłanie ich go designera
 
-## ❌ Out of Scope (całkowicie)
+#### Out of Scope
 Elementy, których nie będziemy realizować w ogóle:
-- **nazwa 1**: implementacja 
+- **implementacja**: implementacja 
+
+### Faza 2: MVP (Deadline: koniec semestru letniego 2026)
+
+**głowny cel**: Realizacja kluczowych założeń projektowych
+
+#### Kryteria Sukcesu 
