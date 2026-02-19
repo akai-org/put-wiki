@@ -29,7 +29,8 @@ jobs:
               - 'server/**'
 
   
-  client-verify:
+  
+  client-verification:
     needs: changes
     if: ${{ needs.changes.outputs.client == 'true' }}
     runs-on: ubuntu-latest
@@ -38,15 +39,13 @@ jobs:
         working-directory: ./client
     steps:
       - uses: actions/checkout@v6
-        
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: client/package.json
           
       - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: client/package.json
       
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun ci
         
       - name: Check linting
         run: bun run lint
@@ -57,7 +56,7 @@ jobs:
       - name: Perform unit tests
         run: bun run test:unit
 
-  server-verify:
+  server-verification:
     needs: changes
     if: ${{ needs.changes.outputs.server == 'true' }}
     runs-on: ubuntu-latest
@@ -87,29 +86,33 @@ jobs:
           --configuration Release \
           --no-restore \
           --collect:"XPlat Code Coverage" \
-          --results-directory ./TestResults
+          --results-directory ./coverage
           
-      - name: Code coverage summary report
+      - name: Code coverage report
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          filename: server/TestResults/**/coverage.cobertura.xml
+          filename: server/coverage/**/coverage.cobertura.xml
           badge: true
           format: markdown
           output: both
-          
-      - name: Add code coverage PR comment
-        run: cat "$GITHUB_WORKSPACE/code-coverage-results.md" >> $GITHUB_STEP_SUMMARY  
+
+  
   ci-status:
-    needs: [client-verify, server-verify]
+    needs: [client-verification, server-verification]
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - name: Check overall status
+      - name: Check CI status
         run: |
-          if [ "${{ needs.client-verify.result }}" == "failure" ] || [ "${{ needs.server-verify.result }}" == "failure" ]; then
-            echo "One of the builds failed"
+          CLIENT_RESULT="${{ needs.client-verification.result }}"
+          SERVER_RESULT="${{ needs.server-verification.result }}"
+          
+          if [[ "$CLIENT_RESULT == "failure" || "$CLIENT_RESULT == "cancelled" || \
+                "$SERVER_RESULT == "failure" || "$SERVER_RESULT == "cancelled" ]]
+          then
+            echo "At least one of the jobs was cancelled or failed."
             exit 1
           else
-            echo "All relevant builds passed or were skipped"
+            echo "All jobs passed or were skipped."
             exit 0
           fi
