@@ -1,17 +1,19 @@
-# 🖥️ PUTwiki - Backend
+# PUTwiki - Backend
 
 Backend oparty jest na **ASP.NET Core**. Dokumentacja API jest jako ... . instrukcje jak uruchomić docs api: ...
 
-## 🏗️ Architektura overview
+## Architecture overview
 
 Ogólnie jaki zamysł, jak podzielona itp.
 
-## 🛠️ Tech Stack
+## Tech Stack
 -
+
 -
 -
 
-## 🚀 Jak uruchomić (dev)?
+## How to run it (dev)?
+
 koniecznie przez dockera, uzupenianie jakichs envow, seedowanie bazy itp
 
-## Notes
+## Testing

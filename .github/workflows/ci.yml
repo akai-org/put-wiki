@@ -1,0 +1,123 @@
+name: CI pipeline
+
+on:
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  HUSKY: 0
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      client: ${{ steps.filter.outputs.client }}
+      server: ${{ steps.filter.outputs.server }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            client:
+              - 'client/**'
+            server:
+              - 'server/**'
+
+  
+  
+  client-verification:
+    needs: changes
+    if: ${{ needs.changes.outputs.client == 'true' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+    steps:
+      - uses: actions/checkout@v6
+          
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: client/package.json
+      
+      - name: Install dependencies
+        run: bun ci
+        
+      - name: Check linting
+        run: bun run lint:check
+        
+      - name: Check formatting
+        run: bun run format:check
+        
+      - name: Perform unit tests
+        run: bun run test:unit
+
+  server-verification:
+    needs: changes
+    if: ${{ needs.changes.outputs.server == 'true' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+    steps:
+      - uses: actions/checkout@v6
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: server/global.json
+          
+      - name: Restore dependencies
+        run: dotnet restore PutWiki.slnx
+      
+      - name: Check formatting
+        run: dotnet format PutWiki.slnx --verify-no-changes --verbosity diagnostic
+      
+      - name: Build and lint
+        run: dotnet build PutWiki.slnx --configuration Release --no-restore
+      
+      - name: Perform unit tests
+        run: |
+          dotnet test PutWiki.slnx \
+          --configuration Release \
+          --no-restore \
+          --collect:"XPlat Code Coverage" \
+          --results-directory ./coverage
+          
+      - name: Code coverage report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: server/coverage/**/coverage.cobertura.xml
+          badge: true
+          format: markdown
+          output: both
+
+      - name: Add code coverage PR comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          recreate: true
+          path: code-coverage-results.md
+  
+  ci-status:
+    needs: [client-verification, server-verification]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check CI status
+        run: |
+          CLIENT_RESULT="${{ needs.client-verification.result }}"
+          SERVER_RESULT="${{ needs.server-verification.result }}"
+          
+          if [[ "$CLIENT_RESULT == "failure" || "$CLIENT_RESULT == "cancelled" || \
+                "$SERVER_RESULT == "failure" || "$SERVER_RESULT == "cancelled" ]]
+          then
+            echo "At least one of the jobs was cancelled or failed."
+            exit 1
+          else
+            echo "All jobs passed or were skipped."
+            exit 0
+          fi
