@@ -96,6 +96,11 @@ jobs:
           format: markdown
           output: both
 
+      - name: Add code coverage PR comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          recreate: true
+          path: code-coverage-results.md
   
   ci-status:
     needs: [client-verification, server-verification]
