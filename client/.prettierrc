@@ -11,5 +11,5 @@
   "bracketSpacing": true,
   "bracketSameLine": false,
 
-  "endOfLine": "lf"
+  "endOfLine": "auto"
 }

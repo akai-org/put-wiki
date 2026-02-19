@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/triple-slash-reference */
 /// <reference types="vitest/config" />
-import {configDefaults, defineConfig, mergeConfig} from 'vitest/config';
+import { configDefaults, defineConfig, mergeConfig } from 'vitest/config';
 import viteConfig from './vite.config';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -43,16 +43,16 @@ export default mergeConfig(
             },
             setupFiles: ['.storybook/vitest.setup.ts'],
           },
-        }, 
+        },
         {
           extends: true,
           test: {
-             name: 'unit',
-             include: ['src/**/*.test.{ts,tsx}'],
-             exclude: ['src/**/*.stories.test.{ts,tsx}', ...configDefaults.exclude],
-             environment: 'node', 
-          }
-        },  
+            name: 'unit',
+            include: ['src/**/*.test.{ts,tsx}'],
+            exclude: ['src/**/*.stories.test.{ts,tsx}', ...configDefaults.exclude],
+            environment: 'node',
+          },
+        },
       ],
     },
   })
