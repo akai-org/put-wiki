@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+
+ALL_STAGED=$(git diff --cached --name-only --diff-filter=ACMR)
+
+echo "--- CLIENT ---"
+if echo "$ALL_STAGED" | grep -q '^client/'; then
+  echo "Changes detected."
+  cd client && bunx lint-staged && cd .. || exit 1
+else
+  echo "No changes. Skipping client checks."
+fi
+
+echo -e "\n--- SERVER ---"
+STAGED_FILES_SERVER=$(echo "$ALL_STAGED" | grep '^server/.*\.cs$' | xargs)
+
+if [ -n "$STAGED_FILES_SERVER" ]; then
+  echo "Changes detected."
+
+  if dotnet format ./server/PutWiki.slnx --include $STAGED_FILES_SERVER; then
+    echo "$STAGED_FILES_SERVER" | xargs git add
+  else
+    exit 1
+  fi
+else
+  echo "No changes. Skipping server checks."
+fi
+
+echo -e
