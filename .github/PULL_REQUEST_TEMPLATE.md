@@ -16,4 +16,5 @@ Steps for reviewer to verify changes.
 - [ ] Tests added / updated.
 - [ ] Docs updated (if applicable).
 
+---
 To have your PR reviewed put the link e.g. `https://github.com/akai-org/put-wiki/pull/0` to the `Review PR` thread on [put-wiki dc channel](https://discord.com/channels/768494845634412624/1467612224079007855) (you must be member of the AKAI discord server)
