@@ -1,21 +1,30 @@
 #!/usr/bin/env sh
 
+# NOTE: This script may behave unpredictably (errors) if filenames contain whitespaces 
+# (spaces, tabs, newlines) as xargs and git diff process them differently.
+
+# Get all staged files (added, copied, modified, renamed).
 ALL_STAGED=$(git diff --cached --name-only --diff-filter=ACMR)
 
 echo "--- CLIENT ---"
+# Check if any staged files are located within the client/ directory
 if echo "$ALL_STAGED" | grep -q '^client/'; then
   echo "Changes detected."
+  # Navigate to client, run lint-staged client package and return. Abort commit if anything fails.
   cd client && bunx lint-staged && cd .. || exit 1
 else
   echo "No changes. Skipping client checks."
 fi
 
 echo -e "\n--- SERVER ---"
+# Filter the staged files for .cs files inside the server/ directory
 STAGED_FILES_SERVER=$(echo "$ALL_STAGED" | grep '^server/.*\.cs$' | xargs)
 
+# Proceed only if the filtered list is not empty
 if [ -n "$STAGED_FILES_SERVER" ]; then
   echo "Changes detected."
 
+  # Format only staged files. If succeeds, re-stage those files to include fixes in the commit. Abort commit if formatting fails.
   if dotnet format ./server/PutWiki.slnx --include $STAGED_FILES_SERVER; then
     echo "$STAGED_FILES_SERVER" | xargs git add
   else
@@ -25,4 +34,5 @@ else
   echo "No changes. Skipping server checks."
 fi
 
-echo -e
+# Newline for better readability in terminal output
+echo
