@@ -7,6 +7,11 @@ import '#styles/tailwind.css';
 
 const preview: Preview = {
   parameters: {
+    initialGlobals:{
+      backgrounds: {
+        value:'dark',
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
