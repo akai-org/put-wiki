@@ -1,19 +1,17 @@
-# PUTwiki - Client (Frontend)
+# 🎨 PUTwiki - Client (Frontend)
 
 Interfejs użytkownika napisany w React.
 
-## Architecture overview
+## 🏗️ Architektura overview
 
 Ogólnie jaki zamysł, jak podzielona itp.
 
-## Tech Stack
-
+## 🛠️ Tech Stack
 -
 -
 -
 
-## How to run it (dev)?
-
+## 🚀 Jak uruchomić (dev)?
 koniecznie przez dockera, uzupenianie jakichs envow itp
 
-## Testing
+## Notes

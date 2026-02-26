@@ -1,41 +1,35 @@
 # Requirements & Epics
 
-> ⚠️ **Uwaga:** Szczegółowe wymagania funkcjonalne (user stories) znajdują się na kanbanie naszego projektu na **GitHub Projects** (oraz w issues). Poniższa lista definiuje główne obszary jakimi zajmuje się projekt (funkcjonalne i niefunkcjonalne)
+> ⚠️ **Note:** Detailed functional requirements (user stories) can be found on our project Kanban in **GitHub Projects** (and in issues).  
+> The list below defines the main areas the project covers (both functional and non-functional).
 
-## 🧩 Wymagania funkcjonalne (nasze epic's)
-co ta apka ma potrafić dlugoterminowo (elementy z listy ponizej sa sprawdzone i wykonalne, ale priorytet to czas). Sluza tez do projektowania na przyszlosc jakies architektury itp. Tylko czesc jest w scope danej fazy projektu.
+## Functional Requirements (Our Epics)
 
-na poczatku pewnie wiekszosc sie bedzie pokrywac miedzy requirements a in-scope
+### E01: Displaying Course and Lecturer Information
+Accurate information sourced from USOS, course guides, lecturer websites, and other informational databases, all available in one place.
 
-### E01: Tytul
-Krotki ogolny opis
+### E02: Student Account
+Users verify their identity using their USOS account. This is required to access the platform and allows them to submit anonymous reviews.
 
-### E02: Tytul
-Krotki ogolny opis
+### E03: Opinion System
+Reviews are submitted by students and relate to courses or lecturers.
 
-### E03: Tytul
-Krotki ogolny opis
+### E04: Information Search
+A working search engine for the platform.
 
 ---
 
-## 🛡️ Wymagania niefunkcjonalne
+## Non-Functional Requirements
 
-### Architektura i Kod
-- item 1
-- item 2
-- item 3
-
-### Wydajność i skalowalność
-- item 1
-- item 2
-- item 3
+### Architecture & Code
+* Follow the guidelines in [docs/workflow/code-style.md](../workflow/code-style.md)  
+* Follow the rules in [docs/workflow/git.md](../workflow/git.md)
 
 ### Security
-- item 1
-- item 2
-- item 3
+* Tokens and session management .
+* Protection against SQL injection.
 
 ### UX/UI
-- item 1
-- item 2
-- item 3
+* Dark Mode support.
+* AA WCAG 2.1 accessibility compliance.
+* Responsive design.
