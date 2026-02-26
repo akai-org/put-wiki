@@ -16,7 +16,7 @@ The PUTwiki client is the user interface layer of the application, built with Re
 - **shadcn/ui** – Accessible and customizable UI components
 - **Prettier** – Code formatter
 
-## 🚀 Jak uruchomić (dev)?
+## 🚀 How to run (dev)?
 ```bash
 cd client
 
