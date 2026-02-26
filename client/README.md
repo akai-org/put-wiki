@@ -2,7 +2,7 @@
 
 The PUTwiki client is the user interface layer of the application, built with React and designed for scalability, maintainability, and fast development.
 
-## 🏗️ Architektura overview
+## 🏗️ Architecture overview
 
 **PLACEHOLDER**
 

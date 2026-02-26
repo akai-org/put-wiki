@@ -15,7 +15,7 @@ We name commit messages according to **[Conventional Commits](https://www.conven
 ## 🔀 Pull Request (PR) Lifecycle
 
 1. **Draft**: If you are working but want to trigger CI or show code, create a PR and mark it as Draft using the provided PR template.
-2. **Ready**: When the code is ready, mark it as "Ready for review" (via Discord bot).
+2. **Ready**: When the code is ready, mark it as "Ready for review" and post it on Discord [channel](https://discord.com/channels/768494845634412624/1467612224079007855).
 3. **Review**: Requires **at least 1 approval** from another team member.
 4. **Merge**:
    - Merge only via **Squash and Merge** – other options are blocked for consistency.

@@ -1,6 +1,6 @@
 # Requirements & Epics
 
-> ⚠️ **Note:** Detailed functional requirements (user stories) can be found on our project Kanban in **GitHub Projects** (and in issues).  
+> ⚠️ **Note:** Detailed functional requirements (user stories) can be found on our project Kanban in [**GitHub Projects**](https://github.com/orgs/akai-org/projects/23) (and in issues).  
 > The list below defines the main areas the project covers (both functional and non-functional).
 
 ## Functional Requirements (Our Epics)
