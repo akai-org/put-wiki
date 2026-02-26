@@ -17,7 +17,9 @@ The PUTwiki client is the user interface layer of the application, built with Re
 - **Prettier** – Code formatter
 
 ## 🚀 How to run (dev)?
+
 ```bash
+
 cd client
 
 bun install
@@ -26,4 +28,5 @@ bun run dev
 ```
 
 ## Notes
+
 > ⚠️ Please note that you need to have bun installed to run this app.
