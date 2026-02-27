@@ -1,12 +1,12 @@
-# 🎨 PUTwiki - Client (Frontend)
+# PUTwiki - Client (Frontend)
 
 The PUTwiki client is the user interface layer of the application, built with React and designed for scalability, maintainability, and fast development.
 
-## 🏗️ Architecture overview
+## Architecture overview
 
 **PLACEHOLDER**
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Bun** – Package manager and runtime
 - **Vite** – Fast development server and build tool
@@ -15,7 +15,7 @@ The PUTwiki client is the user interface layer of the application, built with Re
 - **Tailwind CSS** – Utility-first styling
 - **shadcn/ui** – Accessible and customizable UI components
 
-## 🚀 How to run (dev)?
+## How to run (dev)?
 
 ```bash
 
