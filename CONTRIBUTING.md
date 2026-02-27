@@ -1,6 +1,6 @@
 # Contributing Guide
 
-## 🤝 Who Can Join?
+## Who Can Join?
 
 The project is developed within the AKAI student research group at Politechnika Poznańska.  
 👉 [AKAI Discord – project channel](https://discordapp.com/channels/768494845634412624/1449463337837527093)
@@ -10,7 +10,7 @@ The project is developed within the AKAI student research group at Politechnika 
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Requirements
 
@@ -31,11 +31,7 @@ Make sure you have installed:
 
 We manage and plan the project using a (more or less 😉) agile approach.
 
-A detailed description of the technical workflow (task planning, issue creation, branching strategy, etc.) can be found here:  
-👉 **[Git workflow](docs/workflow/git.md)**
-
-A broader description of project planning, brainstorming, meetings, and iteration structure can be found here:  
-👉 **[Iteration flow](docs/workflow/iteration-flow.md)**
+A detailed description of the technical workflow (task planning, issue creation, branching strategy, etc.) can be found here **[git](docs/workflow/git.md)** and here **[workflow](docs/workflow/workflow.md)**
 
 ---
 
@@ -47,11 +43,11 @@ A broader description of project planning, brainstorming, meetings, and iteratio
 - Open a Pull Request (PR) to `main`.
 - Once all status checks (CI) pass and you receive at least one approval, merge it. CD will deploy changes to production.
 - Manually verify the changes in production.
-- Done! 🎉🎉🎉
+- Done!
 
 ---
 
-## 📐 Code Standards
+## Code Standards
 
 We care about clean and maintainable code. Formatting and linting are automated.
 
@@ -63,7 +59,7 @@ Configuration details and best practices:
 
 ---
 
-## ✅ Definition of Done
+## Definition of Done
 
 A task is considered complete when:
 
