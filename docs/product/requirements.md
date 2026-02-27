@@ -21,22 +21,10 @@ Reviews are submitted by students and relate to courses or lecturers.
 
 A working search engine for the platform.
 
----
-
 ## Non-Functional Requirements
-
-### Architecture & Code
 
 - Follow the guidelines in [docs/workflow/code-style.md](../workflow/code-style.md)
 - Follow the rules in [docs/workflow/git.md](../workflow/git.md)
-
-### Security
-
-- Tokens and session management .
-- Protection against SQL injection.
-
-### UX/UI
-
 - Dark Mode support.
 - AA WCAG 2.1 accessibility compliance.
 - Responsive design.

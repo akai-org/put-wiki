@@ -14,13 +14,14 @@ The PUTwiki client is the user interface layer of the application, built with Re
 - **React** – UI library
 - **Tailwind CSS** – Utility-first styling
 - **shadcn/ui** – Accessible and customizable UI components
-- **Prettier** – Code formatter
 
 ## 🚀 How to run (dev)?
 
 ```bash
 
 cd client
+
+cp .env.example .env
 
 bun install
 

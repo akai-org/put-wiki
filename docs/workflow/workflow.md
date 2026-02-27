@@ -29,7 +29,7 @@ We work in flexible, approximately 2-week sprints.
 
 1. Open a PR following [PR lifecycle](/docs/workflow/git.md).
 2. Move the issue to **In Review**.
-3. Notify the team (via Discord or bot) for review.
+3. Notify the team for review.
 4. After merge, the issue automatically moves to **Done**.
 
 ## Project Phases
@@ -57,6 +57,9 @@ Define a clear product vision supported by structured documentation and design f
 - GitHub repository fully initialized and structured.
 - Project documentation and reusable templates created.
 - Low-fidelity wireframes prepared and delivered to the designer.
+- App is contenerised.
+- App is deployed.
+- CI is implemented.
 
 #### Out of Scope
 

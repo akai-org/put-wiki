@@ -23,8 +23,7 @@ Make sure you have installed:
 ### 2. Setup
 
 - Clone the repository.
-- Follow the instructions in `client/README.md` and `server/README.md` to run the development environments.  
-  _(Alternatively, run the entire stack using Docker Compose.)_ **NOT WORKING YET**
+- Follow the instructions in `client/README.md` and `server/README.md` to run the development environments.
 
 ---
 

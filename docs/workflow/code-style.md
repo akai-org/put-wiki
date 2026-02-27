@@ -11,7 +11,10 @@
 We use a configured `ESLint` [config](https://github.com/akai-org/put-wiki/blob/main/client/eslint.config.js) and `Prettier` [config](https://github.com/akai-org/put-wiki/blob/main/client/.prettierrc).
 
 **Before committing:**  
-A shell script managed by `husky` (pre-commit git hook) runs auto-formatting and fixes autofixable lint errors in the code. For more serious errors, the commit will be rejected. If you push while skipping hooks, the CI will still reject the changes.
+A shell script managed by `husky` (pre-commit git hook) checks for changes in both
+the frontend and backend and runs formatters for them.
+
+If you push while skipping hooks, the CI will still reject the changes.
 
 ## ⚙️ Backend
 
