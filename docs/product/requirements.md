@@ -1,41 +1,30 @@
 # Requirements & Epics
 
-> ⚠️ **Uwaga:** Szczegółowe wymagania funkcjonalne (user stories) znajdują się na kanbanie naszego projektu na **GitHub Projects** (oraz w issues). Poniższa lista definiuje główne obszary jakimi zajmuje się projekt (funkcjonalne i niefunkcjonalne)
+> ⚠️ **Note:** Detailed functional requirements (user stories) can be found on our project Kanban in [**GitHub Projects**](https://github.com/orgs/akai-org/projects/23) (and in issues).  
+> The list below defines the main areas the project covers (both functional and non-functional).
 
-## 🧩 Wymagania funkcjonalne (nasze epic's)
-co ta apka ma potrafić dlugoterminowo (elementy z listy ponizej sa sprawdzone i wykonalne, ale priorytet to czas). Sluza tez do projektowania na przyszlosc jakies architektury itp. Tylko czesc jest w scope danej fazy projektu.
+## Functional Requirements (Our Epics)
 
-na poczatku pewnie wiekszosc sie bedzie pokrywac miedzy requirements a in-scope
+### E01: Displaying Course and Lecturer Information
 
-### E01: Tytul
-Krotki ogolny opis
+Accurate information sourced from USOS, course guides, lecturer websites, and other informational databases, all available in one place.
 
-### E02: Tytul
-Krotki ogolny opis
+### E02: Student Account
 
-### E03: Tytul
-Krotki ogolny opis
+Users verify their identity using their USOS account. This is required to access the platform and allows them to submit anonymous reviews.
 
----
+### E03: Opinion System
 
-## 🛡️ Wymagania niefunkcjonalne
+Reviews are submitted by students and relate to courses or lecturers.
 
-### Architektura i Kod
-- item 1
-- item 2
-- item 3
+### E04: Information Search
 
-### Wydajność i skalowalność
-- item 1
-- item 2
-- item 3
+A working search engine for the platform.
 
-### Security
-- item 1
-- item 2
-- item 3
+## Non-Functional Requirements
 
-### UX/UI
-- item 1
-- item 2
-- item 3
+- Follow the guidelines in [docs/workflow/code-style.md](../workflow/code-style.md)
+- Follow the rules in [docs/workflow/git.md](../workflow/git.md)
+- Dark Mode support.
+- AA WCAG 2.1 accessibility compliance.
+- Responsive design.
