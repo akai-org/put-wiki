@@ -1,0 +1,46 @@
+﻿# ============================================================================
+# Created by https://dockerignore.com/
+# LANGUAGE TEMPLATE for Bun
+# Website: https://bun.sh/
+# Repository: https://github.com/oven-sh/bun
+# ============================================================================
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# TEMPLATE OVERVIEW & USAGE NOTES
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# • TEMPLATE TYPE: Language Template
+# • PURPOSE: Bun-specific patterns for Docker builds
+# • DESIGN PHILOSOPHY: Contains only Bun-specific patterns (no security patterns)
+# • COMBINATION GUIDANCE: Combine with common templates for complete coverage
+# • SECURITY CONSIDERATIONS: Security patterns not included (use common/security.dockerignore)
+# • BEST PRACTICES: Always combine with security template for production use
+# • OFFICIAL SOURCES: Bun community patterns and best practices
+
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# BUN-SPECIFIC PATTERNS
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# Bun-specific files and directories
+
+**/.bun-install/
+**/.bun/
+**/.bun/cache/
+**/.bun/install/
+*.bun
+*.bun.app
+*.bun.bak
+*.bun.exe
+*.bun.old
+.bunfig.toml
+.bunfig.toml.bak
+.bunfig.toml.example
+bun-debug.log*
+
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# BUN BUILD ARTIFACTS & OUTPUT
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# Bun build artifacts and output directories
+
+**/.output/
+**/build/
+**/dist/
+**/out/
