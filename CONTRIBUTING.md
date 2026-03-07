@@ -12,11 +12,20 @@ The project is developed within the AKAI student research group at Politechnika 
 
 ## Getting Started
 
+The simplest way to run the whole put-wiki is to use Docker:
+```bash
+docker compose up
+```
+
+However this is only to preview production version of the app*. If you want to develop you need to complete steps below.
+
+*compose file doesn't include any bind mounts or watching to detect code changes.
+
 ### 1. Requirements
 
 Make sure you have installed:
 
-- **Frontend**: Node.js, Bun
+- **Frontend**: Bun
 - **Backend**: .NET 10 Platform
 - **General**: Docker
 

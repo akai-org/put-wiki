@@ -6,6 +6,8 @@ The PUTwiki client is the user interface layer of the application, built with Re
 
 **PLACEHOLDER**
 
+To communicate with backend API just use path starting from `/api` to access the desired endpoint. You don't need to provide the host.
+
 ## Tech Stack
 
 - **Bun** – Package manager and runtime
@@ -28,6 +30,12 @@ bun install
 bun run dev
 ```
 
+You can also run the whole put-wiki using Docker to preview production version:
+
+```bash
+docker compose up
+```
+
 ## Notes
 
-> ⚠️ Please note that you need to have bun installed to run this app.
+> ⚠️ Please note that you need to have bun installed to run this app locally. Use version defined in `package.json` `engines.bun`.
