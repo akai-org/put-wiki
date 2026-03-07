@@ -1,4 +1,5 @@
-﻿FROM oven/bun:1.3.6-alpine AS base
+﻿ARG BUN_VERSION=1.3.6
+FROM oven/bun:${BUN_VERSION}-alpine AS base
 WORKDIR /app
 COPY package.json bun.lock ./
 

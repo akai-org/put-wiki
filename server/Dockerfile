@@ -1,4 +1,5 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS base
+﻿ARG DOTNET_VERSION=10.0
+FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-alpine AS base
 WORKDIR /app
 
 COPY ["PutWiki.slnx", "./"]
@@ -16,7 +17,7 @@ FROM base AS publish
 COPY . .
 RUN dotnet publish "Presentation/Presentation.csproj" -c Release -o /app/out --no-restore
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS prod
+FROM mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-alpine AS prod
 WORKDIR /app
 COPY --from=publish /app/out .
 ENTRYPOINT ["dotnet", "Presentation.dll"]
