@@ -1,14 +1,14 @@
 # Architecture Overview
 
-Dokument opisuje wysokopoziomową architekturę aplikacji PUTwiki.
+This document describes the high level architecture of the Putwiki.
 
 ## Backend architecture
-link do readme backend
+[docs](server/README.md#architecture-overview)
 
 ## Frontend architecture
-link do readme frontend
+[docs](client/README.md#architecture-overview)
 
 ## 🏗️ System context diagram (C4)
-mermaid czy jakis screenshot
+C4 diagrams
 
-Szczegóły na temat konkretnych wyborów technologicznych znajdziesz w rejestrze decyzji: 👉 [ADR](/docs/architecture/adr/).
+You can find details about specific technical decisions (Architecture Decision Records) here: [ADR](/docs/architecture/adr/).
