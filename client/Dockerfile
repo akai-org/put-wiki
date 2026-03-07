@@ -2,22 +2,14 @@
 WORKDIR /app
 COPY package.json bun.lock ./
 
-FROM base AS dev
-RUN bun ci
-COPY . .
-# storybook
-EXPOSE 6006
-# vite
-EXPOSE 5173 
-CMD ["bun", "run", "dev"]
-
 FROM base AS build  
 RUN bun ci
 COPY . .
 RUN bun run build
 
 FROM nginx:alpine AS prod
+COPY nginx.conf /etc/nginx/conf.d/
 COPY --from=build /app/dist /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
