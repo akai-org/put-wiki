@@ -16,7 +16,7 @@
     "format:check": "prettier --check .",
     "test": "vitest",
     "test:unit": "vitest run --project unit",
-    "test:ui": "vitest --project storybook",
+    "test:ui": "vitest run --project storybook",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build"
   },
@@ -62,6 +62,7 @@
     "eslint-plugin-react-refresh": "^0.4.26",
     "eslint-plugin-storybook": "^10.2.0",
     "globals": "^16.5.0",
+    "happy-dom": "^20.8.3",
     "lint-staged": "^16.2.7",
     "playwright": "^1.58.0",
     "prettier": "^3.8.1",

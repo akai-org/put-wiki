@@ -44,3 +44,7 @@ bun-debug.log*
 **/build/
 **/dist/
 **/out/
+
+node_modules
+.env
+.env.*
