@@ -18,7 +18,7 @@
     container_name: database
     restart: unless-stopped
     environment:
-      POSTGRES_USER: raspberry
+      POSTGRES_USER: admin
       POSTGRES_PASSWORD: "grodziskie_white_ip@!"
       POSTGRES_DB: putwikidb
     ports:
