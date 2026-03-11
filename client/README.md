@@ -10,7 +10,8 @@ To communicate with backend API just use path starting from `/api` to access the
 
 ## Tech Stack
 
-- **Bun** – Package manager and runtime
+- **Node.js** – runtime
+- **Pnpm** - package manager
 - **Vite** – Fast development server and build tool
 - **TypeScript** – Static typing
 - **React** – UI library
@@ -25,9 +26,11 @@ cd client
 
 cp .env.example .env
 
-bun install
+corepack install
 
-bun run dev
+pnpm install
+
+pnpm run dev
 ```
 
 You can also run the whole put-wiki using Docker to preview production version:
@@ -38,4 +41,4 @@ docker compose up
 
 ## Notes
 
-> ⚠️ Please note that you need to have bun installed to run this app locally. Use version defined in `package.json` `engines.bun`.
+> ⚠️ Please note that you need to have Node.js and pnpm installed to run this app locally. Use version defined in `package.json` in `engines.node`. You can install pnpm using corepack: `corepack install`

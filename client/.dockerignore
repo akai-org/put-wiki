@@ -1,50 +1,72 @@
 ﻿# ============================================================================
 # Created by https://dockerignore.com/
-# LANGUAGE TEMPLATE for Bun
-# Website: https://bun.sh/
-# Repository: https://github.com/oven-sh/bun
+# LANGUAGE TEMPLATE for Node.js
+# Website: https://nodejs.org/
+# Repository: https://github.com/nodejs/node
 # ============================================================================
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # TEMPLATE OVERVIEW & USAGE NOTES
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # • TEMPLATE TYPE: Language Template
-# • PURPOSE: Bun-specific patterns for Docker builds
-# • DESIGN PHILOSOPHY: Contains only Bun-specific patterns (no security patterns)
+# • PURPOSE: Node.js runtime and ecosystem patterns for Docker builds
+# • DESIGN PHILOSOPHY: Contains only Node.js-specific artifacts (no security patterns)
 # • COMBINATION GUIDANCE: Combine with common templates for complete coverage
-# • SECURITY CONSIDERATIONS: Security patterns not included (use common/security.dockerignore)
+# • SECURITY CONSIDERATIONS: Security patterns not included (always use common/security.dockerignore)
 # • BEST PRACTICES: Always combine with security template for production use
-# • OFFICIAL SOURCES: Bun community patterns and best practices
+# • OFFICIAL SOURCES: Node.js community patterns and Docker best practices
 
 # ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-# BUN-SPECIFIC PATTERNS
+# DEPENDENCIES & PACKAGE MANAGERS
 # ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-# Bun-specific files and directories
+# Package managers and dependency directories
 
-**/.bun-install/
-**/.bun/
-**/.bun/cache/
-**/.bun/install/
-*.bun
-*.bun.app
-*.bun.bak
-*.bun.exe
-*.bun.old
-.bunfig.toml
-.bunfig.toml.bak
-.bunfig.toml.example
-bun-debug.log*
+**/.npm/
+**/.npm/_logs/
+**/.pnpm-store/
+**/.pnpm/
+**/.yarn/
+**/.yarn/cache/
+**/bower_components/
+**/node_modules/
+.npmignore
+.npmrc
+.npmrc.*
+.yarnrc
+.yarnrc.yml
+npm-debug.log*
+pnpm-debug.log*
+pnpm-workspace.yaml
+yarn-error.log
 
 # ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-# BUN BUILD ARTIFACTS & OUTPUT
+# NODE.JS BUILD ARTIFACTS & OUTPUT
 # ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-# Bun build artifacts and output directories
+# Node.js build artifacts and output directories
 
+**/.nyc_output/
 **/.output/
 **/build/
 **/dist/
 **/out/
 
-node_modules
-.env
-.env.*
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# NODE.JS CACHE & TEMPORARY FILES
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# Node.js cache and temporary files
+
+**/.cache/
+**/.turbo/
+*.cache
+*.temp
+*.tmp
+.node_repl_history
+
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# NODE.JS LOGS & DEBUG FILES
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# Node.js logs and debug files
+
+**/logs/
+*.log
+*.log.*

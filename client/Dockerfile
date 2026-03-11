@@ -1,14 +1,15 @@
-﻿ARG BUN_VERSION=1.3.6
+﻿ARG NODE_VERSION=24.14.0
 ARG NGINX_VERSION=1.29.5
 
-FROM oven/bun:${BUN_VERSION}-alpine AS base
+FROM node:${NODE_VERSION}-alpine AS base
 WORKDIR /app
-COPY package.json bun.lock ./
+COPY package.json pnpm-lock.yaml ./
+RUN corepack enable && corepack install
 
 FROM base AS build  
-RUN bun ci
+RUN pnpm i --frozen-lockfile
 COPY . .
-RUN bun run build
+RUN pnpm run build
 
 FROM nginx:${NGINX_VERSION}-alpine AS prod
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf

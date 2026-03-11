@@ -4,12 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "engines": {
-    "bun": ">=1.3.6"
+    "node": ">=22.14.0"
   },
+  "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be",
   "scripts": {
-    "dev": "bunx --bun vite",
-    "build": "bun tsc -b && bunx --bun vite build",
-    "preview": "bunx --bun vite preview",
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
     "lint": "eslint --fix",
     "lint:check": "eslint .",
     "format": "prettier . --write --ignore-unknown",
@@ -43,7 +44,6 @@
     "@storybook/addon-vitest": "^10.2.0",
     "@storybook/react-vite": "^10.2.0",
     "@tanstack/eslint-plugin-query": "^5.91.3",
-    "@types/bun": "^1.3.10",
     "@types/node": "^25.0.10",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",

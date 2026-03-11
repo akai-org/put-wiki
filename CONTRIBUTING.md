@@ -25,7 +25,7 @@ However this is only to preview production version of the app*. If you want to d
 
 Make sure you have installed:
 
-- **Frontend**: Bun
+- **Frontend**: Node.js
 - **Backend**: .NET 10 Platform
 - **General**: Docker
 
