@@ -5,5 +5,8 @@ namespace Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OpinionController : ControllerBase { }
+    public class OpinionController : ControllerBase
+    {
+        
+    }
 }
