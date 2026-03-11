@@ -1,0 +1,179 @@
+﻿# ============================================================================
+# Created by https://dockerignore.com/
+# FRAMEWORK TEMPLATE for .NET
+# Website: https://dotnet.microsoft.com/
+# Repository: https://github.com/dotnet/core
+# ============================================================================
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# TEMPLATE OVERVIEW & USAGE NOTES
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# • TEMPLATE TYPE: Framework Template
+# • PURPOSE: .NET framework specific ignore patterns
+# • DESIGN PHILOSOPHY: Self-contained with all necessary patterns including security
+# • COMBINATION GUIDANCE: Use standalone - no need to combine with other templates
+# • SECURITY CONSIDERATIONS: Includes security patterns for .env files and credentials
+# • BEST PRACTICES: Review before use, test with your specific .NET setup
+# • OFFICIAL SOURCES: .NET community patterns and best practices
+
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# SECURITY & SENSITIVE DATA PROTECTION (ALWAYS FIRST!)
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# CRITICAL: Prevent sensitive data from being included in Docker images
+
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# ENVIRONMENT VARIABLES & CONFIGURATION FILES
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# Environment files contain sensitive API keys, database credentials,
+# and other secrets that must not be included in Docker images
+
+.env
+.env.*
+.env.*.local
+
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# APPLICATION SECRETS & CREDENTIALS
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+
+# Application secrets, credentials, and sensitive configuration files
+**/config/credentials.*
+**/config/secrets.*
+**/keys/
+**/passwords/
+**/private/
+**/secrets/
+*.auth
+*.authz
+*.password
+*.secret
+*.secrets
+*.token
+*_tokens
+*password*
+apikeys.*
+appsettings.Development.json
+appsettings.Local.json
+appsettings.Staging.json
+connectionstrings.config
+credentials
+database.ini
+database.yml
+dbconfig.xml
+secrets.json
+secrets.yaml
+secrets.yml
+tokens.*
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# BUILD ARTIFACTS AND OUTPUT
+**/build/
+**/docs/output/
+**/out/
+
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# CACHE AND TEMPORARY FILES
+**/.cache/
+**/temp/
+**/tmp/
+*.cache
+*.temp
+*.tmp
+/TemporaryGeneratedFile_*.cs
+
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# LOGS AND DEBUG FILES
+**/logs/
+*.log
+
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# CONFIGURATION AND ENVIRONMENT
+.env.testing
+
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# TESTING AND COVERAGE
+**/coverage/
+/*.coverage.xml
+/.coverage
+
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# OTHER
+**/.bzr/
+**/.cvs/
+**/.dotnet/
+**/.git/
+**/.hg/
+**/.nuget/
+**/.svn/
+**/_gh_pages/
+**/_ReSharper.*/
+**/amd64/
+**/AnyCPU/
+**/arm64/
+**/Bin/
+**/bin/
+**/Debug/
+**/docs/_site/
+**/dotnet/
+**/Help/
+**/NuGet/
+**/Obj/
+**/obj/
+**/packages/
+**/publish/
+**/Release/
+**/runtime/
+**/runtimes/
+**/TestResults/
+**/x64/
+**/x86/
+*.bak
+*.crunchsolution
+*.ncrunchproject
+*.old
+*.orig
+*.resharper
+*.resharper.user
+*.save
+*.sln.docstates
+*.suo
+*.swo
+*.swp
+*.testrunconfig
+*.testsettings
+*.user
+*.userosscache
+*.vsp
+*.vspscc
+*.vspx
+*~
+._*
+.DS_Store
+.DS_Store?
+.gitattributes
+.gitignore
+.gitmodules
+.Spotlight-V100
+.Trashes
+/*.chm
+/*.csproj.user
+/*.deps.json
+/*.fsproj.user
+/*.runtimeconfig.dev.json
+/*.runtimeconfig.json
+/*.testlog
+/*.trx
+/*.vbproj.user
+/*.vcxproj.filters
+/*.vcxproj.user
+/*.vsmdi
+/TestResult.xml
+appsettings.Test.json
+desktop.ini
+ehthumbs.db
+Properties/launchSettings.json
+Thumbs.db
+web.config.local
+web.debug.config
+web.release.config
