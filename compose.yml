@@ -13,7 +13,18 @@
     networks:
       - app_network
     restart: unless-stopped
-
+  database:
+    image: postgres:15
+    container_name: database
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: "grodziskie_white_ip@!"
+      POSTGRES_DB: putwikidb
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
   server:
     build:
       context: ./server
@@ -40,3 +51,6 @@
 networks:
   app_network:
     driver: bridge
+
+volumes:
+  db_data:
