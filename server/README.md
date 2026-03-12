@@ -24,7 +24,7 @@ dotnet run --project Presentation/Presentation.csproj
 
 App will use launch settings from the `Presentation\Properties\launchSettings.json` profile. You can also run it with IDE.
 
-You can also run the whole put-wiki using Docker to preview production version:
+You can launch the whole put-wiki using Docker to preview production version:
 ```bash
 docker compose up
 ```

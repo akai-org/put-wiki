@@ -6,7 +6,7 @@ The mission of the project is to provide a space for accessible knowledge sharin
 
 ## How to run?
 
-Take a look at Getting Started in CONTRIBUTING.md
+Take a look at [Getting Started in CONTRIBUTING.md](CONTRIBUTING.md#getting-started)
 
 ## Tech stack
 
