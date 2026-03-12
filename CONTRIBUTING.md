@@ -26,13 +26,19 @@ However this is only to preview production version of the app*. If you want to d
 Make sure you have installed:
 
 - **Frontend**: Bun
-- **Backend**: .NET 10 Platform
+- **Backend**: .NET Platform
 - **General**: Docker
+
+Please check which versions are used in client and server READMEs.
 
 ### 2. Setup
 
 - Clone the repository.
-- Follow the instructions in `client/README.md` and `server/README.md` to run the development environments.
+- Follow the instructions in [client/README.md](client/README.md) and [server/README.md](server/README.md) to run the development environments.
+
+### 3. Git hooks (optional)
+
+If you want to have autoformatting before each commit you should run `bun install` in the project root directory. This step is not required, but recommended.
 
 ---
 
