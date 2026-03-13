@@ -1,11 +1,19 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
 
 namespace Domain;
 
-public class User : IdentityUser
+/*
+1. We should use IdentityUser here to the User but we don't want to have pure models
+We will map our domain User directly to the Identity tables by configuring EF Core to treat it as the Identity user, or
+we can create a separate ApplicationUser : IdentityUser in Infrastructure and map between the two.
+
+2. I added ApplicationUser to the Infra/Identity/ApplicationUser.cs where we are using IdentityUser. 
+WE STILL NEED TO DO MAPPING 
+*/
+public class User
 {
+    public string Id { get; set; }
     public string Nickname { get; set; }
     public int Karma { get; set; }
     public DateOnly JoinDate { get; set; }

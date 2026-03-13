@@ -6,4 +6,10 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Core\" />
+    <Folder Include="Opinion\" />
+    <Folder Include="User\" />
+  </ItemGroup>
 </Project>
