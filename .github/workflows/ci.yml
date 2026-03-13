@@ -112,8 +112,8 @@ jobs:
           CLIENT_RESULT="${{ needs.client-verification.result }}"
           SERVER_RESULT="${{ needs.server-verification.result }}"
           
-          if [[ "$CLIENT_RESULT == "failure" || "$CLIENT_RESULT == "cancelled" || \
-                "$SERVER_RESULT == "failure" || "$SERVER_RESULT == "cancelled" ]]
+          if [[ "$CLIENT_RESULT" == "failure" || "$CLIENT_RESULT" == "cancelled" || \
+                "$SERVER_RESULT" == "failure" || "$SERVER_RESULT" == "cancelled" ]]
           then
             echo "At least one of the jobs was cancelled or failed."
             exit 1
