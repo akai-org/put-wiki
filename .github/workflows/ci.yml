@@ -1,5 +1,9 @@
 name: CI pipeline
 
+permissions: 
+  contents: read
+  pull-requests: write
+
 on:
   pull_request:
     branches: [ main ]
@@ -19,7 +23,7 @@ jobs:
       server: ${{ steps.filter.outputs.server }}
     steps:
       - uses: actions/checkout@v6
-      - uses: dorny/paths-filter@v3
+      - uses: dorny/paths-filter@v4
         id: filter
         with:
           filters: |
@@ -112,8 +116,8 @@ jobs:
           CLIENT_RESULT="${{ needs.client-verification.result }}"
           SERVER_RESULT="${{ needs.server-verification.result }}"
           
-          if [[ "$CLIENT_RESULT == "failure" || "$CLIENT_RESULT == "cancelled" || \
-                "$SERVER_RESULT == "failure" || "$SERVER_RESULT == "cancelled" ]]
+          if [[ "$CLIENT_RESULT" == "failure" || "$CLIENT_RESULT" == "cancelled" || \
+                "$SERVER_RESULT" == "failure" || "$SERVER_RESULT" == "cancelled" ]]
           then
             echo "At least one of the jobs was cancelled or failed."
             exit 1
