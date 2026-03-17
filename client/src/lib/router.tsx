@@ -1,4 +1,4 @@
-import { HomePage, NotFoundPage, LoginPage } from '@/pages';
+import { HomePage, NotFoundPage, LoginPage, ProfileSetupPage } from '@/pages';
 import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router';
 
 const rootRoute = createRootRoute();
@@ -15,13 +15,13 @@ const notFoundRoute = createRoute({
   component: () => <NotFoundPage />,
 });
 
-const loginRoute = createRoute({
+const profileSetupRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/login',
-  component: () => <LoginPage />,
+  path: '/profile-setup',
+  component: () => <ProfileSetupPage />,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, notFoundRoute, loginRoute]);
+const routeTree = rootRoute.addChildren([indexRoute, notFoundRoute, loginRoute, profileSetupRoute]);
 const router = createRouter({ routeTree });
 
 export default router;
