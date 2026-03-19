@@ -1,0 +1,125 @@
+name: CodeQL
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  security-events: write
+  actions: read
+  contents: read
+  pull-requests: read
+
+on:
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - "docs/**"
+      - "**/*.md"
+  pull_request:
+    branches: ["main"]
+    paths-ignore:
+      - "docs/**"
+      - "**/*.md"
+  schedule:
+    - cron: "0 0 * * 0" # runs every week on Sunday at 00:00
+
+jobs:
+  prepare-matrix:
+    name: Prepare matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Check for changed paths
+        uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          filters: |
+            actions:
+              - '.github/**'
+            server:
+              - 'server/**'
+            client:
+              - 'client/**'
+
+      - name: Build matrix
+        id: set-matrix
+        run: |
+          matrix=$(jq -n '{include: []}')
+
+          if [[ "${{ github.event_name }}" == "schedule" ]] || [[ "${{ steps.filter.outputs.actions }}" == "true" ]]
+          then
+              matrix=$(echo "$matrix" | jq -c '.include += [{"language":"actions","build-mode":"none","path":".github"}]')
+          fi
+
+
+          if [[ "${{ github.event_name }}" == "schedule" ]] || [[ "${{ steps.filter.outputs.server }}" == "true" ]]
+          then
+              matrix=$(echo "$matrix" | jq -c '.include += [{"language":"csharp","build-mode":"none","path":"server"}]')
+          fi
+
+
+          if [[ "${{ github.event_name }}" == "schedule" ]] || [[ "${{ steps.filter.outputs.client }}" == "true" ]]
+          then
+              matrix=$(echo "$matrix" | jq -c '.include += [{"language":"javascript-typescript","build-mode":"none","path":"client"}]')
+          fi
+
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+  analyze:
+    needs: prepare-matrix
+    if: ${{ fromJson(needs.prepare-matrix.outputs.matrix).include[0] != null }}
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.prepare-matrix.outputs.matrix) }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+          queries: +security-extended
+          config: |
+            paths:
+              - ${{ matrix.path }}/**
+            paths-ignore:
+              - '**/*.md'
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:${{matrix.language}}"
+
+  analysis-status: 
+    name: Analysis status
+    needs: [prepare-matrix, analyze]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check analysis status
+        run: |
+          if [[ "${{ needs.prepare-matrix.result }}" == "failure" || "${{ needs.prepare-matrix.result }}" == "cancelled" ]]
+          then
+            echo "Failed to prepare the matrix."
+            exit 1
+          fi
+
+          if [[ "${{ needs.analyze.result }}" == "failure" || "${{ needs.analyze.result }}" == "cancelled" ]]
+          then
+            echo "Analyze job has been cancelled or failed."
+            exit 1
+          fi
+
+          echo "All jobs passed or were skipped."
+          exit 0
