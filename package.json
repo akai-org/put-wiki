@@ -1,0 +1,11 @@
+{
+  "name": "put-wiki",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare": "bun run ./.husky/install.js"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}

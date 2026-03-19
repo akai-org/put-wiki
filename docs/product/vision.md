@@ -1,47 +1,21 @@
-# Product Vision & Scope
+# Product Vision
 
-## 🎯 Wizja
-Długoterminowa wizja projektu - czym ma się stać.
+Low-effort learning, high-quality results.
 
-## 🛑 Problem
-Krótki opis problemu jaki ma rozwiązać
+## Problem
 
-## 👥 Stakeholderzy
-Kogo dotyczy ten projekt, np:
-- użytkownicy końcowi - studenci,
-- członkowie zespołu,
-- akai, put
+There is significant information chaos caused by outdated content, inconsistent quality, and heavy fragmentation of available resources. Students struggle to find reliable, centralized, and up-to-date information about courses and lecturers.
 
-- **Stakeholder 1**: jego cel
-- **Stakeholder 2**: jego cel
+## Stakeholders
 
-## Fazy projektu:
-Projekt jest długoterminowy. Pracujemy w sprintach. Poniżej fazy projektu z celem, zakresem i kryteriami sukcesu.
+- **Computer Science students at Politechnika Poznańska**
+  _Goal:_ Gain easy access to reliable, structured, and up-to-date information about courses and lecturers to make informed academic decisions.
 
-### Faza 1: MVP (Deadline: koniec semestru letniego 2026)
-Roadmapa [link, github projects]()
+- **Project team members**
+  _Goal:_ Build a valuable, scalable product, develop technical and organizational skills, and deliver a high-quality solution.
 
-**główny cel:** krótki opis
-- szczegol 1
-- szczegol 2
+- **AKAI**
+  _Goal:_ Strengthen its portfolio with a meaningful student-driven initiative and increase engagement within the academic community.
 
-#### Kryteria Sukcesu MVP
-np.
-- Aplikacja jest zdeployowana i dostępna publicznie.
-- Zarejestrowanych min. X użytkowników.
-- itp
-
-#### ✅ In Scope (co robimy w MVP z requirements.md)
-- **nazwa 1**: krótki opis (1 zdanie, ogólnie)
-- **nazwa 2**: krótki opis (1 zdanie, ogólnie)
-- **nazwa 3**: krótki opis (1 zdanie, ogólnie)
-
-#### ⏳ Out of Scope (Post-MVP - czego nie robimy teraz z requirements.md)
-- Out of Scope 1
-- Out of Scope 2
-
-## ❌ Out of Scope (całkowicie)
-Elementy, których nie będziemy realizować w ogóle:
-- **nazwa 1**: krótki opis (1 zdanie, ogólnie)
-- **nazwa 2**: krótki opis (1 zdanie, ogólnie)
-- **nazwa 3**: krótki opis (1 zdanie, ogólnie)
+- **Politechnika Poznańska**
+  _Goal:_ Improve transparency, enhance the quality of education through feedback loops, and increase student satisfaction.

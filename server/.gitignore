@@ -88,6 +88,8 @@ StyleCopReport.xml
 *.pgc
 *.pgd
 *.rsp
+# but not Directory.Build.rsp, as it configures directory-level build defaults
+!Directory.Build.rsp
 *.sbr
 *.tlb
 *.tli
@@ -422,10 +424,6 @@ autom4te.cache/
 tarballs/
 test-results/
 
-# Mac bundle stuff
-*.dmg
-*.app
-
 # content below from: https://github.com/github/gitignore/blob/main/Global/macOS.gitignore
 # General
 .DS_Store
@@ -482,3 +480,9 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+/bin
+/out
+/obj
+/build
+/publish

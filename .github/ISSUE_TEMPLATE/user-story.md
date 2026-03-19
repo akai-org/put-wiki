@@ -1,24 +1,26 @@
 ---
 name: User Story
-about: User-facing feature or behavior
-labels: ["type:userstory"]
+about: Feature task written from the end user's perspective
+title: ''
+labels: type:userstory
+assignees: ''
+
 ---
 
-## User story
-As a **[user type]** I want **[goal]** so that **[value]**
+## [User story](https://www.atlassian.com/agile/project-management/user-stories)
+As a **_[user type]_** I want **_[goal]_** so that **_[value]_**
 
-## Acceptance criteria
-- [ ] [Warunek 1]
-- [ ] [Warunek 2]
-- [ ] [Warunek 3]
+## [Acceptance criteria](https://www.atlassian.com/work-management/project-management/acceptance-criteria)
+- [ ] [Condition 1]
+- [ ] [Condition 2]
+- [ ] [Condition 3]
 
-## Implementation tasks
-[ ] #PR1
-[ ] #PR2
-[ ] #ISSUE-ID (for large tasks)
+## Implementation tasks list
+- [ ] #PR1
+- [ ] #PR2
 
-## 🎨 Visuals (optional)
-screenshots
+## Visuals (optional)
+screenshots, figma links, etc.
 
 ## Notes
-edge cases or technical stuff.
+important context

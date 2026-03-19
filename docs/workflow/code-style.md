@@ -1,15 +1,21 @@
 # Code Style Guidelines
 
-## 📜 Zasady Ogólne
-1. Dbamy o czystość kodu (więcej: Clean Code A Handbook of Agile Software Craftsmanship - Robert C. Martin)
-2. Trzymamy się konwencji nazewnictwa związanych z daną technologią (platforma, język, frameworki/biblioteki). Używamy tylko angielskiego.
-3. Kiedy można stosujemy się do rad/"zasad" jak KISS, DRY, SOLID, itp.
+## General Rules
 
-## 🎨 Frontend
-Używamy skonfigurowanego `ESLint` ([config])() oraz `Prettier` ([config])().
+1. Maintain code cleanliness (see: _Clean Code: A Handbook of Agile Software Craftsmanship_ - Robert C. Martin)
+2. Follow naming conventions related to the technology used (platform, language, frameworks/libraries). Use English only.
+3. When possible, adhere to principles/guidelines such as KISS, DRY, SOLID, etc.
 
-**Przed commitem:**
-Skrypt shellowy obsługiwany przez `husky` (pre-commit git hook) uruchomi autoformatting i naprawi autofixable lint errors w kodzie. W przypadku poważniejszych błędów odrzuci commita. Jeśli pushujesz z pominięciem hooków to CI i tak odzrzuci zmiany.
+## Frontend
 
-## ⚙️ Backend
-Formatting wymuszany przez plik `.editorconfig` ([config])()
+We use a configured `ESLint` [config](https://github.com/akai-org/put-wiki/blob/main/client/eslint.config.js) and `Prettier` [config](https://github.com/akai-org/put-wiki/blob/main/client/.prettierrc).
+
+**Before committing:**  
+A shell script managed by `husky` (pre-commit git hook) checks for changes in both
+the frontend and backend and runs formatters for them.
+
+If you push while skipping hooks, the CI will still reject the changes.
+
+## Backend
+
+Formatting is enforced via the `.editorconfig` [config](https://github.com/akai-org/put-wiki/blob/main/server/.editorconfig)

@@ -1,24 +1,27 @@
 ---
 name: Epic
 about: High-level functional requirement
-labels: ["type:epic"]
+title: ''
+labels: type:epic
+assignees: ''
+
 ---
 
 ## Description
 Short description of the functional requirement (should link to the requirements docs).
 
 ## Scope
-What is included:
+### What is included:
 - 
 - 
 
-Out of scope:
+### Out of scope:
 - 
 - 
 
-## Related user stories
-- [ ] #ID
-- [ ] #ID
+## Related user stories (that an epic consists of)
+- #ID
+- #ID
 
 ## Notes
 Important context

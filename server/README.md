@@ -1,17 +1,38 @@
-# 🖥️ PUTwiki - Backend
+# PUTwiki - Backend
 
-Backend oparty jest na **ASP.NET Core**. Dokumentacja API jest jako ... . instrukcje jak uruchomić docs api: ...
+The server side app written in ASP.NET Core (C#).
 
-## 🏗️ Architektura overview
+## Architecture overview
 
-Ogólnie jaki zamysł, jak podzielona itp.
+**PLACEHOLDER**
 
-## 🛠️ Tech Stack
--
--
--
+## How to run (dev)?
 
-## 🚀 Jak uruchomić (dev)?
-koniecznie przez dockera, uzupenianie jakichs envow, seedowanie bazy itp
+To develop locally:
+
+1. Open it as solution (.slnx) with desired IDE.
+2.
+
+```bash
+cd server
+
+dotnet restore
+
+dotnet run --project Presentation/Presentation.csproj
+
+```
+
+App will use launch settings from the `Presentation\Properties\launchSettings.json` profile. You can also run it with IDE.
+
+You can launch the whole put-wiki using Docker to preview production version:
+```bash
+docker compose up
+```
+
+## Testing
+We use xUnit and Fluent Assertions libs to cover the core domain logic. We stick to the arrange, act, assert pattern. [Unit testing best practices](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices).
 
 ## Notes
+
+> ⚠️ Please note that you need to have .NET platform installed to run this app locally. Download version defined in `global.json`.
+

@@ -1,14 +1,34 @@
-# put-wiki
-Strona opisująca wydziały oraz ich kierunki Politechniki Poznańskiej
+# PUTwiki
 
-## Kanban - https://github.com/orgs/akai-org/projects/23
-## Figma mvp - https://www.figma.com/board/0IEyikx2E9DSjoQD03w8NM/Design?node-id=41-2&p=f&t=Hr7rhEWgIN94uhBB-0
-## Kwestionariusz - https://docs.google.com/document/d/1s9vAr6iMCVLRIcpafR1tGCHSjIG4D8uEN_j5qV3MEXI/edit?usp=drive_link
-### Usos api - https://usosapps.put.poznan.pl/developers/api/
-### Lofi - https://www.figma.com/proto/f8jqDJlcmgyxe6yy04WWT9/Lo-fi?node-id=3-2&starting-point-node-id=3%3A2
-### Filtr do opinii - https://perspectiveapi.com/
+PUTwiki is an informational platform created for students of [Politechnika Poznańska](https://www.put.poznan.pl).
 
-- - - 
-materiały które mogą się przydać ;)
-- tanstack query (do cachowania zapytan do api) - https://www.youtube.com/watch?v=mPaCnwpFvZY
-- 
+The mission of the project is to provide a space for accessible knowledge sharing and to support students in making informed decisions about elective courses and class groups.
+
+## How to run?
+
+Take a look at [Getting Started in CONTRIBUTING.md](CONTRIBUTING.md#getting-started)
+
+## Tech stack
+
+- Frontend: React + TypeScript
+- Backend: ASP.NET Core (C#)
+- DevOps: GitHub Actions, Docker
+
+## Project status
+
+🚧 In development
+
+## Repository structure
+
+- `/client` — frontend
+- `/server` — backend
+- `/docs` — dokumentacja projektu
+
+## 👥 Team
+
+- **Project Leader:** [@Joszkooo](https://github.com/Joszkooo)
+- **Maintainers:** [@Aleks334](https://github.com/Aleks334), [Anto-glitch](https://github.com/Anto-glitch), [@ hot-oranges-86](https://github.com/hot-oranges-86), [Marcin Słowikowski](https://github.com/MSZM0), [@zakhildev](https://github.com/zakhildev)
+
+## Documentation
+
+Full documentation can be found in the directory [`/docs`](https://github.com/akai-org/put-wiki/tree/main/docs).
