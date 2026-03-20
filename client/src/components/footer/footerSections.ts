@@ -10,7 +10,7 @@ export interface FooterSection {
 export const footerSections: FooterSection[] = [
   {
     id: 1,
-    title: 'Kontakt:',
+    title: 'Kontakt',
     links: [
       { label: 'Email', href: '/contact/email' },
       { label: 'Telefon', href: '/contact/phone' },
@@ -18,7 +18,7 @@ export const footerSections: FooterSection[] = [
   },
   {
     id: 2,
-    title: ' O nas:',
+    title: ' O nas',
     links: [
       { label: 'AKAI', href: '/about/akai' },
       { label: 'Politechnika Poznańska', href: '/about/pp' },
@@ -26,7 +26,7 @@ export const footerSections: FooterSection[] = [
   },
   {
     id: 3,
-    title: 'Przydatne rzeczy:',
+    title: 'Przydatne rzeczy',
     links: [
       { label: 'Kierunki studiów', href: '/useful/courses' },
       { label: 'Prowadzący zajęcia', href: '/useful/lecturers' },

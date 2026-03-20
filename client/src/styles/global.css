@@ -23,11 +23,3 @@ body {
   background-color: #ebebeb;
   color: #333;
 }
-
-.row {
-  display: flex;
-}
-
-.center {
-  justify-content: center;
-}

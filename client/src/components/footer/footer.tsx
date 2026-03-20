@@ -18,7 +18,7 @@ export const Footer = () => {
 
           {footerSections.map((section) => (
             <div key={section.id}>
-              <h3>{section.title}</h3> <br />
+              <h3>{section.title}:</h3> <br />
               <ul>
                 {section.links.map((link, index) => (
                   <li key={link.label + index}>
