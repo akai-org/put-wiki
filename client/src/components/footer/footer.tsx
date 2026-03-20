@@ -2,7 +2,7 @@ import { footerSections } from './footerSections';
 import '@/styles/global.css';
 import logo from '../../assets/graphics/footer/logo2.jfif';
 
-export const Footer = () => {
+export default function Footer() {
   return (
     <footer className="bg-gray-800 text-white py-8">
       <div className="container mx-auto">
@@ -33,4 +33,4 @@ export const Footer = () => {
       </div>
     </footer>
   );
-};
+}
