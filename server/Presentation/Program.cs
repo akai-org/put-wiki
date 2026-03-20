@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Presentation.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,12 +25,12 @@ builder
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
-
 builder.Services.AddPutWikiOpenApi();
 
 var app = builder.Build();
 
 app.UseAuthentication();
+app.UsePutWikiOpenApiDocs();
 app.UseAuthorization();
 
 app.MapHealthChecks("/health");
