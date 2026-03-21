@@ -1,13 +1,13 @@
-export interface Footerlink {
+export interface FooterLink {
   label: string;
   href: string;
 }
 export interface FooterSection {
   id: number;
   title: string;
-  links: Footerlink[];
+  links: FooterLink[];
 }
-export const footerSections: FooterSection[] = [
+export const FooterSections: FooterSection[] = [
   {
     id: 1,
     title: 'Kontakt',

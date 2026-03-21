@@ -49,7 +49,6 @@ export default defineConfig([
         'error',
         {
           namedComponents: 'function-declaration',
-          unnamedComponents: 'function-expression',
         },
       ],
     },
