@@ -1,6 +1,6 @@
 import { FooterSections } from './footerSections';
 import '@/styles/global.css';
-import logo from '@/assets/graphics/Footer/logo2.jfif';
+import logo from '@/assets/graphics/footer/logo2.jfif';
 
 export default function Footer() {
   return (
