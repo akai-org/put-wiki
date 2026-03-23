@@ -7,7 +7,7 @@ export interface FooterSection {
   title: string;
   links: FooterLink[];
 }
-export const FooterSections: FooterSection[] = [
+export const footerSections: FooterSection[] = [
   {
     id: 1,
     title: 'Kontakt',

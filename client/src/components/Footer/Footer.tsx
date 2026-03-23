@@ -1,4 +1,4 @@
-import { FooterSections } from './footerSections';
+import { footerSections } from './footerSections';
 import '@/styles/global.css';
 import logo from '@/assets/graphics/footer/logo2.jfif';
 
@@ -16,7 +16,7 @@ export default function Footer() {
             jednym miejscu.
           </div>
 
-          {FooterSections.map((section) => (
+          {footerSections.map((section) => (
             <div key={section.id}>
               <h3 className="flex justify-center items-center">{section.title}:</h3>
               <ul>
