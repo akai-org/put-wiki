@@ -1,18 +1,13 @@
 # Deployment
-(na razie sobie darujmy bo i tak tego nie ma)
+CI/CD pipeline
 
-main zawiera dziajacy kod ktory jest na prodzie
+Nginx as a reverse proxy server.
+
+(deployment diagram)
 
 ## Environments
-
-## Build & release
-- CI/CD
-- wersjonowanie
-
-## Infrastructure
-- Docker
-- inne narzędzia
+- Development (used by developers for local development and testing)
+- Production (used for the live system)
 
 ## Secrets
-- gdzie są przechowywane
-- kto ma dostęp
+where stored, how accessed?
