@@ -45,6 +45,12 @@ export default defineConfig([
     },
     rules: {
       'react/react-in-jsx-scope': 'off',
+      'react/function-component-definition': [
+        'error',
+        {
+          namedComponents: 'function-declaration',
+        },
+      ],
     },
   },
   eslintConfigPrettier, //should be last
