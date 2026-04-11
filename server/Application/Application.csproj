@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
@@ -8,4 +7,9 @@
     <PackageReference Include="AutoMapper" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Core\" />
+    <Folder Include="Opinion\" />
+    <Folder Include="User\" />
+  </ItemGroup>
 </Project>
