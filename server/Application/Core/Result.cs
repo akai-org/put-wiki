@@ -4,9 +4,9 @@ namespace Application.Core;
 
 public class Result
 {
-    public bool IsSuccess { get; set; }
-    public string? Error { get; set; }
-    public int Code { get; set; }
+    public bool IsSuccess { get; private set; }
+    public string? Error { get; private set; }
+    public int Code { get; private set; }
 
     public static Result<T> Success<T>(T value) => new() { IsSuccess = true, Value = value };
 

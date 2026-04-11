@@ -14,7 +14,7 @@
       - app_network
     restart: unless-stopped
   database:
-    image: postgres:18-alpine
+    image: postgres:18
     container_name: database
     restart: unless-stopped
     env_file:
@@ -23,6 +23,7 @@
       - "5433:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+
   server:
     build:
       context: ./server

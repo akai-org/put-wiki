@@ -1,12 +1,3 @@
-using System;
-
-using Domain;
-
-using Infrastructure.Identity;
-
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
 namespace Infrastructure;
 
 public class AppDbContext(DbContextOptions options) : IdentityDbContext<ApplicationUser>(options)
@@ -16,10 +7,6 @@ public class AppDbContext(DbContextOptions options) : IdentityDbContext<Applicat
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        builder.Entity<ApplicationUser>(entity =>
-        {
-            entity.Ignore(u => u.OpinionIds);
-        });
         builder.Entity<Opinion>(entity =>
         {
             entity

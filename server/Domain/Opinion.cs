@@ -1,14 +1,12 @@
-using System;
-
 namespace Domain;
 
 public class Opinion
 {
-    public string Id { get; set; }
-    public string UserId { get; set; }
-    public int Points { get; set; }
-    public string Title { get; set; }
-    public string Desc { get; set; }
+    public string Id { get; private set; }
+    public string UserId { get; private set; }
+    public int Points { get; private set; }
+    public string Title { get; private set; }
+    public string Desc { get; private set; }
 
     public Opinion(string title, string desc, string userId)
     {
