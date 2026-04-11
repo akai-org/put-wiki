@@ -1,3 +1,5 @@
+using System;
+
 namespace Domain;
 
 public class Opinion

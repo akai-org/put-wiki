@@ -1,3 +1,10 @@
+using Domain;
+
+using Infrastructure.Identity;
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
 namespace Infrastructure;
 
 public class AppDbContext(DbContextOptions options) : IdentityDbContext<ApplicationUser>(options)
