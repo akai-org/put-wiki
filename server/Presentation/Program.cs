@@ -1,5 +1,6 @@
 using Infrastructure;
 using Infrastructure.Identity;
+using Infrastructure.Auth;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddHealthChecks();
+
+builder.Services.AddMemoryCache();
+builder.Services.Configure<UsosOAuthSettings>(builder.Configuration.GetSection("UsosOAuth"));
+builder.Services.AddHttpClient<UsosOAuthService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
