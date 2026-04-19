@@ -9,9 +9,9 @@ using Scalar.AspNetCore;
 
 namespace Presentation.Extensions;
 
-public static class ServiceCollectionExtensions
+public static class DependencyInjection
 {
-    public static IServiceCollection AddPutWikiOpenApi(this IServiceCollection services)
+    private static IServiceCollection AddPutWikiOpenApi(this IServiceCollection services)
     {
         services.AddOpenApi("v1", options =>
         {
@@ -47,9 +47,20 @@ public static class ServiceCollectionExtensions
                     .DisableAgent()
                     .DisableTelemetry()
                     .HideDeveloperTools()
-                    .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+                    .WithDefaultHttpClient(ScalarTarget.JavaScript, ScalarClient.Axios);
             });
         }
         return app;
+    }
+
+    public static IServiceCollection AddWebServices(this IServiceCollection services)
+    {
+        services.AddControllers();
+        services.AddHealthChecks();
+
+        services.AddOpenApi();
+        services.AddPutWikiOpenApi();
+
+        return services;
     }
 }
