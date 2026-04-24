@@ -9,7 +9,7 @@ using Scalar.AspNetCore;
 
 namespace Presentation.Extensions;
 
-public static class DependencyInjection
+public static class PresentationConfiguration
 {
     private static IServiceCollection AddPutWikiOpenApi(this IServiceCollection services)
     {
