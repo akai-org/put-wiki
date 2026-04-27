@@ -19,9 +19,5 @@ Short description of the functional requirement (should link to the requirements
 - 
 - 
 
-## Related user stories (that an epic consists of)
-- #ID
-- #ID
-
 ## Notes
 Important context
