@@ -15,10 +15,6 @@ As a **_[user type]_** I want **_[goal]_** so that **_[value]_**
 - [ ] [Condition 2]
 - [ ] [Condition 3]
 
-## Implementation tasks list
-- [ ] #PR1
-- [ ] #PR2
-
 ## Visuals (optional)
 screenshots, figma links, etc.
 

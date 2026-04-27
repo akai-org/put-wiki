@@ -23,6 +23,4 @@ WORKDIR /app
 RUN apk add --no-cache curl
 COPY --from=publish /app/out .
 
-HEALTHCHECK CMD curl --fail http://localhost:3000/health || exit 1
-
 ENTRYPOINT ["dotnet", "Presentation.dll"]
