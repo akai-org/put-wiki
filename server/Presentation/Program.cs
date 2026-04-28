@@ -11,6 +11,10 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Load .env variables
+DotNetEnv.Env.TraversePath().Load();
+builder.Configuration.AddEnvironmentVariables();
+
 builder.Services.AddControllers();
 
 builder.Services.AddHealthChecks();
