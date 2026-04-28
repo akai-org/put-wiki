@@ -20,6 +20,7 @@ RUN dotnet publish "Presentation/Presentation.csproj" -c Release -o /app/out --n
 
 FROM mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-alpine AS prod
 WORKDIR /app
+RUN apk add --no-cache curl
 COPY --from=publish /app/out .
 
 ENTRYPOINT ["dotnet", "Presentation.dll"]
