@@ -1,22 +1,19 @@
 using Infrastructure.Extensions;
+using Infrastructure;
 using Infrastructure.Identity;
 using Infrastructure.Auth;
-
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
-
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Presentation.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Load .env variables
 DotNetEnv.Env.TraversePath().Load();
 builder.Configuration.AddEnvironmentVariables();
-
-builder.Services.AddControllers();
-
 builder.Services.AddHealthChecks();
-
 builder.Services.AddMemoryCache();
 builder.Services.Configure<UsosOAuthSettings>(builder.Configuration.GetSection("UsosOAuth"));
 builder.Services.AddHttpClient<UsosOAuthService>();
