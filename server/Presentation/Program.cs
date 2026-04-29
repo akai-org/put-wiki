@@ -1,13 +1,15 @@
-using Infrastructure.Extensions;
 using Infrastructure;
-using Infrastructure.Identity;
 using Infrastructure.Auth;
+using Infrastructure.Extensions;
+using Infrastructure.Identity;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 using Presentation.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);

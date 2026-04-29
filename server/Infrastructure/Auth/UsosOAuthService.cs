@@ -1,16 +1,18 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 using System.Web;
+
+using Application.DTOs;
+
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using Application.DTOs;
-using System.Text.Json;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Net.Http;
-using System;
-using System.Linq;
 
 namespace Infrastructure.Auth;
 

@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 using Infrastructure.Auth;
 
-using System.Threading.Tasks;
-using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers;
 
