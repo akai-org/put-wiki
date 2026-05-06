@@ -3,3 +3,16 @@ name: CD
 on: workflow_dispatch
 
 jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Get hash
+
+      - name: Detect changes
+        uses: dorny/paths-filter@v4
+
+      - name: Build client
+      
+      - name: Build server
