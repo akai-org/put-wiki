@@ -1,0 +1,27 @@
+name: CD
+
+on: workflow_dispatch
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Get hash
+        id: vars
+        RUN: echo "sha_short=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+
+      - name: Detect changes
+        uses: dorny/paths-filter@v4
+        id: dir
+        with:
+          filters:
+            client:
+              - 'cilent/**'
+            server:
+              - 'server/**'
+
+      - name: Build client
+      
+      - name: Build server
