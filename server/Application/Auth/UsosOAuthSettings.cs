@@ -1,6 +1,6 @@
-namespace Infrastructure.Auth;
+namespace Application.Auth;
 
-internal class UsosOAuthSettings
+public class UsosOAuthSettings
 {
     public string ConsumerKey { get; set; } = string.Empty;
     public string ConsumerSecret { get; set; } = string.Empty;

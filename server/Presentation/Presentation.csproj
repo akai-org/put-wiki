@@ -9,6 +9,7 @@
     <PackageReference Include="Scalar.AspNetCore" />
     <PackageReference Include="Scalar.AspNetCore.Microsoft" />
   </ItemGroup>
+  
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />

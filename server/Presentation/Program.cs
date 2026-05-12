@@ -1,12 +1,12 @@
+using Application.Auth;
+
 using Infrastructure;
 using Infrastructure.Auth;
 using Infrastructure.Extensions;
 using Infrastructure.Identity;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,19 +18,7 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddHealthChecks();
 builder.Services.AddMemoryCache();
 builder.Services.Configure<UsosOAuthSettings>(builder.Configuration.GetSection("UsosOAuth"));
-builder.Services.AddHttpClient<UsosOAuthService>();
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
-);
-
-builder
-    .Services.AddIdentityApiEndpoints<ApplicationUser>(opt =>
-    {
-        opt.User.RequireUniqueEmail = true;
-    })
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddHttpClient<IUsosOAuthService, UsosOAuthService>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

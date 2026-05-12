@@ -32,6 +32,11 @@ dotnet run --project Presentation/Presentation.csproj
 
 App will use launch settings from the `Presentation\Properties\launchSettings.json` profile. You can also run it with IDE.
 
+## USOS OAuth setup
+
+1. Create a `.env` file in the `server/` directory.
+2. Copy values from `.env.example` and fill in your `UsosOAuth__ConsumerKey` and `UsosOAuth__ConsumerSecret`.
+
 You can launch the whole put-wiki using Docker to preview production version:
 ```bash
 docker compose up
