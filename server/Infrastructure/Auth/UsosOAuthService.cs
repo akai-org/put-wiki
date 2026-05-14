@@ -108,7 +108,7 @@ public class UsosOAuthService : IUsosOAuthService
             token: null
         );
 
-        var requestUrl = $"{requestTokenUrl}?scopes={OAuth1.UrlEncode(_settings.Scopes)}";
+        var requestUrl = $"{requestTokenUrl}?scopes={OAuth1Helper.UrlEncode(_settings.Scopes)}";
         var response = await SendOAuthGetAsync(requestUrl, authHeader, cancellationToken);
         if (!response.IsSuccess || response.Value is null)
         {
@@ -221,7 +221,7 @@ public class UsosOAuthService : IUsosOAuthService
             token: accessToken
         );
 
-        var requestUrl = $"{userUrl}?fields={OAuth1.UrlEncode(UserFields)}";
+        var requestUrl = $"{userUrl}?fields={OAuth1Helper.UrlEncode(UserFields)}";
         var response = await SendOAuthGetAsync(requestUrl, authHeader, cancellationToken);
         if (!response.IsSuccess || response.Value is null)
         {
@@ -324,7 +324,7 @@ public class UsosOAuthService : IUsosOAuthService
         var nonce = Guid.NewGuid().ToString("N");
         var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-        var oauthParameters = OAuth1.BuildOAuthParameters(
+        var oauthParameters = OAuth1Helper.BuildOAuthParameters(
             consumerKey: _settings.ConsumerKey,
             nonce: nonce,
             timestamp: timestamp,
@@ -336,11 +336,11 @@ public class UsosOAuthService : IUsosOAuthService
             oauthParameters[kvp.Key] = kvp.Value;
         }
 
-        var signatureBaseString = OAuth1.CreateSignatureBaseString(httpMethod, url, oauthParameters);
-        var signature = OAuth1.ComputeHmacSha1Signature(signatureBaseString, consumerSecret, tokenSecret);
+        var signatureBaseString = OAuth1Helper.CreateSignatureBaseString(httpMethod, url, oauthParameters);
+        var signature = OAuth1Helper.ComputeHmacSha1Signature(signatureBaseString, consumerSecret, tokenSecret);
         oauthParameters["oauth_signature"] = signature;
 
-        return OAuth1.BuildAuthorizationHeader(oauthParameters);
+        return OAuth1Helper.BuildAuthorizationHeader(oauthParameters);
     }
 
     private static Result<OAuthTokenPair> TryParseOAuthTokenPair(string? responseBody)

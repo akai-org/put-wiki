@@ -15,5 +15,5 @@ public interface IUsosOAuthService
         CancellationToken cancellationToken = default
     );
 
-    public sealed record UsosUserDto(string Id, string FirstName, string LastName, string StudentNumber, string Email);
+    public record UsosUserDto(string Id, string FirstName, string LastName, string StudentNumber, string Email);
 }
