@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -30,8 +26,8 @@ public class UsosOAuthService : IUsosOAuthService
     private const string TokenSecretCacheKeyPrefix = "UsosTokenSecret_";
 
     private readonly HttpClient _httpClient;
-    private readonly Application.Auth.UsosOAuthSettings _settings;
-    private readonly IMemoryCache _cache;
+    private readonly UsosOAuthSettings _settings;
+    private readonly IMemoryCache _cache; // TODO: consider what to do when we will use multiple server instances
     private readonly ILogger<UsosOAuthService> _logger;
 
     private static readonly Action<ILogger, Exception?> LogUnknownOrExpiredRequestToken = LoggerMessage.Define(
@@ -65,7 +61,7 @@ public class UsosOAuthService : IUsosOAuthService
 
     public UsosOAuthService(
         HttpClient httpClient,
-        IOptions<Application.Auth.UsosOAuthSettings> settings,
+        IOptions<UsosOAuthSettings> settings,
         IMemoryCache cache,
         ILogger<UsosOAuthService> logger
     )
@@ -132,7 +128,7 @@ public class UsosOAuthService : IUsosOAuthService
         }
 
         var accessToken = await ExchangeAccessTokenAsync(oauthToken, oauthVerifier, oauthTokenSecret, cancellationToken);
-        if (!accessToken.IsSuccess || accessToken.Value.Token is null || accessToken.Value.Secret is null)
+        if (!accessToken.IsSuccess)
         {
             return Result.Failure<IUsosOAuthService.UsosUserDto>(accessToken.Error ?? "Failed to exchange access token.", accessToken.Code);
         }

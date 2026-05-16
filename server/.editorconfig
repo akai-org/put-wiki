@@ -389,6 +389,7 @@ dotnet_naming_style.s_camelcase.capitalization = camel_case
 
 # --- Sonar / .NET SDK Analyzers suspended rules list ---
 dotnet_diagnostic.S3400.severity = silent
+dotnet_diagnostic.S1135.severity = suggestion
 
 # --- Naming convention rules for unit tests ---
 [**/*Tests.cs]

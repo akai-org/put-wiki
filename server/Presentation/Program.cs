@@ -5,16 +5,21 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 using Presentation.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-DotNetEnv.Env.TraversePath().Load();
+
+if (builder.Environment.IsDevelopment())
+{
+    DotNetEnv.Env.TraversePath().Load();
+}
+
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddHealthChecks();
 builder.Services.AddMemoryCache();
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddUsosOAuth(builder.Configuration);
