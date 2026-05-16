@@ -58,12 +58,6 @@ public class UsosOAuthService : IUsosOAuthService
         "USOS HTTP request threw an exception. Url: {Url}"
     );
 
-    private static readonly Action<ILogger, string, Exception?> LogUsosSettingsInvalid = LoggerMessage.Define<string>(
-        LogLevel.Error,
-        new EventId(5, nameof(LogUsosSettingsInvalid)),
-        "USOS OAuth settings are invalid: {Reason}"
-    );
-
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNameCaseInsensitive = true,
@@ -84,13 +78,6 @@ public class UsosOAuthService : IUsosOAuthService
 
     public async Task<Result<string>> GetLoginUrlAsync(System.Threading.CancellationToken cancellationToken = default)
     {
-        var settingsValidation = ValidateSettingsForLogin();
-        if (!settingsValidation.IsSuccess)
-        {
-            LogUsosSettingsInvalid(_logger, settingsValidation.Error ?? "Invalid settings.", null);
-            return Result.Failure<string>(settingsValidation.Error ?? "Invalid USOS OAuth settings.", settingsValidation.Code);
-        }
-
         var requestTokenUrl = CombineUrl(_settings.BaseUrl, RequestTokenEndpoint);
 
         var extraParameters = new Dictionary<string, string>
@@ -133,13 +120,6 @@ public class UsosOAuthService : IUsosOAuthService
         System.Threading.CancellationToken cancellationToken = default
     )
     {
-        var settingsValidation = ValidateSettingsForCallback();
-        if (!settingsValidation.IsSuccess)
-        {
-            LogUsosSettingsInvalid(_logger, settingsValidation.Error ?? "Invalid settings.", null);
-            return Result.Failure<IUsosOAuthService.UsosUserDto>(settingsValidation.Error ?? "Invalid USOS OAuth settings.", settingsValidation.Code);
-        }
-
         if (string.IsNullOrWhiteSpace(oauthToken) || string.IsNullOrWhiteSpace(oauthVerifier))
         {
             return Result.Failure<IUsosOAuthService.UsosUserDto>("Missing OAuth parameters.", 400);
@@ -360,65 +340,6 @@ public class UsosOAuthService : IUsosOAuthService
         }
 
         return Result.Success(new OAuthTokenPair(token, secret));
-    }
-
-    private Result<string> ValidateSettingsForLogin()
-    {
-        if (!TryValidateBaseUrl(out var error))
-        {
-            return Result.Failure<string>(error!, 500);
-        }
-
-        if (string.IsNullOrWhiteSpace(_settings.ConsumerKey) || string.IsNullOrWhiteSpace(_settings.ConsumerSecret))
-        {
-            return Result.Failure<string>("Missing UsosOAuth consumer key/secret.", 500);
-        }
-
-        if (string.IsNullOrWhiteSpace(_settings.CallbackUrl))
-        {
-            return Result.Failure<string>("Missing UsosOAuth callback URL.", 500);
-        }
-
-        if (string.IsNullOrWhiteSpace(_settings.Scopes))
-        {
-            return Result.Failure<string>("Missing UsosOAuth scopes.", 500);
-        }
-
-        return Result.Success("ok");
-    }
-
-    private Result<string> ValidateSettingsForCallback()
-    {
-        if (!TryValidateBaseUrl(out var error))
-        {
-            return Result.Failure<string>(error!, 500);
-        }
-
-        if (string.IsNullOrWhiteSpace(_settings.ConsumerKey) || string.IsNullOrWhiteSpace(_settings.ConsumerSecret))
-        {
-            return Result.Failure<string>("Missing UsosOAuth consumer key/secret.", 500);
-        }
-
-        return Result.Success("ok");
-    }
-
-    private bool TryValidateBaseUrl(out string? error)
-    {
-        error = null;
-
-        if (string.IsNullOrWhiteSpace(_settings.BaseUrl))
-        {
-            error = "Missing UsosOAuth base URL (set UsosOAuth__BaseUrl).";
-            return false;
-        }
-
-        if (!Uri.TryCreate(_settings.BaseUrl, UriKind.Absolute, out var uri) || (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
-        {
-            error = "Invalid UsosOAuth base URL (must be an absolute http(s) URL).";
-            return false;
-        }
-
-        return true;
     }
 
     private readonly record struct OAuthTokenPair(string Token, string Secret);

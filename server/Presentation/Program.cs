@@ -1,3 +1,5 @@
+using System.Linq;
+
 using Application.Auth;
 
 using Infrastructure;
@@ -17,7 +19,25 @@ DotNetEnv.Env.TraversePath().Load();
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddHealthChecks();
 builder.Services.AddMemoryCache();
-builder.Services.Configure<UsosOAuthSettings>(builder.Configuration.GetSection("UsosOAuth"));
+
+builder.Services.AddOptions<UsosOAuthSettings>()
+    .Bind(builder.Configuration.GetSection("UsosOAuth"))
+    .Validate(settings =>
+    {
+        var validator = new UsosOAuthSettingsValidator();
+        var validationResult = validator.Validate(settings);
+        if (!validationResult.IsValid)
+        {
+            throw new Microsoft.Extensions.Options.OptionsValidationException(
+                "UsosOAuthSettings",
+                typeof(UsosOAuthSettings),
+                validationResult.Errors.Select(e => e.ErrorMessage)
+            );
+        }
+        return true;
+    })
+    .ValidateOnStart();
+
 builder.Services.AddHttpClient<IUsosOAuthService, UsosOAuthService>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
