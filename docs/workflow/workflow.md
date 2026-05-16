@@ -4,7 +4,7 @@ Behold our grand plan of making a PUTwiki.
 
 ## Work Cycle
 
-We work in flexible, approximately 2-week sprints.
+We meet weekly. We upload notes from every meeting on [AKAI's google drive](https://drive.google.com/drive/u/1/folders/1cH3tak3CIDcT1kPCZ9xzqBoHhE2RHrGA) (access restricted to club members).
 
 ### Meetings & Decision Making
 
