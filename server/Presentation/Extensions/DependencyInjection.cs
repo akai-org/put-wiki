@@ -56,8 +56,6 @@ public static class PresentationConfiguration
     public static IServiceCollection AddWebServices(this IServiceCollection services)
     {
         services.AddControllers();
-        services.AddHealthChecks();
-
         services.AddOpenApi();
         services.AddPutWikiOpenApi();
 

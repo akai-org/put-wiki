@@ -1,8 +1,6 @@
 using Infrastructure.Extensions;
-using Infrastructure.Identity;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,7 +30,6 @@ app.UseAuthorization();
 app.UsePutWikiOpenApiDocs();
 
 app.MapHealthChecks("/health");
-app.MapIdentityApi<ApplicationUser>();
 app.MapControllers();
 
 await app.RunAsync();

@@ -3,9 +3,7 @@
 using Application.Auth;
 
 using Infrastructure.Auth;
-using Infrastructure.Identity;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,13 +17,6 @@ public static class InfrastructureConfiguration
         services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
         );
-
-        services.AddIdentityApiEndpoints<ApplicationUser>(opt =>
-            {
-                opt.User.RequireUniqueEmail = true;
-            })
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<AppDbContext>();
 
         return services;
     }
