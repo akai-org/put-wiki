@@ -1,5 +1,6 @@
-using Domain.Opinions;
 using Domain.Users;
+
+using Infrastructure.EntitiesConfiguration;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -15,11 +16,6 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<User>(builder =>
-        {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.HashedUsosId).IsRequired();
-            builder.HasIndex(x => x.HashedUsosId).IsUnique();
-        });
+        new UserEntityTypeConfiguration().Configure(modelBuilder.Entity<User>());
     }
 }
