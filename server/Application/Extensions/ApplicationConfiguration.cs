@@ -1,4 +1,5 @@
-﻿using Application.Users;
+﻿using Application.Mappings;
+using Application.Users;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,6 +9,11 @@ public static class ApplicationConfiguration
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
+        services.AddAutoMapper(cfg =>
+        {
+            cfg.AddProfile<UserProfile>();
+        });
+
         services.AddScoped<ProvisionUserUseCase>();
 
         return services;

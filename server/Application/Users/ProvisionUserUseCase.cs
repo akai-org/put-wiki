@@ -6,6 +6,8 @@ using Application.Auth;
 using Application.Core;
 using Application.DTOs;
 
+using AutoMapper;
+
 using Domain.Users;
 
 using Microsoft.Extensions.Logging;
@@ -18,17 +20,20 @@ public partial class ProvisionUserUseCase
     private readonly IUsosIdHasher _hasher;
     private readonly IUserRepository _userRepository;
     private readonly ILogger<ProvisionUserUseCase> _logger;
+    private readonly IMapper _mapper;
 
     public ProvisionUserUseCase(
         IUsosOAuthService usosOAuthService,
         IUsosIdHasher hasher,
         IUserRepository userRepository,
-        ILogger<ProvisionUserUseCase> logger)
+        ILogger<ProvisionUserUseCase> logger,
+        IMapper mapper)
     {
         _usosOAuthService = usosOAuthService;
         _hasher = hasher;
         _userRepository = userRepository;
         _logger = logger;
+        _mapper = mapper;
     }
 
     public async Task<Result<UserDto>> ExecuteAsync(string oauthToken, string oauthVerifier,
@@ -52,10 +57,7 @@ public partial class ProvisionUserUseCase
             var existingUser = await _userRepository.GetByHashedUsosIdAsync(hashedId, ct);
             if (existingUser != null)
             {
-                return Result.Success(new UserDto(
-                    Id: existingUser.Id.ToString(),
-                    HashedUsosId: existingUser.HashedUsosId
-                ));
+                return Result.Success(_mapper.Map<UserDto>(existingUser));
             }
 
             var newUser = new User(hashedId);
@@ -64,10 +66,7 @@ public partial class ProvisionUserUseCase
 
             LogProvisionedNewAnonymousUserId(newUser.Id);
 
-            return Result.Success(new UserDto(
-                Id: newUser.Id.ToString(),
-                HashedUsosId: newUser.HashedUsosId
-            ));
+            return Result.Success(_mapper.Map<UserDto>(newUser));
         }
         catch (Exception ex)
         {

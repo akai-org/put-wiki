@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Application.Auth;
 using Application.Core;
 using Application.DTOs;
+using Application.Mappings;
 using Application.Users;
+
+using AutoMapper;
 
 using Domain.Users;
 
@@ -21,6 +24,7 @@ public class ProvisionUserUseCaseTests
     private readonly Mock<IUsosOAuthService> _usosOAuthServiceMock;
     private readonly Mock<IUsosIdHasher> _idHasherMock;
     private readonly Mock<IUserRepository> _userRepositoryMock;
+    private readonly IMapper _mapper;
     private readonly ProvisionUserUseCase _sut;
 
     public ProvisionUserUseCaseTests()
@@ -29,11 +33,19 @@ public class ProvisionUserUseCaseTests
         _idHasherMock = new Mock<IUsosIdHasher>();
         _userRepositoryMock = new Mock<IUserRepository>();
 
+        var mapperConfig = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile<UserProfile>();
+        }, new NullLoggerFactory());
+        mapperConfig.AssertConfigurationIsValid();
+        _mapper = mapperConfig.CreateMapper();
+
         _sut = new ProvisionUserUseCase(
             _usosOAuthServiceMock.Object,
             _idHasherMock.Object,
             _userRepositoryMock.Object,
-            NullLogger<ProvisionUserUseCase>.Instance
+            NullLogger<ProvisionUserUseCase>.Instance,
+            _mapper
         );
     }
 

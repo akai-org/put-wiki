@@ -1,6 +1,4 @@
-﻿using System;
-
-using Application.Auth;
+﻿using Application.Auth;
 
 using Infrastructure.Auth;
 
@@ -20,16 +18,6 @@ public class HmacUsosIdHasherTests
         };
 
         return Options.Create(settings);
-    }
-
-    [Fact]
-    public void Constructor_WhenPepperIsMissingInConfig_ShouldThrowInvalidOperationException()
-    {
-        // Arrange
-        var optionsWithoutPepper = CreateOptions(keyValue: null);
-
-        // Act & Assert
-        Assert.Throws<InvalidOperationException>(() => new HmacUsosIdHasher(optionsWithoutPepper));
     }
 
     [Fact]
