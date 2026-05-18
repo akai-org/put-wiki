@@ -80,3 +80,4 @@ networks:
 volumes:
   db_data:
   aspnet_keys:
+  pgadmin_data:
