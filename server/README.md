@@ -37,13 +37,18 @@ App will use launch settings from the `Presentation\Properties\launchSettings.js
 1. Create a `.env` file in the `server/` directory.
 2. Copy values from `.env.example` and fill in your `UsosOAuth__ConsumerKey` and `UsosOAuth__ConsumerSecret`.
 
-Also make sure that hostname and port for `CallbackUrl` match values for your enviroment (dev, prod).
+Also make sure that hostname and port for `CallbackUrl` match values for your enviroment (dev, prod). See appsettings.{Enviroment}.json files.
 
 ## Docker
 
-You can launch the whole put-wiki using Docker to preview production version:
+You can launch the whole put-wiki using Docker to preview development version:
 ```bash
 docker compose up
+```
+
+and preview production with:
+```bash
+docker compose -f compose.yml -f compose.prod.yml up
 ```
 
 ## Testing

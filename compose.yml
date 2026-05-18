@@ -22,8 +22,6 @@
     restart: unless-stopped
     env_file:
       - .env.postgres
-    ports:
-      - "5433:5432"
     volumes:
       - db_data:/var/lib/postgresql
     healthcheck:
@@ -39,9 +37,8 @@
       target: prod
     container_name: server
     env_file:
-      - /server/.env
+      - ./server/.env
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_HTTP_PORTS=3000
     networks:
       - app_network

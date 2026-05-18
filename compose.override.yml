@@ -1,0 +1,8 @@
+﻿services:
+  database:
+    ports:
+      - "5433:5432"
+
+  server:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
