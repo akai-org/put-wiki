@@ -2,13 +2,15 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Application.Auth;
 using Application.Core;
+using Application.DTOs;
 
 using Domain.Users;
 
 using Microsoft.Extensions.Logging;
 
-namespace Application.Auth;
+namespace Application.Users;
 
 public partial class ProvisionUserUseCase
 {
@@ -29,7 +31,7 @@ public partial class ProvisionUserUseCase
         _logger = logger;
     }
 
-    public async Task<Result<User>> ExecuteAsync(string oauthToken, string oauthVerifier,
+    public async Task<Result<UserDto>> ExecuteAsync(string oauthToken, string oauthVerifier,
         CancellationToken ct = default)
     {
         var usosResult = await _usosOAuthService.HandleCallbackAndGetUserAsync(oauthToken, oauthVerifier, ct);
@@ -39,7 +41,7 @@ public partial class ProvisionUserUseCase
             LogProvisioningAbortedUsosAuthenticationFailed(errorMsg);
 
             var statusCode = usosResult.Code is > 0 and < 600 ? usosResult.Code : 400;
-            return Result.Failure<User>(errorMsg, statusCode);
+            return Result.Failure<UserDto>(errorMsg, statusCode);
         }
 
         var rawUsosId = usosResult.Value.Id;
@@ -50,20 +52,27 @@ public partial class ProvisionUserUseCase
             var existingUser = await _userRepository.GetByHashedUsosIdAsync(hashedId, ct);
             if (existingUser != null)
             {
-                return Result.Success(existingUser);
+                return Result.Success(new UserDto(
+                    Id: existingUser.Id.ToString(),
+                    HashedUsosId: existingUser.HashedUsosId
+                ));
             }
 
             var newUser = new User(hashedId);
             await _userRepository.AddAsync(newUser, ct);
             await _userRepository.SaveChangesAsync(ct);
 
-            LogProvisionedNewAnonymousUserUserid(newUser.Id);
-            return Result.Success(newUser);
+            LogProvisionedNewAnonymousUserId(newUser.Id);
+
+            return Result.Success(new UserDto(
+                Id: newUser.Id.ToString(),
+                HashedUsosId: newUser.HashedUsosId
+            ));
         }
         catch (Exception ex)
         {
             LogFailedToProvisionUserDueToDatabaseError(ex);
-            return Result.Failure<User>("Internal database error during user provisioning.", 500);
+            return Result.Failure<UserDto>("Internal database error during user provisioning.", 500);
         }
     }
 
@@ -71,7 +80,7 @@ public partial class ProvisionUserUseCase
     partial void LogProvisioningAbortedUsosAuthenticationFailed(string error);
 
     [LoggerMessage(LogLevel.Information, "Provisioned new anonymous user {userId}")]
-    partial void LogProvisionedNewAnonymousUserUserid(Guid userId);
+    partial void LogProvisionedNewAnonymousUserId(Guid userId);
 
     [LoggerMessage(LogLevel.Error, "Failed to provision user due to database error.")]
     partial void LogFailedToProvisionUserDueToDatabaseError(Exception ex);

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 using Application.Auth;
 using Application.Core;
+using Application.DTOs;
+using Application.Users;
 
 using Domain.Users;
 
@@ -46,7 +48,7 @@ public class ProvisionUserUseCaseTests
 
         _usosOAuthServiceMock
             .Setup(x => x.HandleCallbackAndGetUserAsync(token, verifier, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result.Failure<IUsosOAuthService.UsosUserDto>(expectedError, expectedCode));
+            .ReturnsAsync(Result.Failure<UsosUserDto>(expectedError, expectedCode));
 
         // Act
         var result = await _sut.ExecuteAsync(token, verifier, CancellationToken.None);
@@ -69,7 +71,7 @@ public class ProvisionUserUseCaseTests
         var rawUsosId = "12345";
         var hashedUsosId = "XYZ_HASHED_ID";
         var existingUser = new User(hashedUsosId);
-        var usosUserDto = new IUsosOAuthService.UsosUserDto(rawUsosId);
+        var usosUserDto = new UsosUserDto(rawUsosId);
 
         _usosOAuthServiceMock
             .Setup(x => x.HandleCallbackAndGetUserAsync(token, verifier, It.IsAny<CancellationToken>()))
@@ -88,7 +90,7 @@ public class ProvisionUserUseCaseTests
 
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.Equal(existingUser.Id, result.Value!.Id);
+        Assert.Equal(existingUser.Id.ToString(), result.Value!.Id);
         Assert.Equal(existingUser.HashedUsosId, result.Value.HashedUsosId);
 
         _userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
@@ -103,7 +105,7 @@ public class ProvisionUserUseCaseTests
         var verifier = "verifier";
         var rawUsosId = "567890";
         var hashedUsosId = "ABC_HASHED_ID";
-        var usosUserDto = new IUsosOAuthService.UsosUserDto(rawUsosId);
+        var usosUserDto = new UsosUserDto(rawUsosId);
 
         _usosOAuthServiceMock
             .Setup(x => x.HandleCallbackAndGetUserAsync(token, verifier, It.IsAny<CancellationToken>()))
@@ -124,7 +126,7 @@ public class ProvisionUserUseCaseTests
         Assert.True(result.IsSuccess);
         Assert.NotNull(result.Value);
         Assert.Equal(hashedUsosId, result.Value.HashedUsosId);
-        Assert.NotEqual(Guid.Empty, result.Value.Id);
+        Assert.NotEqual(Guid.Empty.ToString(), result.Value.Id);
 
         _userRepositoryMock.Verify(x => x.AddAsync(It.Is<User>(u => u.HashedUsosId == hashedUsosId), It.IsAny<CancellationToken>()), Times.Once);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
@@ -139,7 +141,7 @@ public class ProvisionUserUseCaseTests
         var rawUsosId = "123456";
         var hashedUsosId = "HASH";
 
-        var usosUserDto = new IUsosOAuthService.UsosUserDto(rawUsosId);
+        var usosUserDto = new UsosUserDto(rawUsosId);
         _usosOAuthServiceMock
             .Setup(x => x.HandleCallbackAndGetUserAsync(token, verifier, It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result.Success(usosUserDto));

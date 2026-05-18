@@ -1,4 +1,4 @@
-﻿using Application.Auth;
+﻿using Application.Users;
 
 using Microsoft.Extensions.DependencyInjection;
 

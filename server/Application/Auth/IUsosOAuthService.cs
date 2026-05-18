@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Application.Core;
+using Application.DTOs;
 
 namespace Application.Auth;
 
@@ -14,6 +15,4 @@ public interface IUsosOAuthService
         string oauthVerifier,
         CancellationToken cancellationToken = default
     );
-
-    public record UsosUserDto(string Id);
 }
