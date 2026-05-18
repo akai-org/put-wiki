@@ -1,25 +1,25 @@
 ﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 
 using Application.Auth;
 
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Auth;
 
 public class HmacUsosIdHasher : IUsosIdHasher
 {
-    private readonly string _key;
+    private readonly byte[] _keyBytes;
 
     public HmacUsosIdHasher(IOptions<UsosOAuthSettings> options)
     {
-        _key = options.Value.HashingKey;
+        _keyBytes = Encoding.UTF8.GetBytes(options.Value.HashingKey);
     }
 
     public string Hash(string rawUsosId)
     {
-        using var hmac = new System.Security.Cryptography.HMACSHA256(Encoding.UTF8.GetBytes(_key));
+        using var hmac = new HMACSHA256(_keyBytes);
         var hashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(rawUsosId));
         return Convert.ToBase64String(hashBytes);
     }
