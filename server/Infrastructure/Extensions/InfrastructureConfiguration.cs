@@ -55,4 +55,27 @@ public static partial class InfrastructureConfiguration
 
         return services;
     }
+
+    public static async Task<IApplicationBuilder> ApplyDatabaseMigrationsAsync(this IApplicationBuilder app)
+    {
+        using var scope = app.ApplicationServices.CreateScope();
+
+        try
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await dbContext.Database.MigrateAsync();
+        }
+        catch (Exception ex)
+        {
+
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<AppDbContext>>();
+            LogAnErrorOccurredWhileMigratingTheDatabase(logger, ex);
+            throw;
+        }
+
+        return app;
+    }
+
+    [LoggerMessage(Level = LogLevel.Critical, Message = "An error occurred while migrating the database.")]
+    static partial void LogAnErrorOccurredWhileMigratingTheDatabase(ILogger logger, Exception ex);
 }
