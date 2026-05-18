@@ -15,44 +15,20 @@ using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Auth;
 
-public class UsosOAuthService : IUsosOAuthService
+public partial class UsosOAuthService : IUsosOAuthService
 {
     private const string RequestTokenEndpoint = "services/oauth/request_token";
     private const string AccessTokenEndpoint = "services/oauth/access_token";
     private const string AuthorizeEndpoint = "services/oauth/authorize";
     private const string UserEndpoint = "services/users/user";
 
-    private const string UserFields = "id|first_name|last_name|student_number|email";
+    private const string UserFields = "id";
     private const string TokenSecretCacheKeyPrefix = "UsosTokenSecret_";
 
     private readonly HttpClient _httpClient;
     private readonly UsosOAuthSettings _settings;
     private readonly IMemoryCache _cache; // TODO: consider what to do when we will use multiple server instances
     private readonly ILogger<UsosOAuthService> _logger;
-
-    private static readonly Action<ILogger, Exception?> LogUnknownOrExpiredRequestToken = LoggerMessage.Define(
-        LogLevel.Warning,
-        new EventId(1, nameof(LogUnknownOrExpiredRequestToken)),
-        "USOS callback received unknown/expired request token."
-    );
-
-    private static readonly Action<ILogger, string, int, string, Exception?> LogUsosHttpRequestFailed = LoggerMessage.Define<string, int, string>(
-        LogLevel.Warning,
-        new EventId(2, nameof(LogUsosHttpRequestFailed)),
-        "USOS HTTP request failed. Url: {Url} Status: {StatusCode} BodyPreview: {BodyPreview}"
-    );
-
-    private static readonly Action<ILogger, Exception?> LogUserResponseDeserializationFailed = LoggerMessage.Define(
-        LogLevel.Error,
-        new EventId(3, nameof(LogUserResponseDeserializationFailed)),
-        "Failed to deserialize USOS user response."
-    );
-
-    private static readonly Action<ILogger, string, Exception?> LogUsosHttpRequestException = LoggerMessage.Define<string>(
-        LogLevel.Error,
-        new EventId(4, nameof(LogUsosHttpRequestException)),
-        "USOS HTTP request threw an exception. Url: {Url}"
-    );
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -123,7 +99,7 @@ public class UsosOAuthService : IUsosOAuthService
 
         if (!_cache.TryGetValue(GetTokenSecretCacheKey(oauthToken), out string? oauthTokenSecret) || oauthTokenSecret == null)
         {
-            LogUnknownOrExpiredRequestToken(_logger, null);
+            LogUnknownOrExpiredRequestToken();
             return Result.Failure<IUsosOAuthService.UsosUserDto>("Invalid or expired OAuth token.", 401);
         }
 
@@ -211,7 +187,7 @@ public class UsosOAuthService : IUsosOAuthService
         }
         catch (JsonException ex)
         {
-            LogUserResponseDeserializationFailed(_logger, ex);
+            LogUserResponseDeserializationFailed(ex);
             return Result.Failure<IUsosOAuthService.UsosUserDto>("Invalid USOS user response.", 502);
         }
 
@@ -221,11 +197,7 @@ public class UsosOAuthService : IUsosOAuthService
         }
 
         var user = new IUsosOAuthService.UsosUserDto(
-            Id: deserialized.Id ?? string.Empty,
-            FirstName: deserialized.FirstName ?? string.Empty,
-            LastName: deserialized.LastName ?? string.Empty,
-            StudentNumber: deserialized.StudentNumber ?? string.Empty,
-            Email: deserialized.Email ?? string.Empty
+            Id: deserialized.Id ?? string.Empty
         );
 
         return Result.Success(user);
@@ -248,7 +220,7 @@ public class UsosOAuthService : IUsosOAuthService
             if (!response.IsSuccessStatusCode)
             {
                 var bodyPreview = body.Length <= 256 ? body : body[..256];
-                LogUsosHttpRequestFailed(_logger, requestUrl, (int)response.StatusCode, bodyPreview, null);
+                LogUsosHttpRequestFailed(requestUrl, (int)response.StatusCode, bodyPreview);
 
                 return Result.Failure<string>("USOS request failed.", (int)response.StatusCode);
             }
@@ -261,7 +233,7 @@ public class UsosOAuthService : IUsosOAuthService
         }
         catch (Exception ex)
         {
-            LogUsosHttpRequestException(_logger, requestUrl, ex);
+            LogUsosHttpRequestException(requestUrl, ex);
             return Result.Failure<string>("USOS request failed.", 502);
         }
     }
@@ -347,4 +319,16 @@ public class UsosOAuthService : IUsosOAuthService
         [property: JsonPropertyName("student_number")] string? StudentNumber,
         [property: JsonPropertyName("email")] string? Email
     );
+
+    [LoggerMessage(Level = LogLevel.Warning, Message = "USOS callback received unknown/expired request token.")]
+    public partial void LogUnknownOrExpiredRequestToken(Exception? ex = null);
+
+    [LoggerMessage(Level = LogLevel.Warning, Message = "USOS HTTP request failed. Url: {url} Status: {statusCode} BodyPreview: {bodyPreview}")]
+    public partial void LogUsosHttpRequestFailed(string url, int statusCode, string bodyPreview, Exception? ex = null);
+
+    [LoggerMessage(Level = LogLevel.Error, Message = "Failed to deserialize USOS user response.")]
+    public partial void LogUserResponseDeserializationFailed(Exception? ex);
+
+    [LoggerMessage(Level = LogLevel.Error, Message = "USOS HTTP request threw an exception. Url: {url}")]
+    public partial void LogUsosHttpRequestException(string url, Exception? ex);
 }

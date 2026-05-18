@@ -6,11 +6,10 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="Moq" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Core\" />
-    <Folder Include="Opinion\" />
-    <Folder Include="User\" />
   </ItemGroup>
 </Project>

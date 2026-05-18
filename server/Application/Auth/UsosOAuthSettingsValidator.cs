@@ -30,5 +30,9 @@ public class UsosOAuthSettingsValidator : AbstractValidator<UsosOAuthSettings>
         RuleFor(x => x.Scopes)
             .NotEmpty()
             .WithMessage("Missing UsosOAuth scopes.");
+
+        RuleFor(x => x.HashingKey)
+            .NotEmpty()
+            .WithMessage("Missing user's usos id hashing key.");
     }
 }

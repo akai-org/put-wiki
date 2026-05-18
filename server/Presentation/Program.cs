@@ -1,3 +1,5 @@
+using Application.Extensions;
+
 using Infrastructure.Extensions;
 
 using Microsoft.AspNetCore.Builder;
@@ -19,8 +21,10 @@ builder.Services.AddHealthChecks();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddOpenApi();
+
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddUsosOAuth(builder.Configuration);
+builder.Services.AddApplication();
 builder.Services.AddWebServices();
 
 var app = builder.Build();
