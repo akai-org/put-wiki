@@ -1,4 +1,9 @@
-﻿using Infrastructure.Identity;
+﻿using System.Linq;
+
+using Application.Auth;
+
+using Infrastructure.Auth;
+using Infrastructure.Identity;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +26,31 @@ public static class InfrastructureConfiguration
             })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddUsosOAuth(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddOptions<UsosOAuthSettings>()
+            .Bind(configuration.GetSection("UsosOAuth"))
+            .Validate(settings =>
+            {
+                var validator = new UsosOAuthSettingsValidator();
+                var validationResult = validator.Validate(settings);
+                if (!validationResult.IsValid)
+                {
+                    throw new Microsoft.Extensions.Options.OptionsValidationException(
+                        "UsosOAuthSettings",
+                        typeof(UsosOAuthSettings),
+                        validationResult.Errors.Select(e => e.ErrorMessage)
+                    );
+                }
+                return true;
+            })
+            .ValidateOnStart();
+
+        services.AddHttpClient<IUsosOAuthService, UsosOAuthService>();
 
         return services;
     }

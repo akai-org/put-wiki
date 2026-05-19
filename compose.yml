@@ -27,7 +27,7 @@
     volumes:
       - db_data:/var/lib/postgresql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]      
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 10s
       timeout: 10s
       retries: 3
@@ -38,6 +38,8 @@
       context: ./server
       target: prod
     container_name: server
+    env_file:
+      - /server/.env
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_HTTP_PORTS=3000
@@ -50,7 +52,11 @@
       database:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:$${ASPNETCORE_HTTP_PORTS}/health"]
+      test:
+        [
+          "CMD-SHELL",
+          "curl -f http://localhost:$${ASPNETCORE_HTTP_PORTS}/health",
+        ]
       interval: 15s
       timeout: 5s
       retries: 3
