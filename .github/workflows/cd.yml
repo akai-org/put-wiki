@@ -2,26 +2,144 @@ name: CD
 
 on: workflow_dispatch
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
-  release:
+  detect-changes:
     runs-on: ubuntu-latest
 
-    steps:
+    outputs:
+      client: ${{ steps.filter.outputs.client }}
+      server: ${{ steps.filter.outputs.server }}
 
-      - name: Get hash
-        id: vars
-        RUN: echo "sha_short=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Detect changes
-        uses: dorny/paths-filter@v4
-        id: dir
+        id: filter
+        uses: dorny/paths-filter@v3
         with:
-          filters:
+          filters: |
             client:
-              - 'cilent/**'
+              - 'client/**'
             server:
               - 'server/**'
 
-      - name: Build client
+  set-version:
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.client == 'true' || needs.detect-changes.outputs.server == 'true'
+
+    outputs:
+      version: ${{steps.sha.outputs.version}}
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       
-      - name: Build server
+      - name: Get sha
+        id: sha
+        run: |
+          echo "version=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+
+      - name: Create tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          TAG=${{steps.sha.outputs.version}}
+
+          git tag -f $TAG
+          git push origin $TAG --force
+
+  build-client:
+    runs-on: ubuntu-latest
+
+    needs: 
+      - detect-changes
+      - set-version
+
+    if: needs.detect-changes.outputs.client == 'true'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Login to GHCR
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build client image
+      run: |
+        docker build \
+          -t ghcr.io/${{ github.repository }}/client:${{ needs.set-version.outputs.version }} \
+          ./client
+
+    - name: Push client image
+      run: |
+        docker push ghcr.io/${{ github.repository }}/client:${{ needs.set-version.outputs.version }}
+
+  build-server:
+    runs-on: ubuntu-latest
+
+    needs: 
+      - detect-changes
+      - set-version
+
+    if: needs.detect-changes.outputs.server == 'true'  
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build server image
+        run: |
+          docker build \
+            -t ghcr.io/${{ github.repository }}/server:${{ needs.set-version.outputs.version }} \
+            ./server
+
+      - name: Push server image
+        run: |
+          docker push ghcr.io/${{ github.repository }}/server:${{ needs.set-version.outputs.version }}
+
+  release:
+    runs-on: ubuntu-latest
+
+    needs:
+      - detect-changes
+      - set-version
+      - build-client
+      - build-server
+
+    if: always() && (needs.detect-changes.outputs.client == 'true' || needs.detect-changes.outputs.server == 'true')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.set-version.outputs.version }}
+          name: Release ${{ needs.set-version.outputs.version }}
+          body: |
+            Release for commit ${{ github.sha }}.
