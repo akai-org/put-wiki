@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Application.Auth;
-using Application.Core;
 using Application.DTOs;
+using Application.Errors;
 
 using AutoMapper;
 
 using Domain.Users;
+
+using FluentResults;
 
 using Microsoft.Extensions.Logging;
 
@@ -26,39 +29,33 @@ public partial class ProvisionUserUseCase(
         CancellationToken ct = default)
     {
         var usosResult = await usosOAuthService.HandleCallbackAndGetUserAsync(oauthToken, oauthVerifier, ct);
-        if (!usosResult.IsSuccess || string.IsNullOrWhiteSpace(usosResult.Value?.Id))
+        if (usosResult.IsFailed)
         {
-            var errorMsg = usosResult.Error ?? "Unknown USOS authentication error.";
-            LogProvisioningAbortedUsosAuthenticationFailed(errorMsg);
+            LogProvisioningAbortedUsosAuthenticationFailed(usosResult.Errors[0].Message);
+            return Result.Fail(usosResult.Errors);
+        }
 
-            var statusCode = usosResult.Code is > 0 and < 600 ? usosResult.Code : 400;
-            return Result.Failure<UserDto>(errorMsg, statusCode);
+        if (string.IsNullOrWhiteSpace(usosResult.Value?.Id))
+        {
+            return Result.Fail(new ExternalServiceError("USOS returned an empty user ID."));
         }
 
         var rawUsosId = usosResult.Value.Id;
         var hashedId = hasher.Hash(rawUsosId);
 
-        try
+        var existingUser = await userRepository.GetByHashedUsosIdAsync(hashedId, ct);
+        if (existingUser != null)
         {
-            var existingUser = await userRepository.GetByHashedUsosIdAsync(hashedId, ct);
-            if (existingUser != null)
-            {
-                return Result.Success(mapper.Map<UserDto>(existingUser));
-            }
-
-            var newUser = new User(hashedId);
-            userRepository.Add(newUser);
-            await userRepository.SaveChangesAsync(ct);
-
-            LogProvisionedNewAnonymousUserId(newUser.Id);
-
-            return Result.Success(mapper.Map<UserDto>(newUser));
+            return Result.Ok(mapper.Map<UserDto>(existingUser));
         }
-        catch (Exception ex)
-        {
-            LogFailedToProvisionUserDueToDatabaseError(ex);
-            return Result.Failure<UserDto>("Internal database error during user provisioning.", 500);
-        }
+
+        var newUser = new User(hashedId);
+        userRepository.Add(newUser);
+        await userRepository.SaveChangesAsync(ct);
+
+        LogProvisionedNewAnonymousUserId(newUser.Id);
+
+        return Result.Ok(mapper.Map<UserDto>(newUser));
     }
 
     [LoggerMessage(LogLevel.Warning, "Provisioning aborted: USOS authentication failed. Error: {error}")]
@@ -66,7 +63,4 @@ public partial class ProvisionUserUseCase(
 
     [LoggerMessage(LogLevel.Information, "Provisioned new anonymous user {userId}")]
     partial void LogProvisionedNewAnonymousUserId(Guid userId);
-
-    [LoggerMessage(LogLevel.Error, "Failed to provision user due to database error.")]
-    partial void LogFailedToProvisionUserDueToDatabaseError(Exception ex);
 }

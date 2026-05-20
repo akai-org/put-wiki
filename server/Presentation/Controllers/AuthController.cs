@@ -2,60 +2,42 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Application.Auth;
+using Application.DTOs;
 using Application.Users;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Presentation.Controllers;
 
-public partial class AuthController(
+public class AuthController(
     IUsosOAuthService usosOAuthService,
-    ProvisionUserUseCase provisionUserUseCase,
-    ILogger<AuthController> logger) : BaseApiController
+    ProvisionUserUseCase provisionUserUseCase) : BaseApiController
 {
 
     [HttpGet("login")]
-    public async Task<IActionResult> Login(CancellationToken cancellationToken)
+    [ProducesResponseType(typeof(string), StatusCodes.Status302Found)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status502BadGateway)]
+    public async Task<IActionResult> Login(CancellationToken ct)
     {
-        var result = await usosOAuthService.GetLoginUrlAsync(cancellationToken);
-        if (!result.IsSuccess || string.IsNullOrWhiteSpace(result.Value))
-        {
-            var errorMsg = result.Error ?? "Unknown USOS authentication error.";
-            LogLoginUrlFailed(errorMsg);
-            return StatusCode(result.Code == 0 ? 500 : result.Code, result.Error);
-        }
+        var result = await usosOAuthService.GetLoginUrlAsync(ct);
+        if (result.IsSuccess)
+            return Redirect(result.Value);
 
-        return Redirect(result.Value);
+        return HandleResult(result);
     }
 
     [HttpGet("callback")]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Callback(
         [FromQuery(Name = "oauth_token")] string oauthToken,
         [FromQuery(Name = "oauth_verifier")] string oauthVerifier,
-        CancellationToken cancellationToken
+        CancellationToken ct
     )
     {
-        if (string.IsNullOrEmpty(oauthToken) || string.IsNullOrEmpty(oauthVerifier))
-        {
-            return BadRequest("Missing OAuth parameters.");
-        }
-
-        var result = await provisionUserUseCase.ExecuteAsync(oauthToken, oauthVerifier, cancellationToken);
-
-        if (!result.IsSuccess || result.Value is null)
-        {
-            var errorMsg = result.Error ?? "Unknown internal authentication error.";
-            LogCallbackFailed(errorMsg);
-            return StatusCode(result.Code == 0 ? 500 : result.Code, result.Error);
-        }
-
-        return Ok(result.Value);
+        var result = await provisionUserUseCase.ExecuteAsync(oauthToken, oauthVerifier, ct);
+        return HandleResult(result);
     }
-
-    [LoggerMessage(LogLevel.Error, "Failed to get USOS login URL. Error: {error}")]
-    partial void LogLoginUrlFailed(string error);
-
-    [LoggerMessage(LogLevel.Warning, "USOS callback failed. Error: {error}")]
-    partial void LogCallbackFailed(string error);
 }
