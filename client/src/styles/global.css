@@ -23,3 +23,9 @@ body {
   background-color: #ebebeb;
   color: #333;
 }
+
+container {
+  display: flex;
+  flex-direction: row;
+  gap: 6rem;
+}

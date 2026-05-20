@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Informatyka",
+    "description": "Opis kierunku studiów",
+    "master_degree": "Studia magisterskie",
+    "semesters": [
+      {
+        "number": 1,
+        "subjects": ["Matematyka dyskretna", "Programowanie imperatywne", "Wstęp do informatyki"]
+      },
+      {
+        "number": 2,
+        "subjects": [
+          "Algorytmy i struktury danych",
+          "Programowanie obiektowe",
+          "Architektura komputerów"
+        ]
+      },
+      {
+        "number": 3,
+        "subjects": ["Bazy danych", "Systemy operacyjne", "Inżynieria oprogramowania"]
+      },
+      {
+        "number": 4,
+        "subjects": ["Sieci komputerowe", "Programowanie webowe", "Metody sztucznej inteligencji"]
+      },
+      {
+        "number": 5,
+        "subjects": ["Aplikacje mobilne", "Testowanie oprogramowania", "Zarządzanie projektem IT"]
+      },
+      {
+        "number": 6,
+        "subjects": ["Systemy rozproszone", "Bezpieczeństwo aplikacji", "Przedmiot obieralny"]
+      },
+      {
+        "number": 7,
+        "subjects": ["Praktyka dyplomowa", "Seminarium dyplomowe", "Projekt inżynierski"]
+      }
+    ],
+    "absolvent_future": "losy absolwentów",
+    "worst_subjects": [
+      { "name": "Matematyka dyskretna", "mark": 2.5 },
+      { "name": "Algorytmy i struktury danych", "mark": 3.0 },
+      {
+        "name": "Systemy operacyjne",
+        "mark": 2.5
+      }
+    ],
+    "opinions": [
+      {
+        "author": "Jan Kowalski",
+        "content": "Świetny kierunek, dużo praktycznych zajęć.",
+        "rating": 5
+      },
+      {
+        "author": "Anna Nowak",
+        "content": "Dużo teorii, ale warto się poświęcić.",
+        "rating": 4
+      }
+    ]
+  }
+]
