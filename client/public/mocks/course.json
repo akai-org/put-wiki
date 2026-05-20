@@ -1,0 +1,61 @@
+{
+  "id": "06-DXEX1-WI-AiSD",
+  "name": {
+    "pl": "Analiza i Struktury Danych",
+    "en": "Analysis and Data Structures"
+  },
+  "description": {
+    "pl": "Przedmiot wprowadza studentów w klasyczne struktury danych: tablice, listy, drzewa BST, sterty, tablice haszujące. Omawiane są również podstawowe algorytmy sortowania i wyszukiwania oraz ich złożoność czasowa i pamięciowa. Studenci poznają techniki analizy algorytmów (notacja O), uczą się wybierać odpowiednią strukturę danych do problemu oraz implementować je w wybranym języku programowania.",
+    "en": "The course introduces students to classical data structures: arrays, lists, BST trees, heaps, hash tables. Basic sorting and searching algorithms are also covered, along with their time and memory complexity. Students learn algorithm analysis techniques (Big O notation), how to select the appropriate data structure for a problem, and how to implement them in a chosen programming language."
+  },
+  "ectsPoints": 5,
+  "homepageUrl": "https://www.cs.put.poznan.pl/aisd/",
+  "bibliography": {
+    "pl": "1. Cormen T., Leiserson C., Rivest R., Stein C. — 'Wprowadzenie do algorytmów' (PWN, 2012)\n2. Knuth D. — 'Sztuka programowania, tom 1-3' (WNT)\n3. Sedgewick R., Wayne K. — 'Algorytmy' (Helion, 2017)\n4. Skiena S. — 'Algorithm Design Manual'",
+    "en": "1. Cormen T., Leiserson C., Rivest R., Stein C. — 'Introduction to Algorithms' (MIT Press, 2009)\n2. Knuth D. — 'The Art of Computer Programming, vol. 1-3'\n3. Sedgewick R., Wayne K. — 'Algorithms' (Addison-Wesley, 2011)\n4. Skiena S. — 'Algorithm Design Manual'"
+  },
+  "learningOutcomes": {
+    "pl": "Po ukończeniu kursu student:\n- potrafi analizować złożoność czasową i pamięciową algorytmów (notacja O),\n- implementuje podstawowe struktury danych (tablice, listy, drzewa, sterty, tablice haszujące) w wybranym języku programowania,\n- dobiera odpowiednią strukturę danych do rozwiązywanego problemu,\n- stosuje klasyczne algorytmy sortowania i wyszukiwania w praktyce.",
+    "en": "After completing the course, the student:\n- can analyze the time and memory complexity of algorithms (Big O notation),\n- implements basic data structures (arrays, lists, trees, heaps, hash tables) in a chosen programming language,\n- selects the appropriate data structure for a given problem,\n- applies classical sorting and searching algorithms in practice."
+  },
+  "assessmentCriteria": {
+    "pl": "Zaliczenie składa się z dwóch komponentów: egzamin pisemny (60% oceny końcowej) oraz projekt programistyczny (40%). Próg zaliczenia: 50% punktów łącznie. Egzamin obejmuje materiał z wykładów i ćwiczeń. Projekt jest oceniany na podstawie poprawności implementacji oraz analizy złożoności.",
+    "en": "The grade consists of two components: a written exam (60% of the final grade) and a programming project (40%). Passing threshold: 50% of total points. The exam covers material from lectures and exercises. The project is graded based on implementation correctness and complexity analysis."
+  },
+  "facultyId": "06",
+  "lecturers": [
+    "dr inż. Marcin Kwapisz",
+    "mgr inż. Anna Nowak",
+    "prof. dr hab. inż. Tomasz Wiśniewski"
+  ],
+  "ratings": [5, 4, 5, 3, 4, 5, 2, 4, 5, 4, 3, 4, 5, 5, 1, 4, 5, 3, 4, 4, 5, 5, 4, 3, 5, 4, 5, 4, 2, 5],
+  "reviews": [
+    "Świetny przedmiot, bardzo dobrze prowadzony przez dr. Kwapisza. Materiał wymagający, ale daje solidne fundamenty. Polecam każdemu informatykowi!",
+    "Materiał ciężki, ale prowadzący tłumaczy spokojnie i z cierpliwością. Projekt programistyczny był wymagający, ale dał dużo satysfakcji.",
+    "Egzamin trudniejszy niż się spodziewałem. Trzeba zacząć uczyć się na bieżąco, nie tylko przed sesją. Polecam regularne ćwiczenia.",
+    "Czasem brakuje czasu na omówienie wszystkich tematów. Warto samodzielnie dorobić materiał, np. z książki Cormena.",
+    "Solidnie zorganizowany przedmiot, świetne laboratoria. Polecam zostać na konsultacje — dr Kwapisz chętnie odpowiada na pytania."
+  ],
+  "materials": [
+    {
+      "label": "Slajdy z wykładów (PDF)",
+      "url": "https://www.cs.put.poznan.pl/aisd/slides.pdf"
+    },
+    {
+      "label": "Repozytorium z ćwiczeniami labowymi",
+      "url": "https://github.com/put-aisd/labs-2024"
+    },
+    {
+      "label": "Nagrania z wykładów (YouTube)",
+      "url": "https://youtube.com/playlist?list=put-aisd-lectures"
+    },
+    {
+      "label": "Forum kursu (Discord)",
+      "url": "https://discord.gg/put-aisd"
+    },
+    {
+      "label": "Oficjalny sylabus PUT",
+      "url": "https://sylabus.put.poznan.pl/06-DXEX1-WI-AiSD"
+    }
+  ]
+}
