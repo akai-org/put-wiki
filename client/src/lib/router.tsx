@@ -17,7 +17,7 @@ const notFoundRoute = createRoute({
 
 const coursePageRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/przedmiot/$courseId',
+  path: '/course/$courseId',
   component: () => <CoursePage />,
 });
 
