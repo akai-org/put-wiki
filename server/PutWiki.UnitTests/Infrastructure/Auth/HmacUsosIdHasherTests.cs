@@ -1,5 +1,7 @@
 ﻿using Application.Auth;
 
+using FluentAssertions;
+
 using Infrastructure.Auth;
 
 using Microsoft.Extensions.Options;
@@ -33,8 +35,8 @@ public class HmacUsosIdHasherTests
         var hash2 = hasher.Hash(usosId);
 
         // Assert
-        Assert.Equal(hash1, hash2);
-        Assert.False(string.IsNullOrWhiteSpace(hash1));
+        hash1.Should().Be(hash2);
+        hash1.Should().NotBeNullOrWhiteSpace();
     }
 
     [Fact]
@@ -49,7 +51,7 @@ public class HmacUsosIdHasherTests
         var hashUser2 = hasher.Hash("222222");
 
         // Assert
-        Assert.NotEqual(hashUser1, hashUser2);
+        hashUser1.Should().NotBe(hashUser2);
     }
 
     [Fact]
@@ -65,6 +67,6 @@ public class HmacUsosIdHasherTests
         var hashB = hasherWithKeyB.Hash(usosId);
 
         // Assert
-        Assert.NotEqual(hashA, hashB);
+        hashA.Should().NotBe(hashB);
     }
 }

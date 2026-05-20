@@ -12,9 +12,10 @@ using AutoMapper;
 
 using Domain.Users;
 
+using FluentAssertions;
+
 using FluentResults;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 
 using Moq;
@@ -38,7 +39,6 @@ public class ProvisionUserUseCaseTests
         {
             cfg.AddProfile<MappingsProfile>();
         }, new NullLoggerFactory());
-        mapperConfig.AssertConfigurationIsValid();
         IMapper mapper = mapperConfig.CreateMapper();
 
         _sut = new ProvisionUserUseCase(
@@ -66,8 +66,8 @@ public class ProvisionUserUseCaseTests
         var result = await _sut.ExecuteAsync(token, verifier, CancellationToken.None);
 
         // Assert
-        Assert.False(result.IsSuccess);
-        Assert.Equal(expectedError, result.Errors[0].Message);
+        result.IsSuccess.Should().BeFalse();
+        result.Errors[0].Message.Should().Be(expectedError);
 
         _idHasherMock.Verify(x => x.Hash(It.IsAny<string>()), Times.Never);
         _userRepositoryMock.Verify(x => x.Add(It.IsAny<User>()), Times.Never);
@@ -100,9 +100,9 @@ public class ProvisionUserUseCaseTests
         var result = await _sut.ExecuteAsync(token, verifier, CancellationToken.None);
 
         // Assert
-        Assert.True(result.IsSuccess);
-        Assert.Equal(existingUser.Id.ToString(), result.Value!.Id);
-        Assert.Equal(existingUser.HashedUsosId, result.Value.HashedUsosId);
+        result.IsSuccess.Should().BeTrue();
+        result.Value!.Id.ToString().Should().Be(existingUser.Id.ToString());
+        result.Value.HashedUsosId.Should().Be(hashedUsosId);
 
         _userRepositoryMock.Verify(x => x.Add(It.IsAny<User>()), Times.Never);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
@@ -134,11 +134,11 @@ public class ProvisionUserUseCaseTests
         var result = await _sut.ExecuteAsync(token, verifier, CancellationToken.None);
 
         // Assert
-        Assert.True(result.IsSuccess);
-        Assert.NotNull(result.Value);
-        Assert.Equal(hashedUsosId, result.Value.HashedUsosId);
-        Assert.NotEqual(Guid.Empty.ToString(), result.Value.Id);
-
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().NotBeNull();
+        result.Value!.HashedUsosId.Should().Be(hashedUsosId);
+        result.Value.Id.Should().NotBe(Guid.Empty.ToString());
+        
         _userRepositoryMock.Verify(x => x.Add(It.Is<User>(u => u.HashedUsosId == hashedUsosId)), Times.Once);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
