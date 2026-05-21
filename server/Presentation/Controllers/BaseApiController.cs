@@ -43,15 +43,17 @@ public class BaseApiController : ControllerBase
             _ => StatusCodes.Status500InternalServerError
         };
 
-        var problemDetails = new ProblemDetails
+        var extensions = new Dictionary<string, object?>
         {
-            Status = statusCode,
-            Title = GetTitle(statusCode),
-            Detail = firstError.Message,
-            Extensions = { ["errors"] = errors.Select(e => e.Message).ToArray() }
+            { "errors", errors.Select(e => e.Message).ToArray() }
         };
 
-        return StatusCode(statusCode, problemDetails);
+        return Problem(
+            statusCode: statusCode,
+            title: GetTitle(statusCode),
+            detail: firstError.Message,
+            extensions: extensions
+        );
     }
 
     private static string GetTitle(int statusCode) => statusCode switch

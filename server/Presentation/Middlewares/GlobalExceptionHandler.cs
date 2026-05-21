@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Presentation.Middlewares;
 
-public partial class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
+public partial class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger, IProblemDetailsService problemDetailsService) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
@@ -24,9 +24,13 @@ public partial class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logg
         };
 
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
 
-        return true;
+        return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
+        {
+            Exception = exception,
+            HttpContext = httpContext,
+            ProblemDetails = problemDetails
+        });
     }
 
     [LoggerMessage(LogLevel.Critical, "An unhandled exception occurred.")]
