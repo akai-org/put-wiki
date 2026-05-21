@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi;
@@ -16,6 +17,7 @@ public static class PresentationConfiguration
         services.AddOpenApi("v1", options =>
         {
             options.AddScalarTransformers();
+
             options.AddDocumentTransformer((document, _, _) =>
             {
                 document.Info = new OpenApiInfo
@@ -23,6 +25,41 @@ public static class PresentationConfiguration
                     Title = "PutWiki API documentation",
                     Version = "v1"
                 };
+                return Task.CompletedTask;
+            });
+
+            options.AddSchemaTransformer((schema, context, cancellationToken) =>
+            {
+                if (context.JsonTypeInfo.Type == typeof(ProblemDetails) && schema.Properties != null)
+                {
+                    if (schema.Properties.TryGetValue("type", out var typeSchema))
+                        typeSchema.Description = "A URI reference that identifies the problem type.";
+
+                    if (schema.Properties.TryGetValue("title", out var titleSchema))
+                        titleSchema.Description = "A short, human-readable summary of the problem.";
+
+                    if (schema.Properties.TryGetValue("status", out var statusSchema))
+                        statusSchema.Description = "The HTTP status code set by the server.";
+
+                    if (schema.Properties.TryGetValue("detail", out var detailSchema))
+                        detailSchema.Description = "A human-readable explanation specific to this occurrence.";
+
+                    if (schema.Properties.TryGetValue("instance", out var instanceSchema))
+                        instanceSchema.Description = "A URI reference that identifies the specific request path.";
+
+                    schema.Properties["traceId"] = new OpenApiSchema
+                    {
+                        Type = JsonSchemaType.String,
+                        Description = "A unique trace identifier used to cross-reference diagnostics logs."
+                    };
+
+                    schema.Properties["errors"] = new OpenApiSchema
+                    {
+                        Type = JsonSchemaType.Array,
+                        Items = new OpenApiSchema { Type = JsonSchemaType.String },
+                        Description = "An array of all detailed error messages."
+                    };
+                }
                 return Task.CompletedTask;
             });
         });
@@ -56,6 +93,16 @@ public static class PresentationConfiguration
     public static IServiceCollection AddWebServices(this IServiceCollection services)
     {
         services.AddControllers();
+
+        services.AddProblemDetails(options =>
+        {
+            options.CustomizeProblemDetails = context =>
+            {
+                context.ProblemDetails.Instance =
+                    $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+            };
+        });
+
         services.AddOpenApi();
         services.AddPutWikiOpenApi();
 
