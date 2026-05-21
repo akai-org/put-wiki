@@ -3,7 +3,6 @@ using Application.Extensions;
 using Infrastructure.Extensions;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,17 +21,7 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddHealthChecks();
 builder.Services.AddMemoryCache();
 
-builder.Services.AddProblemDetails(options =>
-{
-    options.CustomizeProblemDetails = context =>
-    {
-        context.ProblemDetails.Instance =
-            $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
-    };
-});
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-
-builder.Services.AddOpenApi();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddUsosOAuth(builder.Configuration);
@@ -42,6 +31,9 @@ builder.Services.AddWebServices();
 var app = builder.Build();
 
 app.UseExceptionHandler();
+
+app.UseMiddleware<TraceIdMiddleware>();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UsePutWikiOpenApiDocs();
