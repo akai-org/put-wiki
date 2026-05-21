@@ -2,8 +2,8 @@ import { useParams } from '@tanstack/react-router';
 import useCourse from '@/hooks/useCourse';
 
 export default function CoursePage() {
-  const { courseId } = useParams({ from: '/course/$courseId' });
-  const { data, isLoading, isError } = useCourse(courseId);
+  const { slug } = useParams({ from: '/course/$slug' });
+  const { data, isLoading, isError } = useCourse(slug);
 
   if (isLoading)
     return <div className="flex justify-center items-center text-white text-7xl">Ładowanie...</div>;
@@ -38,7 +38,7 @@ export default function CoursePage() {
           <section className="bg-gray-200 rounded-md p-6 min-h-40 row-span-2 col-span-1">
             {data.reviews.map((review, i) => (
               <p key={i} className="mb-2 text-sm ">
-                "{review}"
+                {review}
               </p>
             ))}
           </section>

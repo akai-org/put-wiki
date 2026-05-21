@@ -1,5 +1,5 @@
 {
-  "id": "06-DXEX1-WI-AiSD",
+  "slug": "analiza-i-struktury-danych",
   "name": {
     "pl": "Analiza i Struktury Danych",
     "en": "Analysis and Data Structures"
@@ -28,7 +28,9 @@
     "mgr inż. Anna Nowak",
     "prof. dr hab. inż. Tomasz Wiśniewski"
   ],
-  "ratings": [5, 4, 5, 3, 4, 5, 2, 4, 5, 4, 3, 4, 5, 5, 1, 4, 5, 3, 4, 4, 5, 5, 4, 3, 5, 4, 5, 4, 2, 5],
+  "ratings": [
+    5, 4, 5, 3, 4, 5, 2, 4, 5, 4, 3, 4, 5, 5, 1, 4, 5, 3, 4, 4, 5, 5, 4, 3, 5, 4, 5, 4, 2, 5
+  ],
   "reviews": [
     "Świetny przedmiot, bardzo dobrze prowadzony przez dr. Kwapisza. Materiał wymagający, ale daje solidne fundamenty. Polecam każdemu informatykowi!",
     "Materiał ciężki, ale prowadzący tłumaczy spokojnie i z cierpliwością. Projekt programistyczny był wymagający, ale dał dużo satysfakcji.",
