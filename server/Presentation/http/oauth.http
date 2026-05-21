@@ -1,0 +1,12 @@
+﻿### 1. Get login URL
+# @no-redirect
+GET {{host}}/auth/login
+Accept: application/json
+
+
+### 2. Handle USOS callback
+@token = real-token-here
+@verifier = real-verifier-here
+
+GET {{host}}/auth/callback?oauth_token={{token}}&oauth_verifier={{verifier}}
+Accept: application/json
