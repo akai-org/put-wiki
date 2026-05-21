@@ -20,7 +20,7 @@ public partial class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logg
             Status = StatusCodes.Status500InternalServerError,
             Title = "Server Error",
             Detail = "An unexpected error occurred.",
-            Type = "https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1"
+            Type = exception.GetType().Name
         };
 
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;

@@ -31,6 +31,7 @@ public class AuthController(
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status502BadGateway)]
     public async Task<IActionResult> Callback(
         [FromQuery(Name = "oauth_token")] string oauthToken,
         [FromQuery(Name = "oauth_verifier")] string oauthVerifier,
