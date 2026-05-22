@@ -34,28 +34,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: detect-changes
     if: needs.detect-changes.outputs.client == 'true' || needs.detect-changes.outputs.server == 'true'
-
-    outputs:
-      version: ${{steps.sha.outputs.version}}
     
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
-      - name: Get sha
-        id: sha
-        run: |
-          echo "version=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
 
       - name: Create tag
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-
-          TAG=${{steps.sha.outputs.version}}
-
-          git tag -f $TAG
-          git push origin $TAG --force
+        uses: anothrNick/github-tag-action@v1
+        env:
+          tag_prefix: v
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-client:
     runs-on: ubuntu-latest
@@ -67,27 +55,30 @@ jobs:
     if: needs.detect-changes.outputs.client == 'true'
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Login to GHCR
-      uses: docker/login-action@v3
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Build client image
-      run: |
-        docker build \
-          -t ghcr.io/${{ github.repository }}/client:${{ needs.set-version.outputs.version }} \
-          ./client
+      - name: setup QEMU
+        uses: docker/setup-qemu-action@v4.0.0
+      
+      - name: setup Docker Buildx
+        uses: docker/setup-buildx-action@v4.0.0
 
-    - name: Push client image
-      run: |
-        docker push ghcr.io/${{ github.repository }}/client:${{ needs.set-version.outputs.version }}
+      - name: Build and push client image
+        uses: docker/build-push-action@v7.2.0
+        with:
+          context: ./client
+          push: true
+          tags: ghcr.io/${{ github.repository }}/client:${{ needs.set-version.outputs.tag }}
 
   build-server:
     runs-on: ubuntu-latest
@@ -105,21 +96,24 @@ jobs:
           fetch-depth: 0
 
       - name: Login to GHCR
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build server image
-        run: |
-          docker build \
-            -t ghcr.io/${{ github.repository }}/server:${{ needs.set-version.outputs.version }} \
-            ./server
+      - name: setup QEMU
+        uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a
+      
+      - name: setup Docker Buildx
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd
 
-      - name: Push server image
-        run: |
-          docker push ghcr.io/${{ github.repository }}/server:${{ needs.set-version.outputs.version }}
+      - name : Build and push server image
+        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf
+        with:
+          context: ./server
+          push: true
+          tags: ghcr.io/${{ github.repository }}/server:${{ needs.set-version.outputs.tag }}
 
   release:
     runs-on: ubuntu-latest
@@ -139,7 +133,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ needs.set-version.outputs.version }}
-          name: Release ${{ needs.set-version.outputs.version }}
+          tag_name: ${{ needs.set-version.outputs.tag }}
+          name: Release ${{ needs.set-version.outputs.tag }}
           body: |
             Release for commit ${{ github.sha }}.
