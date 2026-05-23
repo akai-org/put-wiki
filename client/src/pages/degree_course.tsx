@@ -7,14 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card.tsx';
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-} from '@/components/ui/table.tsx';
+import TableOfSubjects from '@/components/subjects/tableOfSubjects.tsx';
 const data_url = '../assets/data/indexes_majors.json';
 import indexes from '../assets/data/indexes_majors.json';
 import TableOfOpinions from '@/components/opinions/tableOfOpinions';
@@ -121,50 +114,8 @@ export default function DegreeCourse() {
         </CardDescription>
       </CardHeader>
 
-      <Table>
-        <TableHeader>Przedmioty w kierunku {major.name}</TableHeader>
-        <TableHeader>
-          <TableRow>
-            {major.semesters.length > 0 ? (
-              major.semesters.map(function (semester) {
-                return <TableHead key={semester.number}>Semestr {semester.number}</TableHead>;
-              })
-            ) : (
-              <TableHead>Semestr</TableHead>
-            )}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {major.semesters.length > 0 ? (
-            (function () {
-              let maxSubjects = 0;
-              for (let i = 0; i < major.semesters.length; i++) {
-                if (major.semesters[i].subjects.length > maxSubjects)
-                  maxSubjects = major.semesters[i].subjects.length;
-              }
-              const rows = [];
-              for (let i = 0; i < maxSubjects; i++) {
-                rows.push(
-                  <TableRow key={'row-' + i}>
-                    {major.semesters.map(function (semester) {
-                      return (
-                        <TableCell key={semester.number}>
-                          {semester.subjects[i] ? semester.subjects[i] : '-'}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              }
-              return rows;
-            })()
-          ) : (
-            <TableRow>
-              <TableCell colSpan={major.semesters.length}>Brak danych</TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+      <TableOfSubjects semesters={major.semesters} />
+
       <div className="max-w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="mx-auto left-column">
           <Card>
