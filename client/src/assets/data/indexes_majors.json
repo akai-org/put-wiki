@@ -18,23 +18,57 @@
       },
       {
         "number": 3,
-        "subjects": ["Bazy danych", "Systemy operacyjne", "Inżynieria oprogramowania"]
+        "subjects": [
+          "Bazy danych",
+          "Systemy operacyjne",
+          "Inżynieria oprogramowania",
+          "Przedmiot obieralny",
+          "Przedmiot obieralny"
+        ]
       },
       {
         "number": 4,
-        "subjects": ["Sieci komputerowe", "Programowanie webowe", "Metody sztucznej inteligencji"]
+        "subjects": [
+          "Sieci komputerowe",
+          "Programowanie webowe",
+          "Metody sztucznej inteligencji",
+          "Przedmiot obieralny",
+          "Przedmiot obieralny"
+        ]
       },
       {
         "number": 5,
-        "subjects": ["Aplikacje mobilne", "Testowanie oprogramowania", "Zarządzanie projektem IT"]
+        "subjects": [
+          "Aplikacje mobilne",
+          "Testowanie oprogramowania",
+          "Zarządzanie projektem IT",
+          "progarmowanie rownoległe",
+          "Przedmiot obieralny",
+          "Przedmiot obieralny"
+        ]
       },
       {
         "number": 6,
-        "subjects": ["Systemy rozproszone", "Bezpieczeństwo aplikacji", "Przedmiot obieralny"]
+        "subjects": [
+          "Systemy rozproszone",
+          "Bezpieczeństwo aplikacji",
+          "Przedmiot obieralny",
+          "Przedmiot obieralny",
+          "Przedmiot obieralny",
+          "Przedmiot obieralny"
+        ]
       },
       {
         "number": 7,
-        "subjects": ["Praktyka dyplomowa", "Seminarium dyplomowe", "Projekt inżynierski"]
+        "subjects": [
+          "Praktyka dyplomowa",
+          "Seminarium dyplomowe",
+          "Projekt inżynierski",
+          "Przedmiot obieralny",
+          "Przedmiot obieralny",
+          "Przedmiot obieralny",
+          "Przedmiot obieralny"
+        ]
       }
     ],
     "absolvent_future": "losy absolwentów",
