@@ -40,7 +40,7 @@ public partial class UsosOAuthService(
     {
         PropertyNameCaseInsensitive = true,
     };
-    
+
     public async Task<Result<string>> GetLoginUrlAsync(CancellationToken ct = default)
     {
         var requestTokenUrl = CombineUrl(_settings.BaseUrl, RequestTokenEndpoint);
@@ -200,7 +200,7 @@ public partial class UsosOAuthService(
         {
             var bodyPreview = body.Length <= 256 ? body : body[..256];
             LogUsosHttpRequestFailed(requestUrl, (int)response.StatusCode, bodyPreview);
-            
+
             return Result.Fail(new ExternalServiceError("USOS request failed due to external API error."));
         }
 

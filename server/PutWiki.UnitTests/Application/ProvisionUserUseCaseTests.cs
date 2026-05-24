@@ -138,7 +138,7 @@ public class ProvisionUserUseCaseTests
         result.Value.Should().NotBeNull();
         result.Value!.HashedUsosId.Should().Be(hashedUsosId);
         result.Value.Id.Should().NotBe(Guid.Empty.ToString());
-        
+
         _userRepositoryMock.Verify(x => x.Add(It.Is<User>(u => u.HashedUsosId == hashedUsosId)), Times.Once);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }

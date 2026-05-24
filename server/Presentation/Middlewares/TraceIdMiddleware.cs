@@ -5,20 +5,13 @@ using Microsoft.AspNetCore.Http;
 
 namespace Presentation.Middlewares;
 
-public class TraceIdMiddleware
+public class TraceIdMiddleware(RequestDelegate next)
 {
-    private readonly RequestDelegate _next;
-
-    public TraceIdMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
-
     public async Task InvokeAsync(HttpContext context)
     {
         var traceId = Activity.Current?.TraceId.ToString() ?? context.TraceIdentifier;
         context.Response.Headers["X-Trace-Id"] = traceId;
 
-        await _next(context);
+        await next(context);
     }
 }
