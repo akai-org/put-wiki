@@ -35,7 +35,7 @@ public class ProvisionUserUseCaseTests
 
         var mapperConfig = new MapperConfiguration(cfg =>
         {
-            cfg.AddProfile<UserProfile>();
+            cfg.AddProfile<MappingsProfile>();
         }, new NullLoggerFactory());
         mapperConfig.AssertConfigurationIsValid();
         _mapper = mapperConfig.CreateMapper();

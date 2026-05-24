@@ -11,7 +11,7 @@ public static class ApplicationConfiguration
     {
         services.AddAutoMapper(cfg =>
         {
-            cfg.AddProfile<UserProfile>();
+            cfg.AddProfile<MappingsProfile>();
         });
 
         services.AddScoped<ProvisionUserUseCase>();

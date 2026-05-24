@@ -6,9 +6,9 @@ using Domain.Users;
 
 namespace Application.Mappings;
 
-public class UserProfile : Profile
+public class MappingsProfile : Profile
 {
-    public UserProfile()
+    public MappingsProfile()
     {
         CreateMap<User, UserDto>();
     }
