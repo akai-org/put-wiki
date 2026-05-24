@@ -23,7 +23,7 @@ public partial class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logg
             Type = exception.GetType().Name
         };
 
-        httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        httpContext.Response.StatusCode = problemDetails.Status.Value;
 
         return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
         {

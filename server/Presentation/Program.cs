@@ -32,8 +32,6 @@ var app = builder.Build();
 
 app.UseExceptionHandler();
 
-app.UseMiddleware<TraceIdMiddleware>();
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.UsePutWikiOpenApiDocs();
