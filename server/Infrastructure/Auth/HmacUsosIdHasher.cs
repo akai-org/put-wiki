@@ -8,14 +8,9 @@ using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Auth;
 
-public class HmacUsosIdHasher : IUsosIdHasher
+public class HmacUsosIdHasher(IOptions<UsosOAuthSettings> options) : IUsosIdHasher
 {
-    private readonly byte[] _keyBytes;
-
-    public HmacUsosIdHasher(IOptions<UsosOAuthSettings> options)
-    {
-        _keyBytes = Encoding.UTF8.GetBytes(options.Value.HashingKey);
-    }
+    private readonly byte[] _keyBytes = Encoding.UTF8.GetBytes(options.Value.HashingKey);
 
     public string Hash(string rawUsosId)
     {

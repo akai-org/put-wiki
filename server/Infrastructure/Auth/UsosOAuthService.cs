@@ -17,7 +17,12 @@ using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Auth;
 
-public partial class UsosOAuthService : IUsosOAuthService
+public partial class UsosOAuthService(
+    HttpClient httpClient,
+    IOptions<UsosOAuthSettings> settings,
+    IMemoryCache cache,
+    ILogger<UsosOAuthService> logger
+    ) : IUsosOAuthService
 {
     private const string RequestTokenEndpoint = "services/oauth/request_token";
     private const string AccessTokenEndpoint = "services/oauth/access_token";
@@ -27,28 +32,12 @@ public partial class UsosOAuthService : IUsosOAuthService
     private const string UserFields = "id";
     private const string TokenSecretCacheKeyPrefix = "UsosTokenSecret_";
 
-    private readonly HttpClient _httpClient;
-    private readonly UsosOAuthSettings _settings;
-    private readonly IMemoryCache _cache; // TODO: consider what to do when we will use multiple server instances
-    private readonly ILogger<UsosOAuthService> _logger;
+    private readonly UsosOAuthSettings _settings = settings.Value;
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNameCaseInsensitive = true,
     };
-
-    public UsosOAuthService(
-        HttpClient httpClient,
-        IOptions<UsosOAuthSettings> settings,
-        IMemoryCache cache,
-        ILogger<UsosOAuthService> logger
-    )
-    {
-        _httpClient = httpClient;
-        _settings = settings.Value;
-        _cache = cache;
-        _logger = logger;
-    }
 
     public async Task<Result<string>> GetLoginUrlAsync(CancellationToken cancellationToken = default)
     {
@@ -99,7 +88,7 @@ public partial class UsosOAuthService : IUsosOAuthService
             return Result.Failure<UsosUserDto>("Missing OAuth parameters.", 400);
         }
 
-        if (!_cache.TryGetValue(GetTokenSecretCacheKey(oauthToken), out string? oauthTokenSecret) || oauthTokenSecret == null)
+        if (!cache.TryGetValue(GetTokenSecretCacheKey(oauthToken), out string? oauthTokenSecret) || oauthTokenSecret == null)
         {
             LogUnknownOrExpiredRequestToken();
             return Result.Failure<UsosUserDto>("Invalid or expired OAuth token.", 401);
@@ -216,7 +205,7 @@ public partial class UsosOAuthService : IUsosOAuthService
             using var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
             request.Headers.Add("Authorization", authorizationHeader);
 
-            using var response = await _httpClient.SendAsync(request, cancellationToken);
+            using var response = await httpClient.SendAsync(request, cancellationToken);
             var body = await response.Content.ReadAsStringAsync(cancellationToken);
 
             if (!response.IsSuccessStatusCode)
@@ -242,7 +231,7 @@ public partial class UsosOAuthService : IUsosOAuthService
 
     private void CacheRequestTokenSecret(string token, string secret)
     {
-        _cache.Set(GetTokenSecretCacheKey(token), secret, TimeSpan.FromMinutes(10));
+        cache.Set(GetTokenSecretCacheKey(token), secret, TimeSpan.FromMinutes(10));
     }
 
     private static string GetTokenSecretCacheKey(string token) => $"{TokenSecretCacheKeyPrefix}{token}";

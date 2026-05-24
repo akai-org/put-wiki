@@ -14,32 +14,18 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Users;
 
-public partial class ProvisionUserUseCase
+public partial class ProvisionUserUseCase(
+    IUsosOAuthService usosOAuthService,
+    IUsosIdHasher hasher,
+    IUserRepository userRepository,
+    ILogger<ProvisionUserUseCase> logger,
+    IMapper mapper)
 {
-    private readonly IUsosOAuthService _usosOAuthService;
-    private readonly IUsosIdHasher _hasher;
-    private readonly IUserRepository _userRepository;
-    private readonly ILogger<ProvisionUserUseCase> _logger;
-    private readonly IMapper _mapper;
-
-    public ProvisionUserUseCase(
-        IUsosOAuthService usosOAuthService,
-        IUsosIdHasher hasher,
-        IUserRepository userRepository,
-        ILogger<ProvisionUserUseCase> logger,
-        IMapper mapper)
-    {
-        _usosOAuthService = usosOAuthService;
-        _hasher = hasher;
-        _userRepository = userRepository;
-        _logger = logger;
-        _mapper = mapper;
-    }
 
     public async Task<Result<UserDto>> ExecuteAsync(string oauthToken, string oauthVerifier,
         CancellationToken ct = default)
     {
-        var usosResult = await _usosOAuthService.HandleCallbackAndGetUserAsync(oauthToken, oauthVerifier, ct);
+        var usosResult = await usosOAuthService.HandleCallbackAndGetUserAsync(oauthToken, oauthVerifier, ct);
         if (!usosResult.IsSuccess || string.IsNullOrWhiteSpace(usosResult.Value?.Id))
         {
             var errorMsg = usosResult.Error ?? "Unknown USOS authentication error.";
@@ -50,23 +36,23 @@ public partial class ProvisionUserUseCase
         }
 
         var rawUsosId = usosResult.Value.Id;
-        var hashedId = _hasher.Hash(rawUsosId);
+        var hashedId = hasher.Hash(rawUsosId);
 
         try
         {
-            var existingUser = await _userRepository.GetByHashedUsosIdAsync(hashedId, ct);
+            var existingUser = await userRepository.GetByHashedUsosIdAsync(hashedId, ct);
             if (existingUser != null)
             {
-                return Result.Success(_mapper.Map<UserDto>(existingUser));
+                return Result.Success(mapper.Map<UserDto>(existingUser));
             }
 
             var newUser = new User(hashedId);
-            await _userRepository.AddAsync(newUser, ct);
-            await _userRepository.SaveChangesAsync(ct);
+            await userRepository.AddAsync(newUser, ct);
+            await userRepository.SaveChangesAsync(ct);
 
             LogProvisionedNewAnonymousUserId(newUser.Id);
 
-            return Result.Success(_mapper.Map<UserDto>(newUser));
+            return Result.Success(mapper.Map<UserDto>(newUser));
         }
         catch (Exception ex)
         {

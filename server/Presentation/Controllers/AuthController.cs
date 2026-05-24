@@ -9,26 +9,16 @@ using Microsoft.Extensions.Logging;
 
 namespace Presentation.Controllers;
 
-public partial class AuthController : BaseApiController
+public partial class AuthController(
+    IUsosOAuthService usosOAuthService,
+    ProvisionUserUseCase provisionUserUseCase,
+    ILogger<AuthController> logger) : BaseApiController
 {
-    private readonly IUsosOAuthService _usosOAuthService;
-    private readonly ProvisionUserUseCase _provisionUserUseCase;
-    private readonly ILogger<AuthController> _logger;
-
-    public AuthController(
-        IUsosOAuthService usosOAuthService,
-        ProvisionUserUseCase provisionUserUseCase,
-        ILogger<AuthController> logger)
-    {
-        _usosOAuthService = usosOAuthService;
-        _provisionUserUseCase = provisionUserUseCase;
-        _logger = logger;
-    }
 
     [HttpGet("login")]
     public async Task<IActionResult> Login(CancellationToken cancellationToken)
     {
-        var result = await _usosOAuthService.GetLoginUrlAsync(cancellationToken);
+        var result = await usosOAuthService.GetLoginUrlAsync(cancellationToken);
         if (!result.IsSuccess || string.IsNullOrWhiteSpace(result.Value))
         {
             var errorMsg = result.Error ?? "Unknown USOS authentication error.";
@@ -51,7 +41,7 @@ public partial class AuthController : BaseApiController
             return BadRequest("Missing OAuth parameters.");
         }
 
-        var result = await _provisionUserUseCase.ExecuteAsync(oauthToken, oauthVerifier, cancellationToken);
+        var result = await provisionUserUseCase.ExecuteAsync(oauthToken, oauthVerifier, cancellationToken);
 
         if (!result.IsSuccess || result.Value is null)
         {
