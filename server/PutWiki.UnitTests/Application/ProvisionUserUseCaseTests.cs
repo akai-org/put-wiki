@@ -71,7 +71,7 @@ public class ProvisionUserUseCaseTests
         Assert.Equal(expectedCode, result.Code);
 
         _idHasherMock.Verify(x => x.Hash(It.IsAny<string>()), Times.Never);
-        _userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
+        _userRepositoryMock.Verify(x => x.Add(It.IsAny<User>()), Times.Never);
     }
 
     [Fact]
@@ -105,7 +105,7 @@ public class ProvisionUserUseCaseTests
         Assert.Equal(existingUser.Id.ToString(), result.Value!.Id);
         Assert.Equal(existingUser.HashedUsosId, result.Value.HashedUsosId);
 
-        _userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
+        _userRepositoryMock.Verify(x => x.Add(It.IsAny<User>()), Times.Never);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
@@ -140,7 +140,7 @@ public class ProvisionUserUseCaseTests
         Assert.Equal(hashedUsosId, result.Value.HashedUsosId);
         Assert.NotEqual(Guid.Empty.ToString(), result.Value.Id);
 
-        _userRepositoryMock.Verify(x => x.AddAsync(It.Is<User>(u => u.HashedUsosId == hashedUsosId), It.IsAny<CancellationToken>()), Times.Once);
+        _userRepositoryMock.Verify(x => x.Add(It.Is<User>(u => u.HashedUsosId == hashedUsosId)), Times.Once);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 

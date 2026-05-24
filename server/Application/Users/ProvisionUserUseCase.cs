@@ -47,7 +47,7 @@ public partial class ProvisionUserUseCase(
             }
 
             var newUser = new User(hashedId);
-            await userRepository.AddAsync(newUser, ct);
+            userRepository.Add(newUser);
             await userRepository.SaveChangesAsync(ct);
 
             LogProvisionedNewAnonymousUserId(newUser.Id);

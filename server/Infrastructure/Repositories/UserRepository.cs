@@ -15,9 +15,9 @@ public class UserRepository(AppDbContext context) : IUserRepository
         return context.Users.SingleOrDefaultAsync(u => u.HashedUsosId == hashedUsosId, cancellationToken);
     }
 
-    public async Task AddAsync(User user, CancellationToken cancellationToken = default)
+    public void Add(User user)
     {
-        await context.Users.AddAsync(user, cancellationToken);
+        context.Users.Add(user);
     }
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
