@@ -18,7 +18,7 @@ public class BaseApiController : ControllerBase
     {
         if (result.IsSuccess)
         {
-            return result.Value is null ? NotFound() : Ok(result.Value);
+            return result.Value is null ? NoContent() : Ok(result.Value);
         }
 
         return HandleError(result.Errors);
