@@ -56,6 +56,7 @@ public static partial class InfrastructureConfiguration
         return services;
     }
 
+    // NOTE: don't use this method in PRODUCTION enviroment to apply migrations during app startup.
     public static async Task<IApplicationBuilder> ApplyDatabaseMigrationsAsync(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();

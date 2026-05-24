@@ -33,7 +33,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UsePutWikiOpenApiDocs();
 
-await app.ApplyDatabaseMigrationsAsync();
+if (app.Environment.IsDevelopment())
+{
+    await app.ApplyDatabaseMigrationsAsync();
+}
 
 app.MapHealthChecks("/health");
 app.MapControllers();
