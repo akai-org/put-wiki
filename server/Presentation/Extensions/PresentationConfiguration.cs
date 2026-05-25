@@ -99,7 +99,6 @@ public static class PresentationConfiguration
             };
         });
 
-        services.AddOpenApi();
         services.AddPutWikiOpenApi();
 
         return services;
