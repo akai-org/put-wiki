@@ -61,11 +61,11 @@ public partial class UsosOAuthService(
         );
 
         var requestUrl = $"{requestTokenUrl}?scopes={OAuth1Helper.UrlEncode(_settings.Scopes)}";
-        var response = await SendOAuthGetAsync(requestUrl, authHeader, ct);
-        if (response.IsFailed)
-            return response.ToResult();
+        var oAuthResponse = await SendOAuthGetAsync(requestUrl, authHeader, ct);
+        if (oAuthResponse.IsFailed)
+            return oAuthResponse.ToResult();
 
-        var tokenPair = TryParseOAuthTokenPair(response.Value);
+        var tokenPair = TryParseOAuthTokenPair(oAuthResponse.Value);
         if (tokenPair.IsFailed)
             return tokenPair.ToResult();
 
@@ -127,11 +127,11 @@ public partial class UsosOAuthService(
             token: null
         );
 
-        var response = await SendOAuthGetAsync(accessTokenUrl, authHeader, ct);
-        if (response.IsFailed)
+        var oAuthResponse = await SendOAuthGetAsync(accessTokenUrl, authHeader, ct);
+        if (oAuthResponse.IsFailed)
             return Result.Fail(new ExternalServiceError("USOS access token request failed."));
 
-        return TryParseOAuthTokenPair(response.Value);
+        return TryParseOAuthTokenPair(oAuthResponse.Value);
     }
 
     private async Task<Result<UsosUserDto>> FetchUserAsync(
@@ -157,14 +157,14 @@ public partial class UsosOAuthService(
         );
 
         var requestUrl = $"{userUrl}?fields={OAuth1Helper.UrlEncode(UserFields)}";
-        var response = await SendOAuthGetAsync(requestUrl, authHeader, ct);
-        if (response.IsFailed)
+        var oAuthResponse = await SendOAuthGetAsync(requestUrl, authHeader, ct);
+        if (oAuthResponse.IsFailed)
             return Result.Fail(new ExternalServiceError("USOS user request failed."));
 
         UsosUserResponse? deserializedUsosUser;
         try
         {
-            deserializedUsosUser = JsonSerializer.Deserialize<UsosUserResponse>(response.Value, JsonOptions);
+            deserializedUsosUser = JsonSerializer.Deserialize<UsosUserResponse>(oAuthResponse.Value, JsonOptions);
         }
         catch (JsonException ex)
         {
