@@ -25,10 +25,19 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Check last tag
+        id: last-tag
+        uses: anothrNick/github-tag-action@1.75.0
+        env:
+          Dry_Run: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          TAG_PREFIX: v
+
       - name: Detect changes
         id: filter
         uses: dorny/paths-filter@v4
         with:
+          base: ${{ steps.last-tag.outputs.old_tag }}
           filters: |
             client:
               - 'client/**'
