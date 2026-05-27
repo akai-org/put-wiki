@@ -25,19 +25,29 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check last tag
-        id: last-tag
-        uses: anothrNick/github-tag-action@1.75.0
-        env:
-          Dry_Run: true
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-          TAG_PREFIX: v
+      - name: Get last tag from main
+        id: base
+        shell: bash
+        run: |
+          set -e
+
+          git fetch --tags origin main
+
+          LAST_TAG=$(git describe --tags --abbrev=0 origin/main 2>/dev/null || true)
+
+          if [ -z "$LAST_TAG" ]; then
+            BASE_SHA=$(git rev-list -n 1 origin/main)
+          else
+            BASE_SHA=$(git rev-list -n 1 "$LAST_TAG")
+          fi
+
+          echo "base=$BASE_SHA" >> "$GITHUB_OUTPUT"
 
       - name: Detect changes
         id: filter
         uses: dorny/paths-filter@v4
         with:
-          base: ${{ steps.last-tag.outputs.old_tag }}
+          base: ${{ steps.base.outputs.base }}
           filters: |
             client:
               - 'client/**'
