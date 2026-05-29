@@ -1,16 +1,13 @@
-# ADR-001 XXXX — Title
-
-## Date
-YYYY-MM-DD
+# [BE/FE]-001 XXXX — Title
 
 ## Status
-**Proposed** | Accepted | Deprecated
+Proposed | Accepted | Deprecated | Superseded
 
 ## Context
-Dlaczego potrzebujemy decyzji.
+The context in which the decision was made, including the problem statement, constraints, and requirements.
 
 ## Decision
-Co zostało postanowione.
+The decision itself.
 
 ## Consequences
 ### (+):
@@ -24,7 +21,11 @@ Co zostało postanowione.
 - ...
 
 ## Alternatives
-Rozważane opcje i powody odrzucenia.
+Considered options and why we rejected them:
 1. ...
 2. ...
 3. ...
+
+## Links to external or internal resources
+- [Demystifying Architectural Decision Records: Why Every Project Needs Them by Daniel Mackay](https://www.dandoescode.com/blog/demystifying-architectural-decision-records-why-every-project-needs-them)
+- [Documenting Architecture Decisions by Michael Nygard](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions.html)
