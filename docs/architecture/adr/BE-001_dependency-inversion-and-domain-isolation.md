@@ -1,7 +1,7 @@
 # BE-001 Architecture style: dependency inversion & domain isolation
 
 ## Status
-Proposed
+Accepted
 
 ## Context
 We are starting this project from scratch. The architectural decisions we make today will dictate how quickly we can add features a year from now.

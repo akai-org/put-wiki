@@ -1,7 +1,7 @@
 # BE-005 Monolithic architecture with logical boundaries
 
 ## Status
-Proposed
+Accepted
 
 ## Context
 We are currently starting a promising project with four primary business areas identified so far: Users, Lecturers, Opinions, and Courses. We have already adopted Clean Architecture, lightweight Domain-Driven Design (DDD), and simple CQRS to maintain strict technical boundaries between our business logic and infrastructure.

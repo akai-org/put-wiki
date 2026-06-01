@@ -1,7 +1,7 @@
 # BE-004 Error handling and flow control with Result pattern
 
 ## Status
-Proposed
+Accepted
 
 ## Context
 In traditional C# development, it is common to throw exceptions for business validation failures (e.g., `throw new Exception("Nickname is already taken.")`).

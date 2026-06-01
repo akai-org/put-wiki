@@ -1,7 +1,7 @@
 # BE-003 Read and write separation
 
 ## Status
-Proposed
+Accepted
 
 ## Context
 In [BE-002 ADR](docs\architecture\adr\BE-002_lightweight-domain-driven-design-and-repo-pattern.md), we established that we will use Rich Domain Models and Repositories to guarantee data consistency. This means when we want to modify data (a write), we load a full object into memory, track changes, and validate rules.

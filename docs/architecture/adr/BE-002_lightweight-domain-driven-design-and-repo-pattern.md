@@ -1,7 +1,7 @@
 # BE-002 Lightweight domain driven design and repository pattern
 
 ## Status
-Proposed
+Accepted
 
 ## Context
 In many standard web applications, business rules (e.g., "A student cannot review a course they haven't taken," or "A university course must have at least one tutor") end up scattered across UI controllers, application services, or even database triggers.
