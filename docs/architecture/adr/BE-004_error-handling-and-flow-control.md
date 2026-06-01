@@ -6,7 +6,7 @@ Proposed
 ## Context
 In traditional C# development, it is common to throw exceptions for business validation failures (e.g., `throw new Exception("Nickname is already taken.")`).
 
-However, exceptions in .NET are designed for exceptional, unforeseen circumstances (like the database server crashing, or running out of memory). Using exceptions for standard, expected control flow (like a user providing a bad password) is computationally expensive because the runtime must gather a full system stack trace.
+However, exceptions in .NET are designed more for exceptional circumstances (like the database server crashing, or running out of memory) or for breaches of contracts and programming errors (using `ArgumentException`, `InvalidOperationException` etc). Using exceptions for standard, expected control flow (like a user providing a bad password) is computationally expensive because the runtime must gather a full system stack trace.
 
 Furthermore, using exceptions for logic scatters `try-catch` blocks throughout the Application layer. It makes the code execution flow unpredictable (like `goto` statements), and forces developers to guess which methods might throw which exceptions.
 

@@ -6,7 +6,7 @@ Proposed
 ## Context
 We are starting this project from scratch. The architectural decisions we make today will dictate how quickly we can add features a year from now.
 
-In traditional architectures (e.g. standard layered architecture), the database sits at the bottom, and everything else depends on it. This inevitably leads to a situation where core business rules become entangled with database specifics (like SQL queries or ORM configurations) and HTTP concerns. As a result, the code becomes difficult to unit test, hard to understand, and expensive to change.
+In traditional architectures (e.g. standard layered architecture), the business logic often becomes coupled to data access details. This inevitably leads to a situation where core business rules become entangled with database specifics (like SQL queries or ORM configurations) and HTTP concerns. As a result, the code becomes difficult to unit test, hard to understand, and expensive to change.
 
 Since we are building a long-term software, we need a foundation that prioritizes and protects our core business logic from the very beginning, keeping it isolated from external technologies, frameworks, and infrastructure.
 

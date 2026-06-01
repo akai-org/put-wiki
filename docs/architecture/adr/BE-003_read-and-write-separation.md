@@ -15,7 +15,7 @@ We will cleanly separate our read and write execution paths, adopting a simplifi
 
 - **Writes (Commands / Use Cases):** When state changes (e.g., submitting a review, registering a user), the request will go through a Use Case, load the Domain Aggregate via the Repository, execute business rules, and save via Entity Framework with change-tracking enabled.
 
-- **Reads (Queries):** When data is only being displayed (e.g., fetching a list of top-rated courses), the request will bypass the Domain layer and Repositories entirely. We will inject the EF Core `DbContext` directly into a Query class, use it in strictly read-only mode (`.AsNoTracking()`), and project the raw SQL data directly into flat Data Transfer Objects (DTOs) using LINQ.
+- **Reads (Queries):** When data is only being displayed (e.g., fetching a list of top-rated courses), the request will bypass the Domain layer and Repositories entirely. We will inject the EF Core `DbContext` directly into a Query class, use it in strictly read-only mode (`.AsNoTracking()`), and project query results into flat DTOs using LINQ translated by EF Core.
 
 - **Explicit execution (without MediatR):** we will implement explicit Handler classes (e.g., CreateUserUseCase, GetCourseDetailsQueryHandler) and inject them directly into our API endpoints via Dependency Injection. We will not use in-memory buses like MediatR to avoid unnecessary abstraction at the beginning.
 

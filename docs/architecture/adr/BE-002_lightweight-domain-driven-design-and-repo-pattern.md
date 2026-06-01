@@ -8,7 +8,7 @@ In many standard web applications, business rules (e.g., "A student cannot revie
 
 Furthermore, data objects often take the form of an **anemic domain model** - they are just "bags of properties" with public getters and setters (e.g., `user.Status = "Banned"`). This allows any piece of code anywhere in the system to modify the data directly. Over time, this guarantees data inconsistency and bugs, because developers forget to call the required validation checks before changing the state.
 
-We need a systematic approach to model our core business rules directly within the data structures they govern, ensuring that it is physically impossible for the system to enter an invalid state.
+We need a systematic approach to model our core business rules directly within the data structures they govern, ensuring that it is significantly harder to create an invalid state through the domain model.
 
 ## Decision
 We will adopt lightweight **Domain-Driven Design** concepts combined with the **Repository pattern**.

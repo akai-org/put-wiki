@@ -4,16 +4,20 @@
 Proposed
 
 ## Context
-We are currently starting promising project with four primary business areas identified so far: Users, Lecturers, Opinions, and Courses. We have already adopted Clean Architecture, lightweight Domain-Driven Design (DDD), and simple CQRS to maintain strict technical boundaries between our business logic and infrastructure.
+We are currently starting a promising project with four primary business areas identified so far: Users, Lecturers, Opinions, and Courses. We have already adopted Clean Architecture, lightweight Domain-Driven Design (DDD), and simple CQRS to maintain strict technical boundaries between our business logic and infrastructure.
 
-We now need to decide on the high-level deployment and structural boundary of the system. While advanced patterns like microservices or modular monoliths offer excellent long-term scalability and strict domain isolation, we must balance this against our current constraints: a small student team, the need for rapid prototyping, and the reality that our domain boundaries are still evolving and might change as we discover new requirements.
+We now need to decide on the high-level deployment and structural boundary of the system. While patterns such as modular monoliths and microservices can provide stronger module isolation and independent scalability, they also introduce additional complexity that may not be justified at our current stage.
+
+Our team is relatively small, the product requirements are still evolving, and the boundaries between business domains are not yet fully understood. We therefore need an architecture that maximizes development speed and simplicity while still allowing future evolution toward stricter modularization if the project grows.
 
 ## Decision
 We will build the backend as a **standard monolith with logical boundaries** (a single deployment unit and a single database context).
 
-- **Deployment:** the entire backend will be compiled and deployed as a single ASP.NET Core application.
-- **Data access:** we will use a single Entity Framework Core `DbContext` to allow for easy querying and joining of data across different business entities during our initial development phases.
-- **Organization:** while we won't enforce strict physical compilation boundaries between modules yet, we will organize our Application and Domain layers by feature or domain aggregate (e.g., grouping all Course-related Use Cases, domain entities, and interfaces in a dedicated `Courses` directory) to prepare for future extraction.
+- **Deployment:** the entire backend will be compiled, tested, and deployed as a single ASP.NET Core application.
+- **Data access:** we will use a single Entity Framework Core DbContext and a single relational database during the initial phases of development.
+- **Organization:** the codebase will be organized by business capabilities and aggregates (e.g., Courses, Users, Opinions, Lecturers) rather than technical layers alone.
+- **Domain boundaries:** despite sharing a codebase and database, we will strive to keep business concepts separated and avoid unnecessary coupling between domains.
+- **Future evolution:** if specific domains become significantly larger, require independent deployment, or demonstrate clear ownership boundaries, we will evaluate a transition toward a modular monolith.
 
 ## Consequences
 
@@ -24,8 +28,9 @@ We will build the backend as a **standard monolith with logical boundaries** (a 
 - **Paves the way for the future:** Because we are using Clean Architecture [BE-001](docs\architecture\adr\BE-001_dependency-inversion-and-domain-isolation.md), our core logic is already decoupled from the infrastructure. This makes transitioning to a modular monolith much easier later when the project size justifies it.
 
 ### (-):
-- **Risk of coupling:** without strict compiler-level enforcement, developers might become lazy and tightly couple the Opinions logic directly to the Users logic. This requires strict discipline during code reviews to ensure domain aggregates only reference each other by ID, not by direct object references.
-- **Future migration effort:** when the time comes to split into a modular monolith, we will have to carefully untangle any cross-domain database queries that we allowed early on.
+- **Risk of accidental coupling:** because all domains exist in the same codebase and database, developers can create dependencies that blur business boundaries if code reviews are not disciplined.
+- **Growing maintenance cost:** as the application expands, build times, deployment times, and the complexity of understanding the entire system may increase.
+- **Single deployment unit:** even small changes require redeploying the entire application.
 - **Single point of failure:** if one feature causes a memory leak or crashes the application, the entire API goes down.
 
 ## Alternatives
@@ -33,7 +38,7 @@ Considered options and why we rejected them:
 
 1. **Microservices architecture:** Rejected. Absolute overkill for a student project. It introduces immense distributed systems complexity (network latency, distributed tracing, eventual consistency, multiple CI/CD pipelines, container orchestration) that would completely halt our actual feature development.
 
-2. **Modular monolith:** Rejected for now. A true modular monolith requires strict data isolation (separate database schemas or contexts per module) and explicit APIs for modules to talk to each other. Given that our domains (Users, Courses, Opinions, Lecturers) are highly interconnected, implementing this from beginning would introduce too much friction. We will revisit this pattern when specific modules become large enough to warrant physical isolation.
+2. **Modular monolith:** Rejected for now. A modular monolith is a strong architectural option that enforces clear boundaries between modules within a single deployment unit. Given that our domains (Users, Courses, Opinions, Lecturers) are highly interconnected, implementing this from beginning would introduce too much friction and slow down development. We will revisit this pattern when specific modules become large enough and well-understood to warrant physical isolation.
 
 ## Links to external or internal resources
 - [MonolithFirst by Martin Fowler](https://martinfowler.com/bliki/MonolithFirst.html) - Explains why starting with a monolith is almost always the right choice, even if the end goal is microservices.
