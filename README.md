@@ -1,8 +1,8 @@
 # PUTwiki
 
-PUTwiki is an informational platform created for students of [Politechnika Poznańska](https://www.put.poznan.pl).
+PUTwiki is an informational platform created for students of [Poznan University of Technology](https://www.put.poznan.pl).
 
-The mission of the project is to provide a space for accessible knowledge sharing and to support students in making informed decisions about elective courses and class groups.
+The mission of the project is to provide a space for accessible knowledge sharing about courses and lecturers and to support students in making informed decisions about elective courses and class groups.
 
 ## How to run?
 
@@ -10,9 +10,9 @@ Take a look at [Getting Started in CONTRIBUTING.md](CONTRIBUTING.md#getting-star
 
 ## Tech stack
 
-- Frontend: React + TypeScript
+- Frontend: Bun, React, TypeScript
 - Backend: ASP.NET Core (C#)
-- DevOps: GitHub Actions, Docker
+- DevOps: GitHub Actions, Docker, Nginx
 
 ## Project status
 
@@ -20,14 +20,12 @@ Take a look at [Getting Started in CONTRIBUTING.md](CONTRIBUTING.md#getting-star
 
 ## Repository structure
 
+- `.github` - issue and PR templates and github action workflows
+- `.husky` - pre-commit git hook for the whole project. See how to enable it in [Getting Started](CONTRIBUTING.md#getting-started)
 - `/client` — frontend
 - `/server` — backend
-- `/docs` — dokumentacja projektu
-
-## 👥 Team
-
-- **Project Leader:** [@Joszkooo](https://github.com/Joszkooo)
-- **Maintainers:** [@Aleks334](https://github.com/Aleks334), [Anto-glitch](https://github.com/Anto-glitch), [@ hot-oranges-86](https://github.com/hot-oranges-86), [Marcin Słowikowski](https://github.com/MSZM0), [@zakhildev](https://github.com/zakhildev)
+- `/docs` — project documentation
+- `nginx` - app's reverse proxy configuration
 
 ## Documentation
 

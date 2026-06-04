@@ -4,7 +4,7 @@
 Accepted
 
 ## Context
-In [BE-002 ADR](docs\architecture\adr\BE-002_lightweight-domain-driven-design-and-repo-pattern.md), we established that we will use Rich Domain Models and Repositories to guarantee data consistency. This means when we want to modify data (a write), we load a full object into memory, track changes, and validate rules.
+In [BE-002 ADR](docs/architecture/adr/BE-002_lightweight-domain-driven-design-and-repo-pattern.md), we established that we will use Rich Domain Models and Repositories to guarantee data consistency. This means when we want to modify data (a write), we load a full object into memory, track changes, and validate rules.
 
 However, most of web traffic consists of simple reads - users just looking at data (e.g., viewing a list of courses, looking at a user profile). Using our Repositories and Rich Domain Models for simple UI reads is highly inefficient. It forces Entity Framework to track changes (which consumes memory) and requires us to map complex aggregates down to simple UI objects.
 

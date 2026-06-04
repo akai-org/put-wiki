@@ -14,15 +14,16 @@ We name commit messages according to **[Conventional Commits](https://www.conven
 
 ## Pull Request (PR) Lifecycle
 
-1. **Draft**: If you are working but want to trigger CI or show code, create a PR and mark it as Draft using the provided PR template.
-2. **Ready**: When the code is ready, mark it as "Ready for review" and post it on Discord [channel](https://discord.com/channels/768494845634412624/1467612224079007855).
+1. **Draft**: If you are working but want to trigger CI or show code, create a PR and mark it as Draft using the provided PR template. If you don't want to create a draft pull request, we recommend at least prefixing its title with `WIP:`.
+2. **Ready**: When the code is ready, mark it as "Ready for review" and post it on Discord `Review PR` thread on [put-wiki channel](https://discord.com/channels/768494845634412624/1467612224079007855).
 3. **Review**: Requires **at least 1 approval** from another team member.
 4. **Merge**:
    - Merge only via **Squash and Merge** – other options are blocked for consistency.
    - Why? To keep `main` history linear and clean (one commit per task/feature) and avoid multiple commits like "fix typo", "wip".
+   - **NOTE:** only PR creators should merge the changes, not reviewers or anybody else.
 
 ## Rules
 
-- Do not commit directly to `main` (blocked by branch rules).
-- Before opening a PR, rebase your branch to resolve conflicts locally (you can also use “update branch” after pushing).
-- Do not commit configuration files containing secrets to the repository.
+- Do not commit directly to `main` (anyway it's blocked by branch protection rules).
+- Before asking for PR review, update your branch to resolve conflicts and keep it up-to-date (you can use "update branch" button in PR on Github).
+- Do not commit any configuration files containing secrets to the Github repository.

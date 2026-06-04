@@ -1,6 +1,6 @@
 ---
 name: User Story
-about: Feature task written from the end user's perspective
+about: Feature task written from the end user's perspective. Commonly backend + frontend. When it is large enough we use it as a container for smaller technical tasks that are picked by specific developers.
 title: ''
 labels: type:userstory
 assignees: ''

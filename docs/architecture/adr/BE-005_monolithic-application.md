@@ -25,7 +25,7 @@ We will build the backend as a **standard monolith with logical boundaries** (a 
 - **High development velocity:** developers can easily build features that span multiple domains (e.g., displaying a Course alongside its average Opinions and Lecturer details) without writing complex inter-module communication code or event buses.
 - **Operational simplicity:** a single deployable unit is trivial to host, scale horizontally (by just spinning up more instances behind a load balancer), and monitor. CI/CD pipelines remain simple and fast.
 - **Easy refactoring:** because the domain boundaries are not yet locked behind strict module interfaces, renaming, moving, or merging concepts as we learn more about the university domain is cheap and fast.
-- **Paves the way for the future:** Because we are using Clean Architecture [BE-001](docs\architecture\adr\BE-001_dependency-inversion-and-domain-isolation.md), our core logic is already decoupled from the infrastructure. This makes transitioning to a modular monolith much easier later when the project size justifies it.
+- **Paves the way for the future:** Because we are using Clean Architecture [BE-001](docs/architecture/adr/BE-001_dependency-inversion-and-domain-isolation.md), our core logic is already decoupled from the infrastructure. This makes transitioning to a modular monolith much easier later when the project size justifies it.
 
 ### (-):
 - **Risk of accidental coupling:** because all domains exist in the same codebase and database, developers can create dependencies that blur business boundaries if code reviews are not disciplined.
