@@ -2,8 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Application.Auth;
-using Application.DTOs;
-using Application.Users;
+using Application.Features.Users.Commands.ProvisionUser;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +37,9 @@ public class AuthController(
         CancellationToken ct
     )
     {
-        var result = await provisionUserUseCase.ExecuteAsync(oauthToken, oauthVerifier, ct);
+        var command = new ProvisionUserCommand(oauthToken, oauthVerifier);
+        var result = await provisionUserUseCase.ExecuteAsync(command, ct);
+
         return HandleResult(result);
     }
 }

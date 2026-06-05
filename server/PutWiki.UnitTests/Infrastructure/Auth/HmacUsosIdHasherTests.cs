@@ -1,8 +1,7 @@
-﻿using Application.Auth;
-
-using FluentAssertions;
+﻿using FluentAssertions;
 
 using Infrastructure.Auth;
+using Infrastructure.Auth.Configuration;
 
 using Microsoft.Extensions.Options;
 

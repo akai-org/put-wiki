@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Application.Auth;
-using Application.DTOs;
 using Application.Errors;
 
 using AutoMapper;
@@ -15,7 +13,7 @@ using FluentResults;
 
 using Microsoft.Extensions.Logging;
 
-namespace Application.Users;
+namespace Application.Features.Users.Commands.ProvisionUser;
 
 public partial class ProvisionUserUseCase(
     IUsosOAuthService usosOAuthService,
@@ -26,10 +24,10 @@ public partial class ProvisionUserUseCase(
     TimeProvider timeProvider)
 {
 
-    public async Task<Result<UserDto>> ExecuteAsync(string oauthToken, string oauthVerifier,
+    public async Task<Result<UserDto>> ExecuteAsync(ProvisionUserCommand cmd,
         CancellationToken ct = default)
     {
-        var usosResult = await usosOAuthService.HandleCallbackAndGetUserAsync(oauthToken, oauthVerifier, ct);
+        var usosResult = await usosOAuthService.HandleCallbackAndGetUserAsync(cmd.OauthToken, cmd.OauthVerifier, ct);
         if (usosResult.IsFailed)
         {
             LogProvisioningAbortedUsosAuthenticationFailed(usosResult.Errors[0].Message);

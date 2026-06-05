@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using FluentResults;
 
-namespace Application.Auth;
+namespace Infrastructure.Clients;
 
 public interface IUsosHttpClient
 {

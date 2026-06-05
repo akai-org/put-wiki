@@ -3,10 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Application.Auth;
-using Application.DTOs;
 using Application.Errors;
+using Application.Features.Users.Commands.ProvisionUser;
 using Application.Mappings;
-using Application.Users;
 
 using AutoMapper;
 
@@ -58,16 +57,15 @@ public class ProvisionUserUseCaseTests
     public async Task ExecuteAsync_WhenUsosAuthenticationFails_ShouldReturnFailureResult()
     {
         // Arrange
-        var token = "token";
-        var verifier = "verifier";
+        var cmd = new ProvisionUserCommand("token", "verifier");
         var expectedError = "Invalid credentials";
 
         _usosOAuthServiceMock
-            .Setup(x => x.HandleCallbackAndGetUserAsync(token, verifier, It.IsAny<CancellationToken>()))
+            .Setup(x => x.HandleCallbackAndGetUserAsync(cmd.OauthToken, cmd.OauthVerifier, It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result.Fail(new UnauthorizedError(expectedError)));
 
         // Act
-        var result = await _sut.ExecuteAsync(token, verifier, CancellationToken.None);
+        var result = await _sut.ExecuteAsync(cmd, CancellationToken.None);
 
         // Assert
         result.IsSuccess.Should().BeFalse();
@@ -81,8 +79,7 @@ public class ProvisionUserUseCaseTests
     public async Task ExecuteAsync_WhenUserAlreadyExistsInDb_ShouldReturnExistingUserWithoutCreatingNewOne()
     {
         // Arrange
-        var token = "token";
-        var verifier = "verifier";
+        var cmd = new ProvisionUserCommand("token", "verifier");
         var rawUsosId = "12345";
         var hashedUsosId = "XYZ_HASHED_ID";
         var fakeDate = new DateTimeOffset(2026, 6, 6, 12, 0, 0, TimeSpan.Zero);
@@ -90,7 +87,7 @@ public class ProvisionUserUseCaseTests
         var usosUserDto = new UsosUserDto(rawUsosId);
 
         _usosOAuthServiceMock
-            .Setup(x => x.HandleCallbackAndGetUserAsync(token, verifier, It.IsAny<CancellationToken>()))
+            .Setup(x => x.HandleCallbackAndGetUserAsync(cmd.OauthToken, cmd.OauthVerifier, It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result.Ok(usosUserDto));
 
         _idHasherMock
@@ -102,11 +99,11 @@ public class ProvisionUserUseCaseTests
             .ReturnsAsync(existingUser);
 
         // Act
-        var result = await _sut.ExecuteAsync(token, verifier, CancellationToken.None);
+        var result = await _sut.ExecuteAsync(cmd, CancellationToken.None);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
-        result.Value!.Id.ToString().Should().Be(existingUser.Id.ToString());
+        result.Value!.Id.Should().Be(existingUser.Id.ToString());
         result.Value.HashedUsosId.Should().Be(hashedUsosId);
 
         _userRepositoryMock.Verify(x => x.Add(It.IsAny<User>()), Times.Never);
@@ -117,14 +114,13 @@ public class ProvisionUserUseCaseTests
     public async Task ExecuteAsync_WhenUserDoesNotExistInDb_ShouldCreateNewUserAndSaveToDb()
     {
         // Arrange
-        var token = "token";
-        var verifier = "verifier";
+        var cmd = new ProvisionUserCommand("token", "verifier");
         var rawUsosId = "567890";
         var hashedUsosId = "ABC_HASHED_ID";
         var usosUserDto = new UsosUserDto(rawUsosId);
         var fakeDate = new DateTimeOffset(2026, 6, 6, 12, 0, 0, TimeSpan.Zero);
         _usosOAuthServiceMock
-            .Setup(x => x.HandleCallbackAndGetUserAsync(token, verifier, It.IsAny<CancellationToken>()))
+            .Setup(x => x.HandleCallbackAndGetUserAsync(cmd.OauthToken, cmd.OauthVerifier, It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result.Ok(usosUserDto));
 
         _idHasherMock
@@ -137,7 +133,7 @@ public class ProvisionUserUseCaseTests
         _fakeTimeProvider.SetUtcNow(fakeDate);
 
         // Act
-        var result = await _sut.ExecuteAsync(token, verifier, CancellationToken.None);
+        var result = await _sut.ExecuteAsync(cmd, CancellationToken.None);
 
         // Assert
         result.IsSuccess.Should().BeTrue();

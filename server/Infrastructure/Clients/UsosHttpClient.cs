@@ -5,12 +5,12 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Application.Auth;
 using Application.Errors;
 
 using FluentResults;
 
 using Infrastructure.Auth;
+using Infrastructure.Auth.Configuration;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

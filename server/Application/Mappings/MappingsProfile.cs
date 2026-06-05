@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+﻿using Application.Features.Users.Commands.ProvisionUser;
 
 using AutoMapper;
 

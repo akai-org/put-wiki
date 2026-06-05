@@ -1,5 +1,3 @@
-using System;
-
 using Application.Extensions;
 
 using Infrastructure.Extensions;

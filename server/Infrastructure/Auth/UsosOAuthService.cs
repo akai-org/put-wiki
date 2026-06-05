@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 using System.Web;
 
 using Application.Auth;
-using Application.DTOs;
 using Application.Errors;
 
 using FluentResults;
+
+using Infrastructure.Auth.Configuration;
+using Infrastructure.Clients;
 
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;

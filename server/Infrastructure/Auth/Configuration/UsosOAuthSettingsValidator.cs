@@ -2,7 +2,7 @@ using System;
 
 using FluentValidation;
 
-namespace Application.Auth;
+namespace Infrastructure.Auth.Configuration;
 
 public class UsosOAuthSettingsValidator : AbstractValidator<UsosOAuthSettings>
 {

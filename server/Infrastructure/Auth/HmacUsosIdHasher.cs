@@ -2,7 +2,9 @@
 using System.Security.Cryptography;
 using System.Text;
 
-using Application.Auth;
+using Application.Features.Users.Commands.ProvisionUser;
+
+using Infrastructure.Auth.Configuration;
 
 using Microsoft.Extensions.Options;
 

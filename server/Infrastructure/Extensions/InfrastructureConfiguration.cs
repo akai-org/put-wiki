@@ -3,10 +3,12 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Application.Auth;
+using Application.Features.Users.Commands.ProvisionUser;
 
 using Domain.Users;
 
 using Infrastructure.Auth;
+using Infrastructure.Auth.Configuration;
 using Infrastructure.Clients;
 using Infrastructure.Repositories;
 

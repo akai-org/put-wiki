@@ -28,7 +28,7 @@ public static class PresentationConfiguration
                 return Task.CompletedTask;
             });
 
-            options.AddSchemaTransformer((schema, context, cancellationToken) =>
+            options.AddSchemaTransformer((schema, context, _) =>
             {
                 if (context.JsonTypeInfo.Type == typeof(ProblemDetails) && schema.Properties != null)
                 {
