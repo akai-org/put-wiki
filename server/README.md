@@ -34,8 +34,6 @@ App will use launch settings from the `Presentation/Properties/launchSettings.js
 1. Create a `.env` file in the `server/` directory.
 2. Copy values from `.env.example` and fill in your `UsosOAuth__ConsumerKey`, `UsosOAuth__ConsumerSecret` that we provided you and any other variables.
 
-Also make sure that hostname and port for `CallbackUrl` match values for your enviroment (dev, prod). See appsettings.{Enviroment}.json files.
-
 ## Docker
 
 To work locally besides server you need the database. So having Docker installed on your machine is still essential. Start it with `docker compose up database`.
@@ -44,19 +42,18 @@ To work locally besides server you need the database. So having Docker installed
 1. Create a `.env.postgres` file in the root directory of entire put-wiki project.
 2. Copy values from `.env.postgres.example`.
 
-You can launch the whole put-wiki using Docker to preview development version:
+You could launch the whole put-wiki using Docker to preview development version:
 ```bash
 docker compose up
 ```
+> Note that running the whole put-wiki in development enviroment with docker compose is only for preview, not development. Developing locally is still required.
 
 and preview production with:
 ```bash
 docker compose -f compose.yml -f compose.prod.yml up
 ```
 
-> Note that running development and production versions of the whole put-wiki with docker compose is only for preview, not development.
-> 
-> In addition, when switching between local development and dev/prod in docker compose, you must update the values of certain environment variables accordingly.
+For more information about defined enviroments visit [deployment docs](../docs/architecture/deployment.md).
 
 ## Testing
 We use xUnit and Fluent Assertions libraries to cover the core logic. We stick to the arrange, act, assert pattern. We highly recommend reading this: [Unit testing best practices](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices).

@@ -1,6 +1,6 @@
 # Architecture Overview
 
-This document describes the high level architecture of the Putwiki.
+This document describes the high level architecture of the PUTwiki.
 
 ## Backend architecture
 [docs](../../server/README.md#architecture-overview)
@@ -8,7 +8,9 @@ This document describes the high level architecture of the Putwiki.
 ## Frontend architecture
 [docs](../../client/README.md#architecture-overview)
 
-## System context diagram (C4)
+## C4 model diagrams
+
+[What is C4 model?](https://c4model.com/introduction)
 
 <img width="800" alt="image" src="https://github.com/user-attachments/assets/867aba7b-76e5-48d4-af0e-a9814cff8575" />
 
