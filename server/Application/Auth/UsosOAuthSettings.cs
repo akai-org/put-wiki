@@ -7,4 +7,5 @@ public class UsosOAuthSettings
     public string BaseUrl { get; set; } = string.Empty;
     public string CallbackUrl { get; set; } = string.Empty;
     public string Scopes { get; set; } = string.Empty;
+    public string HashingKey { get; set; } = string.Empty;
 }

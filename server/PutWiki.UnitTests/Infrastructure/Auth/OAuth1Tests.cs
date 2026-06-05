@@ -20,8 +20,8 @@ public class OAuth1Tests
     [Fact]
     public void Signature_ShouldMatchRfc5849Example()
     {
+        // Arrange
         var url = "http://photos.example.net/photos";
-
         var parameters = new Dictionary<string, string>
         {
             ["file"] = "vacation.jpg",
@@ -34,14 +34,16 @@ public class OAuth1Tests
             ["oauth_version"] = OAuth1Helper.Version,
         };
 
+        // Act
         var baseString = OAuth1Helper.CreateSignatureBaseString("GET", url, parameters);
+        var signature = OAuth1Helper.ComputeHmacSha1Signature(baseString, "kd94hf93k423kf44", "pfkkdhi9sl3r4s00");
+
+        // Assert
         baseString
             .Should()
             .Be(
                 "GET&http%3A%2F%2Fphotos.example.net%2Fphotos&file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26oauth_version%3D1.0%26size%3Doriginal"
             );
-
-        var signature = OAuth1Helper.ComputeHmacSha1Signature(baseString, "kd94hf93k423kf44", "pfkkdhi9sl3r4s00");
         signature.Should().Be("tR3+Ty81lMeYAr/Fid0kMTYa/WM=");
     }
 }

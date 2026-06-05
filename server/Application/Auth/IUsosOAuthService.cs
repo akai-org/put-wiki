@@ -1,19 +1,19 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using Application.Core;
+using Application.DTOs;
+
+using FluentResults;
 
 namespace Application.Auth;
 
 public interface IUsosOAuthService
 {
-    Task<Result<string>> GetLoginUrlAsync(CancellationToken cancellationToken = default);
+    Task<Result<string>> GetLoginUrlAsync(CancellationToken ct = default);
 
     Task<Result<UsosUserDto>> HandleCallbackAndGetUserAsync(
         string oauthToken,
         string oauthVerifier,
-        CancellationToken cancellationToken = default
+        CancellationToken ct = default
     );
-
-    public record UsosUserDto(string Id, string FirstName, string LastName, string StudentNumber, string Email);
 }

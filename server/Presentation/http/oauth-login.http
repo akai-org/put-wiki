@@ -1,0 +1,4 @@
+﻿### Perform USOS OAuth login flow (returns Location HTTP header with url for authentication in USOS, then goes back to CallbackUrl)
+# @no-redirect
+GET {{host}}/auth/login
+Accept: application/json

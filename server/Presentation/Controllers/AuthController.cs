@@ -1,69 +1,44 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Application.Auth;
+using Application.DTOs;
+using Application.Users;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Presentation.Controllers;
 
-public class AuthController : BaseApiController
+public class AuthController(
+    IUsosOAuthService usosOAuthService,
+    ProvisionUserUseCase provisionUserUseCase) : BaseApiController
 {
-    private static readonly Action<ILogger, string?, Exception?> LogLoginUrlFailed = LoggerMessage.Define<string?>(
-        LogLevel.Error,
-        new EventId(1, nameof(LogLoginUrlFailed)),
-        "Failed to get USOS login URL. Error: {Error}"
-    );
-
-    private static readonly Action<ILogger, string?, Exception?> LogCallbackFailed = LoggerMessage.Define<string?>(
-        LogLevel.Warning,
-        new EventId(2, nameof(LogCallbackFailed)),
-        "USOS callback failed. Error: {Error}"
-    );
-
-    private readonly IUsosOAuthService _usosOAuthService;
-    private readonly ILogger<AuthController> _logger;
-
-    public AuthController(IUsosOAuthService usosOAuthService, ILogger<AuthController> logger)
-    {
-        _usosOAuthService = usosOAuthService;
-        _logger = logger;
-    }
 
     [HttpGet("login")]
-    public async Task<IActionResult> Login(CancellationToken cancellationToken)
+    [ProducesResponseType(typeof(string), StatusCodes.Status302Found)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status502BadGateway)]
+    public async Task<IActionResult> Login(CancellationToken ct)
     {
-        var result = await _usosOAuthService.GetLoginUrlAsync(cancellationToken);
-        if (!result.IsSuccess || string.IsNullOrWhiteSpace(result.Value))
-        {
-            LogLoginUrlFailed(_logger, result.Error, null);
-            return StatusCode(result.Code == 0 ? 500 : result.Code, result.Error);
-        }
+        var result = await usosOAuthService.GetLoginUrlAsync(ct);
+        if (result.IsSuccess)
+            return Redirect(result.Value);
 
-        return Redirect(result.Value);
+        return HandleResult(result);
     }
 
     [HttpGet("callback")]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status502BadGateway)]
     public async Task<IActionResult> Callback(
         [FromQuery(Name = "oauth_token")] string oauthToken,
         [FromQuery(Name = "oauth_verifier")] string oauthVerifier,
-        CancellationToken cancellationToken
+        CancellationToken ct
     )
     {
-        if (string.IsNullOrEmpty(oauthToken) || string.IsNullOrEmpty(oauthVerifier))
-        {
-            return BadRequest("Missing OAuth parameters.");
-        }
-
-        var result = await _usosOAuthService.HandleCallbackAndGetUserAsync(oauthToken, oauthVerifier, cancellationToken);
-        if (!result.IsSuccess || result.Value is null)
-        {
-            LogCallbackFailed(_logger, result.Error, null);
-            return StatusCode(result.Code == 0 ? 400 : result.Code, result.Error);
-        }
-
-        return Ok(result.Value);
+        var result = await provisionUserUseCase.ExecuteAsync(oauthToken, oauthVerifier, ct);
+        return HandleResult(result);
     }
 }

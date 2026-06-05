@@ -5,12 +5,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" />
+    <PackageReference Include="FluentResults" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Core\" />
-    <Folder Include="Opinion\" />
-    <Folder Include="User\" />
+    <PackageReference Include="Moq" />
   </ItemGroup>
 </Project>
