@@ -6,6 +6,7 @@ public class User
 {
     public Guid Id { get; private set; }
     public string HashedUsosId { get; private set; }
+    public DateTimeOffset JoinedDate { get; init; }
 
     public User(string hashedUsosId)
     {
@@ -14,5 +15,6 @@ public class User
 
         Id = Guid.CreateVersion7();
         HashedUsosId = hashedUsosId;
+        JoinedDate = DateTimeOffset.UtcNow;
     }
 }
