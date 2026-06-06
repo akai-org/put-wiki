@@ -134,7 +134,7 @@ public class ProvisionUserUseCaseTests
         _userRepositoryMock
             .Setup(x => x.GetByHashedUsosIdAsync(hashedUsosId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((User?)null);
-        
+
         _timeProviderMock.SetUtcNow(fakeDate);
         // Act
         var result = await _sut.ExecuteAsync(token, verifier, CancellationToken.None);

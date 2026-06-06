@@ -1,3 +1,5 @@
+using System;
+
 using Application.Extensions;
 
 using Infrastructure.Extensions;
@@ -9,8 +11,6 @@ using Microsoft.Extensions.Hosting;
 
 using Presentation.Extensions;
 using Presentation.Middlewares;
-
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
