@@ -22,7 +22,8 @@ public partial class ProvisionUserUseCase(
     IUsosIdHasher hasher,
     IUserRepository userRepository,
     ILogger<ProvisionUserUseCase> logger,
-    IMapper mapper)
+    IMapper mapper,
+    TimeProvider timeProvider)
 {
 
     public async Task<Result<UserDto>> ExecuteAsync(string oauthToken, string oauthVerifier,
@@ -49,7 +50,7 @@ public partial class ProvisionUserUseCase(
             return Result.Ok(mapper.Map<UserDto>(existingUser));
         }
 
-        var newUser = new User(hashedId);
+        var newUser = new User(hashedId, timeProvider.GetUtcNow());
         userRepository.Add(newUser);
         await userRepository.SaveChangesAsync(ct);
 

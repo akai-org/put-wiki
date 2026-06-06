@@ -10,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Presentation.Extensions;
 using Presentation.Middlewares;
 
+using System;
+
 var builder = WebApplication.CreateBuilder(args);
 
 if (builder.Environment.IsDevelopment())
@@ -20,6 +22,8 @@ if (builder.Environment.IsDevelopment())
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddHealthChecks();
 builder.Services.AddMemoryCache();
+
+builder.Services.AddSingleton(TimeProvider.System);
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
