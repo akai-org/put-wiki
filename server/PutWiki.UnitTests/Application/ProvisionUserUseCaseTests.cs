@@ -28,7 +28,7 @@ public class ProvisionUserUseCaseTests
     private readonly Mock<IUsosOAuthService> _usosOAuthServiceMock;
     private readonly Mock<IUsosIdHasher> _idHasherMock;
     private readonly Mock<IUserRepository> _userRepositoryMock;
-    private readonly FakeTimeProvider _timeProviderMock;
+    private readonly FakeTimeProvider _fakeTimeProvider;
     private readonly ProvisionUserUseCase _sut;
 
     public ProvisionUserUseCaseTests()
@@ -36,7 +36,7 @@ public class ProvisionUserUseCaseTests
         _usosOAuthServiceMock = new Mock<IUsosOAuthService>();
         _idHasherMock = new Mock<IUsosIdHasher>();
         _userRepositoryMock = new Mock<IUserRepository>();
-        _timeProviderMock = new FakeTimeProvider();
+        _fakeTimeProvider = new FakeTimeProvider();
 
         var mapperConfig = new MapperConfiguration(cfg =>
         {
@@ -50,7 +50,7 @@ public class ProvisionUserUseCaseTests
             _userRepositoryMock.Object,
             NullLogger<ProvisionUserUseCase>.Instance,
             mapper,
-            _timeProviderMock
+            _fakeTimeProvider
         );
     }
 
@@ -134,8 +134,8 @@ public class ProvisionUserUseCaseTests
         _userRepositoryMock
             .Setup(x => x.GetByHashedUsosIdAsync(hashedUsosId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((User?)null);
+        _fakeTimeProvider.SetUtcNow(fakeDate);
 
-        _timeProviderMock.SetUtcNow(fakeDate);
         // Act
         var result = await _sut.ExecuteAsync(token, verifier, CancellationToken.None);
 
@@ -144,9 +144,9 @@ public class ProvisionUserUseCaseTests
         result.Value.Should().NotBeNull();
         result.Value!.HashedUsosId.Should().Be(hashedUsosId);
         result.Value.Id.Should().NotBe(Guid.Empty.ToString());
-        result.Value.JoinedDate.Should().Be(_timeProviderMock.GetUtcNow());
+        result.Value.JoinedDate.Should().Be(fakeDate);
 
-        _userRepositoryMock.Verify(x => x.Add(It.Is<User>(u => u.HashedUsosId == hashedUsosId)), Times.Once);
+        _userRepositoryMock.Verify(x => x.Add(It.Is<User>(u => u.HashedUsosId == hashedUsosId && u.JoinedDate == fakeDate)), Times.Once);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 }

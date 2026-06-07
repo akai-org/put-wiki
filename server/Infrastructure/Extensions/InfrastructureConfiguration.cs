@@ -28,6 +28,8 @@ public static partial class InfrastructureConfiguration
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddSingleton<IUsosIdHasher, HmacUsosIdHasher>();
 
+        services.AddSingleton(TimeProvider.System);
+
         return services;
     }
 
