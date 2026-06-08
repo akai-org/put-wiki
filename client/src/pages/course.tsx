@@ -1,5 +1,5 @@
 import { useParams } from '@tanstack/react-router';
-import useCourse from '@/hooks/useCourse';
+import { useCourse } from '@/hooks/useCourse';
 
 export default function CoursePage() {
   const { slug } = useParams({ from: '/course/$slug' });

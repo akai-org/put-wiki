@@ -1,10 +1,5 @@
 import { z } from 'zod';
-
-// There is a few language options returned from USOS API (we will probably change it later) additionally in usos API its called LangDict
-const LocalizedStringSchema = z.object({
-  pl: z.string(),
-  en: z.string(),
-});
+import { LocalizedStringSchema } from '@/schemas/common'; // Language options Schema
 
 const CourseSchema = z.object({
   // ------------- Directly from USOS API -------------
