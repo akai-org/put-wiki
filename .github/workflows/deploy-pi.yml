@@ -1,0 +1,23 @@
+name: Deploy put-wiki to Raspberry Pi
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    runs-on: self-hosted # Wymusza użycie Twojego Raspberry Pi
+
+    steps:
+      - name: Fetch new code, build and run
+        run: |
+          cd /home/joszko/put-wiki
+          
+          # Pobieramy zmiany
+          git fetch --all
+          
+          # Przełączamy się na tag nowo opublikowanego release'u
+          git checkout ${{ github.event.release.tag_name }}
+          
+          # Przebudowujemy i odpalamy kontenery w tle
+          docker compose up -d --build
