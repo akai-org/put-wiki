@@ -1,10 +1,12 @@
 import { useParams } from '@tanstack/react-router';
 import { useCourse } from '@/hooks/useCourse';
+import { calculateAverage } from '@/lib/utils';
+import { useMemo } from 'react';
 
 export default function CoursePage() {
   const { slug } = useParams({ from: '/course/$slug' });
   const { data, isLoading, isError } = useCourse(slug);
-
+  const averageRating = useMemo(() => calculateAverage(data?.ratings), [data?.ratings]);
   if (isLoading)
     return <div className="flex justify-center items-center text-white text-7xl">Ładowanie...</div>;
 
@@ -37,7 +39,7 @@ export default function CoursePage() {
           </section>
           <section className="bg-gray-200 rounded-md p-6 min-h-40 row-span-2 col-span-1">
             {data.reviews.map((review, i) => (
-              <p key={i} className="mb-2 text-sm ">
+              <p key={`${data.slug}-review-${i}`} className="mb-2 text-sm ">
                 {review}
               </p>
             ))}
@@ -64,7 +66,7 @@ export default function CoursePage() {
             <p>Liczba ocen: {data.ratings.length}</p>
             <p>
               Średnia:
-              {(data.ratings.reduce((a, b) => a + b, 0) / data.ratings.length).toFixed(2)} / 5
+              {averageRating}
             </p>
           </section>
         </main>
