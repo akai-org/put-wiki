@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using FluentResults;
+﻿using FluentResults;
 
 namespace Application.Errors;
 

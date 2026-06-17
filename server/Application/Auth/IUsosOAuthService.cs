@@ -1,8 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using Application.DTOs;
-
 using FluentResults;
 
 namespace Application.Auth;

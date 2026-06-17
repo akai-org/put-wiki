@@ -1,5 +1,5 @@
-﻿using Application.Mappings;
-using Application.Users;
+﻿using Application.Features.Users.Commands.ProvisionUser;
+using Application.Mappings;
 
 using Microsoft.Extensions.DependencyInjection;
 

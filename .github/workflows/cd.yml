@@ -1,0 +1,185 @@
+name: CD
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+
+    outputs:
+      client: ${{ steps.filter.outputs.client }}
+      server: ${{ steps.filter.outputs.server }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Get last tag from main
+        id: base
+        shell: bash
+        run: |
+          set -e
+
+          git fetch --tags origin main
+
+          LAST_TAG=$(git describe --tags --abbrev=0 origin/main 2>/dev/null || true)
+
+          if [ -z "$LAST_TAG" ]; then
+            BASE_SHA=$(git rev-list --max-parents=0 origin/main)
+          else
+            BASE_SHA=$(git rev-list -n 1 "$LAST_TAG")
+          fi
+
+          echo "base=$BASE_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Detect changes
+        id: filter
+        uses: dorny/paths-filter@v4
+        with:
+          base: ${{ steps.base.outputs.base }}
+          filters: |
+            client:
+              - 'client/**'
+            server:
+              - 'server/**'
+
+  set-version:
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.client == 'true' || needs.detect-changes.outputs.server == 'true'
+
+    outputs:
+      tag: ${{ steps.tag.outputs.new_tag }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Create tag
+        id: tag
+        uses: anothrNick/github-tag-action@1.75.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP : patch
+          DRY_RUN: true
+          INITIAL_VERSION: 0.1.0
+          TAG_PREFIX: v
+
+  build-client:
+    runs-on: ubuntu-latest
+    needs:
+      - detect-changes
+      - set-version
+
+    if: needs.detect-changes.outputs.client == 'true'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Login to GHCR
+        uses: docker/login-action@v4.2.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v4.0.0
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v4.0.0
+
+      - name: Build and push client image
+        uses: docker/build-push-action@v7.2.0
+        with:
+          context: ./client
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/client:${{ needs.set-version.outputs.tag }}
+            ghcr.io/${{ github.repository }}/client:latest
+
+  build-server:
+    runs-on: ubuntu-latest
+    needs:
+      - detect-changes
+      - set-version
+
+    if: needs.detect-changes.outputs.server == 'true'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Login to GHCR
+        uses: docker/login-action@v4.2.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v4.0.0
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v4.0.0
+
+      - name: Build and push server image
+        uses: docker/build-push-action@v7.2.0
+        with:
+          context: ./server
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/server:${{ needs.set-version.outputs.tag }}
+            ghcr.io/${{ github.repository }}/server:latest
+
+  release:
+    runs-on: ubuntu-latest
+    needs:
+      - detect-changes
+      - set-version
+      - build-client
+      - build-server
+
+    if: |
+      always() &&
+      (needs.detect-changes.outputs.client == 'true' || needs.detect-changes.outputs.server == 'true') &&
+      needs.set-version.result == 'success' &&
+      (needs.build-client.result == 'success' || needs.build-client.result == 'skipped') &&
+      (needs.build-server.result == 'success' || needs.build-server.result == 'skipped')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+
+      - name: Tag main
+        uses: anothrNick/github-tag-action@1.75.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP : patch
+          INITIAL_VERSION: 0.1.0
+          TAG_PREFIX: v
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ needs.set-version.outputs.tag }}
+          name: Release ${{ needs.set-version.outputs.tag }}
+          generate_release_notes: true

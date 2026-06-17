@@ -1,4 +1,4 @@
-﻿namespace Application.Auth;
+﻿namespace Application.Features.Users.Commands.ProvisionUser;
 
 public interface IUsosIdHasher
 {

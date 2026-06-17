@@ -1,4 +1,4 @@
-namespace Application.Auth;
+namespace Infrastructure.Auth.Configuration;
 
 public class UsosOAuthSettings
 {
