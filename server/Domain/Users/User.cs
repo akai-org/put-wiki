@@ -11,7 +11,7 @@ public class User
     public User(string hashedUsosId, DateTimeOffset joinedDate)
     {
         if (string.IsNullOrWhiteSpace(hashedUsosId))
-            throw new ArgumentException("Hashed USOS ID cannot be empty.");
+            throw new ArgumentException("Hashed USOS ID cannot be empty.!!!!");
 
         Id = Guid.CreateVersion7();
         HashedUsosId = hashedUsosId;
