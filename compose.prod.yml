@@ -1,8 +1,12 @@
-﻿services:
+services:
+  client:
+    image: ghcr.io/${GITHUB_REPOSITORY:-akai-org/put-wiki}/client:${TAG:-latest}
+
   proxy:
     ports:
       - "443:443"
 
   server:
+    image: ghcr.io/${GITHUB_REPOSITORY:-akai-org/put-wiki}/server:${TAG:-latest}
     environment:
       - ASPNETCORE_ENVIRONMENT=Production

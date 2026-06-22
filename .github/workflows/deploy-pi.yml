@@ -12,7 +12,7 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Fetch new code, build and run
+      - name: Fetch new code, pull images and run
         run: |
           cd /home/joszko/put-wiki
 
@@ -20,4 +20,4 @@ jobs:
 
           git checkout -f tags/${{ github.event.release.tag_name }}
 
-          docker compose up -d --build
+          TAG=${{ github.event.release.tag_name }} docker compose -f compose.yml -f compose.prod.yml up -d
