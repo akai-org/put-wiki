@@ -9,12 +9,15 @@ permissions:
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: [self-hosted, raspberry-pi]
+    env:
+      PUT_WIKI_DIR: /home/joszko/put-wiki
 
     steps:
       - name: Fetch new code, pull images and run
+        shell: bash
         run: |
-          cd /home/joszko/put-wiki
+          cd "$PUT_WIKI_DIR"
 
           git fetch origin --tags
 
