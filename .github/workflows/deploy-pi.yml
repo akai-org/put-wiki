@@ -52,6 +52,7 @@ jobs:
           
           echo "CLIENT_TAG=$CLIENT_TAG" >> $GITHUB_ENV
           echo "SERVER_TAG=$SERVER_TAG" >> $GITHUB_ENV
+          echo "GITHUB_REPOSITORY=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
           
       - name: Update codebase
         working-directory: ${{ env.PUT_WIKI_DIR }}
