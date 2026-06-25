@@ -33,7 +33,7 @@ jobs:
         working-directory: ${{ env.PUT_WIKI_DIR }}
         shell: bash
         run: |
-          git fetch origin --tags
+          git fetch origin --tags --force
           
           CLIENT_TAG="$INPUT_CLIENT"
           SERVER_TAG="$INPUT_SERVER"
