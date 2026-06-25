@@ -1,13 +1,16 @@
 name: Deploy put-wiki to Raspberry Pi
 
 on:
-  release:
-    types: [published]
   workflow_dispatch:
     inputs:
-      version:
-        description: 'Tag/Version to deploy (e.g. v0.1.0)'
+      client:
+        description: 'Client Tag/Version to deploy (leave as "latest" for newest)'
         required: true
+        default: 'latest'
+      server:
+        description: 'Server Tag/Version to deploy (leave as "latest" for newest)'
+        required: true
+        default: 'latest'
 
 concurrency:
   group: ${{ github.workflow }}
@@ -22,29 +25,63 @@ jobs:
     environment: production
     env:
       PUT_WIKI_DIR: /home/joszko/put-wiki
-      DEPLOY_TAG: ${{ github.event.release.tag_name || github.event.inputs.version }}
+      INPUT_CLIENT: ${{ github.event.inputs.client }}
+      INPUT_SERVER: ${{ github.event.inputs.server }}
 
     steps:
-      - name: Fetch new code, pull images and run
+      - name: Resolve deployment tags
+        working-directory: ${{ env.PUT_WIKI_DIR }}
         shell: bash
         run: |
-          cd "$PUT_WIKI_DIR"
-
           git fetch origin --tags
+          
+          CLIENT_TAG="$INPUT_CLIENT"
+          SERVER_TAG="$INPUT_SERVER"
+          
+          # Resolve 'latest' to actual latest tags
+          if [ "$CLIENT_TAG" = "latest" ]; then
+            CLIENT_TAG=$(git tag --sort=-v:refname | grep -E '^client-|^v' | head -n 1)
+          fi
+          
+          if [ "$SERVER_TAG" = "latest" ]; then
+            SERVER_TAG=$(git tag --sort=-v:refname | grep -E '^server-|^v' | head -n 1)
+          fi
+          
+          echo "Deploying Client Tag: $CLIENT_TAG"
+          echo "Deploying Server Tag: $SERVER_TAG"
+          
+          echo "CLIENT_TAG=$CLIENT_TAG" >> $GITHUB_ENV
+          echo "SERVER_TAG=$SERVER_TAG" >> $GITHUB_ENV
+          
+      - name: Update codebase
+        working-directory: ${{ env.PUT_WIKI_DIR }}
+        shell: bash
+        run: |
+          git checkout -f main
+          git pull origin main
 
-          git checkout -f "tags/$DEPLOY_TAG"
-
+      - name: Start maintenance mode
+        working-directory: ${{ env.PUT_WIKI_DIR }}
+        shell: bash
+        run: |
           # Bring down main proxy to free up ports
           docker compose -f compose.yml -f compose.prod.yml stop proxy || true
-
+          
           # Start maintenance page
           docker compose -f compose.maintenance.yml up -d
 
-          # Pull new images
-          TAG=$DEPLOY_TAG docker compose -f compose.yml -f compose.prod.yml pull
+      - name: Pull new images
+        working-directory: ${{ env.PUT_WIKI_DIR }}
+        shell: bash
+        run: |
+          docker compose -f compose.yml -f compose.prod.yml pull
 
+      - name: Deploy new stack
+        working-directory: ${{ env.PUT_WIKI_DIR }}
+        shell: bash
+        run: |
           # Stop maintenance page
           docker compose -f compose.maintenance.yml down
-
+          
           # Start the new stack (recreates containers with new images)
-          TAG=$DEPLOY_TAG docker compose -f compose.yml -f compose.prod.yml up -d --remove-orphans
+          docker compose -f compose.yml -f compose.prod.yml up -d --remove-orphans
