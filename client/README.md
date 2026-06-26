@@ -30,7 +30,7 @@ bun install
 bun run dev
 ```
 
-You can also run the whole put-wiki using Docker to preview production version:
+You can also launch the whole put-wiki using Docker to preview development version:
 
 ```bash
 docker compose up
@@ -38,4 +38,5 @@ docker compose up
 
 ## Notes
 
-> ⚠️ Please note that you need to have bun installed to run this app locally. Use version defined in `package.json` `engines.bun`.
+> [!IMPORTANT]
+> Please note that you need to have bun installed to run this app locally. Use version defined in `package.json` `engines.bun`.

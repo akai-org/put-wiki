@@ -22,6 +22,9 @@ We name commit messages according to **[Conventional Commits](https://www.conven
    - Why? To keep `main` history linear and clean (one commit per task/feature) and avoid multiple commits like "fix typo", "wip".
    - **NOTE:** only PR creators should merge the changes, not reviewers or anybody else.
 
+> [!IMPORTANT] 
+>As an author of feature you should also deploy your change and verify whether it works correctly also on production. Please follow steps listed in [deployment docs](../architecture/deployment.md#how-to-deploy-released-changes-to-production)
+
 ## Rules
 
 - Do not commit directly to `main` (anyway it's blocked by branch protection rules).

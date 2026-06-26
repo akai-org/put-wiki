@@ -18,7 +18,8 @@ We meet weekly. We upload notes from every meeting on [AKAI's google drive](http
 - Move selected issues to **Todo** for the current iteration.
 - Ensure each issue has a clear description and acceptance criteria.
 
-**NOTE**: We use issue templates (and PR template too). The most common we use daily are: **Task** and **User story**.
+> [!NOTE] 
+>We use issue templates (and PR template too). The most common we use daily are: **Task** and **User story**.
 
 ### Working on issues
 
@@ -32,4 +33,7 @@ We meet weekly. We upload notes from every meeting on [AKAI's google drive](http
 1. Open a PR following [PR lifecycle](/docs/workflow/git.md).
 2. Move the issue to **In Review**.
 3. Notify the team for review.
-4. After merge, the issue automatically moves to **Done**.
+4. After you merge it, the issue automatically moves to **Done**.
+
+> [!IMPORTANT] 
+>As an author of feature you should also deploy your change and verify whether it works correctly also on production. Please follow steps listed in [deployment docs](../architecture/deployment.md#how-to-deploy-released-changes-to-production)

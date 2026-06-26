@@ -1,6 +1,6 @@
 # PUTwiki
 
-PUTwiki is an informational platform created for students of [Poznan University of Technology](https://www.put.poznan.pl).
+PUTwiki is an informational platform created for students of [Poznan University of Technology](https://www.put.poznan.pl). It focuses on aggregating data from various sources and delivering opinions system.
 
 The mission of the project is to provide a space for accessible knowledge sharing about courses and lecturers and to support students in making informed decisions about elective courses and class groups.
 
@@ -10,7 +10,7 @@ Take a look at [Getting Started in CONTRIBUTING.md](CONTRIBUTING.md#getting-star
 
 ## Tech stack
 
-- Frontend: Bun, React, TypeScript
+- Frontend: Bun, Vite, React, TypeScript
 - Backend: ASP.NET Core (C#)
 - DevOps: GitHub Actions, Docker, Nginx
 
@@ -20,12 +20,12 @@ Take a look at [Getting Started in CONTRIBUTING.md](CONTRIBUTING.md#getting-star
 
 ## Repository structure
 
-- `.github` - issue and PR templates and github action workflows
+- `.github` - issue and PR templates and github actions workflows
 - `.husky` - pre-commit git hook for the whole project. See how to enable it in [Getting Started](CONTRIBUTING.md#getting-started)
 - `/client` — frontend
 - `/server` — backend
 - `/docs` — project documentation
-- `nginx` - app's reverse proxy configuration
+- `proxy` - app's reverse proxy configuration
 
 ## Documentation
 

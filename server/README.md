@@ -8,7 +8,9 @@ You need to install:
 
 ## Architecture overview
 
-The project follows the principles of **Clean Architecture**, separating concerns into distinct layers. We take advantage also from lightweight **Domain Driven Design**, basic **Command Query Responsibility Segregation** and develop the app as a monolith (with paying attention to loosely couple dependencies whenever possible). See our `BE-XXX` (BE - BackEnd) ADR-s (Architecture Decision Records) for more details [here](../docs/architecture/adr/).
+The project follows the principles of **Clean Architecture** that organizes an application into separate layers with clearly defined responsibilities. Moreover dependencies point inward so that core business logic remains independent of UI, infrastructure, and framework.
+
+We take advantage also from lightweight **Domain Driven Design**, basic **Command Query Responsibility Segregation** and develop the app as a monolith (with paying attention to loosely coupled dependencies whenever possible). See our `BE-XXX` (BE - **B**ack**E**nd) ADR-s (Architecture Decision Records) for more details [here](../docs/architecture/adr/).
 
 > [!NOTE]
 > **API Documentation:** When running in the development environment, interactive API documentation page is available at the `/docs` route.
@@ -18,8 +20,9 @@ The project follows the principles of **Clean Architecture**, separating concern
 To develop locally:
 
 1. Open it as solution (.slnx) with desired IDE.
-2. `cd server` and `dotnet tool restore`
-3.
+2. `cd server`
+3. `dotnet tool restore`
+4.
 
 ```bash
 dotnet restore
@@ -27,25 +30,31 @@ dotnet restore
 dotnet run --project Presentation/Presentation.csproj
 ```
 
-App will use launch settings from the `Presentation/Properties/launchSettings.json` profile. You can also run it with your IDE UI.
+App will use launch settings from the `Presentation/Properties/launchSettings.json` profile. You can also run it with your IDE interface.
 
-## USOS OAuth setup
+## Authentication
+
+Our app provides a way to users to authenticate using USOS. It allows us to access academic related data on behalf of user.
+
+### USOS OAuth setup
 
 1. Create a `.env` file in the `server/` directory.
 2. Copy values from `.env.example` and fill in your `UsosOAuth__ConsumerKey`, `UsosOAuth__ConsumerSecret` that we provided you and any other variables.
 
 ## Docker
 
-To work locally besides server you need the database. So having Docker installed on your machine is still essential. Start it with `docker compose up database`.
+To work locally during development besides server you need the database. So having Docker installed on your machine is still essential. Start it with `docker compose up database`.
 
 **NOTE** you need to provide enviroment variables for the database.
 1. Create a `.env.postgres` file in the root directory of entire put-wiki project.
 2. Copy values from `.env.postgres.example`.
 
-You could launch the whole put-wiki using Docker to preview development version:
+You can launch the whole put-wiki using Docker to preview development version:
 ```bash
 docker compose up
 ```
+
+> [!WARNING]
 > Note that running the whole put-wiki in development enviroment with docker compose is only for preview, not development. Developing locally is still required.
 
 and preview production with:
@@ -60,5 +69,6 @@ We use xUnit and Fluent Assertions libraries to cover the core logic. We stick t
 
 ## Notes
 
-> ⚠️ Please note that you need to have .NET platform installed to run this app locally. Download version defined in `global.json`.
+> [!IMPORTANT]
+> Please note that you need to have .NET platform installed to run this app locally. Download version defined in `global.json`.
 
