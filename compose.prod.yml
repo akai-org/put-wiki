@@ -2,10 +2,6 @@ services:
   client:
     image: ghcr.io/${GITHUB_REPOSITORY:-akai-org/put-wiki}/client:${CLIENT_TAG:-latest}
 
-  proxy:
-    ports:
-      - "8443:443"
-
   server:
     image: ghcr.io/${GITHUB_REPOSITORY:-akai-org/put-wiki}/server:${SERVER_TAG:-latest}
     environment:
