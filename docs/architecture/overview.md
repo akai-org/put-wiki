@@ -1,6 +1,6 @@
 # Architecture Overview
 
-This document describes the high level architecture of the PUTwiki.
+This document describes the high level architecture of the PutWiki.
 
 ## Backend architecture
 [docs](../../server/README.md#architecture-overview)

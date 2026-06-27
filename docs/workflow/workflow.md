@@ -1,6 +1,6 @@
 # Workflow strategy
 
-Behold our grand plan of making a PUTwiki.
+Behold our grand plan of making a PutWiki.
 
 ## Work cycle
 

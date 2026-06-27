@@ -1,6 +1,6 @@
 # Deployment
 
-This document outlines the deployment architecture, Docker Compose configuration, CI/CD pipelines and environment configurations for the entire PUTwiki. 
+This document outlines the deployment architecture, Docker Compose configuration, CI/CD pipelines and environment configurations for the entire PutWiki. 
 
 ## CI/CD pipeline
 Our continuous integration and continuous delivery (CI/CD) pipelines are built using **GitHub Actions**. It automates our workflows to ensure code quality and reliable deployments:
@@ -57,7 +57,7 @@ graph TD
 * The backend and frontend should run directly on the developer's machine (outside of Docker) to allow for hot-reloading, debugging, etc.
 
 ### 2. PutWiki preview in Docker
-* The entire PUTwiki system can be launched on developer's machine inside Docker using either the development (with `docker compose up`) or production (with `docker compose -f compose.yml -f compose.prod.yml up`) compose overrides. This will set client and server and other containers in appropiate mode (e.g. server app will have ASPNETCORE_ENVIRONMENT variable set to `Development` or `Production` accordingly)
+* The entire PutWiki system can be launched on developer's machine inside Docker using either the development (with `docker compose up`) or production (with `docker compose -f compose.yml -f compose.prod.yml up`) compose overrides. This will set client and server and other containers in appropiate mode (e.g. server app will have ASPNETCORE_ENVIRONMENT variable set to `Development` or `Production` accordingly)
 
 > [!NOTE]
 > Because we do not use bind mounts for source code, this mode is used purely for previewing built images and testing system integration (e.g. Nginx config), not for writing code.

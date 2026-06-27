@@ -12,7 +12,7 @@ The project is developed within the AKAI student research group at Poznan Univer
 
 ## Getting Started
 
-The simplest way to run the whole put-wiki on your computer is to use Docker:
+The simplest way to run the whole PutWiki on your computer is to use Docker:
 ```bash
 docker compose up
 ```

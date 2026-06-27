@@ -1,4 +1,4 @@
-# PUTwiki - Backend
+# PutWiki - Backend
 
 The server side app written in ASP.NET Core (C#).
 
@@ -65,7 +65,7 @@ We store a little of configuration in compose files, due to the fact that having
 Additionally there would be no difference between local development outside of Docker (`Development` environment) and previewing backend in `Development` environment inside Docker containers. 
 
 > [!NOTE]
-> Environments mentioned in this README refer to ASP.NET Core environments and how to develop server-side app. If you want to read about put-wiki environments, were we host it and how it is deployed, see [deployment docs](../docs/architecture/deployment.md#environments).
+> Environments mentioned in this README refer to ASP.NET Core environments and how to develop server-side app. If you want to read about PutWiki environments, were we host it and how it is deployed, see [deployment docs](../docs/architecture/deployment.md#environments).
 
 ## Docker
 
@@ -74,16 +74,16 @@ To work locally besides server you need the database. So having Docker installed
 > [!NOTE]
 > First you need to provide environment variables for the database. See steps below:
 
-1. Create a `.env.postgres` file in the root directory of entire put-wiki project.
+1. Create a `.env.postgres` file in the root directory of entire PutWiki project.
 2. Copy values from `.env.postgres.example`.
 
-For more details about how to run the whole put-wiki inside Docker look [here](../docs/architecture/deployment.md#2-putwiki-preview-in-docker)
+For more details about how to run the whole PutWiki inside Docker look [here](../docs/architecture/deployment.md#2-putwiki-preview-in-docker)
 
 > [!IMPORTANT]
-> when you want to preview the whole put-wiki with backend running either in `Development` or `Production` environment, .env file needs to be changed, because backend will need to connect to database inside docker network (when developing locally backend runs on host machine directly and connects with database by exposed port). So set `Host=database` and `Port=5432` in connection string of .env.
+> when you want to preview the whole PutWiki with backend running either in `Development` or `Production` environment, .env file needs to be changed, because backend will need to connect to database inside docker network (when developing locally backend runs on host machine directly and connects with database by exposed port). So set `Host=database` and `Port=5432` in connection string of .env.
 
 > [!WARNING]
-> Running the whole put-wiki with backend in `Production` environment will use urls (e.g. CallbackUrl) that refer to domain name used to access PutWiki in Internet. It won't redirect to developer's local machine. In this case during backend testing, that should be altered manually and restored after.
+> Running the whole PutWiki with backend in `Production` environment will use urls (e.g. CallbackUrl) that refer to domain name used to access PutWiki in Internet. It won't redirect to developer's local machine. In this case during backend testing, that should be altered manually and restored after.
 
 ## Testing
 We use xUnit and Fluent Assertions libraries to cover the core logic. We stick to the arrange, act, assert pattern. We highly recommend reading this: [Unit testing best practices](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices).

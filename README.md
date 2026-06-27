@@ -1,6 +1,6 @@
-# PUTwiki
+# PutWiki
 
-PUTwiki is an informational platform created for students of [Poznan University of Technology](https://www.put.poznan.pl). It focuses on aggregating data from various sources and delivering opinions system.
+PutWiki is an informational platform created for students of [Poznan University of Technology](https://www.put.poznan.pl). It focuses on aggregating data from various sources and delivering opinions system.
 
 The mission of the project is to provide a space for accessible knowledge sharing about courses and lecturers and to support students in making informed decisions about elective courses and class groups.
 
