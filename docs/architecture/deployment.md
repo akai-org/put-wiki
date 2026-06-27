@@ -11,7 +11,7 @@ Our continuous integration and continuous delivery (CI/CD) pipelines are built u
 
 * **CD ([config](../../.github/workflows/cd-client.yml)):** Continous delivery pipeline that is separate for client and server apps. Triggered automatically after merging changes to the main branch. It handles versioning, creating github releases and building the production Docker images that are pushed to container registry.
 
-* **Deployment ([config](../../.github/workflows/deploy-pi.yml)):** Should be launched manually by feature author to deploy released changes to production enviroment. You can provide specific version or deploy the newest one. Server and client are versioned separately, so you can deploy different version of client and server. This is especially useful if you want to rollback one, but leave current version of other app.
+* **Deployment ([config](../../.github/workflows/deploy-pi.yml)):** Should be launched manually by feature author to deploy released changes to production environment. You can provide specific version or deploy the newest one. Server and client are versioned separately, so you can deploy different version of client and server. This is especially useful if you want to rollback one, but leave current version of other app.
 
 ## Infrastructure and hosting
 For the MVP phase, the production environment is hosted on a **private Raspberry Pi**. 
@@ -70,7 +70,7 @@ graph TD
 
 ## How to deploy released changes to production?
 
-Once your changes has been merged to main, then continous delivery pipeline should automatically create client, server or both docker images with bumped versions depending on what changes you made. When CD workflow completes (see `Actions` tab in repo), you can deploy your feature to production enviroment. To do that follow the steps below:
+Once your changes has been merged to main, then continous delivery pipeline should automatically create client, server or both docker images with bumped versions depending on what changes you made. When CD workflow completes (see `Actions` tab in repo), you can deploy your feature to production environment. To do that follow the steps below:
 1. Go to `Actions` tab in repo and select workflow that deploys to prod.
 
 ![first step of deploying to prod](deploy-step-1.png)
@@ -87,7 +87,7 @@ Once your changes has been merged to main, then continous delivery pipeline shou
 > If you changed nothing related to `client/` or `server/`, but it still affects production, such as docker compose or proxy configuration, then you should deploy your changes right after merge to main. CD pipeline won't create any docker images, as they are only created when updating client and/or server.
 
 > [!NOTE]
-> Changes made only to project documentation shouldn't be deployed separately, because they don't impact production enviroment. They are in codebase and show up in github releases with production related code.
+> Changes made only to project documentation shouldn't be deployed separately, because they don't impact production environment. They are in codebase and show up in github releases with production related code.
 
 ## Secrets management
 Secrets are strictly kept out of source control.

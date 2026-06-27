@@ -17,7 +17,7 @@ The simplest way to run the whole PutWiki on your computer is to use Docker:
 docker compose up
 ```
 
-However this is only to preview app in development enviroment*. If you want to develop you need to complete steps below.
+However this is only to preview app in development environment*. If you want to develop you need to complete steps below.
 
 *because compose file doesn't include any bind mounts or watching to detect code changes.
 
