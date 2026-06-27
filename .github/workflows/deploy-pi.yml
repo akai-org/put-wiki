@@ -65,7 +65,7 @@ jobs:
         working-directory: ${{ env.PUT_WIKI_DIR }}
         shell: bash
         run: |
-          git fetch origin main
+          git fetch -f origin main
           git reset --hard origin/main
 
       - name: Start maintenance mode
