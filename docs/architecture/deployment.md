@@ -71,18 +71,25 @@ graph TD
 
 ## How to deploy released changes to production?
 
-Once your changes has been merged to main, then continous delivery pipeline should automatically create client, server or both docker images with bumped versions depending on what changes you made. When CD workflow completes (see `Actions` tab in repo), you can deploy your feature to production environment. To do that follow the steps below:
+Once your changes has been merged to main, then continous delivery pipeline should automatically create client, server or both docker images with bumped versions depending on what changes you made. When CD workflow completes successfully, you can deploy your feature to production environment. 
+![zero step of deploying to prod](deploy-step-0.png)
+<br>
+
+To do that follow the steps below:
 1. Go to `Actions` tab in repo and select workflow that deploys to prod.
 
 ![first step of deploying to prod](deploy-step-1.png)
+<br>
 
 2. Next click gray `Run workflow` button. Popup with two inputs for entering client and server versions will show up. Usually you won't need to enter anything to bump version on prod. This is only for rollbacks. Simply press green `Run workflow` button to start deployment.
 
 ![second step of deploying to prod](deploy-step-2.png)
+<br>
 
-3. If you see that everything is green, then deployment is successful. You can see all deployments in `Deployments` section on `Code` tab. Now you can make sure that your changes also work on production.
+3. If you see that everything is green, then deployment is successful. You can see all deployments in `Deployments` section on `Code` tab. Now you can make sure that your changes also work on production (by visiting app's url).
 
 ![third step of deploying to prod](deploy-step-3.png)
+<br>
 
 > [!IMPORTANT]
 > If you changed nothing related to `client/` or `server/`, but it still affects production, such as docker compose or proxy configuration, then you should deploy your changes right after merge to main. CD pipeline won't create any docker images, as they are only created when updating client and/or server.
