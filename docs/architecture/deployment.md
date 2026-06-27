@@ -21,7 +21,7 @@ For the MVP phase, the production environment is hosted on a **private Raspberry
 * **Docker Compose:** The entire infrastructure runs as a containerized stack on the Pi.
 
 ## Deployment architecture
-We use a modular Docker Compose setup with a [base configuration](../../compose.yml) and environment-specific overrides for [dev](../../compose.override.yml) and [prod](../../compose.prod.yml). It helps us for example expose certain ports or add services useful for development that aren't accessible on production.
+We use a modular Docker Compose setup with a [base configuration](../../compose.yml) and environment-specific overrides for [dev](../../compose.override.yml) and [prod](../../compose.prod.yml). It helps us for example expose certain ports or add services useful for development that aren't accessible on production. 
 
 Here are core services we run in Docker Compose:
 * **Nginx:** Acts as a reverse proxy, listening on specific port. It routes API traffic to the backend and serves the frontend client. 
@@ -67,6 +67,7 @@ graph TD
 * Uses the production compose override.
 * The stack relies on health checks to ensure services start in the correct order (e.g. frontend waits for backend which waits for database to be healthy).
 * Exposes only proxy port and avoids running containers used in development.
+* Pulls docker images of client and server stored in container registry instead of building them directly on production machine.
 
 ## How to deploy released changes to production?
 
