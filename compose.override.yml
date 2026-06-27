@@ -6,6 +6,7 @@
   server:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - UsosOAuth__CallbackUrl=http://localhost:8080/api/auth/callback
 
   pgadmin:
     image: dpage/pgadmin4:9.15.0
