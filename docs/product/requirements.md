@@ -21,10 +21,14 @@ Reviews are submitted by students and relate to courses or lecturers.
 
 A working search engine for the platform.
 
+
 ## Non-Functional Requirements
 
-- Follow the guidelines in [docs/workflow/code-style.md](../workflow/code-style.md)
-- Follow the rules in [docs/workflow/git.md](../workflow/git.md)
-- Dark Mode support.
-- AA WCAG 2.1 accessibility compliance.
-- Responsive design.
+### Quality attributes
+- **Accessibility & UX:** AA WCAG 2.1 compliance, fully responsive design, and dark mode support.
+- **Privacy:** Users login with USOS to our app, but must remain anonymous.
+- **Availability:** Controlled deployments with a user-friendly maintenance page to avoid breaking user sessions during updates.
+
+### Process & maintainability
+- Follow the workflow and code standards defined in [`docs/workflow/code-style.md`](../workflow/code-style.md) and [`docs/workflow/git.md`](../workflow/git.md).
+- Automated CI/CD checks must pass for formatting, linting, and unit tests before any merge.
