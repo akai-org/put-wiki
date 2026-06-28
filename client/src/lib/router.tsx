@@ -1,4 +1,4 @@
-import { HomePage, NotFoundPage, CoursePage, DegreeCoursePage } from '@/pages';
+import { HomePage, NotFoundPage, CoursePage, DegreeCoursePage, LecturerPage } from '@/pages';
 import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router';
 import Header from '@/components/Header/Header';
 // import Footer from '@/components/Footer/Footer';
@@ -21,12 +21,6 @@ const indexRoute = createRoute({
   component: () => <HomePage />,
 });
 
-const notFoundRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '$',
-  component: () => <NotFoundPage />,
-});
-
 const coursePageRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/course/$slug',
@@ -39,11 +33,28 @@ const degreeCoursePageRoute = createRoute({
   component: () => <DegreeCoursePage />,
 });
 
+const lecturerPageRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/lecturer',
+  component: () => <LecturerPage />,
+});
+
+const notFoundRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '$',
+  component: () => <NotFoundPage />,
+});
+
 const routeTree = rootRoute.addChildren([
+  
   indexRoute,
+ 
   coursePageRoute,
   degreeCoursePageRoute,
+ 
+  lecturerPageRoute,
   notFoundRoute,
+,
 ]);
 const router = createRouter({ routeTree });
 
