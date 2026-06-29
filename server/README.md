@@ -1,64 +1,95 @@
-# PUTwiki - Backend
+# PutWiki - Backend
 
 The server side app written in ASP.NET Core (C#).
 
+You need to install:
+- .NET platform (to choose right version see [notes](./README.md#Notes))
+- Docker
+
 ## Architecture overview
 
-The project follows the principles of **Clean Architecture**, separating concerns into distinct layers:
+The project follows the principles of **Clean Architecture** that organizes an application into separate layers with clearly defined responsibilities. Moreover dependencies point inward so that core business logic remains independent of UI, infrastructure, and framework.
 
-* **Domain:** Contains enterprise logic, core entities, and custom exceptions. It has no dependencies on other layers or external frameworks.
-* **Application:** Holds the business logic, use cases, and interfaces. It orchestrates the flow of data to and from the Domain layer.
-* **Infrastructure:** Implements external concerns like database access (Entity Framework Core), Identity, and third-party integrations.
-* **Presentation:** The entry point of the application (Web API). It contains controllers, global error handling, validation and API endpoints.
+Moreover we take advantage from lightweight **Domain Driven Design**, basic **Command Query Responsibility Segregation** and develop the app as a monolith (with paying attention to loosely coupled dependencies whenever possible). See our `BE-XXX` (BE - **B**ack**E**nd) ADR-s (Architecture Decision Records) for more details [here](../docs/architecture/adr/).
 
 > [!NOTE]
-> **API Documentation:** When running in the development environment, interactive API documentation is available at the `/docs` endpoint.
+> **API Documentation:** When running backend in the `Development` environment, interactive API documentation page is available at the `/docs` route.
 
-## How to run (dev)?
+## How to run it?
 
 To develop locally:
 
 1. Open it as solution (.slnx) with desired IDE.
-2. `cd server` and `dotnet tool restore`
-3.
-
+2. 
 ```bash
+cd server
+dotnet tool restore
 dotnet restore
-
 dotnet run --project Presentation/Presentation.csproj
 ```
 
-App will use launch settings from the `Presentation\Properties\launchSettings.json` profile. You can also run it with your IDE.
+App will use launch settings from the `Presentation/Properties/launchSettings.json` profile. You can also run it with your IDE.
 
-## USOS OAuth setup
+## Authentication
+
+Our app provides a way to users to authenticate using USOS. It allows us to access academic related data on behalf of user.
+
+### USOS OAuth setup
 
 1. Create a `.env` file in the `server/` directory.
-2. Copy values from `.env.example` and fill in your `UsosOAuth__ConsumerKey` and `UsosOAuth__ConsumerSecret`.
+2. Copy values from `.env.example` and fill in your `UsosOAuth__ConsumerKey`, `UsosOAuth__ConsumerSecret` that we provided you and any other variables.
 
-Also make sure that hostname and port for `CallbackUrl` match values for your enviroment (dev, prod). See appsettings.{Enviroment}.json files.
+### JWT
+here is description of our own token used by frontend to authenticate with backend.
+
+## Configuration
+
+In ASP.NET Core app configuration is loaded in specific order and is read using variety of configuration sources: settings files, environment variables, etc. See [this](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-10.0) for more details.
+
+We use 2 environments in ASP.NET Core backend app: `Development` and `Production`.
+
+In backend application we utilize the following configuration sources:
+
+- **environment variables (.env file)**: We keep there only app secrets such as API keys.
+
+- **appsettings.json**: stores public configuration that is the same regardless in which environment backend runs (`Development`/`Production` or just locally).
+
+- **appsettings.Development.json**: stores public configuration which is used in `Development` environment. It contains also settings that are used only during local backend development outside of Docker.
+
+- **compose.override.yml**: It injects into Docker container with backend app, variables that contain public settings (e.g. CallbackUrl) that are specific to `Development`, but are different when running backend inside Docker.
+
+- **compose.prod.yml**: It injects into Docker container with backend app, variables that contain public backend settings (e.g. CallbackUrl) and are specific to `Production` environment.
+
+We store a little of configuration in compose files, due to the fact that having them in .env requires from developer to manually fill in them. Also if they were stored in **appsettings.Production.json**, updates would require creating new backend release and deployment, whereas now these changes require only deployment to reload configuration on production machine. 
+
+Additionally there would be no difference between local development outside of Docker (`Development` environment) and previewing backend in `Development` environment inside Docker containers. 
+
+> [!NOTE]
+> Environments mentioned in this README refer to ASP.NET Core environments and how to develop server-side app. If you want to read about PutWiki environments, were we host it and how it is deployed, see [deployment docs](../docs/architecture/deployment.md#environments).
 
 ## Docker
 
-To work locally besides server you need the database. Start it with `docker compose up database`.
+To work locally besides server you need the database. So having Docker installed on your machine is still essential. Start it with `docker compose up database`.
 
-You can launch the whole put-wiki using Docker to preview development version:
-```bash
-docker compose up
-```
+> [!NOTE]
+> First you need to provide environment variables for the database. See steps below:
 
-and preview production with:
-```bash
-docker compose -f compose.yml -f compose.prod.yml up
-```
+1. Create a `.env.postgres` file in the root directory of entire PutWiki project.
+2. Copy values from `.env.postgres.example`.
 
-> Note that running development and production versions of the whole put-wiki with docker compose is only for preview, not development.
-> 
-> In addition, when switching between local development and dev/prod in docker compose, you must update the values of certain environment variables accordingly.
+For more details about how to run the whole PutWiki inside Docker look [here](../docs/architecture/deployment.md#2-putwiki-preview-in-docker)
+
+> [!IMPORTANT]
+> when you want to preview the whole PutWiki with backend running either in `Development` or `Production` environment, .env file needs to be changed, because backend will need to connect to database inside docker network (when developing locally backend runs on host machine directly and connects with database by exposed port). So set `Host=database` and `Port=5432` in connection string of .env.
+
+> [!WARNING]
+> Running the whole PutWiki with backend in `Production` environment will use urls (e.g. CallbackUrl) that refer to domain name used to access PutWiki in Internet. It won't redirect to developer's local machine. In this case during backend testing, that should be altered manually and restored after.
 
 ## Testing
-We use xUnit and Fluent Assertions libs to cover the core domain logic. We stick to the arrange, act, assert pattern. [Unit testing best practices](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices).
+We use xUnit and Fluent Assertions libraries to cover the core logic. We stick to the arrange, act, assert pattern. We highly recommend reading this: [Unit testing best practices](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices).
 
 ## Notes
 
-> ⚠️ Please note that you need to have .NET platform installed to run this app locally. Download version defined in `global.json`.
+> [!IMPORTANT]
+> Please note that you need to have .NET platform installed to run this app locally. Download version defined in `global.json`.
 

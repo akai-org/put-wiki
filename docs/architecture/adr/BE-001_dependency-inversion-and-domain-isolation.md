@@ -21,9 +21,9 @@ To achieve this, we divide our application into four distinct, concentric layers
 
     - **Rule:** it has zero dependencies on anything outside of itself. It does not know about databases, JSON, or APIs. 
     
-    - **NOTE:** we decided to use small library `FluentResults` in our Domain layer. We treat it as a language primitive. More about Result pattern and error handling in this project [here](docs\architecture\adr\BE-004_error-handling-and-flow-control.md)
+    - **NOTE:** we decided to use small library `FluentResults` in our Domain layer. We treat it as a language primitive. More about Result pattern and error handling in this project [here](docs/architecture/adr/BE-004_error-handling-and-flow-control.md)
 
-2. **Application layer (use cases):** contains the specific workflows of our system (e.g., `ProvisionUserUseCase`, `UpdateUserNicknameUseCase`).
+2. **Application layer:** Contains use cases (app-specific scenarios, e.g `ProvisionUserUseCase`, `UpdateUserNicknameUseCase`) and queries (fast data retrieval). It coordinates data flow between the Domain layer and Infrastructure (simply put it's the orchestrator).
 
     - **Rule:** it depends only on the Domain layer. When it needs to save data or talk to an external API, it defines an **interface** (e.g., `IUserRepository`). It does not implement this interface.
 

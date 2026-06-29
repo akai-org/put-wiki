@@ -1,7 +1,7 @@
 ---
 name: Task
 about: Generic independent task. Usually technical task which is not suitable for
-  the user story
+  the user story as it is only part of the feature.
 title: ''
 labels: type:task
 assignees: ''
