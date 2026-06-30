@@ -7,7 +7,24 @@ on:
             - main
         paths:
             - "client/**"
+            # Changes only to these files don't trigger CD:
+            # docs
             - "!client/**/*.md"
+            # unit tests and related config
+            - "!client/**/*.test.*"
+            - "!client/**/*.spec.*"
+            - "!client/**/__tests__/**"
+            - "!client/vitest.config.*"
+            # storybook
+            - "!client/**/*.stories.*"
+            - "!client/.storybook/**"
+            # msw
+            - "!client/**/mocks/**"
+            - "!client/**/__mocks__/**"
+            # linter, formatter
+            - "!client/.eslint*"
+            - "!client/eslint.config.*"
+            - "!client/.prettier*"
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}

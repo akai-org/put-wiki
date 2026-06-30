@@ -48,3 +48,29 @@ bun-debug.log*
 node_modules
 .env
 .env.*
+
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+# DEVELOPMENT, TESTING & DOCUMENTATION
+# ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+
+# docs
+**/*.md
+
+# vitest
+**/*.test.*
+**/*.spec.*
+**/__tests__/
+vitest.config.*
+
+# storybook
+**/*.stories.*
+.storybook/
+
+# msw
+**/mocks/
+**/__mocks__/
+
+# linters, formatters
+.eslint*
+eslint.config.*
+.prettier*

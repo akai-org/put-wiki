@@ -7,7 +7,17 @@ on:
             - main
         paths:
             - "server/**"
+            # Changes only to these files don't trigger CD:
+            # docs
             - "!server/**/*.md"
+            # unit test csproj
+            - "!server/PutWiki.UnitTests/**"
+            # environment variables (example files)
+            - "!server/.env*"
+            # linter, formatter
+            - "!server/.editorconfig"
+            - "!server/**/*.ruleset"
+            - "!server/sonar-project.properties"
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
