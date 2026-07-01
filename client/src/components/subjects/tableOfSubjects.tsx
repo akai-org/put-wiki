@@ -48,7 +48,7 @@ export default function TableOfSubjects({ semesters }: { semesters: semester[] }
             })()
           ) : (
             <TableRow>
-              <TableCell colSpan={semesters.length}>Brak danych</TableCell>
+              <TableCell colSpan={1}>Brak danych</TableCell>
             </TableRow>
           )}
         </TableBody>
