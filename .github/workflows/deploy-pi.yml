@@ -1,0 +1,98 @@
+name: Deploy production of put-wiki to Raspberry Pi
+
+on:
+  workflow_dispatch:
+    inputs:
+      client:
+        description: 'Client Tag/Version to deploy (leave as "latest" for newest)'
+        required: true
+        default: "latest"
+      server:
+        description: 'Server Tag/Version to deploy (leave as "latest" for newest)'
+        required: true
+        default: "latest"
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, raspberry-pi]
+    environment: production
+    env:
+      PUT_WIKI_DIR: /home/joszko/put-wiki
+      INPUT_CLIENT: ${{ github.event.inputs.client }}
+      INPUT_SERVER: ${{ github.event.inputs.server }}
+
+    steps:
+      - name: Login to GHCR
+        uses: docker/login-action@v4.2.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Resolve deployment tags
+        working-directory: ${{ env.PUT_WIKI_DIR }}
+        shell: bash
+        run: |
+          git fetch origin --tags --force
+
+          CLIENT_TAG="$INPUT_CLIENT"
+          SERVER_TAG="$INPUT_SERVER"
+
+          # Resolve 'latest' to actual latest tags
+          if [ "$CLIENT_TAG" = "latest" ]; then
+            CLIENT_TAG=$(git tag --sort=-v:refname | grep -E '^client-|^v' | head -n 1)
+          fi
+
+          if [ "$SERVER_TAG" = "latest" ]; then
+            SERVER_TAG=$(git tag --sort=-v:refname | grep -E '^server-|^v' | head -n 1)
+          fi
+
+          echo "Deploying Client Tag: $CLIENT_TAG"
+          echo "Deploying Server Tag: $SERVER_TAG"
+
+          echo "CLIENT_TAG=$CLIENT_TAG" >> $GITHUB_ENV
+          echo "SERVER_TAG=$SERVER_TAG" >> $GITHUB_ENV
+
+      - name: Update codebase
+        working-directory: ${{ env.PUT_WIKI_DIR }}
+        shell: bash
+        run: |
+          git fetch -f origin main
+          git reset --hard origin/main
+
+      - name: Start maintenance mode
+        working-directory: ${{ env.PUT_WIKI_DIR }}
+        shell: bash
+        run: |
+          export GITHUB_REPOSITORY=${GITHUB_REPOSITORY,,}
+          # Bring down main proxy to free up ports
+          docker compose -f compose.yml -f compose.prod.yml stop proxy || true
+
+          # Start maintenance page
+          docker compose -f compose.maintenance.yml up -d
+
+      - name: Pull new images
+        working-directory: ${{ env.PUT_WIKI_DIR }}
+        shell: bash
+        run: |
+          export GITHUB_REPOSITORY=${GITHUB_REPOSITORY,,}
+          docker compose -f compose.yml -f compose.prod.yml pull
+
+      - name: Deploy new stack
+        working-directory: ${{ env.PUT_WIKI_DIR }}
+        shell: bash
+        run: |
+          export GITHUB_REPOSITORY=${GITHUB_REPOSITORY,,}
+          # Stop maintenance page
+          docker compose -f compose.maintenance.yml down
+
+          # Start the new stack (recreates containers with new images)
+          docker compose -f compose.yml -f compose.prod.yml up -d --remove-orphans

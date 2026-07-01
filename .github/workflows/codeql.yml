@@ -16,8 +16,13 @@ on:
     paths-ignore:
       - "docs/**"
       - "**/*.md"
+
   pull_request:
     branches: ["main"]
+    paths-ignore:
+      - "docs/**"
+      - "**/*.md"
+
   schedule:
     - cron: "0 0 * * 0" # runs every week on Sunday at 00:00
 
@@ -46,7 +51,7 @@ jobs:
       - name: Build matrix
         id: set-matrix
         run: |
-          matrix=$(jq -n '{include: []}')
+          matrix=$(jq -nc '{include: []}')
 
           if [[ "${{ github.event_name }}" == "schedule" ]] || [[ "${{ steps.filter.outputs.actions }}" == "true" ]]
           then
@@ -98,7 +103,7 @@ jobs:
         with:
           category: "/language:${{matrix.language}}"
 
-  analysis-status: 
+  analysis-status:
     name: Analysis status
     needs: [prepare-matrix, analyze]
     runs-on: ubuntu-latest

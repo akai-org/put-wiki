@@ -1,26 +1,19 @@
-using Domain;
+using Domain.Users;
 
-using Infrastructure.Identity;
+using Infrastructure.EntitiesConfiguration;
 
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
 
-public class AppDbContext(DbContextOptions options) : IdentityDbContext<ApplicationUser>(options)
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public required DbSet<Opinion> Opinions { get; set; }
+    public required DbSet<User> Users { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(builder);
-        builder.Entity<Opinion>(entity =>
-        {
-            entity
-                .HasOne<ApplicationUser>()
-                .WithMany()
-                .HasForeignKey(o => o.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-        });
+        base.OnModelCreating(modelBuilder);
+
+        new UserEntityTypeConfiguration().Configure(modelBuilder.Entity<User>());
     }
 }

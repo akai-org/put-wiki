@@ -1,0 +1,88 @@
+name: CD pipeline (server)
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+        paths:
+            - "server/**"
+            # Changes only to these files don't trigger CD:
+            # docs
+            - "!server/**/*.md"
+            # unit test csproj
+            - "!server/PutWiki.UnitTests/**"
+            # environment variables (example files)
+            - "!server/.env*"
+            # linter, formatter
+            - "!server/.editorconfig"
+            - "!server/**/*.ruleset"
+            - "!server/sonar-project.properties"
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: false
+
+permissions:
+    contents: write
+    packages: write
+
+jobs:
+    release-server:
+        runs-on: ubuntu-22.04-arm
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6.0.2
+              with:
+                  fetch-depth: 0
+
+            - name: Determine next version
+              id: next_version
+              uses: anothrNick/github-tag-action@1.75.0
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  DEFAULT_BUMP: patch
+                  INITIAL_VERSION: 0.1.2
+                  TAG_PREFIX: server-v
+                  DRY_RUN: true
+
+            - name: Login to GHCR
+              uses: docker/login-action@v4.2.0
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Setup QEMU
+              uses: docker/setup-qemu-action@v4.0.0
+
+            - name: Setup Docker Buildx
+              uses: docker/setup-buildx-action@v4.0.0
+
+            - name: Set lowercase repository name
+              run: |
+                echo "REPO=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
+
+            - name: Build and push server image
+              uses: docker/build-push-action@v7.2.0
+              with:
+                  context: ./server
+                  platforms: linux/arm64
+                  push: true
+                  tags: |
+                      ghcr.io/${{ env.REPO }}/server:${{ steps.next_version.outputs.new_tag }}
+                      ghcr.io/${{ env.REPO }}/server:latest
+
+            - name: Create tag
+              uses: anothrNick/github-tag-action@1.75.0
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  CUSTOM_TAG: ${{ steps.next_version.outputs.new_tag }}
+
+            - name: Create GitHub Release
+              uses: softprops/action-gh-release@v3
+              with:
+                  tag_name: ${{ steps.next_version.outputs.new_tag }}
+                  name: Release ${{ steps.next_version.outputs.new_tag }}
+                  generate_release_notes: true

@@ -1,6 +1,6 @@
-# PUTwiki - Client (Frontend)
+# PutWiki - Client (Frontend)
 
-The PUTwiki client is the user interface layer of the application, built with React and designed for scalability, maintainability, and fast development.
+The PutWiki client is the user interface layer of the application, built with React and designed for scalability, maintainability, and fast development.
 
 ## Architecture overview
 
@@ -30,7 +30,7 @@ bun install
 bun run dev
 ```
 
-You can also run the whole put-wiki using Docker to preview production version:
+You can also launch the whole PutWiki using Docker to preview development version:
 
 ```bash
 docker compose up
@@ -38,4 +38,5 @@ docker compose up
 
 ## Notes
 
-> ⚠️ Please note that you need to have bun installed to run this app locally. Use version defined in `package.json` `engines.bun`.
+> [!IMPORTANT]
+> Please note that you need to have bun installed to run this app locally. Use version defined in `package.json` `engines.bun`.
