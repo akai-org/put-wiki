@@ -55,7 +55,7 @@ export default function TableOfOpinions({ opinions }: { opinions: Opinion[] }) {
                 <p>Brak opinii</p>
               )}
             </CollapsibleContent>
-            <CollapsibleTrigger>
+            <CollapsibleTrigger asChild>
               <Toggle OnValue="Zwiń" OffValue="Rozwiń" />
             </CollapsibleTrigger>
           </Collapsible>
