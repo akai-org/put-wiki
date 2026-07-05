@@ -36,6 +36,23 @@ jobs:
               uses: actions/checkout@v6.0.2
               with:
                   fetch-depth: 0
+                  
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v4
+              with:
+                  global-json-file: server/global.json
+                  
+            - name: Prepare for generating migration
+              run: |
+                  cd server
+                  dotnet tool restore
+                  dotnet restore PutWiki.slnx --locked-mode
+                  
+            - name: Generate migration SQL script
+              run: |
+                  dotnet ef migrations script -i -o ../migration.sql \
+                    --project Infrastructure/Infrastructure.csproj \
+                    --startup-project Presentation/Presentation.csproj
 
             - name: Determine next version
               id: next_version
@@ -86,3 +103,4 @@ jobs:
                   tag_name: ${{ steps.next_version.outputs.new_tag }}
                   name: Release ${{ steps.next_version.outputs.new_tag }}
                   generate_release_notes: true
+                  files: migration.sql
