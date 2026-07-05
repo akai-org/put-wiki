@@ -78,7 +78,7 @@ jobs:
           global-json-file: server/global.json
           
       - name: Restore dependencies
-        run: dotnet restore PutWiki.slnx
+        run: dotnet restore PutWiki.slnx --locked-mode 
       
       - name: Check formatting
         run: dotnet format PutWiki.slnx --verify-no-changes --verbosity diagnostic

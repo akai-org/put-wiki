@@ -7,12 +7,12 @@ COPY ["PutWiki.slnx", "./"]
 COPY ["Directory.Build.props", "./"]
 COPY ["Directory.Packages.props", "./"]
 
-COPY ["Presentation/*.csproj", "Presentation/"]
-COPY ["Application/*.csproj", "Application/"]
-COPY ["Infrastructure/*.csproj", "Infrastructure/"]
-COPY ["Domain/*.csproj", "Domain/"]
+COPY ["Presentation/*.csproj", "Presentation/packages.lock.json*", "Presentation/"]
+COPY ["Application/*.csproj", "Application/packages.lock.json*", "Application/"]
+COPY ["Infrastructure/*.csproj", "Infrastructure/packages.lock.json*", "Infrastructure/"]
+COPY ["Domain/*.csproj", "Domain/packages.lock.json*", "Domain/"]
  
-RUN dotnet restore "Presentation/Presentation.csproj"
+RUN dotnet restore "Presentation/Presentation.csproj" --locked-mode
 
 FROM base AS publish
 COPY . .
