@@ -1,0 +1,59 @@
+﻿name: Apply database migrations
+
+on:
+  workflow_dispatch:
+    inputs:
+      server:
+        description: 'Server version/tag associated with Github Release containing the migration script'
+        required: true
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: [self-hosted, raspberry-pi]
+    env:
+      PUT_WIKI_DIR: /home/joszko/put-wiki
+      INPUT_SERVER: ${{ github.event.inputs.server }}
+
+    steps:
+      - name: Start maintenance mode
+        working-directory: ${{ env.PUT_WIKI_DIR }}
+        shell: bash
+        run: |
+          export GITHUB_REPOSITORY=${GITHUB_REPOSITORY,,}
+
+          docker compose -f compose.yml -f compose.prod.yml stop proxy || true
+          docker compose -f compose.maintenance.yml up -d
+
+      - name: Download migration script
+        working-directory: ${{ env.PUT_WIKI_DIR }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          gh release download "$INPUT_SERVER" \
+            --pattern "migration.sql" \
+            --repo ${{ github.repository }} \
+            --dir . || true
+
+      - name: Apply database migrations
+        working-directory: ${{ env.PUT_WIKI_DIR }}
+        shell: bash
+        run: |
+          if [ -f "migration.sql" ]; then
+            echo "Applying migration..."
+            cat migration.sql | docker compose -f compose.yml -f compose.prod.yml exec -T database sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB"'
+            rm migration.sql
+          else
+            echo "migration.sql doesn't exist. No migration applied"
+          fi
+
+      - name: Stop maintenance mode
+        working-directory: ${{ env.PUT_WIKI_DIR }}
+        shell: bash
+        run: |
+          docker compose -f compose.maintenance.yml down
+          docker compose -f compose.yml -f compose.prod.yml start proxy
