@@ -2,6 +2,7 @@
   <PropertyGroup>
     <!-- Enable central package management, https://learn.microsoft.com/en-us/nuget/consume-packages/Central-Package-Management -->
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="AutoMapper" Version="16.1.1" />
@@ -25,5 +26,8 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.4" />
     <PackageVersion Include="Scalar.AspNetCore" Version="2.13.12" />
     <PackageVersion Include="Scalar.AspNetCore.Microsoft" Version="2.13.12" />
+    
+    <!-- Transitive dependencies (add only as a last resort, e.g. high vulnerability) -->
+    <PackageVersion Include="Microsoft.OpenApi" Version="2.7.5" />
   </ItemGroup>
 </Project>
