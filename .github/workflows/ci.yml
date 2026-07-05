@@ -79,6 +79,12 @@ jobs:
           
       - name: Restore dependencies
         run: dotnet restore PutWiki.slnx
+        
+      - name: Restore tools
+        run: dotnet tool restore
+        
+      - name: Check whether new migration should be added
+        run: dotnet ef migrations has-pending-model-changes --project Infrastructure/Infrastructure.csproj --startup-project Presentation/Presentation.csproj
       
       - name: Check formatting
         run: dotnet format PutWiki.slnx --verify-no-changes --verbosity diagnostic
