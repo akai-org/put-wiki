@@ -42,15 +42,13 @@ jobs:
               with:
                   global-json-file: server/global.json
                   
-            - name: Prepare for generating migration
-              run: |
-                  cd server
-                  dotnet tool restore
-                  dotnet restore PutWiki.slnx --locked-mode
-                  
             - name: Generate migration SQL script
               run: |
-                  dotnet ef migrations script -i -o ../migration.sql \
+                 cd server
+                 dotnet tool restore
+                 dotnet restore PutWiki.slnx --locked-mode
+                
+                 dotnet ef migrations script -i -o ../migration.sql \
                     --project Infrastructure/Infrastructure.csproj \
                     --startup-project Presentation/Presentation.csproj
 
