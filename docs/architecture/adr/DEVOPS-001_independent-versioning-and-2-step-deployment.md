@@ -30,10 +30,11 @@ We have decided to implement **independent versioning** for the `client` and `se
 - **Human error:** There is a risk that a developer merges a PR and forgets to click the "Deploy" button, leaving the production environment out of sync with the `main` branch.
 - **Complexity in tracking:** It might sometimes be slightly confusing for newcomers to determine if the latest code on `main` is actually running on production without checking the GitHub Deployments tab in repo.
 - **Github Releases mismatch:** Because the repository has 2 independently versioned applications, the standard GitHub Releases page becomes a chronological mix of frontend and backend tags (e.g., `client-v1.2.0`, `server-v2.0.1`). This fragmentation makes it harder to see the unified state of the system at a glance, and the "Latest release" badge on the repository homepage will only display the most recently updated component, potentially hiding the current version of the other app.
+- **Cloudflare 502 HTTP status issue:** When starting maintenance page and stopping proxy (and vice versa) there is a few seconds when nothing can process requests, therefore Cloudflare displays 502 Bad Gateway for a short period of time (apart from that maintenance page is visible). However to fix that we would need to learn and configure more powerful tool like Traefik which is not crucial for current project scale.
 
 ## Alternatives
 Considered options and why we rejected them:
-1. **Unified versioning:** We considered having one global version for the entire monorepo. We rejected this because a simple CSS fix would require rebuilding the backend image, unnecessary tying both lifecycles together.
+1. **Unified versioning:** We considered having one global version for the entire monorepo. We rejected this because a simple CSS fix would require rebuilding the backend image, unnecessary tying both lifecycles together. There would be issues to keep client and server apps with global version in sync. This solution definitely would introduce confusion.
 2. **Fully automated CD (continous deployment instead of continous delivery):** We didn't implement it due to the additional complexity to determine whether change is deployable or not (like docs change). Moreover we would lose control over when we want to introduce downtime.
 
 ## Links to external or internal resources
