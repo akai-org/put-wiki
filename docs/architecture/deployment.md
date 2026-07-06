@@ -100,6 +100,9 @@ You can also see here that each server release includes migration SQL script. Ev
 
 Upon the successful completion of this process, you can proceed to the next steps to deploy your changes fully.
 
+> [!NOTE]
+> Unlike application code, database migrations cannot be automatically rolled back by running an older version's script. Because our SQL scripts are idempotent, running an older script against a newer database schema will simply do nothing (as those migrations are already marked as applied). Reversing a schema change is much more complex, requires manual database intervention, and carries a high risk of permanent data loss (refers to production that handles user traffic).
+
 ---
 <br>
 
