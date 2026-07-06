@@ -1,4 +1,4 @@
-# DEVOPS-001 — Independent versioning and 2-step deployment
+# DEVOPS-001 Independent versioning and 2-step deployment
 
 ## Status
 Accepted
