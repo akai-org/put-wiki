@@ -28,13 +28,14 @@ jobs:
       - uses: dorny/paths-filter@v4
         id: filter
         with:
+          predicate-quantifier: 'every'
           filters: |
             client:
               - 'client/**'
+              - '!**/*.md'
             server:
               - 'server/**'
-
-  
+              - '!**/*.md'
   
   client-verification:
     needs: changes
