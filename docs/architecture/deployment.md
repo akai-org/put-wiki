@@ -11,7 +11,7 @@ Our continuous integration and continuous delivery (CI/CD) pipelines are built u
 
 * **CD ([config](../../.github/workflows/cd-client.yml)):** Continous delivery pipeline that is separate for client and server apps. Triggered automatically after merging changes to the main branch. It handles versioning, creating github releases and building the production Docker images that are pushed to container registry.
 
-* **Deployment ([config](../../.github/workflows/deploy-pi.yml)):** Should be launched manually by feature author to deploy released changes to production environment. You can provide specific version or deploy the newest one. Server and client are versioned separately, so you can deploy different version of client and server. This is especially useful if you want to rollback one, but leave current version of other app.
+* **Deployment ([config](../../.github/workflows/deploy-pi.yml)):** Should be launched manually by author of changes to deploy them to production environment. You can provide specific version or deploy the newest one. Server and client are versioned separately, so you can deploy different version of client and server. This is especially useful if you want to rollback one, but leave current version of other app.
 
 ## Infrastructure and hosting
 For the MVP phase, the production environment is hosted on a **private Raspberry Pi**. 
@@ -71,31 +71,59 @@ graph TD
 
 ## How to deploy released changes to production?
 
-Once your changes has been merged to main, then continous delivery pipeline should automatically create client, server or both docker images with bumped versions depending on what changes you made. When CD workflow completes successfully, you can deploy your feature to production environment. 
-![zero step of deploying to prod](deploy-step-0.png)
+> [!TIP]
+> If you are interested in the decision behind deployment process see [this ADR](./adr/DEVOPS-001_independent-versioning-and-2-step-deployment.md).
+
+Once your changes has been merged to main, then continous delivery pipeline should automatically create client, server or both docker images with bumped versions depending on what changes you made. When CD workflow completes successfully, you can deploy your changes to production environment. 
+
+![zero step of deploying to prod](./screenshots/deploy-step-0.png)
 <br>
 
-To do that follow the steps below:
+---
+### Applying database migrations to production (optional step)
+> [!CAUTION]
+> If the changes you made included adding a new database migration (by changing the data model), You **MUST** apply this migration before deploying your changes that added it to the production environment to avoid 5xx errors caused by missing new columns, etc. This is critical, especially once the app begins handling user traffic. To apply the migration in the production environment, follow the steps below.
+
+1. Go to Releases (on the right in Code tab). Find release that was just created for your changes in server app. Copy tag that is associated with this release and save it for later.
+
+You can also see here that each server release includes migration SQL script. Even if you didn't add any new migration. This was done to simplify workflow and maintain consistency and predictability.
+
+![first step of applying migration to prod](./screenshots/apply-migration-to-prod-step-1.png)
+
+2. Next go to Actions tab and click on workflow which name indicates that it is responsible for applying migrations to prod.
+
+![second step of applying migration to prod](./screenshots/apply-migration-to-prod-step-2.png)
+
+3. Next click gray `Run workflow` button. Popup with input for entering server version (tag) will show up. Here you can paste the saved tag value from 1. step (e.g. `server-v0.1.6`). At the end press green `Run workflow` button to start the process of applying database migration to production.
+
+![third step of applying migration to prod](./screenshots/apply-migration-to-prod-step-3.png)
+
+Upon the successful completion of this process, you can proceed to the next steps to deploy your changes fully.
+
+---
+<br>
+
+To deploy your changes to production do as follows:
 1. Go to `Actions` tab in repo and select workflow that deploys to prod.
 
-![first step of deploying to prod](deploy-step-1.png)
+![first step of deploying to prod](./screenshots/deploy-step-1.png)
 <br>
 
 2. Next click gray `Run workflow` button. Popup with two inputs for entering client and server versions will show up. Usually you won't need to enter anything to bump version on prod. This is only for rollbacks. Simply press green `Run workflow` button to start deployment.
 
-![second step of deploying to prod](deploy-step-2.png)
+![second step of deploying to prod](./screenshots/deploy-step-2.png)
 <br>
 
 3. If you see that everything is green, then deployment is successful. You can see all deployments in `Deployments` section on `Code` tab. Now you can make sure that your changes also work on production (by visiting app's url).
 
-![third step of deploying to prod](deploy-step-3.png)
+![third step of deploying to prod](./screenshots/deploy-step-3.png)
 <br>
 
 > [!IMPORTANT]
-> If you changed nothing related to `client/` or `server/`, but it still affects production, such as docker compose or proxy configuration, then you should deploy your changes right after merge to main. CD pipeline won't create any docker images, as they are only created when updating client and/or server.
+> If you changed nothing related to `client/` or `server/`, but it still affects production, such as docker compose or proxy configuration, then you should deploy your changes right after merge to main. CD pipeline won't create any docker images, but deployment is still necessary to reload configuration.
 
 > [!NOTE]
-> Changes made only to project documentation shouldn't be deployed separately, because they don't impact production environment. They are in codebase and show up in github releases with production related code.
+> Changes made **ONLY** to non-production code such as: development configuration, tests, documentation, etc. shouldn't be deployed separately, because they don't impact production environment at all. They are in codebase and are included in Github Release changelog.
 
 ## Secrets management
 Secrets are strictly kept out of source control.

@@ -71,8 +71,7 @@ Additionally there would be no difference between local development outside of D
 
 To work locally besides server you need the database. So having Docker installed on your machine is still essential. Start it with `docker compose up database`.
 
-> [!NOTE]
-> First you need to provide environment variables for the database. See steps below:
+**NOTE:** First you need to provide environment variables for the database. See steps below:
 
 1. Create a `.env.postgres` file in the root directory of entire PutWiki project.
 2. Copy values from `.env.postgres.example`.
