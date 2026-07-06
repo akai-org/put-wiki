@@ -1,4 +1,4 @@
-name: CodeQL
+name: CodeQL code analysis
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

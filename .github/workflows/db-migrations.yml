@@ -1,4 +1,4 @@
-﻿name: Apply database migrations
+﻿name: Apply database migrations to production
 
 on:
   workflow_dispatch:

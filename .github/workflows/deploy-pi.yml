@@ -1,4 +1,4 @@
-name: Deploy production of put-wiki to Raspberry Pi
+name: Deploy to production (Raspberry Pi)
 
 on:
   workflow_dispatch:
