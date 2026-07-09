@@ -8,8 +8,8 @@ import {
   CardTitle,
 } from '@/components/ui/card.tsx';
 import TableOfSubjects from '@/components/subjects/tableOfSubjects.tsx';
-const data_url = '../assets/data/indexes_majors.json';
-import indexes from '../assets/data/indexes_majors.json';
+const data_url = '/mocks/informatyka.json';
+import indexes from '../../public/mocks/informatyka.json';
 import TableOfOpinions from '@/components/opinions/tableOfOpinions';
 
 interface DegreeCourseSemester {
@@ -32,7 +32,7 @@ interface DegreeCourseData {
   semesters: DegreeCourseSemester[];
   absolvent_future: string;
   worst_subjects: DegreeCourseWorstSubject[];
-  opinions: DegreeCourseOpinion[]; // Dodany opcjonalny klucz dla opinii
+  opinions: DegreeCourseOpinion[];
 }
 const fallbackMajor: DegreeCourseData = {
   name: 'Kierunek studiów',
@@ -40,7 +40,7 @@ const fallbackMajor: DegreeCourseData = {
   master_degree: 0,
   semesters: [],
   absolvent_future: '',
-  worst_subjects: [{ name: '', mark: 0 }],
+  worst_subjects: [],
   opinions: [],
 };
 
@@ -62,7 +62,6 @@ export default function DegreeCourse() {
         throw new Error(`Błąd sieci: ${response.status}`);
       }
       const myJson = await response.json();
-      console.log('Dane pobrane pomyślnie:', myJson);
       if (Array.isArray(myJson)) {
         if (myJson.length > 0) {
           setMajor(myJson[0]);
@@ -80,8 +79,6 @@ export default function DegreeCourse() {
     }
   }
   useEffect(function () {
-    // Używamy pliku JSON jako domyślnego mocka jeśli jest dostępny,
-    // w przeciwnym razie wykonujemy fetch (np. w środowisku produkcyjnym).
     if (Array.isArray(indexes) && indexes.length > 0) {
       setMajor(indexes[0] as DegreeCourseData);
       setLoading(false);
@@ -101,9 +98,7 @@ export default function DegreeCourse() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl font-bold" style={{ textAlign: 'center' }}>
-          {major.name}
-        </CardTitle>
+        <CardTitle className="text-2xl font-bold text-center">{major.name}</CardTitle>
         <CardDescription className="max-w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
           <CardContent>
             <p>{major.description}</p>
