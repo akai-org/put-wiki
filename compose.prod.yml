@@ -1,0 +1,9 @@
+services:
+  client:
+    image: ghcr.io/${GITHUB_REPOSITORY:-akai-org/put-wiki}/client:${CLIENT_TAG:-latest}
+
+  server:
+    image: ghcr.io/${GITHUB_REPOSITORY:-akai-org/put-wiki}/server:${SERVER_TAG:-latest}
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - UsosOAuth__CallbackUrl=https://put-wiki.joszkooo.work/api/auth/callback
