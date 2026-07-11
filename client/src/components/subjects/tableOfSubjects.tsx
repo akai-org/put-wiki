@@ -1,17 +1,21 @@
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '../ui/table.tsx';
 import { ScrollArea } from '../ui/scroll-area.tsx';
 
-interface semester {
+interface Semester {
   number: number;
   subjects: string[];
 }
 
-export default function TableOfSubjects({ semesters }: { semesters: semester[] }) {
+export default function TableOfSubjects({ semesters }: { semesters: Semester[] }) {
   return (
     <ScrollArea className="h-52 rounded-md border p-4">
       <Table>
-        <TableHeader>Przedmioty w kierunku Informatyka </TableHeader>
         <TableHeader>
+          <TableRow>
+            <TableCell colSpan={Math.max(semesters.length, 1)} className="text-center font-bold">
+              Przedmioty na kierunku
+            </TableCell>
+          </TableRow>
           <TableRow>
             {semesters.length > 0 ? (
               semesters.map(function (semester) {

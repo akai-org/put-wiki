@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useParams } from '@tanstack/react-router';
 
 import {
   Card,
@@ -8,108 +8,39 @@ import {
   CardTitle,
 } from '@/components/ui/card.tsx';
 import TableOfSubjects from '@/components/subjects/tableOfSubjects.tsx';
-const data_url = '/mocks/informatyka.json';
-import indexes from '../../public/mocks/informatyka.json';
 import TableOfOpinions from '@/components/opinions/tableOfOpinions';
+import { useDegreeCourse } from '@/hooks/useDegreeCourse';
 
-interface DegreeCourseSemester {
-  number: number;
-  subjects: string[];
-}
-interface DegreeCourseOpinion {
-  author: string;
-  content: string;
-  rating: number;
-}
-interface DegreeCourseWorstSubject {
-  name: string;
-  mark: number;
-}
-interface DegreeCourseData {
-  name: string;
-  description: string;
-  master_degree: number;
-  semesters: DegreeCourseSemester[];
-  absolvent_future: string;
-  worst_subjects: DegreeCourseWorstSubject[];
-  opinions: DegreeCourseOpinion[];
-}
-const fallbackMajor: DegreeCourseData = {
-  name: 'Kierunek studiów',
-  description: 'Opis kierunku studiów',
-  master_degree: 0,
-  semesters: [],
-  absolvent_future: '',
-  worst_subjects: [],
-  opinions: [],
-};
+export default function DegreeCoursePage() {
+  const { slug } = useParams({ from: '/degree-course/$slug' });
+  const { data, isLoading, isError } = useDegreeCourse(slug);
 
-export default function DegreeCourse() {
-  const [major, setMajor] = useState<DegreeCourseData>(fallbackMajor);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  async function getData(): Promise<void> {
-    setLoading(true);
-    try {
-      const response = await fetch(data_url, {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-      });
-      if (!response.ok) {
-        throw new Error(`Błąd sieci: ${response.status}`);
-      }
-      const myJson = await response.json();
-      if (Array.isArray(myJson)) {
-        if (myJson.length > 0) {
-          setMajor(myJson[0]);
-        } else {
-          setMajor(fallbackMajor);
-        }
-      } else {
-        setMajor(myJson as DegreeCourseData);
-      }
-    } catch (err) {
-      console.error('Nie udało się pobrać danych:', err);
-      setError(err instanceof Error ? err.message : String(err));
-    } finally {
-      setLoading(false);
-    }
+  if (isLoading)
+    return <div className="flex justify-center items-center text-white text-7xl">Ładowanie...</div>;
+  if (isError) {
+    //maybe add toast about error here
+    return (
+      <div className="flex justify-center items-center text-white text-7xl">Wystąpił błąd</div>
+    );
   }
-  useEffect(function () {
-    if (Array.isArray(indexes) && indexes.length > 0) {
-      setMajor(indexes[0] as DegreeCourseData);
-      setLoading(false);
-    } else {
-      getData();
-    }
-  }, []);
-
-  if (loading) {
-    return <p>Ładowanie danych...</p>;
-  }
-
-  if (error) {
-    return <p>Wystąpił błąd: {error}</p>;
-  }
+  if (!data)
+    return <div className="flex justify-center items-center text-white text-7xl">Brak danych</div>;
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center">{major.name}</CardTitle>
+        <CardTitle className="text-2xl font-bold text-center">{data.name}</CardTitle>
         <CardDescription className="max-w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
           <CardContent>
-            <p>{major.description}</p>
+            <p>{data.description}</p>
           </CardContent>
           <CardContent>
-            <p>{major.master_degree}</p>
+            <p>{data.masterDegree}</p>
           </CardContent>
         </CardDescription>
       </CardHeader>
 
-      <TableOfSubjects semesters={major.semesters} />
+      <TableOfSubjects semesters={data.semesters} />
 
       <div className="max-w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="mx-auto left-column">
@@ -118,7 +49,7 @@ export default function DegreeCourse() {
               <CardTitle>Losy Absolwentów</CardTitle>
             </CardHeader>
             <CardContent>
-              <p>{major.absolvent_future}</p>
+              <p>{data.absolventFuture}</p>
             </CardContent>
           </Card>
           <Card>
@@ -126,7 +57,15 @@ export default function DegreeCourse() {
               <CardTitle>Najtrudniejsze Przedmioty</CardTitle>
             </CardHeader>
             <CardContent>
-              <p>Lista najtrudniejszych przedmiotów w kierunku {major.name}</p>
+              <ul>
+                {data.hardestSubjects.length > 0 ? (
+                  data.hardestSubjects.map(function (subject) {
+                    return <li key={subject.name}>{subject.name}</li>;
+                  })
+                ) : (
+                  <li>Brak danych</li>
+                )}
+              </ul>
             </CardContent>
           </Card>
           <Card>
@@ -135,8 +74,8 @@ export default function DegreeCourse() {
             </CardHeader>
             <CardContent>
               <ul>
-                {major.worst_subjects.length > 0 ? (
-                  major.worst_subjects.map(function (subject) {
+                {data.worstSubjects.length > 0 ? (
+                  data.worstSubjects.map(function (subject) {
                     return (
                       <li key={subject.name}>
                         {subject.name} - Średnia ocena: {subject.mark}
@@ -159,7 +98,7 @@ export default function DegreeCourse() {
               <div />
             </CardContent>
           </Card>
-          <TableOfOpinions opinions={major.opinions} />
+          <TableOfOpinions opinions={data.opinions} />
         </div>
       </div>
     </Card>
