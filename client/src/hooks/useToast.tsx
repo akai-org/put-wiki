@@ -2,28 +2,20 @@ import { toast } from 'sonner';
 
 export function useToast() {
   function ShowErrorToast(message: string) {
-    toast.error('Error: ' + message, {
-      duration: 5000,
-      position: 'top-center',
-      className: 'bg-red-500 text-red-900',
-    });
+    toast.error('Error: ' + message, { position: 'top-center' });
   }
 
   function ShowMessageToast(message: string) {
-    toast(message, {
-      duration: 4000,
-      position: 'top-center',
-      className: 'bg-yellow-500 text-black',
-    });
+    toast(message, { position: 'top-center' });
   }
 
   function ShowSuccessToast(message: string) {
-    toast.success(message, {
-      duration: 4000,
-      position: 'top-center',
-      className: 'bg-green-500 text-black',
-    });
+    toast.success(message, { position: 'top-center' });
   }
 
-  return { ShowErrorToast, ShowMessageToast, ShowSuccessToast };
+  function ShowWarningToast(message: string) {
+    toast.warning('Warning: ' + message, { position: 'top-center' });
+  }
+
+  return { ShowErrorToast, ShowMessageToast, ShowSuccessToast, ShowWarningToast };
 }
