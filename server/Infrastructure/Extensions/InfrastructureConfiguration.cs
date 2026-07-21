@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Extensions;
 
@@ -31,6 +32,7 @@ public static partial class InfrastructureConfiguration
         services.AddHttpClient<IUsosHttpClient, UsosHttpClient>();
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IJwtService, JwtService>();
         services.AddSingleton<IUsosIdHasher, HmacUsosIdHasher>();
 
         services.AddSingleton(TimeProvider.System);
@@ -63,7 +65,29 @@ public static partial class InfrastructureConfiguration
         return services;
     }
 
-    // NOTE: don't use this method in PRODUCTION enviroment to apply migrations during app startup.
+    public static IServiceCollection AddJwt(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddOptions<JwtSettings>()
+            .Bind(configuration.GetSection("Jwt"))
+            .Validate(settings =>
+            {
+                var validator = new JwtSettingsValidator();
+                var validationResult = validator.Validate(settings);
+                if (!validationResult.IsValid)
+                {
+                    throw new OptionsValidationException(
+                        "JwtSettings",
+                        typeof(JwtSettings),
+                        validationResult.Errors.Select(e => e.ErrorMessage)
+                    );
+                }
+                return true;
+            })
+            .ValidateOnStart();
+
+        return services;
+    }
+
     public static async Task<IApplicationBuilder> ApplyDatabaseMigrationsAsync(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();

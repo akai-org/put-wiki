@@ -5,9 +5,6 @@ using System.Threading.Tasks;
 using Application.Auth;
 using Application.Errors;
 using Application.Features.Users.Commands.ProvisionUser;
-using Application.Mappings;
-
-using AutoMapper;
 
 using Domain.Users;
 
@@ -25,6 +22,7 @@ namespace PutWiki.UnitTests.Application;
 public class ProvisionUserUseCaseTests
 {
     private readonly Mock<IUsosOAuthService> _usosOAuthServiceMock;
+    private readonly Mock<IJwtService> _jwtServiceMock;
     private readonly Mock<IUsosIdHasher> _idHasherMock;
     private readonly Mock<IUserRepository> _userRepositoryMock;
     private readonly FakeTimeProvider _fakeTimeProvider;
@@ -33,22 +31,17 @@ public class ProvisionUserUseCaseTests
     public ProvisionUserUseCaseTests()
     {
         _usosOAuthServiceMock = new Mock<IUsosOAuthService>();
+        _jwtServiceMock = new Mock<IJwtService>();
         _idHasherMock = new Mock<IUsosIdHasher>();
         _userRepositoryMock = new Mock<IUserRepository>();
         _fakeTimeProvider = new FakeTimeProvider();
 
-        var mapperConfig = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<MappingsProfile>();
-        }, new NullLoggerFactory());
-        IMapper mapper = mapperConfig.CreateMapper();
-
         _sut = new ProvisionUserUseCase(
             _usosOAuthServiceMock.Object,
+            _jwtServiceMock.Object,
             _idHasherMock.Object,
             _userRepositoryMock.Object,
             NullLogger<ProvisionUserUseCase>.Instance,
-            mapper,
             _fakeTimeProvider
         );
     }
@@ -73,6 +66,7 @@ public class ProvisionUserUseCaseTests
 
         _idHasherMock.Verify(x => x.Hash(It.IsAny<string>()), Times.Never);
         _userRepositoryMock.Verify(x => x.Add(It.IsAny<User>()), Times.Never);
+        _jwtServiceMock.Verify(x => x.GenerateTokenAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -97,13 +91,17 @@ public class ProvisionUserUseCaseTests
         _userRepositoryMock
             .Setup(x => x.GetByHashedUsosIdAsync(hashedUsosId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(existingUser);
+        _jwtServiceMock
+            .Setup(x => x.GenerateTokenAsync(existingUser.Id, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Result.Ok("token"));
 
         // Act
         var result = await _sut.ExecuteAsync(cmd, CancellationToken.None);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
-        result.Value!.Id.Should().Be(existingUser.Id.ToString());
+        result.Value!.Token.Should().Be("token");
+        result.Value.UserId.Should().Be(existingUser.Id.ToString());
         result.Value.HashedUsosId.Should().Be(hashedUsosId);
 
         _userRepositoryMock.Verify(x => x.Add(It.IsAny<User>()), Times.Never);
@@ -130,6 +128,9 @@ public class ProvisionUserUseCaseTests
         _userRepositoryMock
             .Setup(x => x.GetByHashedUsosIdAsync(hashedUsosId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((User?)null);
+        _jwtServiceMock
+            .Setup(x => x.GenerateTokenAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Guid userId, CancellationToken _) => Result.Ok($"token-{userId}"));
         _fakeTimeProvider.SetUtcNow(fakeDate);
 
         // Act
@@ -138,9 +139,9 @@ public class ProvisionUserUseCaseTests
         // Assert
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().NotBeNull();
+        result.Value!.Token.Should().StartWith("token-");
+        result.Value.UserId.Should().NotBeEmpty();
         result.Value!.HashedUsosId.Should().Be(hashedUsosId);
-        result.Value.Id.Should().NotBe(Guid.Empty.ToString());
-        result.Value.JoinedDate.Should().Be(fakeDate);
 
         _userRepositoryMock.Verify(x => x.Add(It.Is<User>(u => u.HashedUsosId == hashedUsosId && u.JoinedDate == fakeDate)), Times.Once);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
