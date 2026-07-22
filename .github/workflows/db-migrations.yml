@@ -40,8 +40,8 @@ jobs:
           gh release download "$INPUT_SERVER" \
             --pattern "migration.sql" \
             --repo ${{ github.repository }} \
-            --dir . 
-            --clobber || true
+            --dir . \
+            --clobber
 
       - name: Apply database migrations
         working-directory: ${{ env.PUT_WIKI_DIR }}
