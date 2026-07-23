@@ -44,12 +44,12 @@ export default function Header({
               PUTWiki
             </Link>
             <nav>
-              <a
-                href="#"
+              <Link
+                to="/prowadzacy"
                 className="text-[15px] font-normal font-serif tracking-wider text-muted-foreground hover:text-foreground transition-colors uppercase"
               >
                 Prowadzący
-              </a>
+              </Link>
             </nav>
           </div>
 
@@ -67,17 +67,17 @@ export default function Header({
           </div>
 
           <div className="flex items-center gap-10 justify-end">
-            <a
-              href="#"
+            <Link
+              to="/przedmioty"
               className="text-[15px] font-normal font-serif tracking-wider text-muted-foreground hover:text-foreground transition-colors uppercase"
             >
               Przedmioty
-            </a>
+            </Link>
 
             <div className="flex items-center justify-end min-w-[100px]">
               {isLoggedIn ? (
-                <a
-                  href="#"
+                <Link
+                  to="/profile"
                   className="flex items-center gap-3 hover:opacity-90 transition-all group"
                 >
                   <span className="text-sm font-medium font-serif text-muted-foreground group-hover:text-foreground whitespace-nowrap">
@@ -86,9 +86,10 @@ export default function Header({
                   <div className="h-10 w-10 rounded-full border border-border flex items-center justify-center text-muted-foreground bg-muted group-hover:border-foreground transition-colors flex-shrink-0">
                     <User className="h-5 w-5" />
                   </div>
-                </a>
+                </Link>
               ) : (
                 <button
+                  type="button"
                   onClick={() => setIsLoggedIn(true)}
                   className="text-muted-foreground hover:text-foreground transition-colors focus:outline-none flex-shrink-0"
                   title="Zaloguj się"
@@ -110,6 +111,7 @@ export default function Header({
         </Link>
 
         <button
+          type="button"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="text-muted-foreground hover:text-foreground focus:outline-none p-2"
         >
@@ -131,18 +133,18 @@ export default function Header({
           </div>
 
           <nav className="flex flex-col gap-4 font-serif">
-            <a
-              href="#"
+            <Link
+              to="/prowadzacy"
               className="text-lg text-muted-foreground hover:text-foreground uppercase tracking-wider"
             >
               Prowadzący
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/przedmioty"
               className="text-lg text-muted-foreground hover:text-foreground uppercase tracking-wider"
             >
               Przedmioty
-            </a>
+            </Link>
           </nav>
 
           <div className="border-t border-border pt-4 font-serif">
@@ -155,6 +157,7 @@ export default function Header({
               </div>
             ) : (
               <button
+                type="button"
                 onClick={() => setIsLoggedIn(true)}
                 className="w-full border border-border hover:border-foreground text-foreground font-medium py-2 rounded-full text-center flex items-center justify-center gap-2"
               >
