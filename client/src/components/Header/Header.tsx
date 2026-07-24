@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { Menu, X, Settings, User } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 
-export default function Header({ 
-  defaultLoggedIn = false, 
-  defaultDark = false 
-}: { 
-  defaultLoggedIn?: boolean; 
+export default function Header({
+  defaultLoggedIn = false,
+  defaultDark = false,
+}: {
+  defaultLoggedIn?: boolean;
   defaultDark?: boolean;
 }) {
   const [isLoggedIn, setIsLoggedIn] = useState(defaultLoggedIn);
@@ -35,7 +35,6 @@ export default function Header({
     <header className="sticky top-0 z-50 w-full bg-background text-foreground border-b border-border shadow-md select-none">
       <div className="w-full flex justify-center px-8 md:px-16">
         <div className="w-full max-w-[1200px] h-20 hidden md:grid grid-cols-3 items-center">
-          
           <div className="flex items-center gap-10 justify-start">
             <Link
               to="/"
@@ -101,7 +100,6 @@ export default function Header({
               )}
             </div>
           </div>
-
         </div>
       </div>
 

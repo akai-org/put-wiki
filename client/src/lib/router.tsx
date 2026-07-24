@@ -1,5 +1,5 @@
 import { HomePage, NotFoundPage, CoursePage } from '@/pages';
-import { createRootRoute, createRoute, createRouter,Outlet } from '@tanstack/react-router';
+import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router';
 import Header from '@/components/Header/Header';
 // import Footer from '@/components/Footer/Footer';
 

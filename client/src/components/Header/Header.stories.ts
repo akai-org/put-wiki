@@ -1,7 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'; 
-import React from 'react'; 
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import React from 'react';
 import Header from './Header';
-import { createRootRoute, createRouter, RouterProvider, createMemoryHistory } from '@tanstack/react-router';
+import {
+  createRootRoute,
+  createRouter,
+  RouterProvider,
+  createMemoryHistory,
+} from '@tanstack/react-router';
 
 const meta = {
   title: 'Components/Header',
@@ -19,7 +24,7 @@ const meta = {
         initialEntries: ['/'],
       });
 
-      const mockRouter = createRouter({ 
+      const mockRouter = createRouter({
         routeTree: rootRoute,
         history: memoryHistory,
       });
