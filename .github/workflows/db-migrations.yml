@@ -28,7 +28,7 @@ jobs:
         run: |
           export GITHUB_REPOSITORY=${GITHUB_REPOSITORY,,}
 
-          docker compose -f compose.yml -f compose.prod.yml stop proxy || true
+          docker compose -f compose.yml -f compose.prod.yml stop proxy server || true
           docker compose -f compose.maintenance.yml up -d
 
       - name: Download migration script
