@@ -49,9 +49,8 @@ jobs:
         run: |
           if [ -f "migration.sql" ]; then
             echo "Applying migration..."
-            cat migration.sql | docker compose -f compose.yml -f compose.prod.yml exec -T database sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB"'
+            cat migration.sql | docker compose -f compose.yml -f compose.prod.yml exec -T database sh -c 'psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB"'
             rm migration.sql
           else
             echo "migration.sql doesn't exist. No migration applied"
           fi
-          
