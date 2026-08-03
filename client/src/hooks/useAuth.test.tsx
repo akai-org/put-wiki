@@ -5,18 +5,12 @@ import { AuthProvider } from '@/contexts/AuthProvider';
 
 function wrapper({
   initialLoggedIn,
-  initialNickname,
   children,
 }: {
   initialLoggedIn?: boolean;
-  initialNickname?: string;
   children: React.ReactNode;
 }) {
-  return (
-    <AuthProvider initialLoggedIn={initialLoggedIn} initialNickname={initialNickname}>
-      {children}
-    </AuthProvider>
-  );
+  return <AuthProvider initialLoggedIn={initialLoggedIn}>{children}</AuthProvider>;
 }
 
 describe('useAuth', () => {
@@ -26,31 +20,38 @@ describe('useAuth', () => {
     );
   });
 
-  it('defaults to logged out with the mock nickname', () => {
+  it('defaults to logged out', () => {
     const { result } = renderHook(() => useAuth(), {
       wrapper: (props) => wrapper({ ...props }),
     });
 
     expect(result.current.isLoggedIn).toBe(false);
-    expect(result.current.nickname).toBe('Janek');
   });
 
-  it('respects initialLoggedIn and initialNickname', () => {
+  it('respects initialLoggedIn', () => {
     const { result } = renderHook(() => useAuth(), {
-      wrapper: (props) => wrapper({ initialLoggedIn: true, initialNickname: 'Kasia', ...props }),
+      wrapper: (props) => wrapper({ initialLoggedIn: true, ...props }),
     });
 
     expect(result.current.isLoggedIn).toBe(true);
-    expect(result.current.nickname).toBe('Kasia');
   });
 
-  it('login() and logout() toggle isLoggedIn', () => {
+  it('login() sets isLoggedIn to true', () => {
     const { result } = renderHook(() => useAuth(), {
       wrapper: (props) => wrapper({ ...props }),
     });
 
     act(() => result.current.login());
     expect(result.current.isLoggedIn).toBe(true);
+  });
+
+  it('logout() sets isLoggedIn to false and is idempotent', () => {
+    const { result } = renderHook(() => useAuth(), {
+      wrapper: (props) => wrapper({ initialLoggedIn: true, ...props }),
+    });
+
+    act(() => result.current.logout());
+    expect(result.current.isLoggedIn).toBe(false);
 
     act(() => result.current.logout());
     expect(result.current.isLoggedIn).toBe(false);

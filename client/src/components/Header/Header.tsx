@@ -4,6 +4,11 @@ import { Link } from '@tanstack/react-router';
 import { SearchBar } from './SearchBar';
 import { AuthAction } from './AuthAction';
 import { MobileMenu } from './MobileMenu';
+import { ThemeToggle } from './ThemeToggle';
+import { Logo } from './Logo';
+
+const navLinkClassName =
+  'text-[17px] font-serif font-normal text-foreground/85 hover:text-foreground transition-colors whitespace-nowrap';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -15,19 +20,8 @@ export default function Header() {
           aria-label="Główna nawigacja"
           className="w-full max-w-[1200px] h-20 hidden md:grid grid-cols-3 items-center"
         >
-          <div className="flex items-center gap-10 justify-start">
-            <Link
-              to="/"
-              className="text-3xl font-black font-serif tracking-tight text-foreground hover:opacity-85 transition-opacity"
-            >
-              PUTWiki
-            </Link>
-            <Link
-              to="/prowadzacy"
-              className="text-[15px] font-normal font-serif tracking-wider text-muted-foreground hover:text-foreground transition-colors uppercase"
-            >
-              Prowadzący
-            </Link>
+          <div className="flex items-center justify-start">
+            <Logo size="desktop" />
           </div>
 
           <div className="flex justify-center w-full">
@@ -38,15 +32,16 @@ export default function Header() {
             />
           </div>
 
-          <div className="flex items-center gap-10 justify-end">
-            <Link
-              to="/przedmioty"
-              className="text-[15px] font-normal font-serif tracking-wider text-muted-foreground hover:text-foreground transition-colors uppercase"
-            >
+          <div className="flex items-center gap-8 justify-end">
+            <Link to="/prowadzacy" className={navLinkClassName}>
+              Prowadzący
+            </Link>
+            <Link to="/przedmioty" className={navLinkClassName}>
               Przedmioty
             </Link>
 
-            <div className="flex items-center justify-end min-w-[100px]">
+            <div className="flex items-center gap-4 justify-end pl-2 min-w-[40px]">
+              <ThemeToggle />
               <AuthAction variant="desktop" />
             </div>
           </div>
@@ -54,9 +49,7 @@ export default function Header() {
       </div>
 
       <div className="w-full h-16 px-6 flex items-center justify-between md:hidden">
-        <Link to="/" className="text-2xl font-black font-serif tracking-tight text-foreground">
-          PUTWiki
-        </Link>
+        <Logo size="mobile" />
 
         <button
           type="button"
@@ -67,7 +60,7 @@ export default function Header() {
         </button>
       </div>
 
-      {isMobileMenuOpen && <MobileMenu onClose={() => setIsMobileMenuOpen(false)} />}
+      <MobileMenu open={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
     </header>
   );
 }

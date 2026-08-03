@@ -1,6 +1,7 @@
 import { User } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { useAuth } from '@/hooks/useAuth';
+import { useUser } from '@/hooks/useUser';
 
 export function AuthAction({
   variant,
@@ -9,7 +10,8 @@ export function AuthAction({
   variant: 'desktop' | 'mobile';
   onAction?: () => void;
 }) {
-  const { isLoggedIn, nickname, login } = useAuth();
+  const { isLoggedIn, login } = useAuth();
+  const { nickname } = useUser();
 
   if (variant === 'mobile') {
     return isLoggedIn ? (

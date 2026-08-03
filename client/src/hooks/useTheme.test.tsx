@@ -2,9 +2,10 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
 import { useTheme } from './useTheme';
 import { ThemeProvider } from '@/contexts/ThemeProvider';
+import type { Theme } from '@/contexts/ThemeContext';
 
-function wrapper({ initialDark, children }: { initialDark?: boolean; children: React.ReactNode }) {
-  return <ThemeProvider initialDark={initialDark}>{children}</ThemeProvider>;
+function wrapper({ initialTheme, children }: { initialTheme?: Theme; children: React.ReactNode }) {
+  return <ThemeProvider initialTheme={initialTheme}>{children}</ThemeProvider>;
 }
 
 describe('useTheme', () => {
@@ -24,12 +25,14 @@ describe('useTheme', () => {
     );
   });
 
-  it('initializes from the initialDark prop and applies the dark class', () => {
+  it('initializes from the initialTheme prop and applies the dark class', () => {
     const { result } = renderHook(() => useTheme(), {
-      wrapper: (props) => wrapper({ initialDark: true, ...props }),
+      wrapper: (props) => wrapper({ initialTheme: 'dark', ...props }),
     });
 
+    expect(result.current.theme).toBe('dark');
     expect(result.current.isDark).toBe(true);
+    expect(result.current.isLight).toBe(false);
     expect(document.documentElement.classList.contains('dark')).toBe(true);
     expect(localStorage.getItem('theme')).toBe('dark');
   });
@@ -41,19 +44,20 @@ describe('useTheme', () => {
       wrapper: (props) => wrapper({ ...props }),
     });
 
-    expect(result.current.isDark).toBe(true);
+    expect(result.current.theme).toBe('dark');
     expect(document.documentElement.classList.contains('dark')).toBe(true);
   });
 
-  it('updates the dark class and localStorage when setIsDark is called', () => {
+  it('updates the dark class and localStorage when setTheme is called', () => {
     const { result } = renderHook(() => useTheme(), {
-      wrapper: (props) => wrapper({ initialDark: false, ...props }),
+      wrapper: (props) => wrapper({ initialTheme: 'light', ...props }),
     });
 
     act(() => {
-      result.current.setIsDark(true);
+      result.current.setTheme('dark');
     });
 
+    expect(result.current.theme).toBe('dark');
     expect(result.current.isDark).toBe(true);
     expect(document.documentElement.classList.contains('dark')).toBe(true);
     expect(localStorage.getItem('theme')).toBe('dark');

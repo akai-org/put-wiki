@@ -1,34 +1,36 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { ThemeContext } from './ThemeContext';
+import { ThemeContext, type Theme } from './ThemeContext';
 
 const STORAGE_KEY = 'theme';
 
-function getStoredTheme(): boolean | null {
+function getStoredTheme(): Theme | null {
   const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored === 'dark') return true;
-  if (stored === 'light') return false;
-  return null;
+  return stored === 'dark' || stored === 'light' ? stored : null;
 }
 
-function getPreferredTheme(): boolean {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+function getPreferredTheme(): Theme {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
 export function ThemeProvider({
   children,
-  initialDark,
+  initialTheme,
 }: {
   children: ReactNode;
-  initialDark?: boolean;
+  initialTheme?: Theme;
 }) {
-  const [isDark, setIsDark] = useState(
-    () => initialDark ?? getStoredTheme() ?? getPreferredTheme()
+  const [theme, setTheme] = useState<Theme>(
+    () => initialTheme ?? getStoredTheme() ?? getPreferredTheme()
   );
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDark);
-    localStorage.setItem(STORAGE_KEY, isDark ? 'dark' : 'light');
-  }, [isDark]);
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    localStorage.setItem(STORAGE_KEY, theme);
+  }, [theme]);
 
-  return <ThemeContext.Provider value={{ isDark, setIsDark }}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext value={{ theme, setTheme, isDark: theme === 'dark', isLight: theme === 'light' }}>
+      {children}
+    </ThemeContext>
+  );
 }
