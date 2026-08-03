@@ -4,46 +4,51 @@ import { withRouterDecorator } from '../../../.storybook/withRouterDecorator';
 import { AuthProvider } from '@/contexts/AuthProvider';
 import { UserProvider } from '@/contexts/UserProvider';
 import { ThemeProvider } from '@/contexts/ThemeProvider';
-import type { Theme } from '@/contexts/ThemeContext';
-
-function HeaderWithProviders({
-  initialLoggedIn,
-  initialTheme,
-}: {
-  initialLoggedIn?: boolean;
-  initialTheme?: Theme;
-}) {
-  return (
-    <AuthProvider initialLoggedIn={initialLoggedIn}>
-      <UserProvider>
-        <ThemeProvider initialTheme={initialTheme}>
-          <Header />
-        </ThemeProvider>
-      </UserProvider>
-    </AuthProvider>
-  );
-}
 
 const meta = {
   title: 'Components/Header',
-  component: HeaderWithProviders,
+  component: Header,
   parameters: {
     layout: 'fullscreen',
   },
   decorators: [withRouterDecorator],
-} satisfies Meta<typeof HeaderWithProviders>;
+} satisfies Meta<typeof Header>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const LoggedOutLightMode: Story = {
-  args: { initialLoggedIn: false, initialTheme: 'light' },
+  render: () => (
+    <AuthProvider initialLoggedIn={false}>
+      <UserProvider>
+        <ThemeProvider initialTheme="light">
+          <Header />
+        </ThemeProvider>
+      </UserProvider>
+    </AuthProvider>
+  ),
 };
 
 export const LoggedInLightMode: Story = {
-  args: { initialLoggedIn: true, initialTheme: 'light' },
+  render: () => (
+    <AuthProvider initialLoggedIn={true}>
+      <UserProvider>
+        <ThemeProvider initialTheme="light">
+          <Header />
+        </ThemeProvider>
+      </UserProvider>
+    </AuthProvider>
+  ),
 };
 
 export const LoggedOutDarkMode: Story = {
-  args: { initialLoggedIn: false, initialTheme: 'dark' },
+  render: () => (
+    <AuthProvider initialLoggedIn={false}>
+      <UserProvider>
+        <ThemeProvider initialTheme="dark">
+          <Header />
+        </ThemeProvider>
+      </UserProvider>
+    </AuthProvider>
+  ),
 };
