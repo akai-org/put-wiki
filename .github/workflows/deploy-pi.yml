@@ -1,4 +1,4 @@
-name: Deploy production of put-wiki to Raspberry Pi
+name: Deploy to production (Raspberry Pi)
 
 on:
   workflow_dispatch:
@@ -73,10 +73,8 @@ jobs:
         shell: bash
         run: |
           export GITHUB_REPOSITORY=${GITHUB_REPOSITORY,,}
-          # Bring down main proxy to free up ports
-          docker compose -f compose.yml -f compose.prod.yml stop proxy || true
+          docker compose -f compose.yml -f compose.prod.yml stop proxy
 
-          # Start maintenance page
           docker compose -f compose.maintenance.yml up -d
 
       - name: Pull new images
@@ -91,8 +89,6 @@ jobs:
         shell: bash
         run: |
           export GITHUB_REPOSITORY=${GITHUB_REPOSITORY,,}
-          # Stop maintenance page
           docker compose -f compose.maintenance.yml down
 
-          # Start the new stack (recreates containers with new images)
           docker compose -f compose.yml -f compose.prod.yml up -d --remove-orphans
