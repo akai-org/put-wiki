@@ -1,6 +1,6 @@
 # PutWiki - Backend
 
-The server side app written in ASP.NET Core (C#).
+The server side app written in ASP.NET Core (C#). Data is mainly persisted in relational PostgreSQL database.
 
 You need to install:
 - .NET platform (to choose right version see [notes](./README.md#Notes))
@@ -46,7 +46,7 @@ here is description of our own token used by frontend to authenticate with backe
 
 In ASP.NET Core app configuration is loaded in specific order and is read using variety of configuration sources: settings files, environment variables, etc. See [this](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-10.0) for more details.
 
-We use 2 environments in ASP.NET Core backend app: `Development` and `Production`.
+`ASPNETCORE_ENVIRONMENT` variable defines the runtime environment of our ASP.NET Core app. It can be set either to `Development` or `Production`.
 
 In backend application we utilize the following configuration sources:
 
@@ -65,14 +65,13 @@ We store a little of configuration in compose files, due to the fact that having
 Additionally there would be no difference between local development outside of Docker (`Development` environment) and previewing backend in `Development` environment inside Docker containers. 
 
 > [!NOTE]
-> Environments mentioned in this README refer to ASP.NET Core environments and how to develop server-side app. If you want to read about PutWiki environments, were we host it and how it is deployed, see [deployment docs](../docs/architecture/deployment.md#environments).
+> Environments mentioned in this README refer to ASP.NET Core runtime environments and how to develop server-side app. If you want to read about PutWiki environments, were we host it and how it is deployed, see [deployment docs](../docs/architecture/deployment.md#environments).
 
 ## Docker
 
 To work locally besides server you need the database. So having Docker installed on your machine is still essential. Start it with `docker compose up database`.
 
-> [!NOTE]
-> First you need to provide environment variables for the database. See steps below:
+**NOTE:** First you need to provide environment variables for the database. See steps below:
 
 1. Create a `.env.postgres` file in the root directory of entire PutWiki project.
 2. Copy values from `.env.postgres.example`.
@@ -85,11 +84,23 @@ For more details about how to run the whole PutWiki inside Docker look [here](..
 > [!WARNING]
 > Running the whole PutWiki with backend in `Production` environment will use urls (e.g. CallbackUrl) that refer to domain name used to access PutWiki in Internet. It won't redirect to developer's local machine. In this case during backend testing, that should be altered manually and restored after.
 
+## Database migrations
+When you change the model (e.g. new field to entity in Domain layer that is projected into SQL config in Infrastructure layer) you must add new migration. For managing migrations use `dotnet ef` CLI tool.
+
+> [!WARNING]
+> You must restore dotnet tools before first usage. Make sure that you followed all commands in [How to run it](#how-to-run-it) section to use correct version defined in `dotnet-tools.json`
+
+> [!NOTE]
+> If you are not familiar with `dotnet ef` CLI tool we recommend to read this [documentation](https://learn.microsoft.com/en-us/ef/core/cli/dotnet) first.
+
+After adding migration and commiting it into git repo, usually you would apply it to update database schema. We automated this step so you don't have to do anything. When this app starts with runtime environment defined as `Development` (no matter whether with Docker Compose or locally), then all migrations are applied automatically.
+
+However on production this had to be done different. See [this ADR](../docs/architecture/adr/BE-006_applying-database-migrations-on-production.md) for more details. Assuming that your merged PR included new migration you will have to follow [additional step](../docs/architecture/deployment.md#applying-database-migrations-to-production-optional-step) during deployment.
+
 ## Testing
-We use xUnit and Fluent Assertions libraries to cover the core logic. We stick to the arrange, act, assert pattern. We highly recommend reading this: [Unit testing best practices](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices).
+We use xUnit, Fluent Assertions nad Moq libraries to cover the core logic. We stick to the arrange, act, assert pattern. We highly recommend reading this: [Unit testing best practices](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices).
 
 ## Notes
-
 > [!IMPORTANT]
-> Please note that you need to have .NET platform installed to run this app locally. Download version defined in `global.json`.
+> Please note that you need to have .NET platform installed to run this app locally. Download version defined in `global.json` with equal or greater feature band and patch level.
 
