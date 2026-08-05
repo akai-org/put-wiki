@@ -87,30 +87,35 @@
   ],
   "opinions": [
     {
+      "opinionId": "1",
       "userId": "1",
       "userName": "Jan Kowalski",
       "content": "Świetny kierunek, dużo praktycznych zajęć.",
       "rating": 5
     },
     {
+      "opinionId": "2",
       "userId": "2",
       "userName": "Anna Nowak",
       "content": "Dużo teorii, ale warto się poświęcić.",
       "rating": 4
     },
     {
+      "opinionId": "3",
       "userId": "3",
       "userName": "Piotr Wiśniewski",
       "content": "Niektóre przedmioty są bardzo trudne.",
       "rating": 3
     },
     {
+      "opinionId": "4",
       "userId": "4",
       "userName": "Katarzyna Zielińska",
       "content": "Brakowało mi więcej zajęć praktycznych.",
       "rating": 2
     },
     {
+      "opinionId": "5",
       "userId": "5",
       "userName": "Marek Lewandowski",
       "content": "Średni kierunek, ale można znaleźć ciekawe przedmioty.",

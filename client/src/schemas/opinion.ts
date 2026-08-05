@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 const OpinionSchema = z.object({
+  opinionId: z.string(),
   degreeCourseId: z.string().optional(),
   courseId: z.string().optional(), //if course is a topic od opinion
   lecturerId: z.string().optional(), // if lecturer is a topic of opinion
