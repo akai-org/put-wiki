@@ -16,15 +16,17 @@ export default function DegreeCoursePage() {
   const { data, isLoading, isError } = useDegreeCourse(slug);
 
   if (isLoading)
-    return <div className="flex justify-center items-center text-white text-7xl">Ładowanie...</div>;
+    return <div className="flex justify-center items-center text-black text-7xl">Ładowanie...</div>;
   if (isError) {
     //maybe add toast about error here
     return (
-      <div className="flex justify-center items-center text-white text-7xl">Wystąpił błąd</div>
+      <div className="flex justify-center items-center text-black text-7xl">Wystąpił błąd</div>
     );
   }
   if (!data)
-    return <div className="flex justify-center items-center text-white text-7xl">Brak danych</div>;
+    return (
+      <div className="flex justify-center items-center text-black   text-7xl">Brak danych</div>
+    );
 
   return (
     <Card>
