@@ -1,30 +1,21 @@
+import { useParams } from '@tanstack/react-router';
+
 export default function LecturerPage() {
+  const { slug } = useParams({ from: '/lecturer/$slug' });
+
   return (
-    <div className="flex flex-col">
-      <div className="grid grid-cols-[auto_1fr_auto] items-start gap-8">
-        <div>zdjęcie</div>
-
-        <div className="flex flex-col items-center text-center">
-          <h1>Prowadzący</h1>
-          <div>Tytuł</div>
-          <div>Instytut/Katedra/etc</div>
-        </div>
-
-        <div className="justify-self-end">spis treści</div>
+    <div className="flex flex-col gap-6 mx-40">
+      <div className="flex flex-row items-start gap-4 justify-between">
+        <div>zdj</div>
+        <div>prowadzący {slug}</div>
+        <div>Spis treści</div>
       </div>
 
-      <div className="grid grid-cols-2 gap-8">
-        <div className="flex flex-col gap-6">
-          <div>blok info</div>
-          <div>kontakt</div>
-          <div>przedmioty</div>
-          <div>plan</div>
-        </div>
+      <div>opis</div>
 
-        <div className="flex flex-col gap-4">
-          <div>filtr opinii</div>
-          <div>opinie</div>
-        </div>
+      <div className="flex flex-row gap-4">
+        <div className="flex-1 text-center">lewo</div>
+        <div className="flex-1 text-center">prawo</div>
       </div>
     </div>
   );
