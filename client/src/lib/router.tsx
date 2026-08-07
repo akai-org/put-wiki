@@ -17,7 +17,7 @@ const coursePageRoute = createRoute({
 
 const lecturerPageRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/lecturer',
+  path: '/lecturer/$slug',
   component: () => <LecturerPage />,
 });
 
