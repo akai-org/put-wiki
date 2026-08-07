@@ -1,3 +1,5 @@
+import AboutLecturer from '@/components/lecturer/aboutLecturer';
+import ListLecturerCourses from '@/components/lecturer/listLecturerCourses';
 import { useParams } from '@tanstack/react-router';
 
 export default function LecturerPage() {
@@ -11,11 +13,15 @@ export default function LecturerPage() {
         <div>Spis treści</div>
       </div>
 
-      <div>opis</div>
+      <AboutLecturer description={'description'} />
 
       <div className="flex flex-row gap-4">
-        <div className="flex-1 text-center">lewo</div>
-        <div className="flex-1 text-center">prawo</div>
+        <div className="flex-1 flex-col text-center">
+          <div>kontakt</div>
+          <ListLecturerCourses course="AIDS" />
+          <div>timetable</div>
+        </div>
+        <div className="flex-1 text-center">comments</div>
       </div>
     </div>
   );
