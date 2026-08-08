@@ -4,19 +4,37 @@ import LecturerCard from '@/components/lecturer/lecturerCard';
 import LecturerContact from '@/components/lecturer/lecturerContact';
 import ListLecturerCourses from '@/components/lecturer/lecturerCourseList';
 import TimeTable from '@/components/lecturer/timeTable';
-// import { useParams } from '@tanstack/react-router';
+import { useLecturer } from '@/hooks/lecturer/useLecturer';
+import { useParams } from '@tanstack/react-router';
 
 export default function LecturerPage() {
-  //  const { slug } = useParams({ from: '/lecturer/$slug' });
+  const { slug } = useParams({ from: '/lecturer/$slug' });
+  const { data, isLoading, isError } = useLecturer(slug);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
+
+  if (!data) {
+    return <div>No lecturer found</div>;
+  }
 
   return (
     <div className="flex flex-col gap-10 mx-40 my-20">
       <div className="flex flex-row items-start gap-4 justify-around">
-        <LecturerCard title="dr hab. inż." name="Mateusz" surname="Kowalski" />
-        <LecturerContact email={'test@test.com'} phone={'123 456 678'} />
+        <LecturerCard
+          title={`${data.card.title}`}
+          name={`${data.card.name}`}
+          photo_url={`${data.card.photo_url}`}
+        />
+        <LecturerContact email={`${data.contact.email}`} phone={`${data.contact.phone}`} />
       </div>
 
-      <AboutLecturer description={'description'} />
+      <AboutLecturer description={data.description} />
 
       <div className="flex flex-row items-start gap-4 justify-around">
         <ListLecturerCourses />

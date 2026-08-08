@@ -5,9 +5,11 @@ export default function LecturerContact({ email, phone }: ContactInfo) {
     <div className="flex-col bg-gray-50 rounded-xl p-12 pt-4 pl-4">
       <p className="mb-3 font-bold text-xl">Kontakt</p>
       <p>
-        E-mail: <a href="mailto:{email}">{email}</a>
+        E-mail: <a href={`mailto:${email}`}>{email}</a>
       </p>
-      <p>Tel: {phone}</p>
+      <p>
+        Tel: <a href={`tel:${phone}`}>{phone}</a>
+      </p>
     </div>
   );
 }

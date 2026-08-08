@@ -3,7 +3,7 @@ export default function Consultations() {
     <div className="flex flex-col gap-4 p-12 pt-4 pl-4 bg-gray-50 rounded-xl">
       <div>
         {' '}
-        <p className="text-2xl">O prowadzącym</p>
+        <p className="text-2xl">Konsultacje</p>
         <p>ostatnia akutalziacja</p>
       </div>
       <div>
