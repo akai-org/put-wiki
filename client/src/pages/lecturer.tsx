@@ -10,10 +10,10 @@ export default function LecturerPage() {
   //  const { slug } = useParams({ from: '/lecturer/$slug' });
 
   return (
-    <div className="flex flex-col gap-6 mx-40">
+    <div className="flex flex-col gap-10 mx-40 my-20">
       <div className="flex flex-row items-start gap-4 justify-around">
-        <LecturerCard />
-        <LecturerContact />
+        <LecturerCard title="dr hab. inż." name="Mateusz" surname="Kowalski" />
+        <LecturerContact email={'test@test.com'} phone={'123 456 678'} />
       </div>
 
       <AboutLecturer description={'description'} />
