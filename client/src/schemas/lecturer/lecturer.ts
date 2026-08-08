@@ -4,7 +4,7 @@ import { ContactInfoSchema } from './contactInfo';
 export const LecturerSchema = z.object({
   id: z.int(),
   slug: z.string(),
-  card: LecturerCardSchema,
+  base_info: LecturerCardSchema,
   contact: ContactInfoSchema,
   description: z.string(),
   // CZY TO MA BYĆ

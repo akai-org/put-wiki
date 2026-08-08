@@ -27,9 +27,9 @@ export default function LecturerPage() {
     <div className="flex flex-col gap-10 mx-40 my-20">
       <div className="flex flex-row items-start gap-4 justify-around">
         <LecturerCard
-          title={`${data.card.title}`}
-          name={`${data.card.name}`}
-          photo_url={`${data.card.photo_url}`}
+          title={`${data.base_info.title}`}
+          name={`${data.base_info.name}`}
+          photo_url={`${data.base_info.photo_url}`}
         />
         <LecturerContact email={`${data.contact.email}`} phone={`${data.contact.phone}`} />
       </div>
