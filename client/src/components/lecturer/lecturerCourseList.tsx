@@ -5,11 +5,11 @@ export default function ListLecturerCourses() {
     <div className="flex flex-col gap-2 p-4 bg-gray-50 rounded-xl">
       <p className="text-xl">Prowadzone przemdioty</p>
       <div>
-        <p>obecnie</p>
+        <p>2025/2026</p>
         <LecturerCourse />
       </div>
       <div>
-        <p>Przedmioty prowadzone w poprzednich semstrach</p>
+        <p>Poprzednie semsetry</p>
         <LecturerCourse />
       </div>
     </div>
