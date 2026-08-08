@@ -1,3 +1,13 @@
-export default function LecturerContact() {
-  return <div>zadzwon 123 456 789</div>;
+import type { ContactInfo } from '@/schemas/lecturer/contactInfo';
+
+export default function LecturerContact({ email, phone }: ContactInfo) {
+  return (
+    <div className="flex-col bg-gray-50 rounded-xl p-12 pt-4 pl-4">
+      <p className="mb-3 font-bold text-xl">Kontakt</p>
+      <p>
+        E-mail: <a href="mailto:{email}">{email}</a>
+      </p>
+      <p>Tel: {phone}</p>
+    </div>
+  );
 }
