@@ -1,0 +1,74 @@
+{
+  "id": 2137,
+  "slug": "jan-kowalski",
+  "card": {
+    "name": "Jan Kowalski",
+    "title": "dr inż.",
+    "photo_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg.freepik.com%2Fpremium-photo%2Fmen-different-ethnicities-showcase-unique-facial-expressions-emotions_862489-54692.jpg%3Fw%3D996&f=1&nofb=1&ipt=5fb8cb59427f0c22a38802fc4c853ddd315724b0af4a33366072eae97d698ad2"
+  },
+  "contact": {
+    "email": "jan.kowalski@example.com",
+    "phone": "+48 600 123 456"
+  },
+  "description": "Doktor inżynier specjalizujący się w programowaniu, bazach danych oraz projektowaniu systemów informatycznych. Prowadzi zajęcia zarówno teoretyczne, jak i praktyczne.",
+  "opinions": [
+    {
+      "ocena": 5,
+      "tresc": "Bardzo dobry prowadzący, wszystko jasno tłumaczy i chętnie odpowiada na pytania."
+    },
+    {
+      "ocena": 4,
+      "tresc": "Ciekawe zajęcia i dobrze przygotowane materiały."
+    },
+    {
+      "ocena": 5,
+      "tresc": "Bardzo pozytywne podejście do studentów. Polecam."
+    }
+  ],
+  "consultations": {
+    "godzina": "14:00-16:00",
+    "co_ile": "co tydzień",
+    "kiedy": "czwartek",
+    "budynek": "Budynek A, pokój 204"
+  },
+  "prowadzone_przedmioty": [
+    {
+      "nazwa": "Programowanie obiektowe",
+      "semestr": 3,
+      "typ": "wykład"
+    },
+    {
+      "nazwa": "Bazy danych",
+      "semestr": 4,
+      "typ": "laboratorium"
+    },
+    {
+      "nazwa": "Inżynieria oprogramowania",
+      "semestr": 5,
+      "typ": "projekt"
+    }
+  ],
+  "plan_zajec": [
+    {
+      "dzien": "Poniedziałek",
+      "godzina": "10:15-12:00",
+      "przedmiot": "Programowanie obiektowe",
+      "sala": "A-101",
+      "typ": "wykład"
+    },
+    {
+      "dzien": "Wtorek",
+      "godzina": "08:00-09:45",
+      "przedmiot": "Bazy danych",
+      "sala": "B-203",
+      "typ": "laboratorium"
+    },
+    {
+      "dzien": "Środa",
+      "godzina": "12:15-14:00",
+      "przedmiot": "Inżynieria oprogramowania",
+      "sala": "C-105",
+      "typ": "projekt"
+    }
+  ]
+}
