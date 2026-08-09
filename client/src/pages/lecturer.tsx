@@ -38,7 +38,13 @@ export default function LecturerPage() {
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         <ListLecturerCourses />
-        <Consultations />
+        <Consultations
+          time={`${data.consultations.time}`}
+          interval={`${data.consultations.interval}`}
+          weekday={`${data.consultations.weekday}`}
+          place={`${data.consultations.place}`}
+          last_updated={`${data.consultations.last_updated}`}
+        />
       </div>
       <TimeTable />
     </div>
