@@ -31,7 +31,11 @@ export default function LecturerPage() {
           name={`${data.base_info.name}`}
           photo_url={`${data.base_info.photo_url}`}
         />
-        <LecturerContact email={`${data.contact.email}`} phone={`${data.contact.phone}`} />
+        <LecturerContact
+          email={`${data.contact.email}`}
+          phone={`${data.contact.phone}`}
+          website={`${data.contact.website}`}
+        />
       </div>
 
       <AboutLecturer description={data.description} />
