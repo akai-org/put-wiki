@@ -9,7 +9,7 @@ async function fetchLecturer(slug: string): Promise<Lecturer> {
 
 export function useLecturer(slug: string) {
   return useQuery<Lecturer>({
-    queryKey: ['lecturer', slug],
+    queryKey: ['lecturers', slug],
     queryFn: () => fetchLecturer(slug),
     staleTime: 1000 * 60 * 30,
   });

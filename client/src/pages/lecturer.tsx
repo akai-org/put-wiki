@@ -8,7 +8,7 @@ import { useLecturer } from '@/hooks/lecturer/useLecturer';
 import { useParams } from '@tanstack/react-router';
 
 export default function LecturerPage() {
-  const { slug } = useParams({ from: '/lecturer/$slug' });
+  const { slug } = useParams({ from: '/lecturers/$slug' });
   const { data, isLoading, isError } = useLecturer(slug);
 
   if (isLoading) {
