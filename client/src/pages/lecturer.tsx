@@ -37,7 +37,7 @@ export default function LecturerPage() {
       <AboutLecturer description={data.description} />
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-        <ListLecturerCourses />
+        <ListLecturerCourses courseList={data.lecturers_courses} />
         <Consultations
           time={`${data.consultations.time}`}
           interval={`${data.consultations.interval}`}

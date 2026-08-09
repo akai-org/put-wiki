@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { LecturerCardSchema } from './lecturerCard';
 import { ContactInfoSchema } from './contactInfo';
+import { LecturerCourseSchema } from './lecturerCourse';
 export const LecturerSchema = z.object({
   id: z.int(),
   slug: z.string(),
@@ -17,7 +18,7 @@ export const LecturerSchema = z.object({
     place: z.string(),
     last_updated: z.string(),
   }),
-  lecturers_courses: z.array(z.object({ nazwa: z.string(), semestr: z.int(), typ: z.string() })),
+  lecturers_courses: z.array(LecturerCourseSchema),
   // I think it would be better do use USOS ical
   timetable: z.array(
     z.object({
