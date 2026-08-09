@@ -1,5 +1,4 @@
 export default function Consultations(props: {
-  date: string;
   time: string;
   interval: string;
   weekday: string;
