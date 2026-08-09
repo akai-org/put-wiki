@@ -24,8 +24,8 @@ export default function LecturerPage() {
   }
 
   return (
-    <div className="flex flex-col gap-10 mx-40 my-20">
-      <div className="flex flex-row items-start gap-4 justify-around">
+    <div className="mx-auto my-6 flex w-full max-w-7xl flex-col gap-5 px-4 sm:my-8 sm:px-6 lg:my-10 lg:px-8">
+      <div className="grid grid-cols-[7fr_3fr] gap-5">
         <LecturerCard
           title={`${data.base_info.title}`}
           name={`${data.base_info.name}`}
@@ -36,7 +36,7 @@ export default function LecturerPage() {
 
       <AboutLecturer description={data.description} />
 
-      <div className="flex flex-row items-start gap-4 justify-around">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         <ListLecturerCourses />
         <Consultations />
       </div>
