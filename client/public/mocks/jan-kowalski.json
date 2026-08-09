@@ -8,7 +8,8 @@
   },
   "contact": {
     "email": "jan.kowalski@example.com",
-    "phone": "+48 600 123 456"
+    "phone": "+48 600 123 456",
+    "website": "https://github.com/akai-org/put-wiki/issues"
   },
   "description": "Doktor inżynier specjalizujący się w programowaniu, bazach danych oraz projektowaniu systemów informatycznych. Prowadzi zajęcia zarówno teoretyczne, jak i praktyczne.",
   "opinions": [
