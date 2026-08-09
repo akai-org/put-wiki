@@ -10,7 +10,7 @@ export default function ListLecturerCourses({ courseList }: { courseList: Array<
         {courseList
           .filter((c) => c.semestr === 3)
           .map((c) => (
-            <LecturerCourseItem key={c.nazwa} course={c} />
+            <LecturerCourseItem key={c.nazwa + c.semestr} course={c} />
           ))}
       </div>
       <div>
