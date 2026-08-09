@@ -11,18 +11,18 @@ export const LecturerSchema = z.object({
   opinions: z.array(z.object({ ocena: z.int().min(1).max(5), tresc: z.string() })),
   // DO ZMIANY
   consultations: z.object({
-    godzina: z.string(),
-    co_ile: z.string(),
-    kiedy: z.string(),
-    budynek: z.string(),
+    time: z.string(),
+    interval: z.string(),
+    weekday: z.string(),
+    place: z.string(),
+    last_updated: z.string(),
   }),
-  prowadzone_przedmioty: z.array(
-    z.object({ nazwa: z.string(), semestr: z.int(), typ: z.string() })
-  ),
-  plan_zajec: z.array(
+  lecturers_courses: z.array(z.object({ nazwa: z.string(), semestr: z.int(), typ: z.string() })),
+  // I think it would be better do use USOS ical
+  timetable: z.array(
     z.object({
-      dzien: z.string(),
-      godzina: z.string(),
+      day: z.string(),
+      time: z.string(),
       przedmiot: z.string(),
       sala: z.string(),
       typ: z.string(),

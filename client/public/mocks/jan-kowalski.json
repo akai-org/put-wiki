@@ -26,12 +26,13 @@
     }
   ],
   "consultations": {
-    "godzina": "14:00-16:00",
-    "co_ile": "co tydzień",
-    "kiedy": "czwartek",
-    "budynek": "Budynek A, pokój 204"
+    "time": "14:00-16:00",
+    "interval": "co tydzień",
+    "weekday": "czwartek",
+    "place": "Budynek A, pokój 204",
+    "last_updated": "13.02.2021"
   },
-  "prowadzone_przedmioty": [
+  "lecturers_courses": [
     {
       "nazwa": "Programowanie obiektowe",
       "semestr": 3,
@@ -48,24 +49,24 @@
       "typ": "projekt"
     }
   ],
-  "plan_zajec": [
+  "timetable": [
     {
-      "dzien": "Poniedziałek",
-      "godzina": "10:15-12:00",
+      "day": "Poniedziałek",
+      "time": "10:15-12:00",
       "przedmiot": "Programowanie obiektowe",
       "sala": "A-101",
       "typ": "wykład"
     },
     {
-      "dzien": "Wtorek",
-      "godzina": "08:00-09:45",
+      "day": "Wtorek",
+      "time": "08:00-09:45",
       "przedmiot": "Bazy danych",
       "sala": "B-203",
       "typ": "laboratorium"
     },
     {
-      "dzien": "Środa",
-      "godzina": "12:15-14:00",
+      "day": "Środa",
+      "time": "12:15-14:00",
       "przedmiot": "Inżynieria oprogramowania",
       "sala": "C-105",
       "typ": "projekt"
