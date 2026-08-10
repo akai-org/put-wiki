@@ -20,12 +20,12 @@ describe('useUser', () => {
     );
   });
 
-  it('defaults to the mock nickname', () => {
+  it('defaults to "Anonim" when no initialNickname is given', () => {
     const { result } = renderHook(() => useUser(), {
       wrapper: (props) => wrapper({ ...props }),
     });
 
-    expect(result.current.nickname).toBe('Janek');
+    expect(result.current.nickname).toBe('Anonim');
   });
 
   it('respects the initialNickname override', () => {

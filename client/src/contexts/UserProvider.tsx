@@ -1,11 +1,11 @@
 import { useState, type ReactNode } from 'react';
 import { UserContext } from './UserContext';
 
-const MOCK_NICKNAME = 'Janek';
+const DEFAULT_NICKNAME = 'Anonim';
 
 export function UserProvider({
   children,
-  initialNickname = MOCK_NICKNAME,
+  initialNickname = DEFAULT_NICKNAME,
 }: {
   children: ReactNode;
   initialNickname?: string;
