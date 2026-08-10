@@ -48,7 +48,7 @@ export default function Header() {
         </nav>
       </div>
 
-      <div className="w-full h-16 px-6 flex items-center justify-between md:hidden">
+      <div className="w-full h-16 px-8 flex items-center justify-between md:hidden">
         <Logo size="mobile" />
 
         <button
