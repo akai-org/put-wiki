@@ -1,5 +1,4 @@
-import React from 'react';
-import type { Decorator } from '@storybook/react-vite';
+import type { ReactNode } from 'react';
 import {
   createRootRoute,
   createRouter,
@@ -7,11 +6,12 @@ import {
   createMemoryHistory,
 } from '@tanstack/react-router';
 
-export const withRouterDecorator: Decorator = (Story) => {
+export function RouterDecorator({ children }: { children: ReactNode }) {
   const rootRoute = createRootRoute({
-    component: Story,
+    component: () => children,
   });
 
+  
   const memoryHistory = createMemoryHistory({
     initialEntries: ['/'],
   });
@@ -21,5 +21,5 @@ export const withRouterDecorator: Decorator = (Story) => {
     history: memoryHistory,
   });
 
-  return React.createElement(RouterProvider, { router: mockRouter });
-};
+  return <RouterProvider router={mockRouter} />;
+}
