@@ -11,7 +11,6 @@ export function RouterDecorator({ children }: { children: ReactNode }) {
     component: () => children,
   });
 
-  
   const memoryHistory = createMemoryHistory({
     initialEntries: ['/'],
   });
