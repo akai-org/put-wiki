@@ -18,7 +18,7 @@ export default function Header() {
       <div className="w-full flex justify-center px-8 md:px-16">
         <nav
           aria-label="Główna nawigacja"
-          className="w-full max-w-[1200px] h-20 hidden md:grid grid-cols-3 items-center"
+          className="w-full max-w-[1200px] h-20 hidden md:grid grid-cols-[auto_1fr_auto] items-center gap-4"
         >
           <div className="flex items-center justify-start">
             <Logo size="desktop" />
