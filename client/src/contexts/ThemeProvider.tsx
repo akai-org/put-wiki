@@ -8,7 +8,12 @@ function getStoredTheme(): Theme | null {
   return stored === 'dark' || stored === 'light' ? stored : null;
 }
 
+const DEFAULT_THEME: Theme = 'light';
+
 function getPreferredTheme(): Theme {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+    return DEFAULT_THEME;
+  }
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 

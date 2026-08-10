@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
 import { useTheme } from './useTheme';
 import { ThemeProvider } from '@/contexts/ThemeProvider';
@@ -9,9 +9,14 @@ function wrapper({ initialTheme, children }: { initialTheme?: Theme; children: R
 }
 
 describe('useTheme', () => {
+  const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
+  const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
+
   beforeEach(() => {
     localStorage.clear();
     document.documentElement.classList.remove('dark');
+    getItemSpy.mockClear();
+    setItemSpy.mockClear();
   });
 
   afterEach(() => {
@@ -34,7 +39,7 @@ describe('useTheme', () => {
     expect(result.current.isDark).toBe(true);
     expect(result.current.isLight).toBe(false);
     expect(document.documentElement.classList.contains('dark')).toBe(true);
-    expect(localStorage.getItem('theme')).toBe('dark');
+    expect(setItemSpy).toHaveBeenCalledWith('theme', 'dark');
   });
 
   it('initializes from localStorage when no override is given', () => {
@@ -44,6 +49,7 @@ describe('useTheme', () => {
       wrapper: (props) => wrapper({ ...props }),
     });
 
+    expect(getItemSpy).toHaveBeenCalledWith('theme');
     expect(result.current.theme).toBe('dark');
     expect(document.documentElement.classList.contains('dark')).toBe(true);
   });
@@ -60,6 +66,6 @@ describe('useTheme', () => {
     expect(result.current.theme).toBe('dark');
     expect(result.current.isDark).toBe(true);
     expect(document.documentElement.classList.contains('dark')).toBe(true);
-    expect(localStorage.getItem('theme')).toBe('dark');
+    expect(setItemSpy).toHaveBeenCalledWith('theme', 'dark');
   });
 });
