@@ -12,20 +12,20 @@ export default function LecturerPage() {
   const { data, isLoading, isError } = useLecturer(slug);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="text-2xl text-center">Loading...</div>;
   }
 
   if (isError) {
-    return <div>Error</div>;
+    return <div className="text-2xl text-center">Error</div>;
   }
 
   if (!data) {
-    return <div>No lecturer found</div>;
+    return <div className="text-2xl text-center">No lecturer found</div>;
   }
 
   return (
     <div className="mx-auto my-6 flex w-full max-w-7xl flex-col gap-5 px-4 sm:my-8 sm:px-6 lg:my-10 lg:px-8">
-      <div className="grid grid-cols-[7fr_3fr] gap-5">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-[7fr_3fr]">
         <LecturerCard
           title={`${data.base_info.title}`}
           name={`${data.base_info.name}`}
