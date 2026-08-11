@@ -53,6 +53,9 @@ jobs:
       
       - name: Install dependencies
         run: bun ci
+
+      - name: Build client and check types
+        run: bun run build
         
       - name: Check linting
         run: bun run lint:check
