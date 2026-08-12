@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using Application.Auth;
 using Application.Errors;
+using Application.Interfaces;
 
 using AutoMapper;
 
@@ -19,6 +20,7 @@ public partial class ProvisionUserUseCase(
     IUsosOAuthService usosOAuthService,
     IUsosIdHasher hasher,
     IUserRepository userRepository,
+    IUnitOfWork unitOfWork,
     ILogger<ProvisionUserUseCase> logger,
     IMapper mapper,
     TimeProvider timeProvider)
@@ -50,7 +52,7 @@ public partial class ProvisionUserUseCase(
 
         var newUser = new User(hashedId, timeProvider.GetUtcNow());
         userRepository.Add(newUser);
-        await userRepository.SaveChangesAsync(ct);
+        await unitOfWork.SaveChangesAsync(ct);
 
         LogProvisionedNewAnonymousUserId(newUser.Id);
 
