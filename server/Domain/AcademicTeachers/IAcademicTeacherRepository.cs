@@ -8,5 +8,4 @@ public interface IAcademicTeacherRepository
     Task<AcademicTeacher?> GetByIdAsync(string id, CancellationToken cancellationToken = default);
     Task<AcademicTeacher?> GetByUsosIdAsync(string usosId, CancellationToken cancellationToken = default);
     void Add(AcademicTeacher academicTeacher);
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
