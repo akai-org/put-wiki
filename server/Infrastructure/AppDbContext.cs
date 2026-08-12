@@ -10,7 +10,7 @@ namespace Infrastructure;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public required DbSet<User> Users { get; set; }
-    public DbSet<AcademicTeacher>? AcademicTeachers { get; set; }
+    public required DbSet<AcademicTeacher> AcademicTeachers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
