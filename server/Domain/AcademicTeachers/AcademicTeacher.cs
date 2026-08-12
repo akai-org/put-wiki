@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Domain.Lecturers;
+namespace Domain.AcademicTeachers;
 
-public class Lecturer
+public class AcademicTeacher
 {
     public Guid Id { get; private set; }
     public string UsosId { get; private set; }
@@ -18,7 +18,7 @@ public class Lecturer
     public string? PhoneNumber { get; private set; }
     public string? WebsiteUrl { get; private set; }
 
-    public Lecturer(
+    public AcademicTeacher(
         string usosId,
         IEnumerable<string> degrees,
         string name,

@@ -1,0 +1,11 @@
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+namespace Domain.AcademicTeachers;
+
+public interface IAcademicTeacherRepository
+{
+    Task<AcademicTeacher?> GetByIdAsync(string id, CancellationToken cancellationToken = default);
+    void Add(AcademicTeacher academicTeacher);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+}
