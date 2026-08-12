@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Auth;
 using Application.Features.Users.Commands.ProvisionUser;
 
+using Domain.AcademicTeachers;
 using Domain.Users;
 
 using Infrastructure.Auth;
@@ -34,6 +35,8 @@ public static partial class InfrastructureConfiguration
         services.AddSingleton<IUsosIdHasher, HmacUsosIdHasher>();
 
         services.AddSingleton(TimeProvider.System);
+
+        services.AddScoped<IAcademicTeacherRepository, AcademicTeacherRepository>();
 
         return services;
     }
