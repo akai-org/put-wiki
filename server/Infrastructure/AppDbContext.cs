@@ -1,3 +1,5 @@
+using Application.Interfaces;
+
 using Domain.AcademicTeachers;
 using Domain.Users;
 
@@ -7,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IUnitOfWork
 {
     public required DbSet<User> Users { get; set; }
     public required DbSet<AcademicTeacher> AcademicTeachers { get; set; }

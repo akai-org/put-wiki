@@ -28,9 +28,4 @@ public class AcademicTeacherRepository(AppDbContext context) : IAcademicTeacherR
     {
         context.AcademicTeachers.Add(academicTeacher);
     }
-
-    public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        return context.SaveChangesAsync(cancellationToken);
-    }
 }

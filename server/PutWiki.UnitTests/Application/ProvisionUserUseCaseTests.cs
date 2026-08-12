@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Auth;
 using Application.Errors;
 using Application.Features.Users.Commands.ProvisionUser;
+using Application.Interfaces;
 using Application.Mappings;
 
 using AutoMapper;
@@ -27,6 +28,7 @@ public class ProvisionUserUseCaseTests
     private readonly Mock<IUsosOAuthService> _usosOAuthServiceMock;
     private readonly Mock<IUsosIdHasher> _idHasherMock;
     private readonly Mock<IUserRepository> _userRepositoryMock;
+    private readonly Mock<IUnitOfWork> _iUnitOfWorkMock;
     private readonly FakeTimeProvider _fakeTimeProvider;
     private readonly ProvisionUserUseCase _sut;
 
@@ -35,6 +37,7 @@ public class ProvisionUserUseCaseTests
         _usosOAuthServiceMock = new Mock<IUsosOAuthService>();
         _idHasherMock = new Mock<IUsosIdHasher>();
         _userRepositoryMock = new Mock<IUserRepository>();
+        _iUnitOfWorkMock = new Mock<IUnitOfWork>();
         _fakeTimeProvider = new FakeTimeProvider();
 
         var mapperConfig = new MapperConfiguration(cfg =>
@@ -47,6 +50,7 @@ public class ProvisionUserUseCaseTests
             _usosOAuthServiceMock.Object,
             _idHasherMock.Object,
             _userRepositoryMock.Object,
+            _iUnitOfWorkMock.Object,
             NullLogger<ProvisionUserUseCase>.Instance,
             mapper,
             _fakeTimeProvider
@@ -107,7 +111,7 @@ public class ProvisionUserUseCaseTests
         result.Value.HashedUsosId.Should().Be(hashedUsosId);
 
         _userRepositoryMock.Verify(x => x.Add(It.IsAny<User>()), Times.Never);
-        _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _iUnitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -143,6 +147,6 @@ public class ProvisionUserUseCaseTests
         result.Value.JoinedDate.Should().Be(fakeDate);
 
         _userRepositoryMock.Verify(x => x.Add(It.Is<User>(u => u.HashedUsosId == hashedUsosId && u.JoinedDate == fakeDate)), Times.Once);
-        _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _iUnitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 }
