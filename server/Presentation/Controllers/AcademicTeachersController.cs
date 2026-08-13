@@ -12,10 +12,10 @@ namespace Presentation.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AcademicTeacherController(
+public class AcademicTeachersController(
     GetAcademicTeacherHandler handler) : BaseApiController
 {
-    [HttpGet("teachers/{id}")]
+    [HttpGet("{id}")]
     [ProducesResponseType(typeof(AcademicTeacherDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetAcademicTeacher(string id, CancellationToken ct)
