@@ -1,16 +1,16 @@
-﻿-- Seed script for AcademicTeachers table (PostgreSQL dialect)
+﻿-- Seed script for academic_teachers table (PostgreSQL dialect)
 -- Idempotent script: Safe to run multiple times without duplicating records
 
-INSERT INTO "AcademicTeachers" (
-    "Id",
-    "UsosId",
-    "Degrees",
-    "Name",
-    "PhotoUrl",
-    "Email",
-    "PhoneNumber",
-    "WebsiteUrl",
-    "Description"
+INSERT INTO academic_teachers (
+    id,
+    usos_id,
+    degrees,
+    name,
+    photo_url,
+    email,
+    phone_number,
+    website_url,
+    description
 )
 VALUES
     (
@@ -57,4 +57,4 @@ VALUES
         NULL,
         NULL
     )
-    ON CONFLICT ("UsosId") DO NOTHING;
+ON CONFLICT (usos_id) DO NOTHING;
