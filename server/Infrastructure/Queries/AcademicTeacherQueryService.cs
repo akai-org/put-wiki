@@ -27,7 +27,8 @@ public class AcademicTeacherQueryService(AppDbContext context) : IAcademicTeache
                   t.Email,
                   t.PhoneNumber,
                   t.WebsiteUrl
-              )
+              ),
+              t.Description
             ))
             .FirstOrDefaultAsync((ct));
     }

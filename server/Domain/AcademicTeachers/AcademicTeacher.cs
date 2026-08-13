@@ -19,6 +19,7 @@ public class AcademicTeacher
     public string Email { get; private set; }
     public string? PhoneNumber { get; private set; }
     public string? WebsiteUrl { get; private set; }
+    public string? Description { get; private set; }
 
     public AcademicTeacher(
         string usosId,
@@ -27,7 +28,8 @@ public class AcademicTeacher
         string email,
         string? photoUrl = null,
         string? phoneNumber = null,
-        string? websiteUrl = null)
+        string? websiteUrl = null,
+        string? description = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(usosId);
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
@@ -47,5 +49,6 @@ public class AcademicTeacher
         PhoneNumber = phoneNumber;
         WebsiteUrl = websiteUrl;
         _degrees = degreeList;
+        Description = description;
     }
 }
