@@ -15,7 +15,7 @@ public partial class ToKebabParameterTransformer : IOutboundParameterTransformer
             return null;
 
 #pragma warning disable CA1304
-        return KebabCaseGeneratedRegex().Replace(str, "$1-$2").ToLower(System.Globalization.CultureInfo.CurrentCulture);
+        return KebabCaseGeneratedRegex().Replace(str, "$1-$2").ToLowerInvariant();
 #pragma warning restore CA1304
     }
 }
