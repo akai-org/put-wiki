@@ -16,7 +16,19 @@ public class AcademicTeacherQueryService(AppDbContext context) : IAcademicTeache
         return await context.AcademicTeachers
             .AsNoTracking()
             .Where(t => t.Id == id)
-            .Select(t => new AcademicTeacherDto(t.Name))
+            .Select(t => new AcademicTeacherDto(
+                t.Id.ToString(),
+              new AcademicTeacherBaseInfoDto(
+                  t.Name,
+                  string.Join(" ", t.Degrees),
+                  t.PhotoUrl
+              ),
+              new AcademicTeacherContactInfoDto(
+                  t.Email,
+                  t.PhoneNumber,
+                  t.WebsiteUrl
+              )
+            ))
             .FirstOrDefaultAsync((ct));
     }
 }
