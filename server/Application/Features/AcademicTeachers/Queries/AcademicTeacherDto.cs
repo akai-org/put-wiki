@@ -5,7 +5,8 @@ namespace Application.Features.AcademicTeachers.Queries;
 public record AcademicTeacherDto(
     [property: JsonPropertyName("id")] string Id,
     [property: JsonPropertyName("base_info")] AcademicTeacherBaseInfoDto BaseInfo,
-    [property: JsonPropertyName("contact")] AcademicTeacherContactInfoDto ContactInfo
+    [property: JsonPropertyName("contact")] AcademicTeacherContactInfoDto ContactInfo,
+    [property: JsonPropertyName("description")] string? Description
     );
 
 public record AcademicTeacherBaseInfoDto(
