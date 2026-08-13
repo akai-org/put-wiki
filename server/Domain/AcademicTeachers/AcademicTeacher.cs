@@ -23,7 +23,7 @@ public class AcademicTeacher
 
     public AcademicTeacher(
         string usosId,
-        IEnumerable<string> degrees,
+        IReadOnlyList<string> degrees,
         string name,
         string email,
         string? photoUrl = null,

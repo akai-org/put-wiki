@@ -22,6 +22,6 @@ public class AcademicTeacherEntityTypeConfiguration : IEntityTypeConfiguration<A
 
         builder.Property(x => x.Description).HasMaxLength(2500);
 
-        builder.Property(x => x.Degrees).HasField("_degrees").UsePropertyAccessMode(PropertyAccessMode.PreferFieldDuringConstruction);
+        builder.Property(x => x.Degrees).HasField("_degrees").UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }
