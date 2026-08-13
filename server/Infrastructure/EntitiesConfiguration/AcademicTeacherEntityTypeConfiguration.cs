@@ -20,6 +20,6 @@ public class AcademicTeacherEntityTypeConfiguration : IEntityTypeConfiguration<A
         builder.Property(x => x.PhotoUrl).HasMaxLength(2048);
         builder.Property(x => x.WebsiteUrl).HasMaxLength(2048);
 
-        builder.Property(x => x.Degrees).HasField("_degrees").UsePropertyAccessMode(PropertyAccessMode.Field);
+        builder.Property(x => x.Degrees).HasField("_degrees").UsePropertyAccessMode(PropertyAccessMode.PreferFieldDuringConstruction);
     }
 }
