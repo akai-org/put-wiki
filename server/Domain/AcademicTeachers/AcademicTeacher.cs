@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Domain.AcademicTeachers;
@@ -9,7 +10,8 @@ public class AcademicTeacher
     public Guid Id { get; private set; }
     public string UsosId { get; private set; }
 
-    private readonly List<string> _degrees;
+    [SuppressMessage("Style", "IDE0044:Dodaj modyfikator tylko do odczytu")] //temporary before using field in code
+    private List<string> _degrees;
     public IReadOnlyList<string> Degrees => _degrees.AsReadOnly();
     public string Name { get; private set; }
     public string? PhotoUrl { get; private set; }
