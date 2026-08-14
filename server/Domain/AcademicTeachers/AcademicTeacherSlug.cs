@@ -5,7 +5,9 @@ namespace Domain.AcademicTeachers;
 
 public partial record AcademicTeacherSlug
 {
-    public string Value { get; }
+    public string Value { get; init; }
+
+    private static readonly Regex SlugRegex = MySlugRegex();
 
     private AcademicTeacherSlug(string value)
     {
@@ -21,6 +23,18 @@ public partial record AcademicTeacherSlug
         var slugifiedUsosId = Slugify(usosId);
 
         return new AcademicTeacherSlug($"{slugifiedName}-{slugifiedUsosId}");
+    }
+
+    public static AcademicTeacherSlug Parse(string slug)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(slug);
+
+        if (!SlugRegex.IsMatch(slug))
+        {
+            throw new ArgumentException($"The provided string '{slug}' is not a valid slug format.", nameof(slug));
+        }
+
+        return new AcademicTeacherSlug(slug);
     }
 
     public override string ToString() => Value;
@@ -44,4 +58,7 @@ public partial record AcademicTeacherSlug
 
     [GeneratedRegex(@"[\s-]+")]
     private static partial Regex HyphensAndSpacesRegex();
+
+    [GeneratedRegex("^[a-z0-9]+(?:-[a-z0-9]+)*$")]
+    private static partial Regex MySlugRegex();
 }
