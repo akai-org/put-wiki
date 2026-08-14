@@ -55,4 +55,44 @@ public class AcademicTeacherSlugTests
         // assert
         stringifiedSlug.Should().Be("jan-kowalski-1001");
     }
+
+    [Theory]
+    [InlineData("jan-kowalski-1001")]
+    [InlineData("natalia-nowak-nowacka-1001")]
+    [InlineData("krzysztof-zwierzynski-2002")]
+    [InlineData("123-abc")]
+    [InlineData("teacher")]
+    public void Parse_WithValidSlugFormat_ShouldReturnAcademicTeacherSlug(string validSlug)
+    {
+        // arrange
+
+        // act
+        var slug = AcademicTeacherSlug.Parse(validSlug);
+
+        // assert
+        slug.Should().NotBeNull();
+        slug.Value.Should().Be(validSlug);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("    ")]
+    [InlineData("Jan-Kowalski-1001")]
+    [InlineData("jan_kowalski_1001")]
+    [InlineData("jan--kowalski")]
+    [InlineData("-jan-kowalski")]
+    [InlineData("jan-kowalski-")]
+    [InlineData("jan kowalski")]
+    [InlineData("jan-kowalski!")]
+    public void Parse_WithInvalidInputs_ShouldThrowArgumentException(string? invalidSlug)
+    {
+        // arrange
+
+        // act
+        Action act = () => AcademicTeacherSlug.Parse(invalidSlug!);
+
+        // assert
+        act.Should().Throw<ArgumentException>();
+    }
 }
