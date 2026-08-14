@@ -12,6 +12,7 @@ public class AcademicTeacherEntityTypeConfiguration : IEntityTypeConfiguration<A
         builder.HasKey(x => x.Id);
         builder.Property(x => x.UsosId).IsRequired();
         builder.HasIndex(x => x.UsosId).IsUnique();
+        builder.ComplexProperty(x => x.Slug);
 
         builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
         builder.Property(x => x.Email).IsRequired().HasMaxLength(100);
