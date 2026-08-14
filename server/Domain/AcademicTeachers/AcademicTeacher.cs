@@ -9,6 +9,8 @@ public class AcademicTeacher
 {
     public Guid Id { get; private set; }
     public string UsosId { get; private set; }
+    public AcademicTeacherSlug Slug { get; private set; }
+
 
     [SuppressMessage("Style", "IDE0044:Dodaj modyfikator tylko do odczytu")] //temporary before using field in code
     private List<string> _degrees;
@@ -43,12 +45,15 @@ public class AcademicTeacher
 
         Id = Guid.CreateVersion7();
         UsosId = usosId;
+        Slug = AcademicTeacherSlug.From(name, usosId);
+
+        _degrees = degreeList;
         Name = name;
-        Email = email;
         PhotoUrl = photoUrl;
+
+        Email = email;
         PhoneNumber = phoneNumber;
         WebsiteUrl = websiteUrl;
-        _degrees = degreeList;
         Description = description;
     }
 }

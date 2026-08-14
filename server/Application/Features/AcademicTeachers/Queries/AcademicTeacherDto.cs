@@ -2,6 +2,7 @@
 
 public record AcademicTeacherDto(
     string Id,
+    string Slug,
     AcademicTeacherBaseInfoDto BaseInfo,
     AcademicTeacherContactInfoDto ContactInfo,
     string? Description
