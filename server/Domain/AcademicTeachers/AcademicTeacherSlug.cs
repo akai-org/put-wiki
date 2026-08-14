@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Domain.AcademicTeachers;
 
-public record AcademicTeacherSlug
+public partial record AcademicTeacherSlug
 {
     public string Value { get; }
 
@@ -33,10 +33,15 @@ public record AcademicTeacherSlug
             .Replace("ł", "l").Replace("ń", "n").Replace("ó", "o")
             .Replace("ś", "s").Replace("ź", "z").Replace("ż", "z");
 
-        str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
-        str = Regex.Replace(str, @"\s+", " ").Trim();
-        str = Regex.Replace(str, @"\s", "-");
+        str = InvalidCharsRegex().Replace(str, "");
+        str = HyphensAndSpacesRegex().Replace(str.Trim(), "-");
 
         return str;
     }
+
+    [GeneratedRegex(@"[^a-z0-9\s-]")]
+    private static partial Regex InvalidCharsRegex();
+
+    [GeneratedRegex(@"[\s-]+")]
+    private static partial Regex HyphensAndSpacesRegex();
 }
