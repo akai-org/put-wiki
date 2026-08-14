@@ -4,6 +4,7 @@
 INSERT INTO academic_teachers (
     id,
     usos_id,
+    slug,
     degrees,
     name,
     photo_url,
@@ -15,7 +16,8 @@ INSERT INTO academic_teachers (
 VALUES
     (
         '01914c2b-6f8e-7231-8000-0123456789ab'::uuid,
-        'USOS-1001',
+        '1001',
+        'anna-kowalska-1001',
         ARRAY['dr hab.', 'inż.']::text[],
         'Anna Kowalska',
         'https://example.com/photos/akowalska.jpg',
@@ -26,7 +28,8 @@ VALUES
     ),
     (
         '01914c2b-6f8e-7231-8000-0123456789ac'::uuid,
-        'USOS-1002',
+        '1002',
+        'jan-nowak-1002',
         ARRAY['prof. dr hab.']::text[],
         'Jan Nowak',
         NULL,
@@ -37,7 +40,8 @@ VALUES
     ),
     (
         '01914c2b-6f8e-7231-8000-0123456789ad'::uuid,
-        'USOS-1003',
+        '1003',
+        'piotr-wisniewski-1003',
         ARRAY['dr', 'mgr inż.']::text[],
         'Piotr Wiśniewski',
         'https://example.com/photos/pwisniewski.jpg',
@@ -48,7 +52,8 @@ VALUES
     ),
     (
         '01914c2b-6f8e-7231-8000-0123456789ae'::uuid,
-        'USOS-1004',
+        '1004',
+        'maria-zielinska-1004',
         ARRAY['mgr']::text[],
         'Maria Zielińska',
         NULL,
@@ -57,4 +62,4 @@ VALUES
         NULL,
         NULL
     )
-ON CONFLICT (usos_id) DO NOTHING;
+    ON CONFLICT (usos_id) DO NOTHING;
