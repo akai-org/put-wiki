@@ -18,6 +18,7 @@ public class AcademicTeacherQueryService(AppDbContext context) : IAcademicTeache
             .Where(t => t.Id == id)
             .Select(t => new AcademicTeacherDto(
                 t.Id.ToString(),
+                t.Slug.ToString(),
               new AcademicTeacherBaseInfoDto(
                   t.Name,
                   string.Join(" ", t.Degrees),
