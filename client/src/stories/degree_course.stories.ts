@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import DegreeCourse from '../pages/degree_course';
+import DegreeCourse from '../pages/degreeCourse';
 
 const meta = {
   title: 'Pages/DegreeCourse',

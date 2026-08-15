@@ -1,11 +1,30 @@
-import { useState } from 'react';
+import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
 
-export default function Toggle({ OnValue, OffValue }: { OnValue: string; OffValue: string }) {
-  const [isClicked, setIsClicked] = useState(false);
-  function handleClick() {
-    setIsClicked(!isClicked);
+type ToggleProps = React.ComponentPropsWithoutRef<typeof Button> & {
+  OnValue: string;
+  OffValue: string;
+};
+
+const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(function Toggle(
+  { OnValue, OffValue, onClick, ...props },
+  ref
+) {
+  const [isClicked, setIsClicked] = React.useState(false);
+
+  function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
+    setIsClicked((current) => !current);
+    onClick?.(event);
   }
-  return <Button onClick={handleClick}>{isClicked ? OnValue : OffValue}</Button>;
-}
+
+  return (
+    <Button ref={ref} onClick={handleClick} {...props}>
+      {isClicked ? OnValue : OffValue}
+    </Button>
+  );
+});
+
+Toggle.displayName = 'Toggle';
+
+export default Toggle;
