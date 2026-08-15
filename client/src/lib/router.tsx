@@ -49,6 +49,7 @@ const routeTree = rootRoute.addChildren([
   indexRoute,
   coursePageRoute,
   degreeCoursePageRoute,
+  toasterPageRoute,
   notFoundRoute,
 ]);
 const router = createRouter({ routeTree });
