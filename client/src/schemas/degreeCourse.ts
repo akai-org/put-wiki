@@ -30,7 +30,9 @@ const DegreeCourseSchema = z
   .transform((data) => ({
     ...data,
     opinions: data.opinions.map((opinion) => ({
-      author: opinion.userName,
+      opinionId: opinion.opinionId,
+      userId: opinion.userId,
+      userName: opinion.userName,
       content: opinion.content,
       rating: opinion.rating,
       degreeCourseId: data.DegreeCourseId,
