@@ -1,4 +1,4 @@
-@layer base {
+<<<<<<< Updated upstream @layer base {
   *,
   *::after,
   *::before {
@@ -6,8 +6,12 @@
     padding: 0;
     box-sizing: border-box;
   }
-
-  html {
+  ======= *,
+  *::after,
+  *::before {
+    box-sizing: border-box;
+  }
+  >>>>>>>Stashed changes html {
     height: 100dvh;
     width: 100dvw;
   }
