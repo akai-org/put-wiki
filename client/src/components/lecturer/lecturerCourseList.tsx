@@ -3,7 +3,7 @@ import LecturerCourseItem from './lecturerCourseItem';
 
 export default function ListLecturerCourses({ courseList }: { courseList: Array<LecturerCourse> }) {
   return (
-    <div className="flex flex-col gap-2 p-4 bg-gray-50 rounded-xl">
+    <div className="flex flex-col gap-2 p-4 bg-primary text-primary-foreground rounded-xl">
       <p className="text-2xl">Prowadzone przemdioty</p>
       <div>
         <p className="font-bold text-xl">2025/2026</p>
