@@ -5,7 +5,7 @@ export default function LecturerCard({ title, name, photo_url }: LecturerCard) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex flex-row gap-2 p-2 pr-5 bg-gray-50 rounded-xl items-center">
+    <div className="flex flex-row gap-2 p-2 pr-5 bg-primary rounded-xl items-center">
       <button
         onClick={() => setOpen(true)}
         className="p-0 border-0 bg-transparent rounded-full overflow-hidden cursor-pointer"
@@ -18,7 +18,7 @@ export default function LecturerCard({ title, name, photo_url }: LecturerCard) {
         />
       </button>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col text-primary-foreground">
         <p className="font-bold text-2xl md:text-4xl">{title}</p>
         <p className="font-bold text-xl md:text-3xl">{name}</p>
         <div>tagi specjalizacje</div>
@@ -29,7 +29,7 @@ export default function LecturerCard({ title, name, photo_url }: LecturerCard) {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
           onClick={() => setOpen(false)}
         >
-          <div className="bg-white p-4 rounded-lg max-w-[90vw] max-h-[90vh]">
+          <div className="p-4 rounded-lg max-w-[90vw] max-h-[90vh]">
             <img
               src={`${photo_url}`}
               className="max-h-[80vh] max-w-[80vw] object-contain"

@@ -6,7 +6,7 @@ export default function Consultations(props: {
   last_updated: string;
 }) {
   return (
-    <div className="flex flex-col gap-4 p-12 pt-4 pl-4 bg-gray-50 rounded-xl">
+    <div className="flex flex-col gap-4 p-12 pt-4 pl-4 bg-primary text-primary-foreground rounded-xl">
       <div>
         <p className="text-2xl">Konsultacje</p>
         <p>ostatnia akutalziacja: {props.last_updated}</p>

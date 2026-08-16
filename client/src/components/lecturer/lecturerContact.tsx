@@ -2,7 +2,7 @@ import type { ContactInfo } from '@/schemas/lecturer/contactInfo';
 
 export default function LecturerContact({ email, phone, website }: ContactInfo) {
   return (
-    <div className="flex-col bg-gray-50 rounded-xl p-12 pt-4 pl-4">
+    <div className="flex-col bg-primary text-primary-foreground rounded-xl p-12 pt-4 pl-4">
       <p className="mb-3 font-bold text-xl">Kontakt</p>
       <p className="break-words">
         E-mail:{' '}
