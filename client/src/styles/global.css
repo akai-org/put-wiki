@@ -1,29 +1,22 @@
-<<<<<<< Updated upstream @layer base {
-  *,
-  *::after,
-  *::before {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  ======= *,
-  *::after,
-  *::before {
-    box-sizing: border-box;
-  }
-  >>>>>>>Stashed changes html {
-    height: 100dvh;
-    width: 100dvw;
-  }
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
 
-  #root {
-    height: 100%;
-    width: 100%;
-  }
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+}
 
-  body {
-    height: 100%;
-    width: 100%;
-    font-family: 'Inter', sans-serif;
-  }
+html {
+  height: 100dvh;
+  width: 100dvw;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
 }
