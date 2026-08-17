@@ -22,4 +22,4 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
             .HasFilter("\"Nickname\" IS NOT NULL")
             .UseCollation("und-x-icu");
     }
-}
+}
