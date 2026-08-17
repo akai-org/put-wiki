@@ -1,5 +1,5 @@
 export { default as HomePage } from './home';
 export { default as NotFoundPage } from './404';
 export { default as CoursePage } from './course';
-export { default as DegreeCoursePage } from './degreeCourse';
-export { default as ToasterPage } from './toasters';
+export { default as DegreeCoursePage } from './DegreeCourse';
+export { default as ToasterPage } from '../tests/ToastsTestPage';

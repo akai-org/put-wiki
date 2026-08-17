@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@/contexts/ThemeProvider';
 import { AuthProvider } from '@/contexts/AuthProvider';
 import { UserProvider } from '@/contexts/UserProvider';
-import { Toaster } from '@/components/ui/sonner.tsx';
+import { Toaster } from '@/components/ui/toaster';
 
 const queryClient = new QueryClient();
 
@@ -17,7 +17,7 @@ export function App() {
           <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />
             <ReactQueryDevtools initialIsOpen={false} />
-            <Toaster />
+            <Toaster position="top-center" />
           </QueryClientProvider>
         </UserProvider>
       </AuthProvider>
