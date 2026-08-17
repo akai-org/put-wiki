@@ -112,12 +112,24 @@ namespace Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("joined_date");
 
+                    b.Property<string>("Nickname")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("nickname");
+
                     b.HasKey("Id")
                         .HasName("pk_users");
 
                     b.HasIndex("HashedUsosId")
                         .IsUnique()
                         .HasDatabaseName("ix_users_hashed_usos_id");
+
+                    b.HasIndex("Nickname")
+                        .IsUnique()
+                        .HasDatabaseName("ix_users_nickname")
+                        .HasFilter("\"nickname\" IS NOT NULL");
+
+                    NpgsqlIndexBuilderExtensions.UseCollation(b.HasIndex("Nickname"), new[] { "und-x-icu" });
 
                     b.ToTable("users", (string)null);
                 });
