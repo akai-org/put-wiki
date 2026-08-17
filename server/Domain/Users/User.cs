@@ -49,4 +49,4 @@ public partial class User
     // No consecutive spaces.
     [GeneratedRegex(@"^[\p{L}\p{N}]([\p{L}\p{N}_-]| (?! ))*[\p{L}\p{N}]$")]
     private static partial Regex NicknameFormatRegex();
-}
+}

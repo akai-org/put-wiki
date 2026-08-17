@@ -11,4 +11,4 @@ public interface IUserRepository
     Task<bool> ExistsWithNicknameAsync(string nickname, Guid excludedUserId, CancellationToken cancellationToken = default);
     void Add(User user);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-}
+}

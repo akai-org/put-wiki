@@ -20,4 +20,4 @@ public static class ApplicationConfiguration
 
         return services;
     }
-}
+}

@@ -38,4 +38,4 @@ public class UserRepository(AppDbContext context) : IUserRepository
     {
         return context.SaveChangesAsync(cancellationToken);
     }
-}
+}
