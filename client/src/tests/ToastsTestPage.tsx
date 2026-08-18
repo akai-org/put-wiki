@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button.tsx';
-import { useToast } from '@/utils/showToasts';
+import { showToast } from '@/utils/showToasts';
 
 export default function ToasterPage() {
-  const { showErrorToast, showSuccessToast, showMessageToast, showWarningToast } = useToast();
+  const { showErrorToast, showSuccessToast, showMessageToast, showWarningToast } = showToast();
 
   return (
     <div className="flex flex-wrap gap-4 p-6">

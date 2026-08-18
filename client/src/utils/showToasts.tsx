@@ -1,6 +1,6 @@
 import { toast } from 'sonner';
 
-export function useToast() {
+export function showToast() {
   function showErrorToast(message: string) {
     toast.error('Error: ' + message, {});
   }
