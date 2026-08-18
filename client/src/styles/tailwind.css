@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..700&family=Inter:wght@400;500;600;700&display=swap');
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -40,6 +42,7 @@
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
+  --font-display: 'Google Sans Flex', 'Inter', ui-sans-serif, sans-serif;
   --radius: 0.625rem;
   --shadow-x: 0;
   --shadow-y: 1px;
@@ -97,6 +100,7 @@
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
+  --font-display: 'Google Sans Flex', 'Inter', ui-sans-serif, sans-serif;
   --radius: 0.625rem;
   --shadow-x: 0;
   --shadow-y: 1px;
@@ -151,6 +155,7 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
+  --font-display: var(--font-display);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
