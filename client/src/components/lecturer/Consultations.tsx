@@ -1,10 +1,11 @@
-export default function Consultations(props: {
+interface ConsultationsProps {
   time: string;
   interval: string;
   weekday: string;
   place: string;
   last_updated: string;
-}) {
+}
+export default function Consultations(props: ConsultationsProps) {
   return (
     <div className="flex flex-col gap-4 p-12 pt-4 pl-4 bg-primary text-primary-foreground rounded-xl">
       <div>
