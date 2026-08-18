@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import Header from './Header';
-import { withRouterDecorator } from '@/tests/withRouterDecorator';
+import { withRouterDecorator } from '@/tests/utils/withRouterDecorator';
 import { AuthProvider } from '@/contexts/AuthProvider';
 import { UserProvider } from '@/contexts/UserProvider';
 import { ThemeProvider } from '@/contexts/ThemeProvider';

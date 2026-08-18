@@ -1,6 +1,6 @@
 import { useParams } from '@tanstack/react-router';
 import { useCourse } from '@/hooks/useCourse';
-import { calculateAverage } from '@/lib/utils';
+import { calculateAverage } from '@/utils/utils';
 import { useMemo } from 'react';
 
 export default function CoursePage() {
