@@ -1,7 +1,7 @@
 import { z } from 'zod';
 export const LecturerCourseSchema = z.object({
   nazwa: z.string(),
-  semestr: z.int(),
+  semestr: z.string(),
   typ: z.string(),
 });
 
