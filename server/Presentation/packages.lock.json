@@ -300,6 +300,7 @@
         "dependencies": {
           "Application": "[1.0.0, )",
           "Domain": "[1.0.0, )",
+          "EFCore.NamingConventions": "[10.0.1, )",
           "FluentResults": "[4.0.0, )",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "[10.0.0, )"
         }
@@ -311,6 +312,16 @@
         "contentHash": "VNEky8JA15ci+oIDRGHITOGOpV4dILsf8pnn24QhDl2urtqgJ2IXiS/V2EtGU17P/+f6OeFQPJETaZXV9QOIZg==",
         "dependencies": {
           "Microsoft.IdentityModel.JsonWebTokens": "8.14.0"
+        }
+      },
+      "EFCore.NamingConventions": {
+        "type": "CentralTransitive",
+        "requested": "[10.0.1, )",
+        "resolved": "10.0.1",
+        "contentHash": "Xs5k8XfNKPkkQSkGmZkmDI1je0prLTdxse+s8PgTFZxyBrlrTLzTBUTVJtQKSsbvu4y+luAv8DdtO5SALJE++A==",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "[10.0.1, 11.0.0)",
+          "Microsoft.EntityFrameworkCore.Relational": "[10.0.1, 11.0.0)"
         }
       },
       "FluentValidation.DependencyInjectionExtensions": {
