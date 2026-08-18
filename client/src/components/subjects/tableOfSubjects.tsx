@@ -12,7 +12,7 @@ export default function TableOfSubjects({ semesters }: { semesters: Semester[] }
       <Table>
         <TableHeader>
           <TableRow>
-            <TableCell colSpan={Math.max(semesters.length, 1)} className="text-center font-bold">
+            <TableCell className="text-center font-bold" colSpan={Math.max(semesters.length, 1)}>
               Przedmioty na kierunku
             </TableCell>
           </TableRow>

@@ -19,7 +19,7 @@ const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(function Toggle(
   }
 
   return (
-    <Button ref={ref} onClick={handleClick} {...props}>
+    <Button onClick={handleClick} ref={ref} {...props}>
       {isClicked ? OnValue : OffValue}
     </Button>
   );

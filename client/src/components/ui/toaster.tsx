@@ -13,15 +13,7 @@ function Toaster({ ...props }: ToasterProps) {
 
   return (
     <Sonner
-      theme={isDark ? 'dark' : 'light'}
-      richColors
       className="toaster group"
-      toastOptions={{
-        duration: 4000, // 4 seconds
-        classNames: {
-          toast: 'border shadow-sm',
-        },
-      }}
       icons={{
         success: <CircleCheckIcon className="size-4" />,
         info: <InfoIcon className="size-4" />,
@@ -29,6 +21,7 @@ function Toaster({ ...props }: ToasterProps) {
         error: <OctagonXIcon className="size-4" />,
         loading: <Loader2Icon className="size-4 animate-spin" />,
       }}
+      richColors
       style={
         {
           '--normal-bg': 'var(--popover)',
@@ -49,6 +42,13 @@ function Toaster({ ...props }: ToasterProps) {
           '--border-radius': 'var(--radius)',
         } as React.CSSProperties
       }
+      theme={isDark ? 'dark' : 'light'}
+      toastOptions={{
+        duration: 4000, // 4 seconds
+        classNames: {
+          toast: 'border shadow-sm',
+        },
+      }}
       {...props}
     />
   );

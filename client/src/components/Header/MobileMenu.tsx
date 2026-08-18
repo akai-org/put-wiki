@@ -6,33 +6,33 @@ import { ThemeToggle } from './ThemeToggle';
 
 export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
   return (
-    <Sheet open={open} onOpenChange={(open) => !open && onClose()}>
+    <Sheet onOpenChange={(open) => !open && onClose()} open={open}>
       <SheetContent
-        side="top"
-        showCloseButton={false}
         className="md:hidden top-16 inset-x-3 h-auto rounded-b-2xl border px-5 py-6 gap-4"
+        showCloseButton={false}
+        side="top"
       >
         <SheetTitle className="sr-only">Menu nawigacyjne</SheetTitle>
 
         <div className="border-b border-border pb-4 font-serif flex items-center justify-between gap-4">
           <ThemeToggle />
           <div className="flex-1">
-            <AuthAction variant="mobile" onAction={onClose} />
+            <AuthAction onAction={onClose} variant="mobile" />
           </div>
         </div>
 
-        <nav className="flex flex-col gap-4 font-serif" aria-label="Główna nawigacja">
+        <nav aria-label="Główna nawigacja" className="flex flex-col gap-4 font-serif">
           <Link
-            to="/prowadzacy"
-            onClick={onClose}
             className="text-lg text-foreground/85 hover:text-foreground transition-colors"
+            onClick={onClose}
+            to="/prowadzacy"
           >
             Prowadzący
           </Link>
           <Link
-            to="/przedmioty"
-            onClick={onClose}
             className="text-lg text-foreground/85 hover:text-foreground transition-colors"
+            onClick={onClose}
+            to="/przedmioty"
           >
             Przedmioty
           </Link>

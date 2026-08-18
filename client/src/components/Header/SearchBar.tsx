@@ -16,7 +16,7 @@ export function SearchBar({
       <div className={iconWrapperClassName}>
         <Settings className="h-5 w-5" />
       </div>
-      <input type="text" placeholder={placeholder} className={inputClassName} />
+      <input className={inputClassName} placeholder={placeholder} type="text" />
     </div>
   );
 }
