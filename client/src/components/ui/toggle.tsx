@@ -3,12 +3,12 @@ import * as React from 'react';
 import { Button } from '@/components/ui/button';
 
 type ToggleProps = React.ComponentPropsWithoutRef<typeof Button> & {
-  OnValue: string;
-  OffValue: string;
+  onValue: string;
+  offValue: string;
 };
 
 const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(function Toggle(
-  { OnValue, OffValue, onClick, ...props },
+  { onValue, offValue, onClick, ...props },
   ref
 ) {
   const [isClicked, setIsClicked] = React.useState(false);
@@ -20,7 +20,7 @@ const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(function Toggle(
 
   return (
     <Button onClick={handleClick} ref={ref} {...props}>
-      {isClicked ? OnValue : OffValue}
+      {isClicked ? onValue : offValue}
     </Button>
   );
 });

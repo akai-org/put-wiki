@@ -10,6 +10,7 @@ import tseslint from 'typescript-eslint';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import query from '@tanstack/eslint-plugin-query';
+import importPlugin from 'eslint-plugin-import';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
@@ -25,6 +26,7 @@ export default defineConfig([
       jsxA11y.flatConfigs.recommended,
       query.configs['flat/recommended'],
       storybook.configs['flat/recommended'],
+      importPlugin.flatConfigs.recommended,
     ],
     languageOptions: {
       ecmaVersion: 2020,
@@ -80,6 +82,61 @@ export default defineConfig([
       'react/jsx-sort-props': 'warn',
       'react/jsx-one-expression-per-line': 'off',
       'react/prop-types': 'off',
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'default',
+          format: ['strictCamelCase'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'import',
+          format: ['strictCamelCase', 'StrictPascalCase'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'function',
+          format: ['strictCamelCase', 'StrictPascalCase'],
+          leadingUnderscore: 'forbid',
+        },
+        {
+          selector: 'enumMember',
+          format: ['UPPER_CASE'],
+          leadingUnderscore: 'forbid',
+        },
+        {
+          selector: 'variable',
+          format: ['strictCamelCase', 'StrictPascalCase', 'UPPER_CASE'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'parameter',
+          format: ['strictCamelCase', 'StrictPascalCase'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'property',
+          format: null,
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'typeLike',
+          format: ['StrictPascalCase'],
+        },
+      ],
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          args: 'all',
+          argsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
+      ],
     },
   },
   eslintConfigPrettier, //should be last
