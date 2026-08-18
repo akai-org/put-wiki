@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { LecturerCard } from '@/schemas/lecturer/lecturerCard';
 
-export default function LecturerCard({ title, name, photo_url }: LecturerCard) {
+export default function LecturerCard({ title, name, photoUrl }: LecturerCard) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -12,7 +12,7 @@ export default function LecturerCard({ title, name, photo_url }: LecturerCard) {
         aria-label="Open lecturer photo"
       >
         <img
-          src={`${photo_url}`}
+          src={`${photoUrl}`}
           className="w-12 h-12 md:w-20 md:h-20 lg:w-28 lg:h-28 rounded-full object-cover"
           alt="lecturer face"
         />
@@ -31,7 +31,7 @@ export default function LecturerCard({ title, name, photo_url }: LecturerCard) {
         >
           <div className="p-4 rounded-lg max-w-[90vw] max-h-[90vh]">
             <img
-              src={`${photo_url}`}
+              src={`${photoUrl}`}
               className="max-h-[80vh] max-w-[80vw] object-contain"
               alt="lecturer large"
             />
