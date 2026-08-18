@@ -1,22 +1,25 @@
-*,
-*::after,
-*::before {
-  box-sizing: border-box;
-}
+@layer base {
+  *,
+  *::after,
+  *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-html,
-body,
-#root {
-  width: 100%;
-  height: 100%;
-}
+  html {
+    height: 100dvh;
+    width: 100dvw;
+  }
 
-html {
-  height: 100dvh;
-  width: 100dvw;
-}
+  #root {
+    height: 100%;
+    width: 100%;
+  }
 
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
+  body {
+    height: 100%;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+  }
 }
