@@ -290,7 +290,10 @@
         }
       },
       "domain": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "FluentResults": "[4.0.0, )"
+        }
       },
       "infrastructure": {
         "type": "Project",

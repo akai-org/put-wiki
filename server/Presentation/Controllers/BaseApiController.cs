@@ -39,6 +39,7 @@ public class BaseApiController : ControllerBase
             NotFoundError => StatusCodes.Status404NotFound,
             ValidationError => StatusCodes.Status400BadRequest,
             UnauthorizedError => StatusCodes.Status401Unauthorized,
+            ConflictError => StatusCodes.Status409Conflict,
             ExternalServiceError => StatusCodes.Status502BadGateway,
             _ => StatusCodes.Status500InternalServerError
         };
@@ -61,6 +62,7 @@ public class BaseApiController : ControllerBase
         400 => "Bad Request",
         401 => "Unauthorized",
         404 => "Not Found",
+        409 => "Conflict",
         502 => "Bad Gateway",
         _ => "Server Error"
     };
