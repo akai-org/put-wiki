@@ -21,39 +21,39 @@ export default function TableOfOpinions({ opinions }: { opinions: Opinion[] }) {
                 return (
                   <Card key={opinion.opinionId}>
                     <OpinionLabel
+                      content={opinion.content}
                       opinionId={opinion.opinionId}
+                      rating={opinion.rating}
                       userId={opinion.userId}
                       userName={opinion.userName}
-                      content={opinion.content}
-                      rating={opinion.rating}
                     />
                   </Card>
                 );
               })
             )}
 
-            {opinions.length > 2 && (
+            {opinions.length > 2 ? (
               <>
                 <CollapsibleContent>
                   {opinions.slice(2).map(function (opinion) {
                     return (
                       <Card key={opinion.opinionId}>
                         <OpinionLabel
+                          content={opinion.content}
                           opinionId={opinion.opinionId}
+                          rating={opinion.rating}
                           userId={opinion.userId}
                           userName={opinion.userName}
-                          content={opinion.content}
-                          rating={opinion.rating}
                         />
                       </Card>
                     );
                   })}
                 </CollapsibleContent>
                 <CollapsibleTrigger asChild>
-                  <Toggle OnValue="Zwiń" OffValue="Rozwiń" />
+                  <Toggle OffValue="Rozwiń" OnValue="Zwiń" />
                 </CollapsibleTrigger>
               </>
-            )}
+            ) : null}
           </Collapsible>
         </ScrollArea>
       </CardContent>

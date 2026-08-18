@@ -23,12 +23,12 @@ export function AuthAction({
       </div>
     ) : (
       <button
-        type="button"
+        className="w-full border border-border hover:border-foreground text-foreground font-medium py-2 rounded-full text-center flex items-center justify-center gap-2"
         onClick={() => {
           login();
           onAction?.();
         }}
-        className="w-full border border-border hover:border-foreground text-foreground font-medium py-2 rounded-full text-center flex items-center justify-center gap-2"
+        type="button"
       >
         <User className="h-4 w-4" /> Zaloguj z USOS
       </button>
@@ -36,7 +36,7 @@ export function AuthAction({
   }
 
   return isLoggedIn ? (
-    <Link to="/profile" className="flex items-center gap-3 hover:opacity-90 transition-all group">
+    <Link className="flex items-center gap-3 hover:opacity-90 transition-all group" to="/profile">
       <span className="text-sm font-medium font-serif text-muted-foreground group-hover:text-foreground whitespace-nowrap">
         Witaj, {nickname}
       </span>
@@ -46,9 +46,9 @@ export function AuthAction({
     </Link>
   ) : (
     <button
-      type="button"
-      onClick={login}
       className="flex items-center gap-2 h-10 px-4 rounded-full border border-border text-sm font-medium font-serif text-foreground hover:border-foreground transition-colors focus:outline-none flex-shrink-0 whitespace-nowrap"
+      onClick={login}
+      type="button"
     >
       <User className="h-4 w-4" />
       Zaloguj z USOS

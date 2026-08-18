@@ -39,7 +39,7 @@ export default function CoursePage() {
           </section>
           <section className="bg-gray-200 rounded-md p-6 min-h-40 row-span-2 col-span-1">
             {data.reviews.map((review, i) => (
-              <p key={`${data.slug}-review-${i}`} className="mb-2 text-sm ">
+              <p className="mb-2 text-sm " key={`${data.slug}-review-${i}`}>
                 {review}
               </p>
             ))}
@@ -50,10 +50,10 @@ export default function CoursePage() {
               {data.materials.map((m) => (
                 <li key={m.url}>
                   <a
-                    href={m.url}
                     className="text-blue-600 underline"
-                    target="_blank"
+                    href={m.url}
                     rel="noopener noreferrer"
+                    target="_blank"
                   >
                     {m.label}
                   </a>

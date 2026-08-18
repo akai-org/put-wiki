@@ -6,11 +6,11 @@ export function Logo({ size }: { size: 'desktop' | 'mobile' }) {
 
   return (
     <Link
-      to="/"
       aria-label="PUTwiki - strona główna"
       className="flex items-center gap-2.5 text-foreground hover:opacity-85 transition-opacity"
+      to="/"
     >
-      <Globe className={isDesktop ? 'h-8 w-8' : 'h-6 w-6'} strokeWidth={2.25} aria-hidden="true" />
+      <Globe aria-hidden="true" className={isDesktop ? 'h-8 w-8' : 'h-6 w-6'} strokeWidth={2.25} />
       <span
         className={`font-serif tracking-tight leading-none ${isDesktop ? 'text-3xl' : 'text-2xl'}`}
       >

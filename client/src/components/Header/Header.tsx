@@ -33,10 +33,10 @@ export default function Header() {
           </div>
 
           <div className="flex items-center gap-8 justify-end">
-            <Link to="/prowadzacy" className={navLinkClassName}>
+            <Link className={navLinkClassName} to="/prowadzacy">
               Prowadzący
             </Link>
-            <Link to="/przedmioty" className={navLinkClassName}>
+            <Link className={navLinkClassName} to="/przedmioty">
               Przedmioty
             </Link>
 
@@ -52,15 +52,15 @@ export default function Header() {
         <Logo size="mobile" />
 
         <button
-          type="button"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="text-muted-foreground hover:text-foreground focus:outline-none p-2"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          type="button"
         >
           {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
-      <MobileMenu open={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
+      <MobileMenu onClose={() => setIsMobileMenuOpen(false)} open={isMobileMenuOpen} />
     </header>
   );
 }
