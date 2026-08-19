@@ -44,20 +44,21 @@
     monospace;
   --font-display: 'Google Sans Flex', 'Inter', ui-sans-serif, sans-serif;
   --radius: 0.625rem;
-  --shadow-x: 0;
-  --shadow-y: 1px;
-  --shadow-blur: 3px;
+  --shadow-x: 16px;
+  --shadow-y: 16px;
+  --shadow-blur: 0px;
   --shadow-spread: 0px;
-  --shadow-opacity: 0.1;
-  --shadow-color: #000000;
-  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
-  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
-  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+  --shadow-opacity: 0.48;
+  --shadow-color: hsl(245 24% 24%);
+
+  --shadow-2xs: 6px 6px 0 0 hsl(245 24% 24% / 0.18);
+  --shadow-xs: 8px 8px 0 0 hsl(245 24% 24% / 0.24);
+  --shadow-sm: 10px 10px 0 0 hsl(245 24% 24% / 0.3);
+  --shadow: 12px 12px 0 0 hsl(245 24% 24% / 0.36);
+  --shadow-md: 14px 14px 0 0 hsl(245 24% 24% / 0.44);
+  --shadow-lg: 16px 16px 0 0 hsl(245 24% 24% / 0.52);
+  --shadow-xl: 18px 18px 0 0 hsl(245 24% 24% / 0.6);
+  --shadow-2xl: 22px 22px 0 0 hsl(245 24% 24% / 0.7);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 }
@@ -102,20 +103,23 @@
     monospace;
   --font-display: 'Google Sans Flex', 'Inter', ui-sans-serif, sans-serif;
   --radius: 0.625rem;
-  --shadow-x: 0;
-  --shadow-y: 1px;
-  --shadow-blur: 3px;
+  --shadow-x: 14px;
+  --shadow-y: 14px;
+  --shadow-blur: 2px;
   --shadow-spread: 0px;
-  --shadow-opacity: 0.1;
-  --shadow-color: #000000;
-  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
-  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
-  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+  --shadow-opacity: 0.34;
+  --shadow-color: hsl(245 18% 31%);
+
+  --shadow-2xs: 6px 6px 0 0 hsl(240 42% 38% / 0.12);
+  --shadow-xs: 8px 8px 0 0 hsl(240 42% 38% / 0.16);
+  --shadow-sm: 10px 10px 0 0 hsl(240 42% 38% / 0.2);
+  --shadow: 12px 12px 0 0 hsl(240 42% 38% / 0.24);
+  --shadow-md: 14px 14px 0 0 hsl(240 42% 38% / 0.28);
+  --shadow-lg: 16px 16px 0 0 hsl(240 42% 38% / 0.32);
+  --shadow-xl: 18px 18px 0 0 hsl(240 42% 38% / 0.36);
+  --shadow-2xl: 20px 20px 0 0 hsl(240 42% 38% / 0.42);
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
 }
 
 @theme inline {
