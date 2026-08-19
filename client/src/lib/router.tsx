@@ -1,11 +1,11 @@
 import { HomePage, NotFoundPage, CoursePage, DegreeCoursePage, LecturerPage } from '@/pages';
-import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router';
+import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router';
 import Header from '@/components/Header/Header';
 // import Footer from '@/components/Footer/Footer';
 
 const rootRoute = createRootRoute({
   component: () => (
-    <div className="flex flex-col min-h-screen bg-[#121318]">
+    <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-grow">
         <Outlet />
@@ -41,7 +41,6 @@ const notFoundRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '$',
   component: () => <NotFoundPage />,
-
 });
 
 const routeTree = rootRoute.addChildren([
