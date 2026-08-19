@@ -1,6 +1,8 @@
 import type { ContactInfo } from '@/schemas/lecturer/contactInfo';
 
-export default function LecturerContact({ email, phone, website }: ContactInfo) {
+interface LecturerContactProps extends ContactInfo {}
+
+export default function LecturerContact({ email, phone, website }: LecturerContactProps) {
   return (
     <div className="flex-col bg-primary text-primary-foreground rounded-xl p-12 pt-4 pl-4">
       <p className="mb-3 font-bold text-xl">Kontakt</p>

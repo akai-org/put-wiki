@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import type { LecturerCard } from '@/schemas/lecturer/lecturerCard';
 
-export default function LecturerCard({ title, name, photoUrl }: LecturerCard) {
+interface LecturerCardProps extends LecturerCard {}
+
+export default function LecturerCard({ title, name, photoUrl }: LecturerCardProps) {
   const [open, setOpen] = useState(false);
 
   return (

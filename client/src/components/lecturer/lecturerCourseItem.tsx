@@ -1,6 +1,10 @@
 import type { LecturerCourse } from '@/schemas/lecturer/lecturerCourse';
 
-export default function LecturerCourseItem({ course }: { course: LecturerCourse }) {
+interface LecturerCourseItemProps {
+  course: LecturerCourse;
+}
+
+export default function LecturerCourseItem({ course }: LecturerCourseItemProps) {
   return (
     <div>
       {course.nazwa} ({course.typ}){' '}
