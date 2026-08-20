@@ -38,6 +38,7 @@ const degreeCoursePageRoute = createRoute({
   path: '/degree-course/$slug',
   component: () => <DegreeCoursePage />,
 });
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   coursePageRoute,
