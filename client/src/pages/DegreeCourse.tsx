@@ -1,14 +1,8 @@
 import { useParams } from '@tanstack/react-router';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card.tsx';
-import TableOfSubjects from '@/components/subjects/tableOfSubjects.tsx';
-import TableOfOpinions from '@/components/opinions/tableOfOpinions';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
+import TableOfSubjects from '@/components/subjects/TableOfSubjects';
+import TableOfOpinions from '@/components/opinions/TableOfOpinions';
 import { useDegreeCourse } from '@/hooks/useDegreeCourse';
 
 export default function DegreeCoursePage() {

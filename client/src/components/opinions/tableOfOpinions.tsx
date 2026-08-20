@@ -1,9 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
-import Toggle from '@/components/ui/toggle.tsx';
-import type { Opinion } from '@/schemas/opinion.ts';
-import OpinionLabel from '@/components/opinions/opinionLabel';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { ScrollArea } from '@/components/ui/ScrollArea';
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/Collapsible';
+import Toggle from '@/components/ui/Toggle';
+import type { Opinion } from '@/schemas/opinion';
+import OpinionLabel from './OpinionLabel';
 
 export default function TableOfOpinions({ opinions }: { opinions: Opinion[] }) {
   return (
@@ -50,7 +50,7 @@ export default function TableOfOpinions({ opinions }: { opinions: Opinion[] }) {
                   })}
                 </CollapsibleContent>
                 <CollapsibleTrigger asChild>
-                  <Toggle OffValue="Rozwiń" OnValue="Zwiń" />
+                  <Toggle offValue="Rozwiń" onValue="Zwiń" />
                 </CollapsibleTrigger>
               </>
             ) : null}

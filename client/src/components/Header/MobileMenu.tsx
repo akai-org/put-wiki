@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle } from '@/components/ui/Sheet';
 import { SearchBar } from './SearchBar';
 import { AuthAction } from './AuthAction';
 import { ThemeToggle } from './ThemeToggle';

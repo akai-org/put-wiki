@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button.tsx';
+import { Button } from '@/components/ui/Button';
 import { showToast } from '@/utils/showToasts';
 
 export default function ToasterPage() {

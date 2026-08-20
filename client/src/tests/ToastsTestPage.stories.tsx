@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import ToasterPage from '@/tests/ToastsTestPage';
 import { ThemeProvider } from '@/contexts/ThemeProvider';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from '@/components/ui/Toaster';
 
 const meta = {
   title: 'Test/ToastsTestPage',
