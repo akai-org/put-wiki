@@ -1,11 +1,14 @@
-import { useParams } from '@tanstack/react-router';
-
+import { createFileRoute, useParams } from '@tanstack/react-router';
+import { useDegreeCourse } from '@/hooks/useDegreeCourse';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import TableOfSubjects from '@/components/subjects/TableOfSubjects';
 import TableOfOpinions from '@/components/opinions/TableOfOpinions';
-import { useDegreeCourse } from '@/hooks/useDegreeCourse';
 
-export default function DegreeCoursePage() {
+export const Route = createFileRoute('/degree-course/$slug')({
+  component: DegreeCourse,
+});
+
+function DegreeCourse() {
   const { slug } = useParams({ from: '/degree-course/$slug' });
   const { data, isLoading, isError } = useDegreeCourse(slug);
 
