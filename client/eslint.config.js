@@ -11,6 +11,7 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import query from '@tanstack/eslint-plugin-query';
 import importPlugin from 'eslint-plugin-import';
+import pluginRouter from '@tanstack/eslint-plugin-router';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
@@ -27,6 +28,7 @@ export default defineConfig([
       query.configs['flat/recommended'],
       storybook.configs['flat/recommended'],
       importPlugin.flatConfigs.recommended,
+      ...pluginRouter.configs['flat/recommended'],
     ],
     languageOptions: {
       ecmaVersion: 2020,
@@ -135,6 +137,23 @@ export default defineConfig([
           destructuredArrayIgnorePattern: '^_',
           varsIgnorePattern: '^_',
           ignoreRestSiblings: true,
+        },
+      ],
+      '@typescript-eslint/only-throw-error': [
+        'error',
+        {
+          allow: [
+            {
+              from: 'package',
+              package: '@tanstack/router-core',
+              name: 'Redirect',
+            },
+            {
+              from: 'package',
+              package: '@tanstack/router-core',
+              name: 'NotFoundError',
+            },
+          ],
         },
       ],
     },
