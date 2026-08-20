@@ -1,9 +1,13 @@
-import { useParams } from '@tanstack/react-router';
+import { createFileRoute, useParams } from '@tanstack/react-router';
+import { useMemo } from 'react';
 import { useCourse } from '@/hooks/useCourse';
 import { calculateAverage } from '@/utils';
-import { useMemo } from 'react';
 
-export default function CoursePage() {
+export const Route = createFileRoute('/course/$slug')({
+  component: Course,
+});
+
+function Course() {
   const { slug } = useParams({ from: '/course/$slug' });
   const { data, isLoading, isError } = useCourse(slug);
   const averageRating = useMemo(() => calculateAverage(data?.ratings), [data?.ratings]);

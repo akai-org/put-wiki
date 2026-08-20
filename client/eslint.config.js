@@ -14,7 +14,7 @@ import importPlugin from 'eslint-plugin-import';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
-  globalIgnores(['dist', 'coverage']),
+  globalIgnores(['dist', 'coverage', '**/*.gen.ts']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
