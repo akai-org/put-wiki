@@ -5,42 +5,82 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      github-actions:
+      github-actions-minor-patch:
         patterns:
           - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      github-actions-major:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
 
   - package-ecosystem: "docker"
     directory: "/client"
     schedule:
       interval: "weekly"
     groups:
-      docker-client:
+      docker-client-minor-patch:
         patterns:
           - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      docker-client-major:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
 
   - package-ecosystem: "docker"
     directory: "/server"
     schedule:
       interval: "weekly"
     groups:
-      docker-server:
+      docker-server-minor-patch:
         patterns:
           - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      docker-server-major:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
 
   - package-ecosystem: "npm"
     directory: "/client"
     schedule:
       interval: "weekly"
     groups:
-      client-npm:
+      client-npm-minor-patch:
         patterns:
           - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      client-npm-major:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
 
   - package-ecosystem: "nuget"
     directory: "/server"
     schedule:
       interval: "weekly"
     groups:
-      server-nuget:
+      server-nuget-minor-patch:
         patterns:
           - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      server-nuget-major:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
