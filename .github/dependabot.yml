@@ -51,18 +51,18 @@ updates:
         update-types:
           - "major"
 
-  - package-ecosystem: "npm"
+  - package-ecosystem: "bun"
     directory: "/client"
     schedule:
       interval: "weekly"
     groups:
-      client-npm-minor-patch:
+      client-bun-minor-patch:
         patterns:
           - "*"
         update-types:
           - "minor"
           - "patch"
-      client-npm-major:
+      client-bun-major:
         patterns:
           - "*"
         update-types:
