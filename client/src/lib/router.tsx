@@ -1,13 +1,12 @@
 import { HomePage, NotFoundPage, CoursePage, DegreeCoursePage } from '@/pages';
 import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router';
 import Header from '@/components/Header/Header';
-// import Footer from '@/components/Footer/Footer';
 
 const rootRoute = createRootRoute({
   component: () => (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex">
+      <main className="grow">
         <Outlet />
       </main>
       {/* <Footer /> */}

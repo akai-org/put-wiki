@@ -1,4 +1,4 @@
-import type { Opinion } from '@/schemas/opinion.ts';
+import type { Opinion } from '@/schemas/opinion';
 
 export default function OpinionLabel({ userName, content, rating }: Opinion) {
   return (

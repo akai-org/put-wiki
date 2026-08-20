@@ -1,5 +1,12 @@
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '../ui/table.tsx';
-import { ScrollArea } from '../ui/scroll-area.tsx';
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from '@/components/ui/Table';
+import { ScrollArea } from '@/components/ui/ScrollArea';
 
 interface Semester {
   number: number;
