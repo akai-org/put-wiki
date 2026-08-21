@@ -13,23 +13,23 @@ function DegreeCourse() {
   const { data, isLoading, isError } = useDegreeCourse(slug);
 
   if (isLoading)
-    return <div className="flex justify-center items-center text-black text-7xl">Ładowanie...</div>;
+    return <div className="flex items-center justify-center text-7xl text-black">Ładowanie...</div>;
   if (isError) {
     //maybe add toast about error here
     return (
-      <div className="flex justify-center items-center text-black text-7xl">Wystąpił błąd</div>
+      <div className="flex items-center justify-center text-7xl text-black">Wystąpił błąd</div>
     );
   }
   if (!data)
     return (
-      <div className="flex justify-center items-center text-black   text-7xl">Brak danych</div>
+      <div className="flex items-center justify-center text-7xl   text-black">Brak danych</div>
     );
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center">{data.name}</CardTitle>
-        <CardDescription className="max-w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+        <CardTitle className="text-center text-2xl font-bold">{data.name}</CardTitle>
+        <CardDescription className="mx-auto grid max-w-full grid-cols-1 gap-6 md:grid-cols-2">
           <CardContent>
             <p>{data.description}</p>
           </CardContent>
@@ -41,8 +41,8 @@ function DegreeCourse() {
 
       <TableOfSubjects semesters={data.semesters} />
 
-      <div className="max-w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="mx-auto left-column">
+      <div className="mx-auto grid max-w-full grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="mx-auto">
           <Card>
             <CardHeader>
               <CardTitle>Losy Absolwentów</CardTitle>
@@ -88,7 +88,7 @@ function DegreeCourse() {
             </CardContent>
           </Card>
         </div>
-        <div className="flex-col right-column">
+        <div className="flex-col">
           <Card>
             <CardHeader>
               <CardTitle>Filtry Opinii</CardTitle>

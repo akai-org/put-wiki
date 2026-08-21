@@ -14,7 +14,7 @@ export function SearchBar({
   return (
     <div className={containerClassName}>
       <div className={iconWrapperClassName}>
-        <Settings className="h-5 w-5" />
+        <Settings className="size-5" />
       </div>
       <input className={inputClassName} placeholder={placeholder} type="text" />
     </div>

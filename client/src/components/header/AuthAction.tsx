@@ -16,41 +16,41 @@ export function AuthAction({
   if (variant === 'mobile') {
     return isLoggedIn ? (
       <div className="flex items-center gap-3">
-        <div className="h-9 w-9 rounded-full border border-border flex items-center justify-center text-muted-foreground bg-muted">
-          <User className="h-5 w-5" />
+        <div className="flex size-9 items-center justify-center rounded-full border border-border bg-muted text-muted-foreground">
+          <User className="size-5" />
         </div>
-        <span className="text-md text-muted-foreground">Witaj, {nickname}</span>
+        <span className="text-muted-foreground">Witaj, {nickname}</span>
       </div>
     ) : (
       <button
-        className="w-full border border-border hover:border-foreground text-foreground font-medium py-2 rounded-full text-center flex items-center justify-center gap-2"
+        className="flex w-full items-center justify-center gap-2 rounded-full border border-border py-2 text-center font-medium text-foreground hover:border-foreground"
         onClick={() => {
           login();
           onAction?.();
         }}
         type="button"
       >
-        <User className="h-4 w-4" /> Zaloguj z USOS
+        <User className="size-4" /> Zaloguj z USOS
       </button>
     );
   }
 
   return isLoggedIn ? (
-    <Link className="flex items-center gap-3 hover:opacity-90 transition-all group" to="/">
-      <span className="text-sm font-medium font-serif text-muted-foreground group-hover:text-foreground whitespace-nowrap">
+    <Link className="group flex items-center gap-3 transition-all hover:opacity-90" to="/">
+      <span className="font-serif text-sm font-medium whitespace-nowrap text-muted-foreground group-hover:text-foreground">
         Witaj, {nickname}
       </span>
-      <div className="h-10 w-10 rounded-full border border-border flex items-center justify-center text-muted-foreground bg-muted group-hover:border-foreground transition-colors flex-shrink-0">
-        <User className="h-5 w-5" />
+      <div className="flex size-10 flex-shrink-0 items-center justify-center rounded-full border border-border bg-muted text-muted-foreground transition-colors group-hover:border-foreground">
+        <User className="size-5" />
       </div>
     </Link>
   ) : (
     <button
-      className="flex items-center gap-2 h-10 px-4 rounded-full border border-border text-sm font-medium font-serif text-foreground hover:border-foreground transition-colors focus:outline-none flex-shrink-0 whitespace-nowrap"
+      className="flex h-10 flex-shrink-0 items-center gap-2 rounded-full border border-border px-4 font-serif text-sm font-medium whitespace-nowrap text-foreground transition-colors hover:border-foreground focus:outline-none"
       onClick={login}
       type="button"
     >
-      <User className="h-4 w-4" />
+      <User className="size-4" />
       Zaloguj z USOS
     </button>
   );
