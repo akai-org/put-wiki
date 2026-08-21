@@ -4,7 +4,8 @@ The frontend client for PutWiki, built with React, TypeScript and Vite.
 
 ## Tech stack
 
-- **Runtime & package manager:** Bun
+- **Runtime:** Node.js
+- **Package manager:** Bun
 - **Core:** React 19, Vite, TypeScript
 - **Routing & data fetching:** TanStack Router, TanStack Query, Axios
 - **Styling & UI:** Tailwind CSS v4, shadcn/ui (Radix UI)
@@ -16,7 +17,9 @@ The frontend client for PutWiki, built with React, TypeScript and Vite.
 ### Prerequisites
 
 > [!IMPORTANT]
-> Please note that you need to have bun installed to run this app locally. Use version defined in `package.json` `engines.bun`.
+>
+> - **Node.js:** Required runtime (used version: `engines.node` in package.json). Use `nvm use` to use Node.js version defined in `.nvmrc`.
+> - **Bun:** Required package manager (used version: `engines.bun` in package.json).
 
 ### Local development
 
