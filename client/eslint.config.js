@@ -145,6 +145,9 @@ export default defineConfig([
           ignoreRestSiblings: true,
         },
       ],
+      'tailwindcss/no-arbitrary-value': 'warn',
+      'tailwindcss/no-custom-classname': ['warn', { whitelist: ['c\\-*'] }],
+      'tailwindcss/no-contradicting-classname': 'error',
     },
   },
   eslintConfigPrettier, //should be last

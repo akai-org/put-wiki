@@ -40,13 +40,13 @@ export function AuthAction({
       <span className="font-serif text-sm font-medium whitespace-nowrap text-muted-foreground group-hover:text-foreground">
         Witaj, {nickname}
       </span>
-      <div className="flex size-10 flex-shrink-0 items-center justify-center rounded-full border border-border bg-muted text-muted-foreground transition-colors group-hover:border-foreground">
+      <div className="flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-muted text-muted-foreground transition-colors group-hover:border-foreground">
         <User className="size-5" />
       </div>
     </Link>
   ) : (
     <button
-      className="flex h-10 flex-shrink-0 items-center gap-2 rounded-full border border-border px-4 font-serif text-sm font-medium whitespace-nowrap text-foreground transition-colors hover:border-foreground focus:outline-none"
+      className="flex h-10 shrink-0 items-center gap-2 rounded-full border border-border px-4 font-serif text-sm font-medium whitespace-nowrap text-foreground transition-colors hover:border-foreground focus:outline-none"
       onClick={login}
       type="button"
     >
