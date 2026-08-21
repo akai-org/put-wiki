@@ -6,7 +6,7 @@ import { UserProvider } from '@/contexts/UserProvider';
 import { ThemeProvider } from '@/contexts/ThemeProvider';
 
 const meta = {
-  title: 'Components/Header',
+  title: 'Features/Header',
   component: Header,
   parameters: {
     layout: 'fullscreen',
