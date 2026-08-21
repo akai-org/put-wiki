@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import ToasterPage from '@/tests/ToastsTestPage';
 import { ThemeProvider } from '@/contexts/ThemeProvider';
-import { Toaster } from '@/components/ui/Toaster';
+import { ToastsProvider } from '@/components/ui/ToastsProvider';
 
 const meta = {
   title: 'Test/ToastsTestPage',
@@ -9,7 +9,7 @@ const meta = {
   decorators: [
     (Story) => (
       <ThemeProvider initialTheme="light">
-        <Toaster position="top-center" />
+        <ToastsProvider position="top-center" />
         <Story />
       </ThemeProvider>
     ),

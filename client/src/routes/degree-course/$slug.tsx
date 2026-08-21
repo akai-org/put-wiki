@@ -1,8 +1,8 @@
 import { createFileRoute, useParams } from '@tanstack/react-router';
 import { useDegreeCourse } from '@/hooks/useDegreeCourse';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
-import TableOfSubjects from '@/components/subjects/TableOfSubjects';
-import TableOfOpinions from '@/components/opinions/TableOfOpinions';
+import { TableOfOpinions } from '@/features/opinions';
+import { TableOfSubjects } from '@/features/subjects';
 
 export const Route = createFileRoute('/degree-course/$slug')({
   component: DegreeCourse,

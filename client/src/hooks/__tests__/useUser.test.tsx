@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { renderHook } from '@testing-library/react';
-import { useUser } from './useUser';
+import { useUser } from '../useUser';
 import { UserProvider } from '@/contexts/UserProvider';
 
 function wrapper({

@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@/contexts/ThemeProvider';
 import { AuthProvider } from '@/contexts/AuthProvider';
 import { UserProvider } from '@/contexts/UserProvider';
-import { Toaster } from '@/components/ui/Toaster';
+import { ToastsProvider } from '@/components/ui/ToastsProvider';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
 const queryClient = new QueryClient();
@@ -17,7 +17,7 @@ export function App() {
         <UserProvider>
           <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />
-            <Toaster position="top-center" />
+            <ToastsProvider position="top-center" />
             <TanStackRouterDevtools router={router} />
             <ReactQueryDevtools />
           </QueryClientProvider>
