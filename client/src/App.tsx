@@ -6,7 +6,7 @@ import { ThemeProvider } from '@/contexts/ThemeProvider';
 import { AuthProvider } from '@/contexts/AuthProvider';
 import { UserProvider } from '@/contexts/UserProvider';
 import { ToastsProvider } from '@/components/ui/ToastsProvider';
-import { TanStackRouterDevtools } from '@tanstack/router-devtools';
+import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 
 const queryClient = new QueryClient();
 
