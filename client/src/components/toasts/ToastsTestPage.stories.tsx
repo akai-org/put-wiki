@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import ToasterPage from '@/tests/ToastsTestPage';
+import ToasterPage from '@/components/toasts/ToastsTestPage';
 import { ThemeProvider } from '@/contexts/ThemeProvider';
 import { ToastsProvider } from '@/components/ui/ToastsProvider';
 
 const meta = {
-  title: 'Test/ToastsTestPage',
+  title: 'Components/Toasts',
   component: ToasterPage,
   decorators: [
     (Story) => (
