@@ -43,7 +43,7 @@ export default mergeConfig(
             include: ['src/**/*.test.{ts,tsx}'],
             exclude: ['.storybook/**', '**/*.stories.{ts,tsx}', ...configDefaults.exclude],
             environment: 'happy-dom',
-            setupFiles: ['vitest.setup.ts'],
+            setupFiles: ['vitest.setup.ts', 'vitest-localstorage-mock'],
           },
         },
       ],
