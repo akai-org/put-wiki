@@ -12,6 +12,7 @@ import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import query from '@tanstack/eslint-plugin-query';
 import importPlugin from 'eslint-plugin-import';
 import pluginRouter from '@tanstack/eslint-plugin-router';
+import eslintPluginTailwindcss from 'eslint-plugin-tailwindcss';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
@@ -29,6 +30,8 @@ export default defineConfig([
       storybook.configs['flat/recommended'],
       importPlugin.flatConfigs.recommended,
       ...pluginRouter.configs['flat/recommended'],
+      eslintPluginTailwindcss.configs['flat/recommended'] ||
+        eslintPluginTailwindcss.configs.recommended,
     ],
     languageOptions: {
       ecmaVersion: 2020,
@@ -45,6 +48,9 @@ export default defineConfig([
         typescript: {
           project: './tsconfig.json',
         },
+      },
+      tailwindcss: {
+        cssConfigPath: './src/styles/tailwind.css',
       },
     },
     rules: {
