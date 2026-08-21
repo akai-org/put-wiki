@@ -25,14 +25,14 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
           <Link
             className="text-lg text-foreground/85 hover:text-foreground transition-colors"
             onClick={onClose}
-            to="/prowadzacy"
+            to="/"
           >
             Prowadzący
           </Link>
           <Link
             className="text-lg text-foreground/85 hover:text-foreground transition-colors"
             onClick={onClose}
-            to="/przedmioty"
+            to="/"
           >
             Przedmioty
           </Link>

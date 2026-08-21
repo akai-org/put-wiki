@@ -36,7 +36,7 @@ export function AuthAction({
   }
 
   return isLoggedIn ? (
-    <Link className="flex items-center gap-3 hover:opacity-90 transition-all group" to="/profile">
+    <Link className="flex items-center gap-3 hover:opacity-90 transition-all group" to="/">
       <span className="text-sm font-medium font-serif text-muted-foreground group-hover:text-foreground whitespace-nowrap">
         Witaj, {nickname}
       </span>
