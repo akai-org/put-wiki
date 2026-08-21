@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const agent = axios.create({
+const api = axios.create({
   baseURL: '/',
   withCredentials: true,
 });
 
-export { agent };
+export { api };

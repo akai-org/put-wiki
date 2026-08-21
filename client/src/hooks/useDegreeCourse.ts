@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { DegreeCourseSchema, type DegreeCourse } from '@/schemas/degreeCourse';
-import { agent } from '@/lib/api';
+import { api } from '@/lib/api';
 
 async function fetchDegreeCourse(slug: string): Promise<DegreeCourse> {
-  const response = await agent.get(`/mocks/${slug}.json`);
+  const response = await api.get(`/mocks/${slug}.json`);
   return DegreeCourseSchema.parse(response.data);
 }
 
