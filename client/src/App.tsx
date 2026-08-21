@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/contexts/ThemeProvider';
 import { AuthProvider } from '@/contexts/AuthProvider';
 import { UserProvider } from '@/contexts/UserProvider';
 import { Toaster } from '@/components/ui/Toaster';
+import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 
 const queryClient = new QueryClient();
 
@@ -16,8 +17,9 @@ export function App() {
         <UserProvider>
           <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />
-            <ReactQueryDevtools initialIsOpen={false} />
             <Toaster position="top-center" />
+            <TanStackRouterDevtools router={router} />
+            <ReactQueryDevtools />
           </QueryClientProvider>
         </UserProvider>
       </AuthProvider>
