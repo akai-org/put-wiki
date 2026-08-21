@@ -8,7 +8,7 @@ import {
 import { useTheme } from '@/hooks/useTheme';
 import { Toaster as Sonner, type ToasterProps } from 'sonner';
 
-function Toaster({ ...props }: ToasterProps) {
+function ToastsProvider({ ...props }: ToasterProps) {
   const { isDark } = useTheme();
 
   return (
@@ -52,4 +52,4 @@ function Toaster({ ...props }: ToasterProps) {
     />
   );
 }
-export { Toaster };
+export { ToastsProvider };

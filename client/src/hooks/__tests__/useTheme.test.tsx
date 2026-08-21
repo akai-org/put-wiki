@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
-import { useTheme } from './useTheme';
+import { useTheme } from '../useTheme';
 import { ThemeProvider } from '@/contexts/ThemeProvider';
 import type { Theme } from '@/contexts/ThemeContext';
 
