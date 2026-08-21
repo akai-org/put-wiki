@@ -8,13 +8,13 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
   return (
     <Sheet onOpenChange={(open) => !open && onClose()} open={open}>
       <SheetContent
-        className="md:hidden top-16 inset-x-3 h-auto rounded-b-2xl border px-5 py-6 gap-4"
+        className="inset-x-3 top-16 h-auto gap-4 rounded-b-2xl border px-5 py-6 md:hidden"
         showCloseButton={false}
         side="top"
       >
         <SheetTitle className="sr-only">Menu nawigacyjne</SheetTitle>
 
-        <div className="border-b border-border pb-4 font-serif flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 border-b border-border pb-4 font-serif">
           <ThemeToggle />
           <div className="flex-1">
             <AuthAction onAction={onClose} variant="mobile" />
@@ -23,14 +23,14 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
 
         <nav aria-label="Główna nawigacja" className="flex flex-col gap-4 font-serif">
           <Link
-            className="text-lg text-foreground/85 hover:text-foreground transition-colors"
+            className="text-lg text-foreground/85 transition-colors hover:text-foreground"
             onClick={onClose}
             to="/"
           >
             Prowadzący
           </Link>
           <Link
-            className="text-lg text-foreground/85 hover:text-foreground transition-colors"
+            className="text-lg text-foreground/85 transition-colors hover:text-foreground"
             onClick={onClose}
             to="/"
           >

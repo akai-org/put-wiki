@@ -14,17 +14,17 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background text-foreground border-b border-border shadow-md select-none">
-      <div className="w-full flex justify-center px-8 md:px-16">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background text-foreground shadow-md select-none">
+      <div className="flex w-full justify-center px-8 md:px-16">
         <nav
           aria-label="Główna nawigacja"
-          className="w-full max-w-[1200px] h-20 hidden md:grid grid-cols-[auto_1fr_auto] items-center gap-4"
+          className="hidden h-20 w-full max-w-300 grid-cols-[auto_1fr_auto] items-center gap-4 md:grid"
         >
           <div className="flex items-center justify-start">
             <Logo size="desktop" />
           </div>
 
-          <div className="flex justify-center w-full">
+          <div className="flex w-full justify-center">
             <SearchBar
               containerClassName="relative flex items-center gap-3.5 bg-muted rounded-full pl-2.5 pr-4 h-12 w-full max-w-[340px] border border-input focus-within:border-ring transition-all"
               iconWrapperClassName="bg-background w-10 h-10 rounded-full text-muted-foreground flex items-center justify-center shadow-inner flex-shrink-0"
@@ -32,7 +32,7 @@ export default function Header() {
             />
           </div>
 
-          <div className="flex items-center gap-8 justify-end">
+          <div className="flex items-center justify-end gap-8">
             <Link className={navLinkClassName} to="/">
               Prowadzący
             </Link>
@@ -40,7 +40,7 @@ export default function Header() {
               Przedmioty
             </Link>
 
-            <div className="flex items-center gap-4 justify-end pl-2 min-w-[40px]">
+            <div className="flex min-w-10 items-center justify-end gap-4 pl-2">
               <ThemeToggle />
               <AuthAction variant="desktop" />
             </div>
@@ -48,15 +48,15 @@ export default function Header() {
         </nav>
       </div>
 
-      <div className="w-full h-16 px-8 flex items-center justify-between md:hidden">
+      <div className="flex h-16 w-full items-center justify-between px-8 md:hidden">
         <Logo size="mobile" />
 
         <button
-          className="text-muted-foreground hover:text-foreground focus:outline-none p-2"
+          className="p-2 text-muted-foreground hover:text-foreground focus:outline-none"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           type="button"
         >
-          {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {isMobileMenuOpen ? <X className="size-6" /> : <Menu className="size-6" />}
         </button>
       </div>
 
