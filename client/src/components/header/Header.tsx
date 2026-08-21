@@ -33,10 +33,10 @@ export default function Header() {
           </div>
 
           <div className="flex items-center gap-8 justify-end">
-            <Link className={navLinkClassName} to="/prowadzacy">
+            <Link className={navLinkClassName} to="/">
               Prowadzący
             </Link>
-            <Link className={navLinkClassName} to="/przedmioty">
+            <Link className={navLinkClassName} to="/">
               Przedmioty
             </Link>
 
