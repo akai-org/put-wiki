@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { CourseSchema, type Course } from '@/schemas/course';
-import { agent } from '@/lib/api';
+import { api } from '@/lib/api';
 
 async function fetchCourse(slug: string): Promise<Course> {
-  const response = await agent.get(`/mocks/${slug}.json`);
+  const response = await api.get(`/mocks/${slug}.json`);
   return CourseSchema.parse(response.data);
 }
 
