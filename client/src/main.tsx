@@ -7,7 +7,7 @@ import { App } from '@/App';
 async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') return;
 
-  const { worker } = await import('./__mocks__/browser');
+  const { worker } = await import('./tests/__mocks__/browser');
   return worker.start();
 }
 

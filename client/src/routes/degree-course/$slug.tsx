@@ -1,8 +1,7 @@
 import { createFileRoute, useParams } from '@tanstack/react-router';
-import { useDegreeCourse } from '@/hooks/useDegreeCourse';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { TableOfOpinions } from '@/features/opinions';
-import { TableOfSubjects } from '@/features/subjects';
+import { TableOfCourses, useDegreeCourse } from '@/features/degree-courses';
 
 export const Route = createFileRoute('/degree-course/$slug')({
   component: DegreeCourse,
@@ -39,7 +38,7 @@ function DegreeCourse() {
         </CardDescription>
       </CardHeader>
 
-      <TableOfSubjects semesters={data.semesters} />
+      <TableOfCourses semesters={data.semesters} />
 
       <div className="mx-auto grid max-w-full grid-cols-1 gap-6 md:grid-cols-2">
         <div className="mx-auto">

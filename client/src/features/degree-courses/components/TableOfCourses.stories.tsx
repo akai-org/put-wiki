@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import TableOfSubjects from './TableOfSubjects';
+import TableOfCourses from './TableOfCourses';
 
 const meta = {
-  title: 'Features/TableOfSubjects',
-  component: TableOfSubjects,
+  title: 'Features/TableOfCourses',
+  component: TableOfCourses,
   tags: ['autodocs'],
-} satisfies Meta<typeof TableOfSubjects>;
+} satisfies Meta<typeof TableOfCourses>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
