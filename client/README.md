@@ -10,7 +10,7 @@ The frontend client for PutWiki, built with React, TypeScript and Vite.
 - **Routing & data fetching:** TanStack Router, TanStack Query, Axios
 - **Styling & UI:** Tailwind CSS v4, shadcn/ui (Radix UI)
 - **Validation:** Zod
-- **Testing & component docs:** Vitest, RTL, Playwright, Storybook
+- **Testing:** Vitest, RTL, MSW, Storybook, Playwright
 
 ## Getting started
 
@@ -25,6 +25,7 @@ The frontend client for PutWiki, built with React, TypeScript and Vite.
 
 ```bash
 cd client
+nvm use # you must have nvm installed on your machine
 bun install
 bun run dev
 ```
@@ -35,7 +36,7 @@ There is no .env file at the current stage of development.
 
 ### Docker preview
 
-You can also launch the whole PutWiki using Docker to preview development version:
+You can also launch the whole PutWiki using Docker to preview development version and do manual integration tests with other app's services:
 
 ```bash
 docker compose up
@@ -47,6 +48,7 @@ All application source code resides in `src/`:
 
 ```
 src/
+├── __mocks__/   # MSW config and all mock API handlers
 ├── assets/      # Static media assets
 ├── components/  # Shared components
 │   ├── ui/      # Primitive design system components (shadcn/ui)
