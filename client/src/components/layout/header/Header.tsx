@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
-import { SearchBar } from '@/features/header/components/SearchBar';
-import { AuthAction } from '@/features/header/components/AuthAction';
-import { MobileMenu } from '@/features/header/components/MobileMenu';
-import { ThemeToggle } from '@/features/header/components/ThemeToggle';
-import { Logo } from '@/features/header/components/Logo';
+import { SearchBar } from '@/components/layout/header/components/SearchBar';
+import { AuthAction } from '@/components/layout/header/components/AuthAction';
+import { MobileMenu } from '@/components/layout/header/components/MobileMenu';
+import { ThemeToggle } from '@/components/layout/header/components/ThemeToggle';
+import { Logo } from '@/components/layout/header/components/Logo';
 
 const navLinkClassName =
   'text-[17px] font-serif font-normal text-foreground/85 hover:text-foreground transition-colors whitespace-nowrap';

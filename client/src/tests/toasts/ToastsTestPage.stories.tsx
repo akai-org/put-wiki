@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import ToasterPage from '@/components/toasts/ToastsTestPage';
+import ToasterPage from '@/tests/toasts/ToastsTestPage';
 import { ThemeProvider } from '@/contexts/ThemeProvider';
 import { ToastsProvider } from '@/components/ui/ToastsProvider';
 

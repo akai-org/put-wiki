@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { calculateAverage } from '../calculateAverage';
+import { calculateAverage } from './calculateAverage';
 
 describe('calculateAverage', () => {
   it('should return the correct formatted average for a valid array of numbers', () => {
