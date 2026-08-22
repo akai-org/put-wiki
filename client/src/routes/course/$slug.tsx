@@ -4,10 +4,10 @@ import { useCourse } from '@/features/courses';
 import { calculateAverage } from '@/utils';
 
 export const Route = createFileRoute('/course/$slug')({
-  component: Course,
+  component: CoursePage,
 });
 
-function Course() {
+function CoursePage() {
   const { slug } = useParams({ from: '/course/$slug' });
   const { data, isLoading, isError } = useCourse(slug);
   const averageRating = useMemo(() => calculateAverage(data?.ratings), [data?.ratings]);

@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router';
 
-export default function NotFoundPage() {
+export default function GlobalNotFoundPage() {
   return (
     <div className="flex size-full flex-col items-center justify-center">
       <h1 className="text-5xl font-bold text-red-500">404</h1>
