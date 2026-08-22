@@ -1,6 +1,6 @@
 import { createFileRoute, useParams } from '@tanstack/react-router';
 import { useMemo } from 'react';
-import { useCourse } from '@/hooks/useCourse';
+import { useCourse } from '@/features/courses';
 import { calculateAverage } from '@/utils';
 
 export const Route = createFileRoute('/course/$slug')({
