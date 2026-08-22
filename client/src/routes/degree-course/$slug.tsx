@@ -4,10 +4,10 @@ import { TableOfOpinions } from '@/features/opinions';
 import { TableOfCourses, useDegreeCourse } from '@/features/degree-courses';
 
 export const Route = createFileRoute('/degree-course/$slug')({
-  component: DegreeCourse,
+  component: DegreeCoursePage,
 });
 
-function DegreeCourse() {
+function DegreeCoursePage() {
   const { slug } = useParams({ from: '/degree-course/$slug' });
   const { data, isLoading, isError } = useDegreeCourse(slug);
 

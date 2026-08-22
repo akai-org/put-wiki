@@ -1,20 +1,22 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router';
-import { Header } from '@/components/layout/header';
-import NotFoundPage from './-not-found';
+import { createRootRoute, type ErrorComponentProps, Outlet } from '@tanstack/react-router';
+import GlobalNotFoundPage from './-not-found';
+import GlobalErrorPage from './-error';
+import { MainLayout } from '@/components/layout/MainLayout';
 
 export const Route = createRootRoute({
   component: Root,
-  notFoundComponent: NotFoundPage,
+  notFoundComponent: GlobalNotFoundPage,
+  errorComponent: (props: ErrorComponentProps) => (
+    <MainLayout>
+      <GlobalErrorPage {...props} />
+    </MainLayout>
+  ),
 });
 
 function Root() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#121318]">
-      <Header />
-      <main className="grow">
-        <Outlet />
-      </main>
-      {/* <Footer /> */}
-    </div>
+    <MainLayout>
+      <Outlet />
+    </MainLayout>
   );
 }
