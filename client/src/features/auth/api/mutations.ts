@@ -1,10 +1,10 @@
 // TODO
-async function login() {
+async function login(): Promise<void> {
   return Promise.resolve();
 }
 
 // TODO
-async function logout() {
+async function logout(): Promise<void> {
   return Promise.resolve();
 }
 

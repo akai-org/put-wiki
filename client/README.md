@@ -57,7 +57,7 @@ src/
 ├── hooks/       # Shared hooks used across the entire application
 ├── lib/         # 3rd party libraries preconfigured for the application
 ├── routes/      # File-based routes managed by TanStack Router
-├── schemas/     # Zod data validation models
+├── schemas/     # App-wide Zod data validation models
 ├── styles/      # Tailwind configuration with theme
 ├── tests/       # Test utilities, mocks, MSW config and handlers
 └── utils/       # Shared utility functions
@@ -79,6 +79,8 @@ src/features/awesome-feature
 +-- types       # typescript types shared within the feature
 |
 +-- utils       # utility functions for a specific feature
+|
++-- __tests__   # unit tests for a specific feature
 ```
 
 > [!NOTE]
