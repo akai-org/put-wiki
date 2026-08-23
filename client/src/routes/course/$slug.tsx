@@ -1,6 +1,6 @@
 import { createFileRoute, useParams } from '@tanstack/react-router';
 import { useMemo } from 'react';
-import { useCourse } from '@/features/courses';
+import { useCourseQuery } from '@/features/courses';
 import { calculateAverage } from '@/utils';
 
 export const Route = createFileRoute('/course/$slug')({
@@ -9,7 +9,7 @@ export const Route = createFileRoute('/course/$slug')({
 
 function CoursePage() {
   const { slug } = useParams({ from: '/course/$slug' });
-  const { data, isLoading, isError } = useCourse(slug);
+  const { data, isLoading, isError } = useCourseQuery(slug);
   const averageRating = useMemo(() => calculateAverage(data?.ratings), [data?.ratings]);
   if (isLoading)
     return <div className="flex items-center justify-center text-7xl text-white">Ładowanie...</div>;

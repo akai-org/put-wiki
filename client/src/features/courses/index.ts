@@ -1,3 +1,3 @@
-import { useCourse } from '@/features/courses/api/useCourse';
+import { useCourseQuery } from '@/features/courses/api/useCourseQuery';
 
-export { useCourse };
+export { useCourseQuery };

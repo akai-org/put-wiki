@@ -1,5 +1,5 @@
 import TableOfCourses from './components/TableOfCourses';
 export type { Semester } from './components/TableOfCourses';
-import { useDegreeCourse } from './api/useDegreeCourse';
+import { useDegreeCourseQuery } from './api/useDegreeCourseQuery';
 
-export { TableOfCourses, useDegreeCourse };
+export { TableOfCourses, useDegreeCourseQuery };

@@ -1,7 +1,7 @@
 import { createFileRoute, useParams } from '@tanstack/react-router';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { TableOfOpinions } from '@/features/opinions';
-import { TableOfCourses, useDegreeCourse } from '@/features/degree-courses';
+import { TableOfCourses, useDegreeCourseQuery } from '@/features/degree-courses';
 
 export const Route = createFileRoute('/degree-course/$slug')({
   component: DegreeCoursePage,
@@ -9,7 +9,7 @@ export const Route = createFileRoute('/degree-course/$slug')({
 
 function DegreeCoursePage() {
   const { slug } = useParams({ from: '/degree-course/$slug' });
-  const { data, isLoading, isError } = useDegreeCourse(slug);
+  const { data, isLoading, isError } = useDegreeCourseQuery(slug);
 
   if (isLoading)
     return <div className="flex items-center justify-center text-7xl text-black">Ładowanie...</div>;
