@@ -1,0 +1,43 @@
+# FE-001 Feature-driven project structure
+
+## Status
+Accepted
+
+## Context
+As frontend codebases scale, traditional architectures based on technical roles (grouping files by type, e.g., all hooks in `src/hooks`, all components in `src/components`) lead to unmaintainable, bloated directories and hidden coupling. Developers must navigate multiple disconnected folders to implement or debug a single domain feature. We require an architecture that promotes modularity, co-locates related code and scales predictably.
+
+## Decision
+We will adopt a **feature-driven project structure** modeled on the `bulletproof-react` architecture. 
+
+The application will be divided into two main categories:
+
+1. **`src/features/`**: The core of the application. Each domain/feature module contains its own scoped architecture (`api`, `components`, `hooks`, `routes`, `types`, `utils`).
+   - Every feature must expose a public interface via an `index.ts` file. 
+   - Global routes or other layers must only import from this `index.ts`, never directly from internal feature files.
+   - Cross-feature imports are prohibited. Every feature must remain completely independent of the others.
+2. **`src/*` (Global level)**: Reserved strictly for shared, domain-agnostic modules (e.g., `src/components` for the generic UI library, `src/lib` for third-party library configurations, `src/utils` for global helpers).
+
+## Consequences
+
+### (+):
+- Code related to a specific domain is co-located (high cohesion), making it easier to read, develop, and test in isolation.
+- Adding a new feature simply means creating a new folder, preventing global directory bloat.
+- Exposing a public API via `index.ts` prevents spaghetti code and tight coupling between separate domains.
+- New developers can comprehend a single domain by reviewing one feature folder without needing to understand the entire application state.
+- Code dependencies flow strictly in one direction: `shared` -> `features` -> `app`. Features can import from shared global parts, and the app layer can import from features and shared parts. This makes the codebase predictable and prevents circular dependencies.
+
+![Unidirectional code flow diagram](https://raw.githubusercontent.com/alan2207/bulletproof-react/master/docs/assets/unidirectional-codebase.png)
+*(Source: Bulletproof React project structure repository)*
+
+### (-):
+- Developers accustomed to flat or type-based structures require onboarding to the feature-driven mindset.
+- Requires strict adherence to import rules with ESLint rules to enforce independence programmatically.
+- Scaffolding a new feature requires setting up multiple sub-directories and `index.ts` files, which can feel tedious for very small domains.
+
+## Alternatives
+Considered options and why we rejected them:
+1. **Global grouping by technical roles (`components/`, `hooks/`, `api/`):** Rejected. While easier to set up initially, it scales poorly. Modifying a single user flow requires context-switching across 5+ different root directories.
+2. **Pure route-based structure (logic bound strictly to page components):** Rejected. Tying domain logic tightly to UI routes makes code reuse difficult if the same feature needs to be rendered on different routes or within modals.
+
+## Links to external or internal resources
+- [Bulletproof React - Project Structure](https://github.com/alan2207/bulletproof-react/blob/master/docs/project-structure.md)
