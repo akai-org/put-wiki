@@ -1,10 +1,17 @@
 import { createFileRoute, useParams } from '@tanstack/react-router';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { TableOfOpinions } from '@/features/opinions';
-import { TableOfCourses, useDegreeCourseQuery } from '@/features/degree-courses';
+import {
+  degreeCourseQueries,
+  TableOfCourses,
+  useDegreeCourseQuery,
+} from '@/features/degree-courses';
 
 export const Route = createFileRoute('/degree-course/$slug')({
   component: DegreeCoursePage,
+  loader: ({ context: { queryClient }, params: { slug } }) => {
+    return queryClient.ensureQueryData(degreeCourseQueries.detail(slug));
+  },
 });
 
 function DegreeCoursePage() {

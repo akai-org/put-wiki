@@ -2,15 +2,20 @@ import { createFileRoute, useParams } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { useCourseQuery } from '@/features/courses';
 import { calculateAverage } from '@/utils';
+import { courseQueries } from '@/features/courses/api/courseQueries';
 
 export const Route = createFileRoute('/course/$slug')({
   component: CoursePage,
+  loader: ({ context: { queryClient }, params: { slug } }) => {
+    return queryClient.ensureQueryData(courseQueries.detail(slug));
+  },
 });
 
 function CoursePage() {
   const { slug } = useParams({ from: '/course/$slug' });
   const { data, isLoading, isError } = useCourseQuery(slug);
   const averageRating = useMemo(() => calculateAverage(data?.ratings), [data?.ratings]);
+
   if (isLoading)
     return <div className="flex items-center justify-center text-7xl text-white">Ładowanie...</div>;
 
