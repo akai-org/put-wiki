@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/Collapsible';
 import Toggle from '@/components/ui/Toggle';
-import type { Opinion } from '@/schemas/opinion';
+import type { Opinion } from '@/features/opinions/opinionSchema';
 import OpinionLabel from './OpinionLabel';
 
 export default function TableOfOpinions({ opinions }: { opinions: Opinion[] }) {

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { OpinionSchema } from './opinion';
+import { OpinionSchema } from '../opinions/opinionSchema';
 
 const DegreeCourseSchema = z
   .object({

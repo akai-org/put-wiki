@@ -1,7 +1,6 @@
 import { User } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
-import { useAuth } from '@/hooks/useAuth';
-import { useUser } from '@/hooks/useUser';
+import { useAuth } from '@/features/auth';
 
 export function AuthAction({
   variant,
@@ -10,8 +9,7 @@ export function AuthAction({
   variant: 'desktop' | 'mobile';
   onAction?: () => void;
 }) {
-  const { isLoggedIn, login } = useAuth();
-  const { nickname } = useUser();
+  const { user, isLoggedIn, login } = useAuth();
 
   if (variant === 'mobile') {
     return isLoggedIn ? (
@@ -19,7 +17,7 @@ export function AuthAction({
         <div className="flex size-9 items-center justify-center rounded-full border border-border bg-muted text-muted-foreground">
           <User className="size-5" />
         </div>
-        <span className="text-muted-foreground">Witaj, {nickname}</span>
+        <span className="text-muted-foreground">Witaj, {user?.nickname}</span>
       </div>
     ) : (
       <button
@@ -38,7 +36,7 @@ export function AuthAction({
   return isLoggedIn ? (
     <Link className="group flex items-center gap-3 transition-all hover:opacity-90" to="/">
       <span className="font-serif text-sm font-medium whitespace-nowrap text-muted-foreground group-hover:text-foreground">
-        Witaj, {nickname}
+        Witaj, {user?.nickname}
       </span>
       <div className="flex size-10 shrink-0 items-center justify-center rounded-full border border-border bg-muted text-muted-foreground transition-colors group-hover:border-foreground">
         <User className="size-5" />

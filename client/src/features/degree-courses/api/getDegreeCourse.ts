@@ -1,6 +1,9 @@
 import { queryOptions } from '@tanstack/react-query';
 import { api } from '@/lib/api';
-import { DegreeCourseSchema, type DegreeCourse } from '@/schemas/degreeCourse';
+import {
+  DegreeCourseSchema,
+  type DegreeCourse,
+} from '@/features/degree-courses/degreeCourseSchema';
 import { degreeCourseKeys } from './queryKeys';
 
 async function getDegreeCourse(slug: string): Promise<DegreeCourse> {

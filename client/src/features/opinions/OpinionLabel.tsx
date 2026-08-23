@@ -1,4 +1,4 @@
-import type { Opinion } from '@/schemas/opinion';
+import type { Opinion } from '@/features/opinions/opinionSchema';
 
 export default function OpinionLabel({ userName, content, rating }: Opinion) {
   return (
