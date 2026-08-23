@@ -1,8 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import Header from './Header';
 import { withRouterDecorator } from '@/tests/utils/withRouterDecorator';
-import { AuthProvider } from '@/contexts/AuthProvider';
-import { UserProvider } from '@/contexts/UserProvider';
 import { ThemeProvider } from '@/contexts/ThemeProvider';
 
 const meta = {
@@ -19,36 +17,24 @@ type Story = StoryObj<typeof meta>;
 
 export const LoggedOutLightMode: Story = {
   render: () => (
-    <AuthProvider initialLoggedIn={false}>
-      <UserProvider initialNickname="Janek">
-        <ThemeProvider initialTheme="light">
-          <Header />
-        </ThemeProvider>
-      </UserProvider>
-    </AuthProvider>
+    <ThemeProvider initialTheme="light">
+      <Header />
+    </ThemeProvider>
   ),
 };
 
 export const LoggedInLightMode: Story = {
   render: () => (
-    <AuthProvider initialLoggedIn={true}>
-      <UserProvider initialNickname="Janek">
-        <ThemeProvider initialTheme="light">
-          <Header />
-        </ThemeProvider>
-      </UserProvider>
-    </AuthProvider>
+    <ThemeProvider initialTheme="light">
+      <Header />
+    </ThemeProvider>
   ),
 };
 
 export const LoggedOutDarkMode: Story = {
   render: () => (
-    <AuthProvider initialLoggedIn={false}>
-      <UserProvider initialNickname="Janek">
-        <ThemeProvider initialTheme="dark">
-          <Header />
-        </ThemeProvider>
-      </UserProvider>
-    </AuthProvider>
+    <ThemeProvider initialTheme="dark">
+      <Header />
+    </ThemeProvider>
   ),
 };
