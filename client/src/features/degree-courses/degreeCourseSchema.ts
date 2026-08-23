@@ -1,5 +1,7 @@
 import { z } from 'zod';
-import { OpinionSchema } from '../opinions/opinionSchema';
+// TODO: fix cross-feature import
+// eslint-disable-next-line import/no-restricted-paths
+import { OpinionSchema } from '@/features/opinions';
 
 const DegreeCourseSchema = z
   .object({

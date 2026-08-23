@@ -1,3 +1,4 @@
 import TableOfOpinions from './TableOfOpinions';
+import { OpinionSchema } from './opinionSchema';
 
-export { TableOfOpinions };
+export { TableOfOpinions, OpinionSchema };

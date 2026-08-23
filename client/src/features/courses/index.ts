@@ -1,4 +1,4 @@
-import { useCourseQuery } from '@/features/courses/api/useCourseQuery';
-import { degreeCourseQueries } from '@/features/degree-courses/api/getDegreeCourse';
+import { useCourseQuery } from './api/useCourseQuery';
+import { courseQueries } from './api/courseQueries';
 
-export { useCourseQuery, degreeCourseQueries };
+export { useCourseQuery, courseQueries };

@@ -148,6 +148,31 @@ export default defineConfig([
       'tailwindcss/no-arbitrary-value': 'warn',
       'tailwindcss/no-custom-classname': ['warn', { whitelist: ['c\\-*'] }],
       'tailwindcss/no-contradicting-classname': 'error',
+      'import/no-restricted-paths': [
+        'error',
+        {
+          zones: [
+            // disables cross-feature imports:
+            // e.g. src/features/courses should not import from src/features/degree-courses, etc.
+            // eg. src/features/discussions should not import from src/features/comments, etc.
+            {
+              target: './src/features/auth',
+              from: './src/features',
+              except: ['./auth'],
+            },
+            {
+              target: './src/features/courses',
+              from: './src/features',
+              except: ['./courses'],
+            },
+            {
+              target: './src/features/degree-courses',
+              from: './src/features',
+              except: ['./degree-courses'],
+            },
+          ],
+        },
+      ],
     },
   },
   eslintConfigPrettier, //should be last
