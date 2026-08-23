@@ -5,9 +5,9 @@ import Header from '@/components/Header/Header';
 
 const rootRoute = createRootRoute({
   component: () => (
-    <div className="flex flex-col min-h-screen bg-[#121318]">
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-grow">
+      <main className="flex">
         <Outlet />
       </main>
       {/* <Footer /> */}
