@@ -14,7 +14,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background text-foreground shadow-md select-none">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background text-foreground select-none">
       <div className="flex w-full justify-center px-8 md:px-16">
         <nav
           aria-label="Główna nawigacja"
