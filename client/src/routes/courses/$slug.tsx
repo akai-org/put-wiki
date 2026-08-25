@@ -4,7 +4,7 @@ import { useCourseQuery } from '@/features/courses';
 import { calculateAverage } from '@/utils';
 import { courseQueries } from '@/features/courses/api/courseQueries';
 
-export const Route = createFileRoute('/course/$slug')({
+export const Route = createFileRoute('/courses/$slug')({
   component: CoursePage,
   loader: ({ context: { queryClient }, params: { slug } }) => {
     return queryClient.ensureQueryData(courseQueries.detail(slug));
@@ -12,7 +12,7 @@ export const Route = createFileRoute('/course/$slug')({
 });
 
 function CoursePage() {
-  const { slug } = useParams({ from: '/course/$slug' });
+  const { slug } = useParams({ from: '/courses/$slug' });
   const { data, isLoading, isError } = useCourseQuery(slug);
   const averageRating = useMemo(() => calculateAverage(data?.ratings), [data?.ratings]);
 

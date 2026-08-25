@@ -7,7 +7,7 @@ import {
   useDegreeCourseQuery,
 } from '@/features/degree-courses';
 
-export const Route = createFileRoute('/degree-course/$slug')({
+export const Route = createFileRoute('/degree-courses/$slug')({
   component: DegreeCoursePage,
   loader: ({ context: { queryClient }, params: { slug } }) => {
     return queryClient.ensureQueryData(degreeCourseQueries.detail(slug));
@@ -15,7 +15,7 @@ export const Route = createFileRoute('/degree-course/$slug')({
 });
 
 function DegreeCoursePage() {
-  const { slug } = useParams({ from: '/degree-course/$slug' });
+  const { slug } = useParams({ from: '/degree-courses/$slug' });
   const { data, isLoading, isError } = useDegreeCourseQuery(slug);
 
   if (isLoading)
