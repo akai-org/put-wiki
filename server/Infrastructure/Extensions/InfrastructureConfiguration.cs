@@ -12,17 +12,26 @@ using Infrastructure.Auth.Configuration;
 using Infrastructure.Clients;
 using Infrastructure.Repositories;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Infrastructure.Extensions;
 
 public static partial class InfrastructureConfiguration
 {
+    public const string AuthCookieName = "auth_token";
+    private static readonly string[] MissingJwtSectionErrors = ["Jwt section is missing from configuration."];
+
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<AppDbContext>(options =>
@@ -85,7 +94,62 @@ public static partial class InfrastructureConfiguration
             })
             .ValidateOnStart();
 
+        var jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>()
+            ?? throw new OptionsValidationException(
+                "JwtSettings",
+                typeof(JwtSettings),
+                MissingJwtSectionErrors);
+
+        var signingKey = CreateSigningKey(jwtSettings.Secret);
+
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = signingKey,
+                    ValidateIssuer = !string.IsNullOrWhiteSpace(jwtSettings.Issuer),
+                    ValidIssuer = jwtSettings.Issuer,
+                    ValidateAudience = !string.IsNullOrWhiteSpace(jwtSettings.Audience),
+                    ValidAudience = jwtSettings.Audience,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        if (string.IsNullOrWhiteSpace(context.Token)
+                            && context.Request.Cookies.TryGetValue(AuthCookieName, out var token)
+                            && !string.IsNullOrWhiteSpace(token))
+                        {
+                            context.Token = token;
+                        }
+
+                        return Task.CompletedTask;
+                    },
+                    OnAuthenticationFailed = context =>
+                    {
+                        if (context.Exception is SecurityTokenExpiredException)
+                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+
         return services;
+    }
+
+    private static SymmetricSecurityKey CreateSigningKey(string secret)
+    {
+        var key = Encoding.UTF8.GetBytes(secret);
+        if (key.Length < 32)
+            key = SHA256.HashData(key);
+
+        return new SymmetricSecurityKey(key);
     }
 
     public static async Task<IApplicationBuilder> ApplyDatabaseMigrationsAsync(this IApplicationBuilder app)

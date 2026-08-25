@@ -100,9 +100,7 @@ public class ProvisionUserUseCaseTests
 
         // Assert
         result.IsSuccess.Should().BeTrue();
-        result.Value!.Token.Should().Be("token");
-        result.Value.UserId.Should().Be(existingUser.Id.ToString());
-        result.Value.HashedUsosId.Should().Be(hashedUsosId);
+        result.Value.Should().Be("token");
 
         _userRepositoryMock.Verify(x => x.Add(It.IsAny<User>()), Times.Never);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
@@ -138,10 +136,7 @@ public class ProvisionUserUseCaseTests
 
         // Assert
         result.IsSuccess.Should().BeTrue();
-        result.Value.Should().NotBeNull();
-        result.Value!.Token.Should().StartWith("token-");
-        result.Value.UserId.Should().NotBeEmpty();
-        result.Value!.HashedUsosId.Should().Be(hashedUsosId);
+        result.Value.Should().StartWith("token-");
 
         _userRepositoryMock.Verify(x => x.Add(It.Is<User>(u => u.HashedUsosId == hashedUsosId && u.JoinedDate == fakeDate)), Times.Once);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);

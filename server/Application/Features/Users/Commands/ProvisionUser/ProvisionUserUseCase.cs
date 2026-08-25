@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Application.Auth;
 using Application.Errors;
 
-using AutoMapper;
-
 using Domain.Users;
 
 using FluentResults;
@@ -23,7 +21,7 @@ public partial class ProvisionUserUseCase(
     ILogger<ProvisionUserUseCase> logger,
     TimeProvider timeProvider)
 {
-    public async Task<Result<AuthTokenDto>> ExecuteAsync(ProvisionUserCommand cmd,
+    public async Task<Result<string>> ExecuteAsync(ProvisionUserCommand cmd,
         CancellationToken ct = default)
     {
         var usosResult = await usosOAuthService.HandleCallbackAndGetUserAsync(cmd.OauthToken, cmd.OauthVerifier, ct);
@@ -63,8 +61,7 @@ public partial class ProvisionUserUseCase(
             return Result.Fail(tokenResult.Errors);
         }
 
-        var authToken = new AuthTokenDto(tokenResult.Value, user.Id.ToString(), user.HashedUsosId);
-        return Result.Ok(authToken);
+        return Result.Ok(tokenResult.Value);
     }
 
     [LoggerMessage(LogLevel.Warning, "Provisioning aborted: USOS authentication failed. Error: {error}")]

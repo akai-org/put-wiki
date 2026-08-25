@@ -4,15 +4,22 @@ using System.Threading.Tasks;
 using Application.Auth;
 using Application.Features.Users.Commands.ProvisionUser;
 
+using Infrastructure.Auth.Configuration;
+using Infrastructure.Extensions;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Presentation.Controllers;
 
 public class AuthController(
     IUsosOAuthService usosOAuthService,
-    ProvisionUserUseCase provisionUserUseCase) : BaseApiController
+    ProvisionUserUseCase provisionUserUseCase,
+    IOptions<JwtSettings> jwtSettings,
+    TimeProvider timeProvider) : BaseApiController
 {
+    private readonly JwtSettings _jwtSettings = jwtSettings.Value;
 
     [HttpGet("login")]
     [ProducesResponseType(typeof(string), StatusCodes.Status302Found)]
@@ -27,7 +34,7 @@ public class AuthController(
     }
 
     [HttpGet("callback")]
-    [ProducesResponseType(typeof(AuthTokenDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status502BadGateway)]
@@ -40,6 +47,21 @@ public class AuthController(
         var command = new ProvisionUserCommand(oauthToken, oauthVerifier);
         var result = await provisionUserUseCase.ExecuteAsync(command, ct);
 
-        return HandleResult(result);
+        if (result.IsFailed)
+            return HandleResult(result);
+
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = Request.IsHttps,
+            SameSite = SameSiteMode.Lax,
+            Expires = timeProvider.GetUtcNow().AddMinutes(_jwtSettings.ExpirationMinutes),
+            Path = "/",
+            IsEssential = true,
+        };
+
+        Response.Cookies.Append(InfrastructureConfiguration.AuthCookieName, result.Value, cookieOptions);
+
+        return Ok();
     }
 }
