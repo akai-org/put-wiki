@@ -39,10 +39,6 @@
   --sidebar-ring: oklch(0.7884 0.1595 73.8367);
   --font-sans: Inter, ui-sans-serif, sans-serif, system-ui;
   --font-display: 'Google Sans Flex', 'Inter', ui-sans-serif, sans-serif;
-  --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
-  --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
-    monospace;
   --radius: 0.625rem;
   --shadow-x: 16px;
   --shadow-y: 16px;
@@ -97,10 +93,6 @@
   --sidebar-ring: oklch(0.6991 0.1449 73.7274);
   --font-sans: Inter, ui-sans-serif, sans-serif, system-ui;
   --font-display: 'Google Sans Flex', 'Inter', ui-sans-serif, sans-serif;
-  --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
-  --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
-    monospace;
   --radius: 0.625rem;
   --shadow-x: 14px;
   --shadow-y: 14px;
@@ -156,8 +148,6 @@
 
   --font-sans: var(--font-sans);
   --font-display: var(--font-display);
-  --font-serif: var(--font-serif);
-  --font-mono: var(--font-mono);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
