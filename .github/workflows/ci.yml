@@ -86,15 +86,15 @@ jobs:
         
       - name: Restore tools
         run: dotnet tool restore
-        
-      - name: Check whether new migration should be added
-        run: dotnet ef migrations has-pending-model-changes --project Infrastructure/Infrastructure.csproj --startup-project Presentation/Presentation.csproj
 
       - name: Check formatting
         run: dotnet format PutWiki.slnx --verify-no-changes --verbosity diagnostic
       
       - name: Build and lint
         run: dotnet build PutWiki.slnx --configuration Release --no-restore
+
+      - name: Check whether new migration should be added
+        run: dotnet ef migrations has-pending-model-changes --project Infrastructure/Infrastructure.csproj --startup-project Presentation/Presentation.csproj
       
       - name: Perform unit tests
         run: |
