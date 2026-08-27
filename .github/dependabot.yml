@@ -17,7 +17,7 @@ updates:
         update-types:
           - "major"
 
-  - package-ecosystem: "docker"
+  - package-ecosystem: "docker-compose"
     directory: "/"
     schedule:
       interval: "monthly"
