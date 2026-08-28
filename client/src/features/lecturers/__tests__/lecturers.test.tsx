@@ -57,7 +57,10 @@ describe('lecturer cards', () => {
     render(<ConsultationCard />);
 
     expect(screen.getByText('Konsultacje')).toBeTruthy();
-    expect(screen.getByText('jestem godzina konsultacji')).toBeTruthy();
+    expect(screen.getByText('Widzisz błąd / dane są nieporawne')).toBeTruthy();
+    expect(screen.getByRole('link', { name: 'zgłoś to tutaj' }).getAttribute('href')).toBe(
+      'mailto:idk@putwiki.com'
+    );
   });
 });
 
