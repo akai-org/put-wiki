@@ -3,7 +3,7 @@ import BaseInfoCard from '@/features/lecturers/components/BaseInfoCard';
 import { createFileRoute, useParams } from '@tanstack/react-router';
 import { AboutCard, ConsultationCard } from '@/features/lecturers';
 import { useLecturerQuery } from '@/features/lecturers/api/useLecturersQuery';
-import TempComp from '@/features/lecturers/components/TempComp';
+import LecturersCoursesCard from '@/features/lecturers/components/LecturersCoursesCard';
 
 export const Route = createFileRoute('/lecturers/$slug')({ component: LecturerPage });
 
@@ -30,7 +30,7 @@ function LecturerPage() {
       </div>
       <AboutCard description={data.description} />
       <div className="grid grid-cols-1 self-stretch md:grid-cols-2">
-        <TempComp />
+        <LecturersCoursesCard />
         <ConsultationCard />
       </div>
     </div>
