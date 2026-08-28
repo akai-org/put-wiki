@@ -1,0 +1,15 @@
+{
+  "id": 67,
+  "slug": "jan-kowalski",
+  "baseInfo": {
+    "name": "Jan Kowalski",
+    "title": "dr inż.",
+    "photoUrl": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimg.freepik.com%2Fpremium-photo%2Fmen-different-ethnicities-showcase-unique-facial-expressions-emotions_862489-54692.jpg%3Fw%3D996&f=1&nofb=1&ipt=5fb8cb59427f0c22a38802fc4c853ddd315724b0af4a33366072eae97d698ad2"
+  },
+  "contactInfo": {
+    "email": "jan.kowalski@example.com",
+    "phone": "+48 600 123 456",
+    "websiteUrl": "https://github.com/akai-org/put-wiki/issues"
+  },
+  "description": "Doktor inżynier specjalizujący się w programowaniu, projektowaniu systemów informatycznych oraz tworzeniu i optymalizacji baz danych. W swojej pracy łączy wiedzę teoretyczną z praktycznym doświadczeniem, zwracając szczególną uwagę na jakość, bezpieczeństwo i skalowalność tworzonych rozwiązań. Prowadzi zajęcia obejmujące zarówno podstawy informatyki, jak i zaawansowane zagadnienia związane z tworzeniem oprogramowania. Chętnie wspiera studentów w realizacji projektów, rozwijaniu umiejętności analitycznego myślenia oraz poszukiwaniu skutecznych rozwiązań problemów technicznych."
+}
