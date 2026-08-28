@@ -9,7 +9,7 @@ export function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="flex">{children}</main>
+      <main className="flex flex-col items-center-safe">{children}</main>
       {/* <Footer /> */}
     </div>
   );
