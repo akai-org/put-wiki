@@ -66,10 +66,6 @@ vitest.config.*
 **/*.stories.*
 .storybook/
 
-# msw
-**/mocks/
-**/__mocks__/
-
 # linters, formatters
 .eslint*
 eslint.config.*
