@@ -6,7 +6,7 @@ export default function LecturersCoursesCard() {
         <CardTitle>Prowadzone przedmioty</CardTitle>
       </CardHeader>
       <CardContent>
-        <ul className="font-medium">Obecny semestr {'2026/2027'}</ul>
+        <ul className="font-medium">Obecny semestr 2026/2027</ul>
         <li>kurs</li>
         <li>kurs</li>
         <ul className="font-medium">Poprzednie semestry</ul>

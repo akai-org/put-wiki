@@ -6,7 +6,14 @@ export default function ConsultationCard() {
       <CardHeader>
         <CardTitle>Konsultacje</CardTitle>
       </CardHeader>
-      <CardContent>jestem godzina konsultacji</CardContent>
+      <CardContent>
+        <p className="text-center">
+          Widzisz błąd / dane są nieporawne{' '}
+          <a href="mailto:idk@putwiki.com">
+            <u>zgłoś to tutaj</u>
+          </a>
+        </p>
+      </CardContent>
     </Card>
   );
 }
