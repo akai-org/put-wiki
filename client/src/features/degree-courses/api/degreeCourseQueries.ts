@@ -12,9 +12,9 @@ async function getDegreeCourse(slug: string): Promise<DegreeCourse> {
 }
 
 const degreeCourseQueries = {
-  detail: (slug: string) =>
+  bySlug: (slug: string) =>
     queryOptions({
-      queryKey: degreeCourseKeys.detail(slug),
+      queryKey: degreeCourseKeys.bySlug(slug),
       queryFn: () => getDegreeCourse(slug),
       staleTime: 1000 * 60 * 5, // 5 minutes
     }),

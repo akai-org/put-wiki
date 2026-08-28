@@ -9,9 +9,9 @@ async function getCourse(slug: string): Promise<Course> {
 }
 
 const courseQueries = {
-  detail: (slug: string) =>
+  bySlug: (slug: string) =>
     queryOptions({
-      queryKey: courseKeys.detail(slug),
+      queryKey: courseKeys.bySlug(slug),
       queryFn: () => getCourse(slug),
       staleTime: 1000 * 60 * 5, // 5 minutes
     }),

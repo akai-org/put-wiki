@@ -7,7 +7,7 @@ import { courseQueries } from '@/features/courses/api/courseQueries';
 export const Route = createFileRoute('/courses/$slug')({
   component: CoursePage,
   loader: ({ context: { queryClient }, params: { slug } }) => {
-    return queryClient.ensureQueryData(courseQueries.detail(slug));
+    return queryClient.ensureQueryData(courseQueries.bySlug(slug));
   },
 });
 

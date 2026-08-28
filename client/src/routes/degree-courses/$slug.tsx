@@ -10,7 +10,7 @@ import {
 export const Route = createFileRoute('/degree-courses/$slug')({
   component: DegreeCoursePage,
   loader: ({ context: { queryClient }, params: { slug } }) => {
-    return queryClient.ensureQueryData(degreeCourseQueries.detail(slug));
+    return queryClient.ensureQueryData(degreeCourseQueries.bySlug(slug));
   },
 });
 
