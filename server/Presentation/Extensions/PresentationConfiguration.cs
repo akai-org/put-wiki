@@ -16,7 +16,7 @@ namespace Presentation.Extensions;
 
 public static class PresentationConfiguration
 {
-    private static IServiceCollection AddPutWikiOpenApi(this IServiceCollection services)
+    private static void AddPutWikiOpenApi(this IServiceCollection services)
     {
         services.AddOpenApi("v1", options =>
         {
@@ -61,8 +61,6 @@ public static class PresentationConfiguration
                 return Task.CompletedTask;
             });
         });
-
-        return services;
     }
 
     public static IApplicationBuilder UsePutWikiOpenApiDocs(this WebApplication app)

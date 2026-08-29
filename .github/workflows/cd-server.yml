@@ -33,12 +33,12 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v6.0.2
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               with:
                   fetch-depth: 0
                   
             - name: Setup .NET
-              uses: actions/setup-dotnet@v5
+              uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
               with:
                   global-json-file: server/global.json
                   
@@ -54,7 +54,7 @@ jobs:
 
             - name: Determine next version
               id: next_version
-              uses: anothrNick/github-tag-action@1.75.0
+              uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8 # 1.75.0
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   DEFAULT_BUMP: patch
@@ -63,24 +63,24 @@ jobs:
                   DRY_RUN: true
 
             - name: Login to GHCR
-              uses: docker/login-action@v4.2.0
+              uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
               with:
                   registry: ghcr.io
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Setup QEMU
-              uses: docker/setup-qemu-action@v4.0.0
+              uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
 
             - name: Setup Docker Buildx
-              uses: docker/setup-buildx-action@v4.0.0
+              uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4.3.0
 
             - name: Set lowercase repository name
               run: |
                 echo "REPO=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
 
             - name: Build and push server image
-              uses: docker/build-push-action@v7.2.0
+              uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
               with:
                   context: ./server
                   platforms: linux/arm64
@@ -90,13 +90,13 @@ jobs:
                       ghcr.io/${{ env.REPO }}/server:latest
 
             - name: Create tag
-              uses: anothrNick/github-tag-action@1.75.0
+              uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8 # 1.75.0
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   CUSTOM_TAG: ${{ steps.next_version.outputs.new_tag }}
 
             - name: Create GitHub Release
-              uses: softprops/action-gh-release@v3
+              uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228 # v3.0.2
               with:
                   tag_name: ${{ steps.next_version.outputs.new_tag }}
                   name: Release ${{ steps.next_version.outputs.new_tag }}
