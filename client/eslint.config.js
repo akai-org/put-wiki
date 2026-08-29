@@ -16,7 +16,7 @@ import eslintPluginTailwindcss from 'eslint-plugin-tailwindcss';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
-  globalIgnores(['dist', 'coverage', '**/*.gen.ts', 'public']),
+  globalIgnores(['dist', 'coverage', '**/*.gen.ts', 'public', 'src/components/ui']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
