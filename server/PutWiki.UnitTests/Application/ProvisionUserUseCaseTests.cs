@@ -87,7 +87,7 @@ public class ProvisionUserUseCaseTests
         var rawUsosId = "12345";
         var hashedUsosId = "XYZ_HASHED_ID";
         var fakeDate = new DateTimeOffset(2026, 6, 6, 12, 0, 0, TimeSpan.Zero);
-        var existingUser = new User(hashedUsosId, fakeDate);
+        var existingUser = User.Create(hashedUsosId, fakeDate);
         var usosUserDto = new UsosUserDto(rawUsosId);
 
         _usosOAuthServiceMock
