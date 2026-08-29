@@ -14,7 +14,7 @@ public partial record AcademicTeacherSlug
         Value = value;
     }
 
-    public static AcademicTeacherSlug From(string name, string usosId)
+    public static AcademicTeacherSlug Create(string name, string usosId)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ArgumentException.ThrowIfNullOrWhiteSpace(usosId);
