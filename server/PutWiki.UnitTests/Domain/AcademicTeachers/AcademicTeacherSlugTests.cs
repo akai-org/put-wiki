@@ -13,12 +13,12 @@ public class AcademicTeacherSlugTests
     [InlineData("Natalia Nowak-Nowacka", "1001", "natalia-nowak-nowacka-1001")]
     [InlineData("Krzysztof Zwierzyński", "2002", "krzysztof-zwierzynski-2002")]
     [InlineData("Rafał Walkowiak", "3003", "rafal-walkowiak-3003")]
-    public void From_WithValidNameAndUsosId_ShouldReturnCorrectSlug(string name, string usosId, string expectedSlug)
+    public void Create_WithValidNameAndUsosId_ShouldReturnCorrectSlug(string name, string usosId, string expectedSlug)
     {
         // arrange
 
         // act
-        var slug = AcademicTeacherSlug.From(name, usosId);
+        var slug = AcademicTeacherSlug.Create(name, usosId);
 
         // assert
         slug.Should().NotBeNull();
@@ -32,12 +32,12 @@ public class AcademicTeacherSlugTests
     [InlineData("Jan Kowalski", null)]
     [InlineData("Jan Kowalski", "")]
     [InlineData("Jan Kowalski", " ")]
-    public void From_WithNullOrWhitespaceInputs_ShouldThrowArgumentException(string? name, string? usosId)
+    public void Create_WithNullOrWhitespaceInputs_ShouldThrowArgumentException(string? name, string? usosId)
     {
         // arrange
 
         // act
-        Action act = () => AcademicTeacherSlug.From(name!, usosId!);
+        Action act = () => AcademicTeacherSlug.Create(name!, usosId!);
 
         // assert
         act.Should().Throw<ArgumentException>();
@@ -47,7 +47,7 @@ public class AcademicTeacherSlugTests
     public void ToString_ShouldReturnUnderlyingValue()
     {
         // arrange
-        var slug = AcademicTeacherSlug.From("Jan Kowalski", "1001");
+        var slug = AcademicTeacherSlug.Create("Jan Kowalski", "1001");
 
         // act
         var stringifiedSlug = slug.ToString();
