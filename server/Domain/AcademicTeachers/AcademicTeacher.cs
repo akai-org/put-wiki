@@ -11,9 +11,7 @@ public class AcademicTeacher
     public string UsosId { get; private set; }
     public AcademicTeacherSlug Slug { get; private set; }
 
-
-    [SuppressMessage("Style", "IDE0044:Dodaj modyfikator tylko do odczytu")] //temporary before using field in code
-    private List<string> _degrees;
+    private readonly List<string> _degrees;
     public IReadOnlyList<string> Degrees => _degrees.AsReadOnly();
     public string Name { get; private set; }
     public string? PhotoUrl { get; private set; }
@@ -25,7 +23,7 @@ public class AcademicTeacher
 
     public AcademicTeacher(
         string usosId,
-        IReadOnlyList<string> degrees,
+        IEnumerable<string> degrees,
         string name,
         string email,
         string? photoUrl = null,
