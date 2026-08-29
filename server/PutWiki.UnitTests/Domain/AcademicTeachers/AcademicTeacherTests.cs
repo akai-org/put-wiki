@@ -27,7 +27,7 @@ public class AcademicTeacherTests
         const string email = "jan.kowalski@university.edu.pl";
 
         // act
-        var teacher = new AcademicTeacher(usosId, DefaultValidDegrees, name, email);
+        var teacher = AcademicTeacher.Create(usosId, DefaultValidDegrees, name, email);
 
         // assert
         teacher.Should().NotBeNull();
@@ -53,7 +53,7 @@ public class AcademicTeacherTests
         string[] degrees = ["dr"];
 
         // act
-        var teacher = new AcademicTeacher(
+        var teacher = AcademicTeacher.Create(
             usosId: "USOS-12345",
             degrees: degrees,
             name: "Anna Nowak",
@@ -89,7 +89,7 @@ public class AcademicTeacherTests
         string[] degrees = ["mgr"];
 
         // act
-        Action act = () => _ = new AcademicTeacher(usosId!, degrees, name!, email!);
+        Action act = () => _ = AcademicTeacher.Create(usosId!, degrees, name!, email!);
 
         // assert
         act.Should().Throw<ArgumentException>();
@@ -102,7 +102,7 @@ public class AcademicTeacherTests
         IReadOnlyList<string> degrees = null!;
 
         // act
-        Action act = () => _ = new AcademicTeacher("USOS-1", degrees, "Jan Kowalski", "jan@university.edu.pl");
+        Action act = () => _ = AcademicTeacher.Create("USOS-1", degrees, "Jan Kowalski", "jan@university.edu.pl");
 
         // assert
         act.Should().Throw<ArgumentNullException>()
@@ -116,7 +116,7 @@ public class AcademicTeacherTests
         // arrange
 
         // act
-        Action act = () => _ = new AcademicTeacher("USOS-1", degrees, "Jan Kowalski", "jan@university.edu.pl");
+        Action act = () => _ = AcademicTeacher.Create("USOS-1", degrees, "Jan Kowalski", "jan@university.edu.pl");
 
         // assert
         act.Should().Throw<ArgumentException>()
@@ -131,7 +131,7 @@ public class AcademicTeacherTests
         string[] degrees = ["dr", "   ", "inż.", ""];
 
         // act
-        var teacher = new AcademicTeacher("USOS-1", degrees, "Jan Kowalski", "jan@university.edu.pl");
+        var teacher = AcademicTeacher.Create("USOS-1", degrees, "Jan Kowalski", "jan@university.edu.pl");
 
         // assert
         teacher.Degrees.Should().Equal("dr", "inż.");
@@ -144,7 +144,7 @@ public class AcademicTeacherTests
         var externalList = new List<string> { "mgr", "inż." };
 
         // act
-        var teacher = new AcademicTeacher("USOS-1", externalList, "Jan Kowalski", "jan@university.edu.pl");
+        var teacher = AcademicTeacher.Create("USOS-1", externalList, "Jan Kowalski", "jan@university.edu.pl");
         externalList.Add("prof.");
 
         // assert
