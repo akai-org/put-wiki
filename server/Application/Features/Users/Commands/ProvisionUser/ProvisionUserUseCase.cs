@@ -50,7 +50,7 @@ public partial class ProvisionUserUseCase(
             return Result.Ok(mapper.Map<UserDto>(existingUser));
         }
 
-        var newUser = new User(hashedId, timeProvider.GetUtcNow());
+        var newUser = User.Create(hashedId, timeProvider.GetUtcNow());
         userRepository.Add(newUser);
         await unitOfWork.SaveChangesAsync(ct);
 
