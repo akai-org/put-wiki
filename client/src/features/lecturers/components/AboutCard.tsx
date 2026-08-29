@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 
-interface AboutCardDescription {
+interface AboutCardDescriptionProps {
   description: string;
 }
 
-export default function AboutCard({ description }: AboutCardDescription) {
+export default function AboutCard({ description }: AboutCardDescriptionProps) {
   return (
     <Card className="self-stretch">
       <CardHeader>

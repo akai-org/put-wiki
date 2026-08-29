@@ -4,7 +4,7 @@ import AboutCard from '../components/AboutCard';
 import BaseInfoCard from '../components/BaseInfoCard';
 import ConsultationCard from '../components/ConsultationsCard';
 import ContactCard from '../components/ContactCard';
-import { LecturerSchema } from '../schemas/LecturerSchema';
+import { lecturerSchema } from '../schemas/lecturerSchema';
 
 const baseInfo = {
   name: 'Jan Kowalski',
@@ -64,7 +64,7 @@ describe('lecturer cards', () => {
   });
 });
 
-describe('LecturerSchema', () => {
+describe('lecturerSchema', () => {
   it('accepts a valid lecturer payload', () => {
     const lecturer = {
       id: 67,
@@ -74,7 +74,7 @@ describe('LecturerSchema', () => {
       description: 'Doktor inżynier specjalizujący się w programowaniu.',
     };
 
-    expect(LecturerSchema.parse(lecturer)).toEqual(lecturer);
+    expect(lecturerSchema.parse(lecturer)).toEqual(lecturer);
   });
 
   it('rejects invalid lecturer contact and base information', () => {
@@ -86,6 +86,6 @@ describe('LecturerSchema', () => {
       description: 'Opis',
     };
 
-    expect(() => LecturerSchema.parse(invalidLecturer)).toThrow();
+    expect(() => lecturerSchema.parse(invalidLecturer)).toThrow();
   });
 });

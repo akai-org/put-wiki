@@ -2,7 +2,7 @@ import ContactCard from '@/features/lecturers/components/ContactCard';
 import BaseInfoCard from '@/features/lecturers/components/BaseInfoCard';
 import { createFileRoute, useParams } from '@tanstack/react-router';
 import { AboutCard, ConsultationCard } from '@/features/lecturers';
-import { useLecturerQuery } from '@/features/lecturers/api/useLecturersQuery';
+import { useLecturerQuery } from '@/features/lecturers/api/useLecturerQuery';
 import LecturersCoursesCard from '@/features/lecturers/components/LecturersCoursesCard';
 
 export const Route = createFileRoute('/lecturers/$slug')({ component: LecturerPage });
@@ -18,6 +18,7 @@ function LecturerPage() {
   if (isError) {
     return <div>Error</div>;
   }
+
   if (!data) {
     return <div>Error</div>;
   }

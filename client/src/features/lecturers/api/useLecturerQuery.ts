@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { LecturerQueries } from './LecturerQueries';
+import { lecturerQueries } from './lecturerQueries';
 
 export function useLecturerQuery(slug: string) {
-  return useQuery(LecturerQueries.bySlug(slug));
+  return useQuery(lecturerQueries.bySlug(slug));
 }

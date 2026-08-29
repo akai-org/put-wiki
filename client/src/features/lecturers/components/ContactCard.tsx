@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import type { ContactInfoType } from '../schemas/ContactInfoSchema';
+import type { ContactInfo } from '../schemas/contactInfoSchema';
 
-export default function ContactCard({ ...contactInfo }: ContactInfoType) {
+export default function ContactCard({ ...contactInfo }: ContactInfo) {
   return (
     <Card>
       <CardHeader>

@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/Card';
-import type { BaseInfoType } from '../schemas/BaseInfoSchema';
+import type { BaseInfo } from '../schemas/baseInfoSchema';
 
-export default function BaseInfoCard({ ...baseInfo }: BaseInfoType) {
+export default function BaseInfoCard({ ...baseInfo }: BaseInfo) {
   return (
     <Card>
       <CardContent className="flex flex-row gap-4">
