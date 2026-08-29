@@ -25,7 +25,7 @@ export const handlers = [
       lastName: 'Maverick',
     });
   }),
-  
+
   http.get('/mocks/:slug.json', ({ params }) => {
     const slug = params.slug;
 
