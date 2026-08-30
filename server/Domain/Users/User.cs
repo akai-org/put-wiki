@@ -5,7 +5,7 @@ using FluentResults;
 
 namespace Domain.Users;
 
-public partial class User
+public class User
 {
     public const int MinNicknameLength = 3;
     public const int MaxNicknameLength = 30;
@@ -35,18 +35,11 @@ public partial class User
 
     public Result UpdateNickname(string nickname)
     {
-        var trimmed = nickname.Trim();
+        var result = Users.Nickname.Create(nickname);
+        if (result.IsFailed)
+            return Result.Fail(result.Errors);
 
-        if (trimmed.Length < MinNicknameLength)
-            return Result.Fail(new NicknameTooShortError(MinNicknameLength));
-
-        if (trimmed.Length > MaxNicknameLength)
-            return Result.Fail(new NicknameTooLongError(MaxNicknameLength));
-
-        if (!NicknameFormatRegex().IsMatch(trimmed))
-            return Result.Fail(new NicknameInvalidFormatError());
-
-        Nickname = trimmed;
+        Nickname = result.Value;
         return Result.Ok();
     }
 

@@ -14,12 +14,15 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
         builder.HasIndex(x => x.HashedUsosId).IsUnique();
 
         builder.Property(x => x.Nickname)
-            .HasMaxLength(User.MaxNicknameLength)
-            .IsRequired(false);
+            .HasConversion(
+                n => n != null ? n.Value : null,
+                v => v != null ? Nickname.Create(v).Value : null)
+            .HasMaxLength(Nickname.MaxLength)
+            .IsRequired(false)
+            .HasColumnType("citext");
 
         builder.HasIndex(x => x.Nickname)
             .IsUnique()
-            .HasFilter("\"Nickname\" IS NOT NULL")
-            .UseCollation("und-x-icu");
+            .HasFilter("\"Nickname\" IS NOT NULL");
     }
 }

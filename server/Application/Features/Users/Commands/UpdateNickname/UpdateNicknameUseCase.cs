@@ -26,21 +26,30 @@ public partial class UpdateNicknameUseCase(
             return Result.Fail(new NotFoundError($"User with ID '{cmd.UserId}' was not found."));
         }
 
+        if (user.Nickname?.Value == cmd.Nickname)
+        {
+            return Result.Ok();
+        }
+
         var updateResult = user.UpdateNickname(cmd.Nickname);
         if (updateResult.IsFailed)
         {
-            return Result.Fail(new ValidationError(updateResult.Errors[0].Message));
+            return Result.Fail(new ValidationError("Failed to update nickname")
+                .CausedBy(updateResult.Errors));
         }
 
-        var nicknameTaken = await userRepository.ExistsWithNicknameAsync(user.Nickname!, cmd.UserId, ct);
-        if (nicknameTaken)
+        if (user.Nickname is not null)
         {
-            return Result.Fail(new ConflictError("This nickname is already taken."));
+            var nicknameTaken = await userRepository.ExistsWithNicknameAsync(user.Nickname.Value, cmd.UserId, ct);
+            if (nicknameTaken)
+            {
+                return Result.Fail(new ConflictError("This nickname is already taken."));
+            }
         }
 
         await userRepository.SaveChangesAsync(ct);
 
-        LogNicknameUpdated(cmd.UserId, user.Nickname!);
+        LogNicknameUpdated(cmd.UserId, user.Nickname!.Value);
 
         return Result.Ok();
     }

@@ -25,7 +25,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
     public Task<bool> ExistsWithNicknameAsync(string nickname, Guid excludedUserId, CancellationToken cancellationToken = default)
     {
         return context.Users.AnyAsync(
-            u => u.Id != excludedUserId && u.Nickname != null && EF.Functions.ILike(u.Nickname, nickname),
+            u => u.Id != excludedUserId && u.Nickname != null && u.Nickname.Value == nickname,
             cancellationToken);
     }
 
