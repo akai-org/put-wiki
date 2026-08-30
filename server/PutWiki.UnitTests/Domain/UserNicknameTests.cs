@@ -1,20 +1,11 @@
-using System;
-
 using Domain.Users;
 
 using FluentAssertions;
 
 namespace PutWiki.UnitTests.Domain;
 
-public class UserNicknameTests
+public class NicknameTests
 {
-    private readonly User _user;
-
-    public UserNicknameTests()
-    {
-        _user = new User("hashed_id", DateTimeOffset.UtcNow);
-    }
-
     [Theory]
     [InlineData("Jan")]
     [InlineData("JanKowalski")]
@@ -27,24 +18,24 @@ public class UserNicknameTests
     [InlineData("Zażółć")]
     [InlineData("ąćę łńó")]
     [InlineData("Kraków123")]
-    public void UpdateNickname_WithValidNickname_ShouldSucceed(string nickname)
+    public void Create_WithValidNickname_ShouldSucceed(string nickname)
     {
         // Act
-        var result = _user.UpdateNickname(nickname);
+        var result = Nickname.Create(nickname);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
-        _user.Nickname.Should().Be(nickname.Trim());
+        result.Value.Value.Should().Be(nickname.Trim());
     }
 
     [Theory]
     [InlineData("ab")]
     [InlineData("a")]
     [InlineData("")]
-    public void UpdateNickname_WithTooShortNickname_ShouldReturnFailure(string nickname)
+    public void Create_WithTooShortNickname_ShouldReturnFailure(string nickname)
     {
         // Act
-        var result = _user.UpdateNickname(nickname);
+        var result = Nickname.Create(nickname);
 
         // Assert
         result.IsFailed.Should().BeTrue();
@@ -52,13 +43,13 @@ public class UserNicknameTests
     }
 
     [Fact]
-    public void UpdateNickname_WithTooLongNickname_ShouldReturnFailure()
+    public void Create_WithTooLongNickname_ShouldReturnFailure()
     {
         // Arrange
-        var nickname = new string('a', User.MaxNicknameLength + 1);
+        var nickname = new string('a', Nickname.MaxLength + 1);
 
         // Act
-        var result = _user.UpdateNickname(nickname);
+        var result = Nickname.Create(nickname);
 
         // Assert
         result.IsFailed.Should().BeTrue();
@@ -66,13 +57,13 @@ public class UserNicknameTests
     }
 
     [Fact]
-    public void UpdateNickname_WithExactMaxLength_ShouldSucceed()
+    public void Create_WithExactMaxLength_ShouldSucceed()
     {
         // Arrange
-        var nickname = new string('a', User.MaxNicknameLength);
+        var nickname = new string('a', Nickname.MaxLength);
 
         // Act
-        var result = _user.UpdateNickname(nickname);
+        var result = Nickname.Create(nickname);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
@@ -90,10 +81,10 @@ public class UserNicknameTests
     [InlineData("_JanK")]
     [InlineData("JanK-")]
     [InlineData("JanK_")]
-    public void UpdateNickname_WithInvalidFormat_ShouldReturnFailure(string nickname)
+    public void Create_WithInvalidFormat_ShouldReturnFailure(string nickname)
     {
         // Act
-        var result = _user.UpdateNickname(nickname);
+        var result = Nickname.Create(nickname);
 
         // Assert
         result.IsFailed.Should().BeTrue();
@@ -103,34 +94,24 @@ public class UserNicknameTests
     [Theory]
     [InlineData("  JanK  ", "JanK")]
     [InlineData("  JanKowalski  ", "JanKowalski")]
-    public void UpdateNickname_WithLeadingAndTrailingWhitespace_ShouldTrimAndSucceed(string nickname, string expected)
+    public void Create_WithLeadingAndTrailingWhitespace_ShouldTrimAndSucceed(string nickname, string expected)
     {
         // Act
-        var result = _user.UpdateNickname(nickname);
+        var result = Nickname.Create(nickname);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
-        _user.Nickname.Should().Be(expected);
+        result.Value.Value.Should().Be(expected);
     }
 
     [Fact]
-    public void UpdateNickname_ShouldUpdateExistingNickname()
+    public void Create_ShouldProduceEqualNicknames_WhenValuesAreTheSame()
     {
         // Arrange
-        _user.UpdateNickname("OldNick");
-
-        // Act
-        var result = _user.UpdateNickname("NewNick");
+        var result1 = Nickname.Create("TestNick");
+        var result2 = Nickname.Create("TestNick");
 
         // Assert
-        result.IsSuccess.Should().BeTrue();
-        _user.Nickname.Should().Be("NewNick");
-    }
-
-    [Fact]
-    public void Nickname_ShouldBeNullByDefault()
-    {
-        // Assert
-        _user.Nickname.Should().BeNull();
+        result1.Value.Should().Be(result2.Value);
     }
 }
