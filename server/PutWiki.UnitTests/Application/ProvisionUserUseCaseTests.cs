@@ -103,7 +103,7 @@ public class ProvisionUserUseCaseTests
 
         // Assert
         result.IsSuccess.Should().BeTrue();
-        result.Value!.Id.Should().Be(existingUser.Id.ToString());
+        result.Value.Id.Should().Be(existingUser.Id.ToString());
         result.Value.HashedUsosId.Should().Be(hashedUsosId);
 
         _userRepositoryMock.Verify(x => x.Add(It.IsAny<User>()), Times.Never);
@@ -138,7 +138,7 @@ public class ProvisionUserUseCaseTests
         // Assert
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().NotBeNull();
-        result.Value!.HashedUsosId.Should().Be(hashedUsosId);
+        result.Value.HashedUsosId.Should().Be(hashedUsosId);
         result.Value.Id.Should().NotBe(Guid.Empty.ToString());
         result.Value.JoinedDate.Should().Be(fakeDate);
 
