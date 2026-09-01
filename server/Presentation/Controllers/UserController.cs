@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,16 +18,20 @@ public class UserController(
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
-    file async Task<IActionResult> UpdateNickname(
+    public async Task<IActionResult> UpdateNickname(
         Guid userId,
-        [FromBody] UpdateNicknameRequest request,
+        [FromBody] JsonElement body,
         CancellationToken ct)
     {
+        var request = body.Deserialize<UpdateNicknameRequest>(JsonSerializerOptions.Web);
+        if (request is null)
+            return BadRequest();
+
         var command = new UpdateNicknameCommand(userId, request.Nickname);
         var result = await updateNicknameUseCase.ExecuteAsync(command, ct);
 
         return HandleResult(result);
     }
-}
 
-file sealed record UpdateNicknameRequest(string Nickname);
+    private sealed record UpdateNicknameRequest(string Nickname);
+}
