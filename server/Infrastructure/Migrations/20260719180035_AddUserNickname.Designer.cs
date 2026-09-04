@@ -3,6 +3,7 @@ using System;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,16 +12,17 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260719180035_AddUserNickname")]
+    partial class AddUserNickname
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.11")
+                .HasAnnotation("ProductVersion", "10.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "citext");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Domain.Users.User", b =>
@@ -38,7 +40,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Nickname")
                         .HasMaxLength(30)
-                        .HasColumnType("citext");
+                        .HasColumnType("character varying(30)");
 
                     b.HasKey("Id");
 
@@ -48,6 +50,8 @@ namespace Infrastructure.Migrations
                     b.HasIndex("Nickname")
                         .IsUnique()
                         .HasFilter("\"Nickname\" IS NOT NULL");
+
+                    NpgsqlIndexBuilderExtensions.UseCollation(b.HasIndex("Nickname"), new[] { "und-x-icu" });
 
                     b.ToTable("Users");
                 });

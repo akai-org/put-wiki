@@ -14,6 +14,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     {
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.HasPostgresExtension("citext");
+
         new UserEntityTypeConfiguration().Configure(modelBuilder.Entity<User>());
     }
 }
