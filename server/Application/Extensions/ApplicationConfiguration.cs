@@ -1,4 +1,5 @@
-﻿using Application.Features.Users.Commands.ProvisionUser;
+﻿using Application.Features.AcademicTeachers.Queries;
+using Application.Features.Users.Commands.ProvisionUser;
 using Application.Mappings;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +15,8 @@ public static class ApplicationConfiguration
             cfg.AddProfile<MappingsProfile>();
         });
 
-        services.AddScoped<ProvisionUserUseCase>();
+        services.AddScoped<ProvisionUserHandler>();
+        services.AddScoped<GetAcademicTeacherHandler>();
 
         return services;
     }

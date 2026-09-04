@@ -3,6 +3,7 @@ using System;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260814122726_ChangeAcademicTeacherColumnsConstraintsAndAddSlugColumn")]
+    partial class ChangeAcademicTeacherColumnsConstraintsAndAddSlugColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,18 +85,15 @@ namespace Infrastructure.Migrations
                         .HasName("pk_academic_teachers");
 
                     b.HasIndex("Email")
-                        .IsUnique()
-                        .HasDatabaseName("ix_academic_teachers_email");
+                        .IsUnique();
 
                     b.HasIndex("Slug")
-                        .IsUnique()
-                        .HasDatabaseName("ix_academic_teachers_slug");
+                        .IsUnique();
 
                     b.HasIndex("UsosId")
-                        .IsUnique()
-                        .HasDatabaseName("ix_academic_teachers_usos_id");
+                        .IsUnique();
 
-                    b.ToTable("academic_teachers", (string)null);
+                    b.ToTable("academic_teachers");
                 });
 
             modelBuilder.Entity("Domain.Users.User", b =>
@@ -116,10 +116,9 @@ namespace Infrastructure.Migrations
                         .HasName("pk_users");
 
                     b.HasIndex("HashedUsosId")
-                        .IsUnique()
-                        .HasDatabaseName("ix_users_hashed_usos_id");
+                        .IsUnique();
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("users");
                 });
 #pragma warning restore 612, 618
         }

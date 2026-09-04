@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using Application.Auth;
 using Application.Errors;
+using Application.Interfaces;
 
 using AutoMapper;
 
@@ -15,11 +16,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Features.Users.Commands.ProvisionUser;
 
-public partial class ProvisionUserUseCase(
+public partial class ProvisionUserHandler(
     IUsosOAuthService usosOAuthService,
     IUsosIdHasher hasher,
     IUserRepository userRepository,
-    ILogger<ProvisionUserUseCase> logger,
+    IUnitOfWork unitOfWork,
+    ILogger<ProvisionUserHandler> logger,
     IMapper mapper,
     TimeProvider timeProvider)
 {
@@ -48,9 +50,9 @@ public partial class ProvisionUserUseCase(
             return Result.Ok(mapper.Map<UserDto>(existingUser));
         }
 
-        var newUser = new User(hashedId, timeProvider.GetUtcNow());
+        var newUser = User.Create(hashedId, timeProvider.GetUtcNow());
         userRepository.Add(newUser);
-        await userRepository.SaveChangesAsync(ct);
+        await unitOfWork.SaveChangesAsync(ct);
 
         LogProvisionedNewAnonymousUserId(newUser.Id);
 
