@@ -16,12 +16,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Features.Users.Commands.ProvisionUser;
 
-public partial class ProvisionUserUseCase(
+public partial class ProvisionUserHandler(
     IUsosOAuthService usosOAuthService,
     IUsosIdHasher hasher,
     IUserRepository userRepository,
     IUnitOfWork unitOfWork,
-    ILogger<ProvisionUserUseCase> logger,
+    ILogger<ProvisionUserHandler> logger,
     IMapper mapper,
     TimeProvider timeProvider)
 {
