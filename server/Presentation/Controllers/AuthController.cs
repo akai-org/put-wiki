@@ -11,7 +11,7 @@ namespace Presentation.Controllers;
 
 public class AuthController(
     IUsosOAuthService usosOAuthService,
-    ProvisionUserHandler provisionUserHandler) : BaseApiController
+    ProvisionUserCommandHandler provisionUserCommandHandler) : BaseApiController
 {
 
     [HttpGet("login")]
@@ -38,7 +38,7 @@ public class AuthController(
     )
     {
         var command = new ProvisionUserCommand(oauthToken, oauthVerifier);
-        var result = await provisionUserHandler.ExecuteAsync(command, ct);
+        var result = await provisionUserCommandHandler.ExecuteAsync(command, ct);
 
         return HandleResult(result);
     }

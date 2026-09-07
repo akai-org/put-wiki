@@ -7,7 +7,7 @@ using FluentResults;
 
 namespace Application.Features.AcademicTeachers.Queries;
 
-public class GetAcademicTeacherHandler(IAcademicTeacherQueryService queryService)
+public class GetAcademicTeacherQueryHandler(IAcademicTeacherQueryService queryService)
 {
     public async Task<Result<AcademicTeacherDto>> ExecuteAsync(GetAcademicTeacherQuery query,
         CancellationToken ct = default)

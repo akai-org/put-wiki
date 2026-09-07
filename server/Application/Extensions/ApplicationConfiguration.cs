@@ -15,8 +15,8 @@ public static class ApplicationConfiguration
             cfg.AddProfile<MappingsProfile>();
         });
 
-        services.AddScoped<ProvisionUserHandler>();
-        services.AddScoped<GetAcademicTeacherHandler>();
+        services.AddScoped<ProvisionUserCommandHandler>();
+        services.AddScoped<GetAcademicTeacherQueryHandler>();
 
         return services;
     }

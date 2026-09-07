@@ -13,7 +13,7 @@ namespace Presentation.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class AcademicTeachersController(
-    GetAcademicTeacherHandler handler) : BaseApiController
+    GetAcademicTeacherQueryHandler getAcademicTeacherQueryHandler) : BaseApiController
 {
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(AcademicTeacherDto), StatusCodes.Status200OK)]
@@ -24,7 +24,7 @@ public class AcademicTeachersController(
         if (!res)
             return HandleResult(new ValidationError("Provided academic teacher ID is invalid."));
 
-        var result = await handler.ExecuteAsync(new GetAcademicTeacherQuery(guid), ct);
+        var result = await getAcademicTeacherQueryHandler.ExecuteAsync(new GetAcademicTeacherQuery(guid), ct);
 
         return HandleResult(result);
     }

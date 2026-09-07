@@ -23,16 +23,16 @@ using Moq;
 
 namespace PutWiki.UnitTests.Application;
 
-public class ProvisionUserHandlerTests
+public class ProvisionUserCommandHandlerTests
 {
     private readonly Mock<IUsosOAuthService> _usosOAuthServiceMock;
     private readonly Mock<IUsosIdHasher> _idHasherMock;
     private readonly Mock<IUserRepository> _userRepositoryMock;
     private readonly Mock<IUnitOfWork> _iUnitOfWorkMock;
     private readonly FakeTimeProvider _fakeTimeProvider;
-    private readonly ProvisionUserHandler _sut;
+    private readonly ProvisionUserCommandHandler _sut;
 
-    public ProvisionUserHandlerTests()
+    public ProvisionUserCommandHandlerTests()
     {
         _usosOAuthServiceMock = new Mock<IUsosOAuthService>();
         _idHasherMock = new Mock<IUsosIdHasher>();
@@ -46,12 +46,12 @@ public class ProvisionUserHandlerTests
         }, new NullLoggerFactory());
         IMapper mapper = mapperConfig.CreateMapper();
 
-        _sut = new ProvisionUserHandler(
+        _sut = new ProvisionUserCommandHandler(
             _usosOAuthServiceMock.Object,
             _idHasherMock.Object,
             _userRepositoryMock.Object,
             _iUnitOfWorkMock.Object,
-            NullLogger<ProvisionUserHandler>.Instance,
+            NullLogger<ProvisionUserCommandHandler>.Instance,
             mapper,
             _fakeTimeProvider
         );
