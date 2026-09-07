@@ -4,7 +4,6 @@ using Domain.AcademicTeachers;
 using Domain.Users;
 
 using Infrastructure.EntitiesConfiguration;
-using Infrastructure.Extensions;
 
 using Microsoft.EntityFrameworkCore;
 
