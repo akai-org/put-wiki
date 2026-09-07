@@ -10,12 +10,9 @@ namespace Infrastructure.Repositories;
 
 public class AcademicTeacherRepository(AppDbContext context) : IAcademicTeacherRepository
 {
-    public Task<AcademicTeacher?> GetByIdAsync(string id, CancellationToken cancellationToken = default)
+    public Task<AcademicTeacher?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        if (!Guid.TryParse(id, out var guidId))
-            return Task.FromResult<AcademicTeacher?>(null);
-
-        return context.AcademicTeachers.FirstOrDefaultAsync(teacher => teacher.Id == guidId, cancellationToken);
+        return context.AcademicTeachers.FirstOrDefaultAsync(teacher => teacher.Id == id, cancellationToken);
     }
 
     public Task<AcademicTeacher?> GetByUsosIdAsync(string usosId, CancellationToken cancellationToken = default)
