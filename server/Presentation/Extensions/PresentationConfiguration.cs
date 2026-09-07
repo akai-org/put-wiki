@@ -86,7 +86,7 @@ public static class PresentationConfiguration
         return app;
     }
 
-    public static IServiceCollection AddWebServices(this IServiceCollection services)
+    public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
         services.AddControllers(opts =>
                 opts.Conventions.Add(

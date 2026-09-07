@@ -13,8 +13,8 @@ using Domain.Users;
 using Infrastructure.Auth;
 using Infrastructure.Auth.Configuration;
 using Infrastructure.Clients;
-using Infrastructure.Queries;
 using Infrastructure.Repositories;
+using Infrastructure.Services;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -45,10 +45,12 @@ public static partial class InfrastructureConfiguration
         services.AddScoped<IAcademicTeacherQueryService, AcademicTeacherQueryService>();
         services.AddScoped<IAcademicTeacherRepository, AcademicTeacherRepository>();
 
+        services.AddUsosOAuth(configuration);
+
         return services;
     }
 
-    public static IServiceCollection AddUsosOAuth(this IServiceCollection services, IConfiguration configuration)
+    private static void AddUsosOAuth(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddOptions<UsosOAuthSettings>()
             .Bind(configuration.GetSection("UsosOAuth"))
@@ -69,8 +71,6 @@ public static partial class InfrastructureConfiguration
             .ValidateOnStart();
 
         services.AddScoped<IUsosOAuthService, UsosOAuthService>();
-
-        return services;
     }
 
     // NOTE: don't use this method in PRODUCTION enviroment to apply migrations during app startup.

@@ -24,9 +24,8 @@ builder.Services.AddMemoryCache();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddUsosOAuth(builder.Configuration);
 builder.Services.AddApplication();
-builder.Services.AddWebServices();
+builder.Services.AddPresentation();
 
 var app = builder.Build();
 
