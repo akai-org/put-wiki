@@ -7,7 +7,7 @@ using Application.Features.AcademicTeachers.Queries;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Queries;
+namespace Infrastructure.Services;
 
 public class AcademicTeacherQueryService(AppDbContext context) : IAcademicTeacherQueryService
 {
