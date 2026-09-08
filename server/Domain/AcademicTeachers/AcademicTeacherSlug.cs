@@ -6,6 +6,7 @@ namespace Domain.AcademicTeachers;
 public partial record AcademicTeacherSlug
 {
     public string Value { get; }
+    public const int MaxLength = 150;
 
     private AcademicTeacherSlug(string value)
     {
@@ -26,6 +27,11 @@ public partial record AcademicTeacherSlug
     public static AcademicTeacherSlug Parse(string slug)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(slug);
+
+        if (slug.Length > MaxLength)
+        {
+            throw new ArgumentException($"Slug cannot be longer than {MaxLength} characters.", nameof(slug));
+        }
 
         if (!MySlugRegex().IsMatch(slug))
         {

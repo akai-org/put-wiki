@@ -134,4 +134,18 @@ public class AcademicTeacherSlugTests
         slug1.Should().Be(slug2);
         (slug1 == slug2).Should().BeTrue();
     }
+
+    [Fact]
+    public void Parse_WhenSlugExceedsMaxLength_ShouldThrowArgumentException()
+    {
+        // arrange
+        var longSlug = new string('a', AcademicTeacherSlug.MaxLength + 1);
+
+        // act
+        Action act = () => AcademicTeacherSlug.Parse(longSlug);
+
+        // assert
+        act.Should().Throw<ArgumentException>()
+            .WithMessage($"*cannot be longer than {AcademicTeacherSlug.MaxLength}*");
+    }
 }

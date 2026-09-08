@@ -23,7 +23,7 @@ public class AcademicTeacherEntityTypeConfiguration : IEntityTypeConfiguration<A
                 slug => slug.Value,
                 value => AcademicTeacherSlug.Parse(value))
             .HasColumnName("slug")
-            .HasMaxLength(150)
+            .HasMaxLength(AcademicTeacherSlug.MaxLength)
             .IsRequired();
 
         builder.HasIndex(x => x.Slug)
