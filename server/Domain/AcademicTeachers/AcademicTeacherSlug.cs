@@ -5,9 +5,7 @@ namespace Domain.AcademicTeachers;
 
 public partial record AcademicTeacherSlug
 {
-    public string Value { get; init; }
-
-    private static readonly Regex SlugRegex = MySlugRegex();
+    public string Value { get; }
 
     private AcademicTeacherSlug(string value)
     {
@@ -22,14 +20,14 @@ public partial record AcademicTeacherSlug
         var slugifiedName = Slugify(name);
         var slugifiedUsosId = Slugify(usosId);
 
-        return new AcademicTeacherSlug($"{slugifiedName}-{slugifiedUsosId}");
+        return Parse($"{slugifiedName}-{slugifiedUsosId}");
     }
 
     public static AcademicTeacherSlug Parse(string slug)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(slug);
 
-        if (!SlugRegex.IsMatch(slug))
+        if (!MySlugRegex().IsMatch(slug))
         {
             throw new ArgumentException($"The provided string '{slug}' is not a valid slug format.", nameof(slug));
         }

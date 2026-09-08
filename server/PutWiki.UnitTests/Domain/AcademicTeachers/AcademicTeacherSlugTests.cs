@@ -95,4 +95,43 @@ public class AcademicTeacherSlugTests
         // assert
         act.Should().Throw<ArgumentException>();
     }
+
+    [Theory]
+    [InlineData("Łukasz Żółć", "1001", "lukasz-zolc-1001")]
+    public void Create_WithUppercasePolishCharacters_ShouldSlugifyCorrectly(string name, string usosId, string expectedSlug)
+    {
+        // arrange
+
+        // act
+        var slug = AcademicTeacherSlug.Create(name, usosId);
+
+        // assert
+        slug.Value.Should().Be(expectedSlug);
+    }
+
+    [Fact]
+    public void Create_WithOnlySpecialCharactersInName_ShouldThrowArgumentException()
+    {
+        // arrange
+
+        // act
+        Action act = () => AcademicTeacherSlug.Create("!!!", "1001");
+
+        // assert
+        act.Should().Throw<ArgumentException>();
+    }
+
+    [Fact]
+    public void Equals_TwoInstancesWithSameValue_ShouldBeEqual()
+    {
+        // arrange
+
+        // act
+        var slug1 = AcademicTeacherSlug.Parse("jan-kowalski-1001");
+        var slug2 = AcademicTeacherSlug.Parse("jan-kowalski-1001");
+
+        // assert
+        slug1.Should().Be(slug2);
+        (slug1 == slug2).Should().BeTrue();
+    }
 }
