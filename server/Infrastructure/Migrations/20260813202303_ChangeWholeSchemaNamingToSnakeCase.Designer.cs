@@ -3,6 +3,7 @@ using System;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260813202303_ChangeWholeSchemaNamingToSnakeCase")]
+    partial class ChangeWholeSchemaNamingToSnakeCase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,43 +60,27 @@ namespace Infrastructure.Migrations
                         .HasColumnName("phone_number");
 
                     b.Property<string>("PhotoUrl")
-                        .HasMaxLength(2000)
-                        .HasColumnType("character varying(2000)")
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)")
                         .HasColumnName("photo_url");
-
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)")
-                        .HasColumnName("slug");
 
                     b.Property<string>("UsosId")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("text")
                         .HasColumnName("usos_id");
 
                     b.Property<string>("WebsiteUrl")
-                        .HasMaxLength(2000)
-                        .HasColumnType("character varying(2000)")
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)")
                         .HasColumnName("website_url");
 
                     b.HasKey("Id")
                         .HasName("pk_academic_teachers");
 
-                    b.HasIndex("Email")
-                        .IsUnique()
-                        .HasDatabaseName("ix_academic_teachers_email");
-
-                    b.HasIndex("Slug")
-                        .IsUnique()
-                        .HasDatabaseName("ix_academic_teachers_slug");
-
                     b.HasIndex("UsosId")
-                        .IsUnique()
-                        .HasDatabaseName("ix_academic_teachers_usos_id");
+                        .IsUnique();
 
-                    b.ToTable("academic_teachers", (string)null);
+                    b.ToTable("academic_teachers");
                 });
 
             modelBuilder.Entity("Domain.Users.User", b =>
@@ -116,10 +103,9 @@ namespace Infrastructure.Migrations
                         .HasName("pk_users");
 
                     b.HasIndex("HashedUsosId")
-                        .IsUnique()
-                        .HasDatabaseName("ix_users_hashed_usos_id");
+                        .IsUnique();
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("users");
                 });
 #pragma warning restore 612, 618
         }
