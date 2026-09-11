@@ -27,6 +27,10 @@ export default defineConfig({
     host: true,
     port: 5173,
     strictPort: true,
+    // Used only when MSW mocks are disabled (VITE_ENABLE_MOCKS=false). Port matches server's launchSettings.json
+    proxy: {
+      '/api': 'http://localhost:7278',
+    },
     watch: {
       usePolling: true,
       interval: 100,
