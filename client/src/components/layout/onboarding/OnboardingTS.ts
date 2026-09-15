@@ -1,9 +1,9 @@
-import cat1 from '@/assets/graphics/onboarding/HalloSmall.png';
-import cat2 from '@/assets/graphics/onboarding/InfoSmall.png';
-import cat3 from '@/assets/graphics/onboarding/EtykaSmall.png';
-import cat4 from '@/assets/graphics/onboarding/HowWorkSmall.png';
-import cat5 from '@/assets/graphics/onboarding/AnonimSmall.png';
-import cat6 from '@/assets/graphics/onboarding/USOSSmall.png';
+import cat1 from '@/assets/graphics/onboarding/Hallo.webp';
+import cat2 from '@/assets/graphics/onboarding/Info.webp';
+import cat3 from '@/assets/graphics/onboarding/Etyka.webp';
+import cat4 from '@/assets/graphics/onboarding/HowWork.webp';
+import cat5 from '@/assets/graphics/onboarding/Anonim.webp';
+import cat6 from '@/assets/graphics/onboarding/USOS.webp';
 
 export interface OnboardingStep {
   id: number;
