@@ -4,9 +4,11 @@ The PutWiki client is the user interface layer of the application, built with Re
 
 ## Architecture overview
 
-**PLACEHOLDER**
+The client is organized around route pages, reusable components, and a shared Axios API client. Authentication is handled by the backend through HttpOnly cookies.
 
 To communicate with backend API just use path starting from `/api` to access the desired endpoint. You don't need to provide the host.
+
+API requests include cookies automatically. A `401` response triggers one refresh request through `/api/auth/refresh`, after which the original request is retried once. Refresh requests are coalesced when several API calls expire at the same time; failed refreshes are returned as unauthorized responses.
 
 ## Tech Stack
 

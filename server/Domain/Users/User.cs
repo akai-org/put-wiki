@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Domain.Users;
 
@@ -7,6 +8,7 @@ public class User
     public Guid Id { get; private set; }
     public string HashedUsosId { get; private set; }
     public DateTimeOffset JoinedDate { get; init; }
+    public ICollection<RefreshSession> RefreshSessions { get; private set; } = [];
 
     public User(string hashedUsosId, DateTimeOffset joinedDate)
     {

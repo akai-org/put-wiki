@@ -19,8 +19,12 @@ public class JwtSettingsValidator : AbstractValidator<JwtSettings>
             .NotEmpty()
             .WithMessage("JWT Audience must not be empty");
 
-        RuleFor(x => x.ExpirationMinutes)
+        RuleFor(x => x.AccessTokenExpirationMinutes)
             .GreaterThan(0)
-            .WithMessage("JWT ExpirationMinutes must be greater than 0");
+            .WithMessage("JWT AccessTokenExpirationMinutes must be greater than 0");
+
+        RuleFor(x => x.RefreshTokenExpirationDays)
+            .GreaterThan(0)
+            .WithMessage("JWT RefreshTokenExpirationDays must be greater than 0");
     }
 }

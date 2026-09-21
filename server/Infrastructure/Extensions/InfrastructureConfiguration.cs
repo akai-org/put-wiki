@@ -27,6 +27,7 @@ namespace Infrastructure.Extensions;
 public static partial class InfrastructureConfiguration
 {
     public const string AuthCookieName = "auth_token";
+    public const string RefreshCookieName = "refresh_token";
     private static readonly string[] MissingJwtSectionErrors = ["Jwt section is missing from configuration."];
 
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
@@ -38,7 +39,9 @@ public static partial class InfrastructureConfiguration
         services.AddHttpClient<IUsosHttpClient, UsosHttpClient>();
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IRefreshSessionRepository, RefreshSessionRepository>();
         services.AddScoped<IJwtService, JwtService>();
+        services.AddScoped<ISessionService, SessionService>();
         services.AddSingleton<IUsosIdHasher, HmacUsosIdHasher>();
 
         services.AddSingleton(TimeProvider.System);

@@ -5,12 +5,14 @@ using Application.Errors;
 
 using FluentResults;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class BaseApiController : ControllerBase
 {

@@ -24,7 +24,7 @@ public partial class JwtService(
     private readonly JwtSettings _jwtSettings = jwtSettings.Value;
     private readonly JwtSecurityTokenHandler _tokenHandler = new();
 
-    public Task<Result<string>> GenerateTokenAsync(Guid userId, CancellationToken ct = default)
+    public Task<Result<string>> GenerateAccessTokenAsync(Guid userId, CancellationToken ct = default)
     {
         try
         {
@@ -32,7 +32,7 @@ public partial class JwtService(
             var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
 
             var now = timeProvider.GetUtcNow();
-            var expiration = now.AddMinutes(_jwtSettings.ExpirationMinutes);
+            var expiration = now.AddMinutes(_jwtSettings.AccessTokenExpirationMinutes);
 
             var token = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,

@@ -15,13 +15,12 @@ namespace Application.Features.Users.Commands.ProvisionUser;
 
 public partial class ProvisionUserUseCase(
     IUsosOAuthService usosOAuthService,
-    IJwtService jwtService,
     IUsosIdHasher hasher,
     IUserRepository userRepository,
     ILogger<ProvisionUserUseCase> logger,
     TimeProvider timeProvider)
 {
-    public async Task<Result<string>> ExecuteAsync(ProvisionUserCommand cmd,
+    public async Task<Result<Guid>> ExecuteAsync(ProvisionUserCommand cmd,
         CancellationToken ct = default)
     {
         var usosResult = await usosOAuthService.HandleCallbackAndGetUserAsync(cmd.OauthToken, cmd.OauthVerifier, ct);
@@ -41,7 +40,7 @@ public partial class ProvisionUserUseCase(
 
         var existingUser = await userRepository.GetByHashedUsosIdAsync(hashedId, ct);
         User user;
-        
+
         if (existingUser != null)
         {
             user = existingUser;
@@ -54,14 +53,7 @@ public partial class ProvisionUserUseCase(
             LogProvisionedNewAnonymousUserId(user.Id);
         }
 
-        var tokenResult = await jwtService.GenerateTokenAsync(user.Id, ct);
-        if (tokenResult.IsFailed)
-        {
-            LogTokenGenerationFailed();
-            return Result.Fail(tokenResult.Errors);
-        }
-
-        return Result.Ok(tokenResult.Value);
+        return Result.Ok(user.Id);
     }
 
     [LoggerMessage(LogLevel.Warning, "Provisioning aborted: USOS authentication failed. Error: {error}")]
@@ -70,6 +62,4 @@ public partial class ProvisionUserUseCase(
     [LoggerMessage(LogLevel.Information, "Provisioned new anonymous user {userId}")]
     partial void LogProvisionedNewAnonymousUserId(Guid userId);
 
-    [LoggerMessage(LogLevel.Error, "Failed to generate JWT token during user provisioning")]
-    partial void LogTokenGenerationFailed();
 }

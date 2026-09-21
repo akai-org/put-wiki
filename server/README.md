@@ -43,9 +43,17 @@ Our app provides a way to users to authenticate using USOS. It allows us to acce
 
 ### JWT
 
-The backend issues a JWT during the USOS callback and stores it in an HTTP-only cookie named `auth_token`.
-The cookie is attached automatically to API requests, so the token is not exposed to JavaScript.
-Token lifetime is configured through `Jwt:ExpirationMinutes` and should stay short enough for access-token use.
+The backend issues an access token and a refresh token during the USOS callback:
+
+- The access JWT is stored in the `auth_token` HTTP-only cookie and expires after 15 minutes.
+- The refresh token is stored in the `refresh_token` HTTP-only cookie and expires after 7 days.
+- Refresh tokens are stored only as hashes, rotated after every successful refresh, and revoked on logout.
+
+When the access token expires, the client calls `POST /api/auth/refresh`. The server validates and rotates the refresh token, then replaces both cookies. `POST /api/auth/logout` revokes the refresh session and deletes both cookies.
+
+Both cookies use `Secure` for HTTPS requests, `SameSite=Lax`, and `HttpOnly`, so token values are not exposed to JavaScript. Deployments that require cross-site requests must add an explicit CSRF protection strategy before relaxing the SameSite policy.
+
+Token lifetimes are configured through `Jwt:AccessTokenExpirationMinutes` and `Jwt:RefreshTokenExpirationDays`.
 
 ## Configuration
 
