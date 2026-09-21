@@ -22,9 +22,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-using System.Security.Cryptography;
-using System.Text;
-
 namespace Infrastructure.Extensions;
 
 public static partial class InfrastructureConfiguration
@@ -100,7 +97,7 @@ public static partial class InfrastructureConfiguration
                 typeof(JwtSettings),
                 MissingJwtSectionErrors);
 
-        var signingKey = CreateSigningKey(jwtSettings.Secret);
+        var signingKey = JwtSecurityKeyFactory.CreateSigningKey(jwtSettings.Secret);
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -141,15 +138,6 @@ public static partial class InfrastructureConfiguration
             });
 
         return services;
-    }
-
-    private static SymmetricSecurityKey CreateSigningKey(string secret)
-    {
-        var key = Encoding.UTF8.GetBytes(secret);
-        if (key.Length < 32)
-            key = SHA256.HashData(key);
-
-        return new SymmetricSecurityKey(key);
     }
 
     public static async Task<IApplicationBuilder> ApplyDatabaseMigrationsAsync(this IApplicationBuilder app)

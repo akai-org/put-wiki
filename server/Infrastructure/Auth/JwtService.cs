@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,26 +28,20 @@ public partial class JwtService(
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(_jwtSettings.Secret))
-                return Task.FromResult<Result<string>>(
-                    Result.Fail(new UnauthorizedError("JWT secret is not configured.")));
-
-            var key = GetSecurityKey(_jwtSettings.Secret);
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var signingKey = JwtSecurityKeyFactory.CreateSigningKey(_jwtSettings.Secret);
+            var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
 
             var now = timeProvider.GetUtcNow();
             var expiration = now.AddMinutes(_jwtSettings.ExpirationMinutes);
 
-            var claims = new List<System.Security.Claims.Claim>
-            {
-                new(System.Security.Claims.ClaimTypes.NameIdentifier, userId.ToString()),
-                new("sub", userId.ToString()),
-            };
-
             var token = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,
-                claims: claims,
+                claims:
+                [
+                    new(System.Security.Claims.ClaimTypes.NameIdentifier, userId.ToString()),
+                    new("sub", userId.ToString()),
+                ],
                 notBefore: now.UtcDateTime,
                 expires: expiration.UtcDateTime,
                 signingCredentials: credentials);
@@ -66,14 +57,6 @@ public partial class JwtService(
             return Task.FromResult<Result<string>>(
                 Result.Fail(new UnauthorizedError("Failed to generate JWT token.")));
         }
-    }
-
-    private static SymmetricSecurityKey GetSecurityKey(string secret)
-    {
-        var key = Encoding.UTF8.GetBytes(secret);
-        if (key.Length < 32)
-            key = SHA256.HashData(key);
-        return new SymmetricSecurityKey(key);
     }
 
     [LoggerMessage(Level = LogLevel.Information, Message = "JWT token generated for user {userId}")]

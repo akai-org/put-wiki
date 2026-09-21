@@ -3,6 +3,7 @@
 The server side app written in ASP.NET Core (C#).
 
 You need to install:
+
 - .NET platform (to choose right version see [notes](./README.md#Notes))
 - Docker
 
@@ -20,7 +21,8 @@ Moreover we take advantage from lightweight **Domain Driven Design**, basic **Co
 To develop locally:
 
 1. Open it as solution (.slnx) with desired IDE.
-2. 
+2.
+
 ```bash
 cd server
 dotnet tool restore
@@ -40,7 +42,10 @@ Our app provides a way to users to authenticate using USOS. It allows us to acce
 2. Copy values from `.env.example` and fill in your `UsosOAuth__ConsumerKey`, `UsosOAuth__ConsumerSecret` that we provided you and any other variables.
 
 ### JWT
-here is description of our own token used by frontend to authenticate with backend.
+
+The backend issues a JWT during the USOS callback and stores it in an HTTP-only cookie named `auth_token`.
+The cookie is attached automatically to API requests, so the token is not exposed to JavaScript.
+Token lifetime is configured through `Jwt:ExpirationMinutes` and should stay short enough for access-token use.
 
 ## Configuration
 
@@ -60,9 +65,9 @@ In backend application we utilize the following configuration sources:
 
 - **compose.prod.yml**: It injects into Docker container with backend app, variables that contain public backend settings (e.g. CallbackUrl) and are specific to `Production` environment.
 
-We store a little of configuration in compose files, due to the fact that having them in .env requires from developer to manually fill in them. Also if they were stored in **appsettings.Production.json**, updates would require creating new backend release and deployment, whereas now these changes require only deployment to reload configuration on production machine. 
+We store a little of configuration in compose files, due to the fact that having them in .env requires from developer to manually fill in them. Also if they were stored in **appsettings.Production.json**, updates would require creating new backend release and deployment, whereas now these changes require only deployment to reload configuration on production machine.
 
-Additionally there would be no difference between local development outside of Docker (`Development` environment) and previewing backend in `Development` environment inside Docker containers. 
+Additionally there would be no difference between local development outside of Docker (`Development` environment) and previewing backend in `Development` environment inside Docker containers.
 
 > [!NOTE]
 > Environments mentioned in this README refer to ASP.NET Core environments and how to develop server-side app. If you want to read about PutWiki environments, were we host it and how it is deployed, see [deployment docs](../docs/architecture/deployment.md#environments).
@@ -86,10 +91,10 @@ For more details about how to run the whole PutWiki inside Docker look [here](..
 > Running the whole PutWiki with backend in `Production` environment will use urls (e.g. CallbackUrl) that refer to domain name used to access PutWiki in Internet. It won't redirect to developer's local machine. In this case during backend testing, that should be altered manually and restored after.
 
 ## Testing
+
 We use xUnit and Fluent Assertions libraries to cover the core logic. We stick to the arrange, act, assert pattern. We highly recommend reading this: [Unit testing best practices](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices).
 
 ## Notes
 
 > [!IMPORTANT]
 > Please note that you need to have .NET platform installed to run this app locally. Download version defined in `global.json`.
-

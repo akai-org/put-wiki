@@ -141,4 +141,42 @@ public class ProvisionUserUseCaseTests
         _userRepositoryMock.Verify(x => x.Add(It.Is<User>(u => u.HashedUsosId == hashedUsosId && u.JoinedDate == fakeDate)), Times.Once);
         _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
+
+    [Fact]
+    public async Task ExecuteAsync_WhenJwtGenerationFails_ShouldReturnFailureResult()
+    {
+        // Arrange
+        var cmd = new ProvisionUserCommand("token", "verifier");
+        var rawUsosId = "998877";
+        var hashedUsosId = "HASHED_ID";
+        var usosUserDto = new UsosUserDto(rawUsosId);
+        var fakeDate = new DateTimeOffset(2026, 6, 6, 12, 0, 0, TimeSpan.Zero);
+        var jwtError = new UnauthorizedError("JWT generation failed");
+
+        _usosOAuthServiceMock
+            .Setup(x => x.HandleCallbackAndGetUserAsync(cmd.OauthToken, cmd.OauthVerifier, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Result.Ok(usosUserDto));
+
+        _idHasherMock
+            .Setup(x => x.Hash(rawUsosId))
+            .Returns(hashedUsosId);
+
+        _userRepositoryMock
+            .Setup(x => x.GetByHashedUsosIdAsync(hashedUsosId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((User?)null);
+        _jwtServiceMock
+            .Setup(x => x.GenerateTokenAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Result.Fail<string>(jwtError));
+        _fakeTimeProvider.SetUtcNow(fakeDate);
+
+        // Act
+        var result = await _sut.ExecuteAsync(cmd, CancellationToken.None);
+
+        // Assert
+        result.IsFailed.Should().BeTrue();
+        result.Errors[0].Message.Should().Be(jwtError.Message);
+
+        _userRepositoryMock.Verify(x => x.Add(It.Is<User>(u => u.HashedUsosId == hashedUsosId && u.JoinedDate == fakeDate)), Times.Once);
+        _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+    }
 }
