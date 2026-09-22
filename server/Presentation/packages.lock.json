@@ -45,19 +45,19 @@
       },
       "Scalar.AspNetCore": {
         "type": "Direct",
-        "requested": "[2.17.1, )",
-        "resolved": "2.17.1",
-        "contentHash": "7np19IKEqPi+Isbo5Ka1wdMsQedv5jUECPHq223NgKEL7eGd+z98ncZRmpYfKotU/BD07kJSpnPaXp6X0TzRKw=="
+        "requested": "[2.17.2, )",
+        "resolved": "2.17.2",
+        "contentHash": "ciW2HuRWJgNEecophHN9DvoRlTs/+8TNPhB6tQW1gmJWh/eoAIO0ys8XIxx7irUpIu3KRHZyxyuHstqqrTn1Tw=="
       },
       "Scalar.AspNetCore.Microsoft": {
         "type": "Direct",
-        "requested": "[2.17.1, )",
-        "resolved": "2.17.1",
-        "contentHash": "AM14pBDOH0SRdBTJkNyUwTu3e3qfhUOfNx6HHrWUuOeSAX3ImvJkKwtewSaVKcpsNJGTCcXAhhltAT37AI4nKQ==",
+        "requested": "[2.17.2, )",
+        "resolved": "2.17.2",
+        "contentHash": "FqYo4EFc+vOkrJBYtX+be/juod1L2PojnAClBzpLtnmLLT6Qiq+6Z7E2qVtgv63iT0v5FJWDbTm/yFjYn7vVyQ==",
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": "10.0.0",
           "Microsoft.OpenApi": "2.7.5",
-          "Scalar.AspNetCore": "2.17.1"
+          "Scalar.AspNetCore": "2.17.2"
         }
       },
       "SonarAnalyzer.CSharp": {
