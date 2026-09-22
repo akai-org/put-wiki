@@ -12,8 +12,8 @@ export default function BaseInfoCard({ ...baseInfo }: BaseInfo) {
         />
 
         <div className="flex flex-col text-primary-foreground">
-          <p className="text-2xl font-bold md:text-4xl">{baseInfo.title}</p>
-          <p className="text-xl font-bold md:text-3xl">{baseInfo.name}</p>
+          <p className="text-xl font-medium">{baseInfo.title}</p>
+          <p className="text-3xl font-bold">{baseInfo.name}</p>
           <div className="text-sm text-muted-foreground">tag: Informatyka, Kryptografia</div>
         </div>
       </CardContent>
