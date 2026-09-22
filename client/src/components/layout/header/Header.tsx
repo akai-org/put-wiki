@@ -8,7 +8,7 @@ import { ThemeToggle } from '@/components/layout/header/components/ThemeToggle';
 import { Logo } from '@/components/layout/header/components/Logo';
 
 const navLinkClassName =
-  'text-[17px] font-serif font-normal text-foreground/85 hover:text-foreground transition-colors whitespace-nowrap';
+  'text-[17px]  font-normal text-foreground/85 hover:text-foreground transition-colors whitespace-nowrap';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -28,7 +28,7 @@ export default function Header() {
             <SearchBar
               containerClassName="relative flex items-center gap-3.5 bg-muted rounded-full pl-2.5 pr-4 h-12 w-full max-w-[340px] border border-input focus-within:border-ring transition-all"
               iconWrapperClassName="bg-background w-10 h-10 rounded-full text-muted-foreground flex items-center justify-center shadow-inner flex-shrink-0"
-              inputClassName="w-full bg-transparent text-[15px] text-foreground font-serif placeholder:text-muted-foreground focus:outline-none"
+              inputClassName="w-full bg-transparent text-[15px] text-foreground  placeholder:text-muted-foreground focus:outline-none"
             />
           </div>
 
