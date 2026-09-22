@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import GlobalNotFoundPage from './-not-found';
 
-export default function GlobalErrorPage({ error, reset, info }: ErrorComponentProps) {
+export default function GlobalErrorPage({ error, info }: ErrorComponentProps) {
   useEffect(() => {
     console.error(`Stack trace: ${info}`);
   }, [info]);
