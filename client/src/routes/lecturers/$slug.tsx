@@ -23,7 +23,7 @@ function LecturerPage() {
   }
 
   return (
-    <div className="mt-4 w-full mx-auto max-w-7xl">
+    <div className="mx-auto mt-4 w-full max-w-7xl">
       <div className="grid grid-cols-1 self-stretch md:grid-cols-[7fr_3fr]">
         <BaseInfoCard {...data.baseInfo} />
         <ContactCard {...data.contactInfo} />

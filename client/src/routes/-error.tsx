@@ -23,9 +23,9 @@ export default function GlobalErrorPage({ error, info }: ErrorComponentProps) {
       </div>
 
       <button
-        className="rounded-lg bg-secondary px-2 py-1 my-2 text-xl text-secondary-foreground transition-colors hover:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-        type="button"
+        className="my-2 rounded-lg bg-secondary px-2 py-1 text-xl text-secondary-foreground transition-colors hover:bg-secondary/80 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
         onClick={() => navigate({ to: '/' })}
+        type="button"
       >
         Go back to home
       </button>
