@@ -17,14 +17,15 @@ describe('BaseInfoCard', () => {
   it('renders the lecturer title and name', () => {
     render(<BaseInfoCard {...baseInfo} />);
 
-    expect(screen.getByText(baseInfo.title)).toBeTruthy();
-    expect(screen.getByText(baseInfo.name)).toBeTruthy();
+    expect(screen.getByText(baseInfo.title)).toBeInTheDocument();
+    expect(screen.getByText(baseInfo.name)).toBeInTheDocument();
   });
 
   it('renders the lecturer photo', () => {
     render(<BaseInfoCard {...baseInfo} />);
 
-    expect(screen.getByRole('img', { name: 'lecturer face' }).getAttribute('src')).toBe(
+    expect(screen.getByRole('img', { name: 'lecturer face' })).toHaveAttribute(
+      'src',
       baseInfo.photoUrl
     );
   });

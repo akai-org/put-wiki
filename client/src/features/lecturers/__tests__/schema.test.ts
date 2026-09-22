@@ -27,15 +27,47 @@ describe('lecturerSchema', () => {
     expect(lecturerSchema.parse(lecturer)).toEqual(lecturer);
   });
 
-  it('rejects invalid lecturer contact and base information', () => {
+  it('rejects an invalid base information field', () => {
     const invalidLecturer = {
       id: 67,
       slug: 'jan-kowalski',
       baseInfo: { ...baseInfo, photoUrl: 'not-a-url' },
+      contactInfo,
+      description: 'Opis',
+    };
+
+    const result = lecturerSchema.safeParse(invalidLecturer);
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues).toContainEqual(
+        expect.objectContaining({
+          path: ['baseInfo', 'photoUrl'],
+          message: 'Invalid URL',
+        })
+      );
+    }
+  });
+
+  it('rejects an invalid contact information field', () => {
+    const invalidLecturer = {
+      id: 67,
+      slug: 'jan-kowalski',
+      baseInfo,
       contactInfo: { ...contactInfo, email: 'not-an-email' },
       description: 'Opis',
     };
 
-    expect(() => lecturerSchema.parse(invalidLecturer)).toThrow();
+    const result = lecturerSchema.safeParse(invalidLecturer);
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues).toContainEqual(
+        expect.objectContaining({
+          path: ['contactInfo', 'email'],
+          message: 'Invalid email address',
+        })
+      );
+    }
   });
 });

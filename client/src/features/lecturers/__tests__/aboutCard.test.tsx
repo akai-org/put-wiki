@@ -11,7 +11,7 @@ describe('AboutCard', () => {
   it('renders the section title', () => {
     render(<AboutCard description="Prowadzi zajęcia z programowania i baz danych." />);
 
-    expect(screen.getByText('O prowadzącym')).toBeTruthy();
+    expect(screen.getByText('O prowadzącym')).toBeInTheDocument();
   });
 
   it('renders the provided description text', () => {
@@ -19,6 +19,6 @@ describe('AboutCard', () => {
 
     render(<AboutCard description={description} />);
 
-    expect(screen.getByText(description)).toBeTruthy();
+    expect(screen.getByText(description)).toBeInTheDocument();
   });
 });
