@@ -1,22 +1,33 @@
-import { type ErrorComponentProps } from '@tanstack/react-router';
+import { type ErrorComponentProps, useNavigate } from '@tanstack/react-router';
+import axios from 'axios';
 import { useEffect } from 'react';
+import GlobalNotFoundPage from './-not-found';
 
 export default function GlobalErrorPage({ error, reset, info }: ErrorComponentProps) {
   useEffect(() => {
     console.error(`Stack trace: ${info}`);
   }, [info]);
+  const navigate = useNavigate();
+
+  if (axios.isAxiosError(error) && error.response?.status === 404) {
+    return <GlobalNotFoundPage />;
+  }
 
   return (
-    <div>
-      <h1>Ups! Coś poszło nie tak.</h1>
-      <p>Wystąpił niespodziewany błąd:</p>
-
+    <div className="flex size-full flex-col items-center justify-center p-6">
+      <h1 className="text-6xl font-bold text-destructive">
+        {'status' in error ? String(error.status) : '500'}
+      </h1>
       <div>
         <code>{error.message}</code>
       </div>
 
-      <button onClick={() => reset()} type="button">
-        Spróbuj ponownie
+      <button
+        className="rounded-lg bg-secondary px-2 py-1 my-2 text-xl text-secondary-foreground transition-colors hover:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        type="button"
+        onClick={() => navigate({ to: '/' })}
+      >
+        Go back to home
       </button>
     </div>
   );
