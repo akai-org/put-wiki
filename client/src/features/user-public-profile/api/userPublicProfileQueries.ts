@@ -6,16 +6,17 @@ import {
   UserPublicSchema,
 } from '@/features/user-public-profile/userPublicProfileSchema';
 
-async function getUserPublicProfile(slug: string): Promise<UserPublic> {
-  const response = await api.get(`/mocks/${slug}.json`);
+async function getUserPublicProfile(nickname: string): Promise<UserPublic> {
+  const response = await api.get(`/profile/${nickname}`);
+  console.log(response.data);
   return UserPublicSchema.parse(response.data);
 }
 
 const userPublicProfileQueries = {
-  bySlug: (slug: string) =>
+  bySlug: (nickname: string) =>
     queryOptions({
-      queryKey: userPublicProfileKeys.bySlug(slug),
-      queryFn: () => getUserPublicProfile(slug),
+      queryKey: userPublicProfileKeys.bySlug(nickname),
+      queryFn: () => getUserPublicProfile(nickname),
       staleTime: 1000 * 60 * 5, // 5 minutes
     }),
 };
