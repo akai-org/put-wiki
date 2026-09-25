@@ -32,7 +32,6 @@ function UserPublicProfilePage() {
   return (
     <div className="flex size-full">
       <Card className="flex size-full max-w-none flex-row gap-12">
-        <img alt="User Avatar" className="size-48 shrink-0 rounded-full" src="" />
         <div className="flex min-w-0 flex-1 flex-col">
           <CardHeader className="flex h-30 flex-1 flex-row items-start">
             <CardTitle className="text-3xl">
