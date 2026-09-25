@@ -15,8 +15,8 @@ export function useUserSession() {
     isLoading,
     isError,
 
-    login: () => {
-      loginMutation.mutate();
+    login: (returnUrl?: string) => {
+      loginMutation.mutate(returnUrl);
     },
     logout: () => {
       logoutMutation.mutate();

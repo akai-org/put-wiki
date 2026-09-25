@@ -32,7 +32,26 @@ bun run dev
 
 The app will be available at http://localhost:5173.
 
-There is no .env file at the current stage of development.
+### Mocking backend (MSW)
+
+In development mode API requests are intercepted by [MSW](https://mswjs.io) by default, so you don't need to run the backend. Handlers live in `src/tests/__mocks__/` and are shared with unit tests and Storybook.
+
+To work with the real backend instead, create `.env.local` (see `.env.example`) with `VITE_ENABLE_MOCKS=false` and run the server locally. Vite proxies `/api` requests to `http://localhost:7278`.
+
+### Authentication
+
+Users log in with USOS (OAuth 1.0a). Backend keeps the session in an httpOnly `auth_token` cookie containing JWT. The client never reads the token - it's sent automatically with every request (`withCredentials: true`).
+
+| Step             | Request                                                                           | Response                                                                     |
+| :--------------- | :-------------------------------------------------------------------------------- | :--------------------------------------------------------------------------- |
+| 1. Start login   | browser navigates to `GET /api/auth/login`                                        | `302` to USOS authorize page                                                 |
+| 2. USOS callback | USOS redirects the browser to `GET /api/auth/callback?oauth_token&oauth_verifier` | `200` + `Set-Cookie: auth_token=<JWT>; HttpOnly; SameSite=Lax; Path=/` (24h) |
+| 3. Current user  | `GET /api/user/profile`                                                           | `200 { userId, isAuthenticated, authenticationType }` or `401` (empty body)  |
+| 4. Logout (TODO) | `POST /api/auth/logout` - not implemented in backend yet                          | `204` + cookie removed                                                       |
+
+Not implemented in backend yet: redirect back to the client after callback, logout, refresh token.
+
+With mocks enabled the whole flow is simulated. Page navigation can't be intercepted by MSW, so step 1 goes to the fake USOS page (`/mock-usos`) instead. Clicking "Zezwól" there calls the mocked callback, which sets the `auth_token` cookie with a fake JWT in MSW's cookie jar (`__msw-cookie-store__` in `localStorage`).
 
 ### Docker preview
 
