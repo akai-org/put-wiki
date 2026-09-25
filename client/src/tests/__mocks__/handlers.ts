@@ -8,4 +8,14 @@ export const handlers = [
       lastName: 'Maverick',
     });
   }),
+
+  http.get<{ nickname: string }>('/profile/:nickname', ({ params }) => {
+    const { nickname } = params;
+    return HttpResponse.json({
+      nickname: nickname,
+      opinions: 10,
+      reactions: 5,
+      karma: 100,
+    });
+  }),
 ];
