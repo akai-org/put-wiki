@@ -3,6 +3,8 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import ContactCard from '../components/ContactCard';
 
+afterEach(cleanup);
+
 const contactInfo = {
   email: 'jan.kowalski+imp@put.edu.pl',
   phone: '+48 600 123 456',
@@ -13,10 +15,6 @@ const emailPattern =
   /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
 const phonePattern = /^\+[\d\s()-]+$/;
 const websitePattern = /^https?:\/\/\S+$/;
-
-afterEach(() => {
-  cleanup();
-});
 
 describe('ContactCard', () => {
   it('renders the contact section heading', () => {

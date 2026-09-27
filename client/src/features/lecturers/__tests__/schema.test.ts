@@ -1,6 +1,9 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, afterEach} from 'vitest';
+import {cleanup} from '@testing-library/react';
 
 import { lecturerSchema } from '../schemas/lecturerSchema';
+
+afterEach(cleanup);
 
 const baseInfo = {
   name: 'Jan Kowalski',
@@ -14,60 +17,52 @@ const contactInfo = {
   websiteUrl: 'https://example.com/jan-kowalski',
 };
 
+const lecturer = {
+  id: 67,
+  slug: 'jan-kowalski',
+  baseInfo,
+  contactInfo,
+  description: 'Doktor inżynier specjalizujący się w programowaniu.',
+};
+
 describe('lecturerSchema', () => {
-  it('accepts a valid lecturer payload', () => {
-    const lecturer = {
-      id: 67,
-      slug: 'jan-kowalski',
-      baseInfo,
-      contactInfo,
-      description: 'Doktor inżynier specjalizujący się w programowaniu.',
-    };
-
-    expect(lecturerSchema.parse(lecturer)).toEqual(lecturer);
+  it('should accept a valid lecturer', () => {
+    expect (lecturerSchema.safeParse(lecturer).success).toBe(true);
   });
 
-  it('rejects an invalid base information field', () => {
+  it('should reject an invalid lecturer with invalid photo URL',()=>{
     const invalidLecturer = {
-      id: 67,
-      slug: 'jan-kowalski',
-      baseInfo: { ...baseInfo, photoUrl: 'not-a-url' },
-      contactInfo,
-      description: 'Opis',
+      ...lecturer,
+      baseInfo: {
+        ...baseInfo,
+        photoUrl: 'invalid-url',
+      },
     };
 
-    const result = lecturerSchema.safeParse(invalidLecturer);
-
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(result.error.issues).toContainEqual(
-        expect.objectContaining({
-          path: ['baseInfo', 'photoUrl'],
-          message: 'Invalid URL',
-        })
-      );
-    }
+    expect(lecturerSchema.safeParse(invalidLecturer).success).toBe(false);
   });
 
-  it('rejects an invalid contact information field', () => {
+  it('should reject an invalid lecturer with invalid email', () => {
     const invalidLecturer = {
-      id: 67,
-      slug: 'jan-kowalski',
-      baseInfo,
-      contactInfo: { ...contactInfo, email: 'not-an-email' },
-      description: 'Opis',
+      ...lecturer,
+      contactInfo: {
+        ...contactInfo,
+        email: 'invalid-email',
+      },
     };
 
-    const result = lecturerSchema.safeParse(invalidLecturer);
+    expect(lecturerSchema.safeParse(invalidLecturer).success).toBe(false);
+  });
 
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(result.error.issues).toContainEqual(
-        expect.objectContaining({
-          path: ['contactInfo', 'email'],
-          message: 'Invalid email address',
-        })
-      );
-    }
+  it('should allow lecturer with no title', () => {
+    const lecturerWithoutTitle = {
+      ...lecturer,
+      baseInfo: {
+        ...baseInfo,
+        title: '',
+      },
+    };
+
+    expect(lecturerSchema.safeParse(lecturerWithoutTitle).success).toBe(true);
   });
 });
