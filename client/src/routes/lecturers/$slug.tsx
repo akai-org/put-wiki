@@ -1,26 +1,35 @@
-import ContactCard from '@/features/lecturers/components/ContactCard';
-import BaseInfoCard from '@/features/lecturers/components/BaseInfoCard';
-import { createFileRoute, useParams } from '@tanstack/react-router';
-import { AboutCard, ConsultationCard } from '@/features/lecturers';
-import { lecturerQueries } from '@/features/lecturers/api/lecturerQueries';
-import { useLecturerQuery } from '@/features/lecturers/api/useLecturerQuery';
-import LecturersCoursesCard from '@/features/lecturers/components/LecturersCoursesCard';
+import { createFileRoute, useParams, notFound } from '@tanstack/react-router';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import axios from 'axios';
+
+import {
+  ContactCard,
+  BaseInfoCard,
+  AboutCard,
+  ConsultationCard,
+  LecturersCoursesCard,
+  lecturerQueries,
+} from '@/features/lecturers';
 
 export const Route = createFileRoute('/lecturers/$slug')({
   component: LecturerPage,
   pendingComponent: LecturerPageSkeleton,
-  loader: ({ context: { queryClient }, params: { slug } }) => {
-    return queryClient.ensureQueryData(lecturerQueries.bySlug(slug));
+  loader: async ({ context: { queryClient }, params: { slug } }) => {
+    try {
+      await queryClient.ensureQueryData(lecturerQueries.bySlug(slug));
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        throw notFound();
+      }
+
+      throw error;
+    }
   },
 });
 
 function LecturerPage() {
   const { slug } = useParams({ from: '/lecturers/$slug' });
-  const { data } = useLecturerQuery(slug);
-
-  if (!data) {
-    return null;
-  }
+  const { data } = useSuspenseQuery(lecturerQueries.bySlug(slug));
 
   return (
     <div className="mx-auto mt-4 w-full max-w-7xl">

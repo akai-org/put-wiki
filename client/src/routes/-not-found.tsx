@@ -1,5 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
 import notFoundImage from '@/assets/graphics/cats/sadCats.svg';
+import { Button } from '@/components/ui/Button';
 
 export default function GlobalNotFoundPage() {
   const navigate = useNavigate();
@@ -12,13 +13,10 @@ export default function GlobalNotFoundPage() {
         className="size-1/3 p-2"
         src={notFoundImage}
       />
-      <button
-        className="my-2 rounded-lg bg-secondary px-2 py-1 text-xl text-secondary-foreground transition-colors hover:bg-secondary/80 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
-        onClick={() => navigate({ to: '/' })}
-        type="button"
-      >
+
+      <Button  variant="secondary" onClick={() => navigate({ to: '/' })}>
         Go back to home
-      </button>
+      </Button>
     </div>
   );
 }
