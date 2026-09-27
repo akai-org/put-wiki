@@ -5,7 +5,7 @@ import { lecturerSchema, type Lecturer } from '@/features/lecturers/schemas/lect
 import { lecturerQueryKeys } from './queryKeys';
 
 async function getLecturer(slug: string): Promise<Lecturer> {
-  const response = await api.get(`/mocks/${slug}.json`);
+  const response = await api.get(`/lecturers/${slug}`);
   return lecturerSchema.parse(response.data);
 }
 
