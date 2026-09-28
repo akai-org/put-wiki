@@ -12,5 +12,5 @@ export {
   AboutCard,
   ConsultationCard,
   LecturersCoursesCard,
-  lecturerQueries
+  lecturerQueries,
 };

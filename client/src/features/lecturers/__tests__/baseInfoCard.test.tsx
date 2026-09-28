@@ -23,13 +23,10 @@ describe('BaseInfoCard', () => {
     render(<BaseInfoCard {...baseInfo} />);
 
     expect(screen.getByRole('img')).toBeInTheDocument();
-    expect(screen.getByRole('img')).toHaveAttribute(
-      'src',
-      baseInfo.photoUrl
-    );
+    expect(screen.getByRole('img')).toHaveAttribute('src', baseInfo.photoUrl);
   });
 
-  it('should ensure the photo has an alt attribute',()=>{
+  it('should ensure the photo has an alt attribute', () => {
     render(<BaseInfoCard {...baseInfo} />);
     expect(screen.getByRole('img')).toSatisfy((img: HTMLImageElement) => img.alt !== '');
   });

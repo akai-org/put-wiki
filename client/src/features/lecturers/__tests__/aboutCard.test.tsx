@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 import AboutCard from '../components/AboutCard';
 
-const description="Prowadzi zajęcia z programowania i baz danych."
+const description = 'Prowadzi zajęcia z programowania i baz danych.';
 
 describe('AboutCard', () => {
   it('should render the provided description text', () => {

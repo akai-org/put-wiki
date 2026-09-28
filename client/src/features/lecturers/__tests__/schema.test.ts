@@ -1,5 +1,5 @@
-import { describe, expect, it, afterEach} from 'vitest';
-import {cleanup} from '@testing-library/react';
+import { describe, expect, it, afterEach } from 'vitest';
+import { cleanup } from '@testing-library/react';
 
 import { lecturerSchema } from '../schemas/lecturerSchema';
 
@@ -27,10 +27,10 @@ const lecturer = {
 
 describe('lecturerSchema', () => {
   it('should accept a valid lecturer', () => {
-    expect (lecturerSchema.safeParse(lecturer).success).toBe(true);
+    expect(lecturerSchema.safeParse(lecturer).success).toBe(true);
   });
 
-  it('should reject an invalid lecturer with invalid photo URL',()=>{
+  it('should reject an invalid lecturer with invalid photo URL', () => {
     const invalidLecturer = {
       ...lecturer,
       baseInfo: {

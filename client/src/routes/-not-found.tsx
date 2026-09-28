@@ -14,7 +14,7 @@ export default function GlobalNotFoundPage() {
         src={notFoundImage}
       />
 
-      <Button  onClick={() => navigate({ to: '/' })} variant="secondary">
+      <Button onClick={() => navigate({ to: '/' })} variant="secondary">
         Go back to home
       </Button>
     </div>
