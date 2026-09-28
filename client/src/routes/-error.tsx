@@ -17,7 +17,7 @@ export default function GlobalErrorPage({ error, info }: ErrorComponentProps) {
         <code>{error.message}</code>
       </div>
 
-      <Button  variant="secondary" onClick={() => navigate({ to: '/' })}>
+      <Button  onClick={() => navigate({ to: '/' })} variant="secondary">
         Go back to home
       </Button>
     </div>

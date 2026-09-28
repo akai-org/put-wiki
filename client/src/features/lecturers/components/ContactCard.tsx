@@ -8,18 +8,18 @@ export default function ContactCard({ ...contactInfo }: ContactInfo) {
         <CardTitle>Kontakt</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="break-words">
+        <p className="wrap-break-word">
           E-mail:{' '}
-          <a className="break-words" href={`mailto:${contactInfo.email}`}>
+          <a className="wrap-break-word" href={`mailto:${contactInfo.email}`}>
             {contactInfo.email}
           </a>
         </p>
         <p>
           Tel: <a href={`tel:${contactInfo.phone}`}>{contactInfo.phone}</a>
         </p>
-        <p className="break-words">
+        <p className="wrap-break-word">
           Strona internetowa:{' '}
-          <a className="break-words" href={`${contactInfo.websiteUrl}`}>
+          <a className="wrap-break-word" href={`${contactInfo.websiteUrl}`}>
             {contactInfo.websiteUrl}
           </a>
         </p>
