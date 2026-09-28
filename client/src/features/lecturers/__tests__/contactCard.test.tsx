@@ -11,30 +11,35 @@ const contactInfo = {
   websiteUrl: 'https://example.com/jan-kowalski',
 };
 
-const emailPattern =
-  /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
-const phonePattern = /^\+[\d\s()-]+$/;
-const websitePattern = /^https?:\/\/\S+$/;
-
 describe('ContactCard', () => {
-  it('renders the contact section heading', () => {
+  it('should render the contact heading', () => {
     render(<ContactCard {...contactInfo} />);
 
-    expect(screen.getByText('Kontakt')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Kontakt' })).toBeInTheDocument();
   });
 
-  it('renders email, phone and website links with the correct href values', () => {
+  it('should render the email link', () => {
     render(<ContactCard {...contactInfo} />);
 
-    expect(screen.getByRole('link', { name: emailPattern })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: contactInfo.email })).toHaveAttribute(
       'href',
       `mailto:${contactInfo.email}`
     );
-    expect(screen.getByRole('link', { name: phonePattern })).toHaveAttribute(
+  });
+
+  it('should render the phone link', () => {
+    render(<ContactCard {...contactInfo} />);
+
+    expect(screen.getByRole('link', { name: contactInfo.phone })).toHaveAttribute(
       'href',
       `tel:${contactInfo.phone}`
     );
-    expect(screen.getByRole('link', { name: websitePattern })).toHaveAttribute(
+  });
+
+  it('should render the website link', () => {
+    render(<ContactCard {...contactInfo} />);
+
+    expect(screen.getByRole('link', { name: contactInfo.websiteUrl })).toHaveAttribute(
       'href',
       contactInfo.websiteUrl
     );
