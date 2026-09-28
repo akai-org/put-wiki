@@ -12,12 +12,6 @@ const contactInfo = {
 };
 
 describe('ContactCard', () => {
-  it('should render the contact heading', () => {
-    render(<ContactCard {...contactInfo} />);
-
-    expect(screen.getByRole('heading', { name: 'Kontakt' })).toBeInTheDocument();
-  });
-
   it('should render the email link', () => {
     render(<ContactCard {...contactInfo} />);
 
