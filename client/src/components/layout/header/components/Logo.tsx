@@ -11,9 +11,7 @@ export function Logo({ size }: { size: 'desktop' | 'mobile' }) {
       to="/"
     >
       <Globe aria-hidden="true" className={isDesktop ? 'size-8' : 'size-6'} strokeWidth={2.25} />
-      <span
-        className={`font-serif leading-none tracking-tight ${isDesktop ? 'text-3xl' : 'text-2xl'}`}
-      >
+      <span className={` leading-none tracking-tight ${isDesktop ? 'text-3xl' : 'text-2xl'}`}>
         <span className="font-black">PUT</span>
         <span className="font-normal">wiki</span>
       </span>
