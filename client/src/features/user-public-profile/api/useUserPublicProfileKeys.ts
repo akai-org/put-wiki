@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { userPublicProfileQueries } from '@/features/user-public-profile/api/userPublicProfileQueries';
+import { userPublicProfileQueries } from './userPublicProfileQueries';
 
 export function useUserPublicProfileQuery(slug: string) {
   return useQuery(userPublicProfileQueries.bySlug(slug));

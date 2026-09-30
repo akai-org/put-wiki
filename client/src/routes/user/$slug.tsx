@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { userPublicProfileQueries } from '@/features/user-public-profile/api/userPublicProfileQueries';
 import { useUserPublicProfileQuery } from '@/features/user-public-profile/api/useUserPublicProfileKeys';
 
-export const Route = createFileRoute('/user-public-profiles/$slug')({
+export const Route = createFileRoute('/user/$slug')({
   component: UserPublicProfilePage,
   loader: ({ context: { queryClient }, params: { slug } }) => {
     return queryClient.ensureQueryData(userPublicProfileQueries.bySlug(slug));
@@ -12,7 +12,7 @@ export const Route = createFileRoute('/user-public-profiles/$slug')({
 });
 
 function UserPublicProfilePage() {
-  const { slug } = useParams({ from: '/user-public-profiles/$slug' });
+  const { slug } = useParams({ from: '/user/$slug' });
   const { data, isLoading, isError } = useUserPublicProfileQuery(slug);
 
   if (isLoading) {
