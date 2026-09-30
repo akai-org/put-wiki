@@ -37,7 +37,7 @@ function UserPublicProfilePage() {
             <CardTitle className="text-3xl">
               <h1>{data.nickname}</h1>
             </CardTitle>
-            <Button className="ml-auto bg-red-500 hover:bg-red-600" type="button">
+            <Button className=" ml-auto" type="button" variant="destructive">
               Zgłoś użytkownika
             </Button>
           </CardHeader>
