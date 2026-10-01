@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw';
+import { lecturersHandlers } from './lecturersHandlers';
 
 export const handlers = [
   http.get('https://api.example.com/user-test', () => {
@@ -20,4 +21,5 @@ export const handlers = [
       karma: 100,
     });
   }),
+  ...lecturersHandlers,
 ];

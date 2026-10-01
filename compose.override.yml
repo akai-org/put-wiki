@@ -1,4 +1,4 @@
-﻿services:
+services:
   database:
     ports:
       - "5433:5432"
@@ -9,7 +9,7 @@
       - UsosOAuth__CallbackUrl=http://localhost:8080/api/auth/callback
 
   pgadmin:
-    image: dpage/pgadmin4:9.15.0
+    image: dpage/pgadmin4:9.17
     container_name: pgadmin
     restart: always
     environment:

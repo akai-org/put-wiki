@@ -14,14 +14,14 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
       >
         <SheetTitle className="sr-only">Menu nawigacyjne</SheetTitle>
 
-        <div className="flex items-center justify-between gap-4 border-b border-border pb-4 font-serif">
+        <div className="flex items-center justify-between gap-4 border-b border-border pb-4 ">
           <ThemeToggle />
           <div className="flex-1">
             <AuthAction onAction={onClose} variant="mobile" />
           </div>
         </div>
 
-        <nav aria-label="Główna nawigacja" className="flex flex-col gap-4 font-serif">
+        <nav aria-label="Główna nawigacja" className="flex flex-col gap-4 ">
           <Link
             className="text-lg text-foreground/85 transition-colors hover:text-foreground"
             onClick={onClose}

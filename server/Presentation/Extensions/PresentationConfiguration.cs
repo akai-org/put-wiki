@@ -1,10 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text.Json;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi;
+
+using Presentation.Transformers;
 
 using Scalar.AspNetCore;
 
@@ -82,9 +86,18 @@ public static class PresentationConfiguration
         return app;
     }
 
-    public static IServiceCollection AddWebServices(this IServiceCollection services)
+    public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
-        services.AddControllers();
+        services.AddControllers(opts =>
+                opts.Conventions.Add(
+                    new RouteTokenTransformerConvention(
+                        new ToKebabParameterTransformer()
+                    )
+                ))
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            });
 
         services.AddProblemDetails(options =>
         {

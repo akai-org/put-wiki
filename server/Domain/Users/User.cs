@@ -4,17 +4,24 @@ namespace Domain.Users;
 
 public class User
 {
-    public Guid Id { get; private set; }
-    public string HashedUsosId { get; private set; }
-    public DateTimeOffset JoinedDate { get; init; }
+    public required Guid Id { get; init; }
+    public required string HashedUsosId { get; init; }
+    public required DateTimeOffset JoinedDate { get; init; }
 
-    public User(string hashedUsosId, DateTimeOffset joinedDate)
+    private User() { }
+
+    public static User Create(string hashedUsosId, DateTimeOffset joinedDate)
     {
         if (string.IsNullOrWhiteSpace(hashedUsosId))
             throw new ArgumentException("Hashed USOS ID cannot be empty.");
 
-        Id = Guid.CreateVersion7();
-        HashedUsosId = hashedUsosId;
-        JoinedDate = joinedDate;
+        var user = new User()
+        {
+            Id = Guid.CreateVersion7(),
+            HashedUsosId = hashedUsosId,
+            JoinedDate = joinedDate
+        };
+
+        return user;
     }
 }

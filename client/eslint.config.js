@@ -16,7 +16,7 @@ import eslintPluginTailwindcss from 'eslint-plugin-tailwindcss';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
-  globalIgnores(['dist', 'coverage', '**/*.gen.ts', 'public']),
+  globalIgnores(['dist/**', 'coverage/**', '**/*.gen.ts', 'public/**']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -152,9 +152,7 @@ export default defineConfig([
         'error',
         {
           zones: [
-            // disables cross-feature imports:
-            // e.g. src/features/courses should not import from src/features/degree-courses, etc.
-            // eg. src/features/discussions should not import from src/features/comments, etc.
+            // disables cross-feature imports
             {
               target: './src/features/auth',
               from: './src/features',
@@ -170,9 +168,15 @@ export default defineConfig([
               from: './src/features',
               except: ['./degree-courses'],
             },
+            {
+              target: `./src/features/lectures`,
+              from: './src/features',
+              except: ['./lectures'],
+            },
           ],
         },
       ],
+      'react-refresh/only-export-components': ['warn', { allowExportNames: ['Route'] }],
     },
   },
   eslintConfigPrettier, //should be last

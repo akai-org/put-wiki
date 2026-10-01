@@ -19,9 +19,4 @@ public class UserRepository(AppDbContext context) : IUserRepository
     {
         context.Users.Add(user);
     }
-
-    public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        return context.SaveChangesAsync(cancellationToken);
-    }
 }
