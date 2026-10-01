@@ -2,14 +2,6 @@ import { http, HttpResponse } from 'msw';
 import { lecturersHandlers } from './lecturersHandlers';
 
 export const handlers = [
-  http.get('https://api.example.com/user-test', () => {
-    return HttpResponse.json({
-      id: 'abc-123',
-      firstName: 'John',
-      lastName: 'Maverick',
-    });
-  }),
-
   http.get<{ nickname: string }>('/user/:nickname', ({ params }) => {
     const { nickname } = params;
     return HttpResponse.json({
