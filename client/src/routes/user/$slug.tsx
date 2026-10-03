@@ -8,6 +8,11 @@ export const Route = createFileRoute('/user/$slug')({
   component: UserPublicProfilePage,
   loader: ({ context: { queryClient }, params: { slug } }) => {
     return queryClient.ensureQueryData(userPublicProfileQueries.bySlug(slug));
+    /* return queryClient.query({  // i know this is deprecated but untill we don't have tanstack-query v6 it should stay like this. After v6 change function to .queries
+      queryKey: 
+      ...userPublicProfileQueries.bySlug(slug),
+      staleTime: 'static',
+    }); */
   },
 });
 
