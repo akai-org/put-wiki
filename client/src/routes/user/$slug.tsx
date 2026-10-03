@@ -13,16 +13,10 @@ export const Route = createFileRoute('/user/$slug')({
 
 function UserPublicProfilePage() {
   const { slug } = useParams({ from: '/user/$slug' });
-  const { data, isLoading, isError } = useUserPublicProfileQuery(slug);
-
+  const { data, isLoading } = useUserPublicProfileQuery(slug);
+  const { nickname, karma, opinions, reactions } = data || {};
   if (isLoading) {
     return <div className="flex items-center justify-center text-7xl text-black">Ładowanie...</div>;
-  }
-  if (isError) {
-    //maybe add toast about error here
-    return (
-      <div className="flex items-center justify-center text-7xl text-black">Wystąpił błąd</div>
-    );
   }
   if (!data)
     return (
@@ -35,7 +29,7 @@ function UserPublicProfilePage() {
         <div className="flex min-w-0 flex-1 flex-col">
           <CardHeader className="flex h-30 flex-1 flex-row items-start">
             <CardTitle className="text-3xl">
-              <h1>{data.nickname}</h1>
+              <h1>{nickname}</h1>
             </CardTitle>
             <Button className=" ml-auto" type="button" variant="destructive">
               Zgłoś użytkownika
@@ -45,15 +39,15 @@ function UserPublicProfilePage() {
           <CardContent className="flex flex-1 flex-row gap-8">
             <div className="flex flex-col items-center gap-2 text-center">
               <h2>Karma</h2>
-              <p className="text-2xl font-bold">{data.karma}</p>
+              <p className="text-2xl font-bold">{karma}</p>
             </div>
             <div className="flex flex-col items-center gap-2 text-center">
               <h2>Komentarze</h2>
-              <p className="text-2xl font-bold">{data.opinions}</p>
+              <p className="text-2xl font-bold">{opinions}</p>
             </div>
             <div className="flex flex-col items-center gap-2 text-center">
               <h2>Reakcje</h2>
-              <p className="text-2xl font-bold">{data.reactions}</p>
+              <p className="text-2xl font-bold">{reactions}</p>
             </div>
           </CardContent>
         </div>
