@@ -1,9 +1,9 @@
 import { createFileRoute, useParams } from '@tanstack/react-router';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { Skeleton } from '@/components/ui/Skeleton';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { userPublicProfileQueries } from '@/features/user-public-profile/api/userPublicProfileQueries';
-import { useUserPublicProfileQuery } from '@/features/user-public-profile/api/useUserPublicProfileKeys';
-import { Skeleton } from '@/components/ui/skeleton';
 
 export const Route = createFileRoute('/user/$slug')({
   component: UserPublicProfilePage,
@@ -20,7 +20,7 @@ export const Route = createFileRoute('/user/$slug')({
 
 function UserPublicProfilePage() {
   const { slug } = useParams({ from: '/user/$slug' });
-  const { data } = useUserPublicProfileQuery(slug);
+  const { data } = useSuspenseQuery(userPublicProfileQueries.bySlug(slug));
   const { nickname, karma, opinions, reactions } = data || {};
 
   return (
