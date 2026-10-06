@@ -5,7 +5,7 @@ import { Skeleton } from '@/components/ui/Skeleton';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { userPublicProfileQueries } from '@/features/user-public-profile/api/userPublicProfileQueries';
 
-export const Route = createFileRoute('/user/$slug')({
+export const Route = createFileRoute('/profiles/$slug')({
   component: UserPublicProfilePage,
   pendingComponent: UserPublicProfilePageSkeleton,
   loader: ({ context: { queryClient }, params: { slug } }) => {
@@ -19,7 +19,7 @@ export const Route = createFileRoute('/user/$slug')({
 });
 
 function UserPublicProfilePage() {
-  const { slug } = useParams({ from: '/user/$slug' });
+  const { slug } = useParams({ from: '/profiles/$slug' });
   const { data } = useSuspenseQuery(userPublicProfileQueries.bySlug(slug));
   const { nickname, karma, opinions, reactions } = data || {};
 

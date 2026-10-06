@@ -13,7 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CoursesSlugRouteImport } from './routes/courses/$slug'
 import { Route as DegreeCoursesSlugRouteImport } from './routes/degree-courses/$slug'
 import { Route as LecturersSlugRouteImport } from './routes/lecturers/$slug'
-import { Route as UserSlugRouteImport } from './routes/user/$slug'
+import { Route as ProfilesSlugRouteImport } from './routes/profiles/$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -35,9 +35,9 @@ const LecturersSlugRoute = LecturersSlugRouteImport.update({
   path: '/lecturers/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const UserSlugRoute = UserSlugRouteImport.update({
-  id: '/user/$slug',
-  path: '/user/$slug',
+const ProfilesSlugRoute = ProfilesSlugRouteImport.update({
+  id: '/profiles/$slug',
+  path: '/profiles/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -46,14 +46,14 @@ export interface FileRoutesByFullPath {
   '/courses/$slug': typeof CoursesSlugRoute
   '/degree-courses/$slug': typeof DegreeCoursesSlugRoute
   '/lecturers/$slug': typeof LecturersSlugRoute
-  '/user/$slug': typeof UserSlugRoute
+  '/profiles/$slug': typeof ProfilesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/degree-courses/$slug': typeof DegreeCoursesSlugRoute
   '/lecturers/$slug': typeof LecturersSlugRoute
-  '/user/$slug': typeof UserSlugRoute
+  '/profiles/$slug': typeof ProfilesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -61,7 +61,7 @@ export interface FileRoutesById {
   '/courses/$slug': typeof CoursesSlugRoute
   '/degree-courses/$slug': typeof DegreeCoursesSlugRoute
   '/lecturers/$slug': typeof LecturersSlugRoute
-  '/user/$slug': typeof UserSlugRoute
+  '/profiles/$slug': typeof ProfilesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -70,21 +70,21 @@ export interface FileRouteTypes {
     | '/courses/$slug'
     | '/degree-courses/$slug'
     | '/lecturers/$slug'
-    | '/user/$slug'
+    | '/profiles/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/courses/$slug'
     | '/degree-courses/$slug'
     | '/lecturers/$slug'
-    | '/user/$slug'
+    | '/profiles/$slug'
   id:
     | '__root__'
     | '/'
     | '/courses/$slug'
     | '/degree-courses/$slug'
     | '/lecturers/$slug'
-    | '/user/$slug'
+    | '/profiles/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -92,7 +92,7 @@ export interface RootRouteChildren {
   CoursesSlugRoute: typeof CoursesSlugRoute
   DegreeCoursesSlugRoute: typeof DegreeCoursesSlugRoute
   LecturersSlugRoute: typeof LecturersSlugRoute
-  UserSlugRoute: typeof UserSlugRoute
+  ProfilesSlugRoute: typeof ProfilesSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -125,11 +125,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LecturersSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/user/$slug': {
-      id: '/user/$slug'
-      path: '/user/$slug'
-      fullPath: '/user/$slug'
-      preLoaderRoute: typeof UserSlugRouteImport
+    '/profiles/$slug': {
+      id: '/profiles/$slug'
+      path: '/profiles/$slug'
+      fullPath: '/profiles/$slug'
+      preLoaderRoute: typeof ProfilesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -140,7 +140,7 @@ const rootRouteChildren: RootRouteChildren = {
   CoursesSlugRoute: CoursesSlugRoute,
   DegreeCoursesSlugRoute: DegreeCoursesSlugRoute,
   LecturersSlugRoute: LecturersSlugRoute,
-  UserSlugRoute: UserSlugRoute,
+  ProfilesSlugRoute: ProfilesSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
