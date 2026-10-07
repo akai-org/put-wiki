@@ -1,11 +1,9 @@
 using System;
-using System.Text.RegularExpressions;
 
 using FluentResults;
-
 namespace Domain.Users;
 
-public class User
+public partial class User
 {
     public const int MinNicknameLength = 3;
     public const int MaxNicknameLength = 30;
@@ -13,7 +11,7 @@ public class User
     public required Guid Id { get; init; }
     public required string HashedUsosId { get; init; }
     public required DateTimeOffset JoinedDate { get; init; }
-    public string? Nickname { get; private set; }
+    public Nickname? Nickname { get; private set; }
 
     public static User Create(string hashedUsosId, DateTimeOffset joinedDate)
     {
@@ -35,16 +33,11 @@ public class User
 
     public Result UpdateNickname(string nickname)
     {
-        var result = Users.Nickname.Create(nickname);
+        var result = Nickname.Create(nickname);
         if (result.IsFailed)
             return Result.Fail(result.Errors);
 
         Nickname = result.Value;
         return Result.Ok();
     }
-
-    // Letters (Unicode) and digits at start/end; letters, digits, spaces, hyphens, underscores in the middle.
-    // No consecutive spaces.
-    [GeneratedRegex(@"^[\p{L}\p{N}]([\p{L}\p{N}_-]| (?! ))*[\p{L}\p{N}]$")]
-    private static partial Regex NicknameFormatRegex();
 }

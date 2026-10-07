@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Application.Errors;
+using Application.Interfaces;
 
 using Domain.Users;
 
@@ -14,7 +15,8 @@ namespace Application.Features.Users.Commands.UpdateNickname;
 
 public partial class UpdateNicknameUseCase(
     IUserRepository userRepository,
-    ILogger<UpdateNicknameUseCase> logger)
+    ILogger<UpdateNicknameUseCase> logger,
+    IUnitOfWork unitOfWork)
 {
 
     public async Task<Result> ExecuteAsync(UpdateNicknameCommand cmd,
@@ -47,7 +49,7 @@ public partial class UpdateNicknameUseCase(
             }
         }
 
-        await userRepository.SaveChangesAsync(ct);
+        await unitOfWork.SaveChangesAsync(ct);
 
         LogNicknameUpdated(cmd.UserId, user.Nickname!.Value);
 

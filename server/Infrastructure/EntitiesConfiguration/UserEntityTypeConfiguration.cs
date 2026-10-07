@@ -23,6 +23,6 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasIndex(x => x.Nickname)
             .IsUnique()
-            .HasFilter("\"Nickname\" IS NOT NULL");
+            .HasFilter("\"nickname\" IS NOT NULL");
     }
 }
