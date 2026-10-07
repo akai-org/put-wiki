@@ -1,5 +1,6 @@
-﻿using Application.Features.AcademicTeachers.Queries;
+using Application.Features.AcademicTeachers.Queries;
 using Application.Features.Users.Commands.ProvisionUser;
+using Application.Features.Users.Commands.UpdateNickname;
 using Application.Mappings;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ public static class ApplicationConfiguration
 
         services.AddScoped<ProvisionUserCommandHandler>();
         services.AddScoped<GetAcademicTeacherQueryHandler>();
+        services.AddScoped<UpdateNicknameUseCase>();
 
         return services;
     }
