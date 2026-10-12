@@ -1,4 +1,4 @@
 export const userPublicProfileKeys = {
   all: ['userPublicProfiles'] as const,
-  bySlug: (slug: string) => [...userPublicProfileKeys.all, slug] as const,
+  bySlug: (nicknameSlug: string) => [...userPublicProfileKeys.all, nicknameSlug] as const,
 };

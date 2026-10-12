@@ -3,24 +3,21 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { userPublicProfileQueries } from '@/features/user-public-profile/api/userPublicProfileQueries';
+import { userPublicProfileQueries } from '@/features/user-public-profile';
 
 export const Route = createFileRoute('/profiles/$slug')({
   component: UserPublicProfilePage,
   pendingComponent: UserPublicProfilePageSkeleton,
-  loader: ({ context: { queryClient }, params: { slug } }) => {
-    return queryClient.ensureQueryData(userPublicProfileQueries.bySlug(slug));
-    /* return queryClient.query({  // i know this is deprecated but untill we don't have tanstack-query v6 it should stay like this. After v6 change function to .queries
-      queryKey: 
-      ...userPublicProfileQueries.bySlug(slug),
-      staleTime: 'static',
-    }); */
+  loader: ({ context: { queryClient }, params: { slug: nicknameSlug } }) => {
+    return queryClient.query({
+      ...userPublicProfileQueries.bySlug(nicknameSlug),
+    });
   },
 });
 
 function UserPublicProfilePage() {
-  const { slug } = useParams({ from: '/profiles/$slug' });
-  const { data } = useSuspenseQuery(userPublicProfileQueries.bySlug(slug));
+  const { slug: nicknameSlug } = useParams({ from: '/profiles/$slug' });
+  const { data } = useSuspenseQuery(userPublicProfileQueries.bySlug(nicknameSlug));
   const { nickname, karma, opinions, reactions } = data || {};
 
   return (

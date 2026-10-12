@@ -10,10 +10,9 @@ export const handlers = [
     });
   }),
 
-  http.get<{ nickname: string }>('/user/:nickname', ({ params }) => {
-    const { nickname } = params;
+  http.get<{ nicknameSlug: string }>('*/profiles/:nicknameSlug', () => {
     return HttpResponse.json({
-      nickname: nickname,
+      nickname: 'Lolek',
       joinedDate: '2022-01-01',
       userStatus: 'Active',
       opinions: 10,
