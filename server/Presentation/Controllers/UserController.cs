@@ -19,7 +19,7 @@ public class UserController(
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
-    async Task<IActionResult> UpdateNickname(
+    public async Task<IActionResult> UpdateNickname(
         Guid userId,
         [FromBody] UpdateNicknameRequest request,
         CancellationToken ct)
@@ -31,4 +31,4 @@ public class UserController(
     }
 }
 
-sealed record UpdateNicknameRequest(string Nickname);
+public sealed record UpdateNicknameRequest(string Nickname);

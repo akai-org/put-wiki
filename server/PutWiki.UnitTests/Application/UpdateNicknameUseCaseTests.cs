@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using Application.Errors;
 using Application.Features.Users.Commands.UpdateNickname;
+using Application.Interfaces;
 
 using Domain.Users;
 
@@ -20,15 +21,18 @@ namespace PutWiki.UnitTests.Application;
 public class UpdateNicknameUseCaseTests
 {
     private readonly Mock<IUserRepository> _userRepositoryMock;
+    private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly UpdateNicknameUseCase _sut;
 
     public UpdateNicknameUseCaseTests()
     {
         _userRepositoryMock = new Mock<IUserRepository>();
+        _unitOfWorkMock = new Mock<IUnitOfWork>();
 
         _sut = new UpdateNicknameUseCase(
             _userRepositoryMock.Object,
-            NullLogger<UpdateNicknameUseCase>.Instance
+            NullLogger<UpdateNicknameUseCase>.Instance,
+            _unitOfWorkMock.Object
         );
     }
 
@@ -36,7 +40,7 @@ public class UpdateNicknameUseCaseTests
     public async Task ExecuteAsync_WithValidAndUniqueNickname_ShouldSucceed()
     {
         // Arrange
-        var user = new User("hashed_id", DateTimeOffset.UtcNow);
+        var user = User.Create("hashed_id", DateTimeOffset.UtcNow);
         var cmd = new UpdateNicknameCommand(user.Id, "ValidNick");
 
         _userRepositoryMock
@@ -53,7 +57,7 @@ public class UpdateNicknameUseCaseTests
         // Assert
         result.IsSuccess.Should().BeTrue();
         user.Nickname!.Value.Should().Be("ValidNick");
-        _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -73,14 +77,14 @@ public class UpdateNicknameUseCaseTests
         // Assert
         result.IsFailed.Should().BeTrue();
         result.Errors.Should().ContainSingle().Which.Should().BeOfType<NotFoundError>();
-        _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _unitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
     public async Task ExecuteAsync_WithInvalidNickname_ShouldReturnValidationError()
     {
         // Arrange
-        var user = new User("hashed_id", DateTimeOffset.UtcNow);
+        var user = User.Create("hashed_id", DateTimeOffset.UtcNow);
         var cmd = new UpdateNicknameCommand(user.Id, "ab");
 
         _userRepositoryMock
@@ -95,14 +99,14 @@ public class UpdateNicknameUseCaseTests
         result.Errors.Should().ContainSingle().Which.Should().BeOfType<ValidationError>();
 
         _userRepositoryMock.Verify(x => x.ExistsWithNicknameAsync(It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Never);
-        _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _unitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
     public async Task ExecuteAsync_WhenNicknameAlreadyTaken_ShouldReturnConflictError()
     {
         // Arrange
-        var user = new User("hashed_id", DateTimeOffset.UtcNow);
+        var user = User.Create("hashed_id", DateTimeOffset.UtcNow);
         var cmd = new UpdateNicknameCommand(user.Id, "TakenNick");
 
         _userRepositoryMock
@@ -119,14 +123,14 @@ public class UpdateNicknameUseCaseTests
         // Assert
         result.IsFailed.Should().BeTrue();
         result.Errors.Should().ContainSingle().Which.Should().BeOfType<ConflictError>();
-        _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _unitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
     public async Task ExecuteAsync_WhenUpdatingToSameNickname_ShouldSucceed()
     {
         // Arrange
-        var user = new User("hashed_id", DateTimeOffset.UtcNow);
+        var user = User.Create("hashed_id", DateTimeOffset.UtcNow);
         user.UpdateNickname("MyNick");
         var cmd = new UpdateNicknameCommand(user.Id, "MyNick");
 
@@ -134,12 +138,11 @@ public class UpdateNicknameUseCaseTests
             .Setup(x => x.GetByIdAsync(user.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(user);
 
-
         // Act
         var result = await _sut.ExecuteAsync(cmd, CancellationToken.None);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
-        _userRepositoryMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _unitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 }
