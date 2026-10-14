@@ -1,5 +1,5 @@
 import { Header } from '@/components/layout/header';
-import { Onboarding } from '@/components/layout/onboarding/Onboarding';
+import { Onboarding } from '@/features/onboarding';
 import React from 'react';
 
 interface MainLayoutProps {
