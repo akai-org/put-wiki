@@ -37,7 +37,7 @@ function CoursePage() {
             <h2>{data.description.pl}</h2>
           </section>
           <section className="col-span-1 min-h-40 rounded-md bg-gray-200 p-6 ">
-            <h2>Spis treści</h2>
+            <h2>Spis treści!</h2>
           </section>
           <section className="col-span-2 flex min-h-40 items-center justify-center rounded-md bg-gray-200 p-6">
             <ul className="list-disc pl-5">
