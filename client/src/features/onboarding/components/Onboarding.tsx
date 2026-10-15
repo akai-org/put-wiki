@@ -27,9 +27,9 @@ export function Onboarding() {
   return (
     <Dialog onOpenChange={handleOpenChange} open={isOpen}>
       <DialogContent
+        className="flex w-full max-w-[95%] flex-col justify-between rounded-3xl border-0 bg-card p-6 shadow-2xl sm:max-w-sm md:max-w-lg md:rounded-xl md:border md:p-8 md:shadow-none"
         onEscapeKeyDown={(e) => e.preventDefault()}
         onInteractOutside={(e) => e.preventDefault()}
-        className="flex w-full max-w-[95%] sm:max-w-sm flex-col justify-between rounded-3xl border-0 bg-card p-6 shadow-2xl md:max-w-lg md:rounded-xl md:border md:shadow-none md:p-8"
       >
         <DialogHeader className="flex-1 items-center justify-center text-center">
           <div className="mb-6 flex h-48 w-full items-center justify-center md:h-64">
@@ -44,9 +44,15 @@ export function Onboarding() {
             {step.title}
           </DialogTitle>
 
-          <DialogDescription className="flex h-24 w-full items-center justify-center rounded-xl bg-muted/50 p-4 text-sm text-muted-foreground md:h-28 md:text-base">
-            {step.description}
-          </DialogDescription>
+          {step.description ? (
+            <DialogDescription className="flex h-24 w-full items-center justify-center rounded-xl bg-muted/50 p-4 text-sm text-muted-foreground md:h-28 md:text-base">
+              {step.description}
+            </DialogDescription>
+          ) : (
+            <DialogDescription className="sr-only">
+              {step.title}
+            </DialogDescription>
+          )}
         </DialogHeader>
 
         <DialogFooter className="mt-4 flex flex-col gap-6 sm:flex-col">

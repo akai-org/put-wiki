@@ -8,7 +8,6 @@ export function useOnboarding(totalSteps: number) {
   const [currentStep, setCurrentStep] = useState(0);
   const { isLoggedIn } = useUserSession();
 
-
   useEffect(() => {
     const hasSeenOnboarding = localStorage.getItem(ONBOARDING_STORAGE_KEY);
     
@@ -17,9 +16,8 @@ export function useOnboarding(totalSteps: number) {
         setIsOpen(true);
       }
     }, 150);
-    
+
     if (hasSeenOnboarding === 'true') {
-      setIsOpen(false);
       return;
     }
 
@@ -33,6 +31,9 @@ export function useOnboarding(totalSteps: number) {
 
   const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
+    if (!open) {
+      localStorage.setItem(ONBOARDING_STORAGE_KEY, 'true');
+    }
   };
 
   const goToNextStep = () => {
