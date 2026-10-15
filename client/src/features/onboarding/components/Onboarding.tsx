@@ -49,9 +49,7 @@ export function Onboarding() {
               {step.description}
             </DialogDescription>
           ) : (
-            <DialogDescription className="sr-only">
-              {step.title}
-            </DialogDescription>
+            <DialogDescription className="sr-only">{step.title}</DialogDescription>
           )}
         </DialogHeader>
 

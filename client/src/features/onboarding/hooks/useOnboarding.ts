@@ -10,7 +10,7 @@ export function useOnboarding(totalSteps: number) {
 
   useEffect(() => {
     const hasSeenOnboarding = localStorage.getItem(ONBOARDING_STORAGE_KEY);
-    
+
     const timer = setTimeout(() => {
       if (!isLoggedIn) {
         setIsOpen(true);
