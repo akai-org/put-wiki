@@ -5,7 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
-import viteConfig from './vite.config';
+import viteConfig from './vite.config.ts';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -43,7 +43,7 @@ export default mergeConfig(
             include: ['src/**/*.test.{ts,tsx}'],
             exclude: ['.storybook/**', '**/*.stories.{ts,tsx}', ...configDefaults.exclude],
             environment: 'happy-dom',
-            setupFiles: ['vitest.setup.ts', 'vitest-localstorage-mock'],
+            setupFiles: ['vitest.setup.ts'],
           },
         },
       ],
