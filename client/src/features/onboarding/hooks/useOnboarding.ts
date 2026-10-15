@@ -12,16 +12,16 @@ export function useOnboarding(totalSteps: number) {
   useEffect(() => {
     const hasSeenOnboarding = localStorage.getItem(ONBOARDING_STORAGE_KEY);
     
-    if (hasSeenOnboarding === 'true') {
-      setIsOpen(false);
-      return;
-    }
-
     const timer = setTimeout(() => {
       if (!isLoggedIn) {
         setIsOpen(true);
       }
     }, 150);
+    
+    if (hasSeenOnboarding === 'true') {
+      setIsOpen(false);
+      return;
+    }
 
     return () => clearTimeout(timer);
   }, [isLoggedIn]);
