@@ -16,7 +16,7 @@
     "format": "prettier . --write --ignore-unknown",
     "format:check": "prettier --check .",
     "test": "vitest",
-    "test:unit": "vitest run --config vitest.unit.config.ts",
+    "test:unit": "vitest run --project=unit",
     "test:ui": "vitest run --project=storybook",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build"
