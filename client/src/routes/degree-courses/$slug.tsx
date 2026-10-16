@@ -1,4 +1,4 @@
-import { createFileRoute, useParams } from '@tanstack/react-router';
+import { createFileRoute, useParams, notFound } from '@tanstack/react-router';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { TableOfOpinions } from '@/features/opinions';
 import {
@@ -6,30 +6,26 @@ import {
   TableOfCourses,
   useDegreeCourseQuery,
 } from '@/features/degree-courses';
+import axios from 'axios';
 
 export const Route = createFileRoute('/degree-courses/$slug')({
   component: DegreeCoursePage,
-  loader: ({ context: { queryClient }, params: { slug } }) => {
-    return queryClient.ensureQueryData(degreeCourseQueries.bySlug(slug));
+  pendingComponent: DegreePageSkeleton,
+  loader: async ({ context: { queryClient }, params: { slug } }) => {
+    try {
+      await queryClient.ensureQueryData(degreeCourseQueries.bySlug(slug));
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        throw notFound();
+      }
+      throw error;
+    }
   },
 });
 
 function DegreeCoursePage() {
   const { slug } = useParams({ from: '/degree-courses/$slug' });
-  const { data, isLoading, isError } = useDegreeCourseQuery(slug);
-
-  if (isLoading)
-    return <div className="flex items-center justify-center text-7xl text-black">Ładowanie...</div>;
-  if (isError) {
-    //maybe add toast about error here
-    return (
-      <div className="flex items-center justify-center text-7xl text-black">Wystąpił błąd</div>
-    );
-  }
-  if (!data)
-    return (
-      <div className="flex items-center justify-center text-7xl   text-black">Brak danych</div>
-    );
+  const { data } = useDegreeCourseQuery(slug);
 
   return (
     <Card>
@@ -107,5 +103,21 @@ function DegreeCoursePage() {
         </div>
       </div>
     </Card>
+  );
+}
+
+function DegreePageSkeleton() {
+  return (
+    <div aria-label="Loading lecturer" className="mx-auto mt-4 w-full max-w-7xl animate-pulse">
+      <div className="grid grid-cols-1 self-stretch md:grid-cols-[7fr_3fr]">
+        <div className="m-3 h-56 rounded-xl bg-muted" />
+        <div className="m-3 h-56 rounded-xl bg-muted" />
+      </div>
+      <div className="m-3 h-40 rounded-xl bg-muted" />
+      <div className="grid grid-cols-1 self-stretch md:grid-cols-2">
+        <div className="m-3 h-56 rounded-xl bg-muted" />
+        <div className="m-3 h-56 rounded-xl bg-muted" />
+      </div>
+    </div>
   );
 }
