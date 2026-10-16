@@ -1,22 +1,34 @@
 import { http, HttpResponse } from 'msw';
 
 const coursesMock = {
-  // ------------- Directly from USOS API -------------
-
-  name: 'Skibidi sigma',
-  description: 'Opis kursu',
+  name: {
+    pl: 'Skibidi sigma',
+    en: 'Skibidi sigma',
+  },
+  description: {
+    pl: 'Opis kursu',
+    en: 'Course description',
+  },
   ectsPoints: 67,
   homepageUrl: 'https://knowyourmeme.com/memes/subcultures/skibidi-toilet',
-  bibliography: 'https://knowyourmeme.com/memes/subcultures/skibidi-toilet',
-  learningOutcomes: 'https://knowyourmeme.com/memes/subcultures/skibidi-toilet',
-  assessmentCriteria: 'Musisz zrobić 67',
+  bibliography: {
+    pl: 'Bibliografia kursu',
+    en: 'Course bibliography',
+  },
+  learningOutcomes: {
+    pl: 'Efekty uczenia się',
+    en: 'Learning outcomes',
+  },
+  assessmentCriteria: {
+    pl: 'Musisz zrobić 67',
+    en: 'You must complete 67',
+  },
   facultyId: '2137',
 
-  // ------------- Specific for PUT-WIKI(needs to be done on our backend) -------------
-  slug: 'skibidi-sigma', // for example: "analiza-i-struktury-danych"
-  lecturers: 'Jan Kowalski, Jan Nowak', // for example: "Jan Kowalski, Jan Nowak"
+  slug: 'skibidi-sigma',
+  lecturers: ['Jan Kowalski', 'Jan Nowak'],
   ratings: [4, 5, 3],
-  reviews: ['Świetny kurs!', 'Bardzo pomocny'], //List of student reviews for the course
+  reviews: ['Świetny kurs!', 'Bardzo pomocny'],
   materials: [
     {
       label: 'Materiał 1',

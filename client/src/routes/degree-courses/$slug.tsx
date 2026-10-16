@@ -1,12 +1,9 @@
-import { createFileRoute, useParams, notFound } from '@tanstack/react-router';
+import { createFileRoute, useParams } from '@tanstack/react-router';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { TableOfOpinions } from '@/features/opinions';
-import {
-  degreeCourseQueries,
-  TableOfCourses,
-  useDegreeCourseQuery,
-} from '@/features/degree-courses';
-import axios from 'axios';
+import { degreeCourseQueries, TableOfCourses } from '@/features/degree-courses';
+import throwRouteError from '@/utils/throwRouteError';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/degree-courses/$slug')({
   component: DegreeCoursePage,
@@ -15,17 +12,14 @@ export const Route = createFileRoute('/degree-courses/$slug')({
     try {
       await queryClient.ensureQueryData(degreeCourseQueries.bySlug(slug));
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 404) {
-        throw notFound();
-      }
-      throw error;
+      throwRouteError(error);
     }
   },
 });
 
 function DegreeCoursePage() {
   const { slug } = useParams({ from: '/degree-courses/$slug' });
-  const { data } = useDegreeCourseQuery(slug);
+  const { data } = useSuspenseQuery(degreeCourseQueries.bySlug(slug));
 
   return (
     <Card>

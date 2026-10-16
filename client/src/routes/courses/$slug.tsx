@@ -1,9 +1,9 @@
-import { createFileRoute, useParams, notFound } from '@tanstack/react-router';
+import { createFileRoute, useParams } from '@tanstack/react-router';
 import { useMemo } from 'react';
-import { useCourseQuery } from '@/features/courses';
 import { calculateAverage } from '@/utils';
 import { courseQueries } from '@/features/courses/api/courseQueries';
-import axios from 'axios';
+import throwRouteError from '@/utils/throwRouteError';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/courses/$slug')({
   component: CoursePage,
@@ -12,17 +12,14 @@ export const Route = createFileRoute('/courses/$slug')({
     try {
       await queryClient.ensureQueryData(courseQueries.bySlug(slug));
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 404) {
-        throw notFound();
-      }
-      throw error;
+      throwRouteError(error);
     }
   },
 });
 
 function CoursePage() {
   const { slug } = useParams({ from: '/courses/$slug' });
-  const { data } = useCourseQuery(slug);
+  const { data } = useSuspenseQuery(courseQueries.bySlug(slug));
   const averageRating = useMemo(() => calculateAverage(data?.ratings), [data?.ratings]);
 
   return (

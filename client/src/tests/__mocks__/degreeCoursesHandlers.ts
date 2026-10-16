@@ -28,9 +28,10 @@ const degreeCoursesMock = {
       mark: 2,
     },
   ],
-  opinion: [
+  opinions: [
     {
       opinionId: '1',
+      degreeCourseId: '67',
       userId: '1',
       userName: 'Jan Kowalski',
       content: 'Bardzo trudny przedmiot.',
@@ -43,9 +44,7 @@ export const degreeCoursesHandlers = [
   http.get('/degree-courses/:slug', ({ params }) => {
     const slug = params.slug;
 
-    console.log('Received slug:', slug); // Log the received slug for debugging
-
-    if (slug !== 'Informatyka') {
+    if (slug !== 'informatyka') {
       return HttpResponse.json({ message: 'Not found' }, { status: 404 });
     }
 
