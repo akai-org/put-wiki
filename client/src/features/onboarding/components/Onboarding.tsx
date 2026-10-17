@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/Dialog';
+import { cn } from '@/utils';
 
 export function Onboarding() {
   const {
@@ -65,10 +66,13 @@ export function Onboarding() {
 
             <div className="flex gap-2">
               <Button
-                className={`shadow-none active:bg-accent/70 ${currentStep === 0 ? 'invisible' : ''}`}
-                onClick={goToPrevStep}
-                variant="outline"
-              >
+                  className={cn(
+                    "shadow-none active:bg-accent/70",
+                    currentStep === 0 && "invisible"
+                  )}
+                  onClick={goToPrevStep}
+                  variant="outline"
+                  >
                 Wstecz
               </Button>
               <Button className="shadow-none active:bg-primary/70" onClick={goToNextStep}>
