@@ -1,4 +1,4 @@
-import { createFileRoute, useParams } from '@tanstack/react-router';
+import { useParams } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import {
@@ -9,19 +9,14 @@ import {
   LecturersCoursesCard,
   lecturerQueries,
 } from '@/features/lecturers';
-import throwRouteError from '@/utils/throwRouteError';
+import createRoute from '@/utils/createRoute';
 
-export const Route = createFileRoute('/lecturers/$slug')({
-  component: LecturerPage,
-  pendingComponent: LecturerPageSkeleton,
-  loader: async ({ context: { queryClient }, params: { slug } }) => {
-    try {
-      await queryClient.ensureQueryData(lecturerQueries.bySlug(slug));
-    } catch (error) {
-      throwRouteError(error);
-    }
-  },
-});
+export const Route = createRoute(
+  '/lecturers/$slug',
+  LecturerPage,
+  LecturerPageSkeleton,
+  lecturerQueries
+);
 
 function LecturerPage() {
   const { slug } = useParams({ from: '/lecturers/$slug' });

@@ -1,21 +1,16 @@
-import { createFileRoute, useParams } from '@tanstack/react-router';
+import { useParams } from '@tanstack/react-router';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { TableOfOpinions } from '@/features/opinions';
 import { degreeCourseQueries, TableOfCourses } from '@/features/degree-courses';
-import throwRouteError from '@/utils/throwRouteError';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import createRoute from '@/utils/createRoute';
 
-export const Route = createFileRoute('/degree-courses/$slug')({
-  component: DegreeCoursePage,
-  pendingComponent: DegreePageSkeleton,
-  loader: async ({ context: { queryClient }, params: { slug } }) => {
-    try {
-      await queryClient.ensureQueryData(degreeCourseQueries.bySlug(slug));
-    } catch (error) {
-      throwRouteError(error);
-    }
-  },
-});
+export const Route = createRoute(
+  '/degree-courses/$slug',
+  DegreeCoursePage,
+  DegreePageSkeleton,
+  degreeCourseQueries
+);
 
 function DegreeCoursePage() {
   const { slug } = useParams({ from: '/degree-courses/$slug' });
