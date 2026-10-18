@@ -6,15 +6,18 @@ import { ThemeProvider } from '@/contexts/ThemeProvider';
 import { ToastsProvider } from '@/components/ui/ToastsProvider';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { queryClient } from '@/lib/queryClient';
+import { TooltipProvider } from '@/components/ui/Tooltip';
 
 export function App() {
   return (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <ToastsProvider position="top-center" />
-        <TanStackRouterDevtools router={router} />
-        <ReactQueryDevtools />
+        <TooltipProvider>
+          <RouterProvider router={router} />
+          <ToastsProvider position="top-center" />
+          <TanStackRouterDevtools router={router} />
+          <ReactQueryDevtools />
+        </TooltipProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );

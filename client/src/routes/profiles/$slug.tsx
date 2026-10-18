@@ -1,10 +1,14 @@
 import { createFileRoute, useParams } from '@tanstack/react-router';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { userPublicProfileQueries } from '@/features/user-public-profile';
-
+import {
+  userPublicProfileQueries,
+  UserPublicProfileStats,
+  UserPublicProfileStatus,
+} from '@/features/user-public-profile';
+import { Button } from '@/components/ui/Button';
+import { Container } from '@/components/ui/Container';
 export const Route = createFileRoute('/profiles/$slug')({
   component: UserPublicProfilePage,
   pendingComponent: UserPublicProfilePageSkeleton,
@@ -18,66 +22,68 @@ export const Route = createFileRoute('/profiles/$slug')({
 function UserPublicProfilePage() {
   const { slug: nicknameSlug } = useParams({ from: '/profiles/$slug' });
   const { data } = useSuspenseQuery(userPublicProfileQueries.bySlug(nicknameSlug));
-  const { nickname, karma, opinions, reactions } = data || {};
+  const { nickname, joinedDate, userStatus, karma, opinions, reactions } = data || {};
 
   return (
-    <div className="flex size-full">
-      <Card className="flex size-full max-w-none flex-row gap-12">
-        <div className="flex min-w-0 flex-1 flex-col">
-          <CardHeader className="flex h-30 flex-1 flex-row items-start">
-            <CardTitle className="text-3xl">
-              <h1>{nickname}</h1>
+    <Container>
+      <Card className="relative w-full items-center justify-center">
+        <Button className="absolute top-4 right-4" size="sm" type="button" variant="destructive">
+          Report
+        </Button>
+        <div className="flex w-full max-w-5xl flex-col gap-2">
+          <CardHeader className="flex h-auto items-center justify-center gap-6">
+            <CardTitle className="text-5xl">
+              <p>{nickname}</p>
             </CardTitle>
-            <Button className=" ml-auto" type="button" variant="destructive">
-              Zgłoś użytkownika
-            </Button>
           </CardHeader>
-
-          <CardContent className="flex flex-1 flex-row gap-8">
-            <div className="flex flex-col items-center gap-2 text-center">
-              <h2>Karma</h2>
-              <p className="text-2xl font-bold">{karma}</p>
-            </div>
-            <div className="flex flex-col items-center gap-2 text-center">
-              <h2>Komentarze</h2>
-              <p className="text-2xl font-bold">{opinions}</p>
-            </div>
-            <div className="flex flex-col items-center gap-2 text-center">
-              <h2>Reakcje</h2>
-              <p className="text-2xl font-bold">{reactions}</p>
-            </div>
+          <CardContent>
+            <UserPublicProfileStatus joinedDate={joinedDate} userStatus={userStatus} />
+          </CardContent>
+          <CardContent>
+            <UserPublicProfileStats karma={karma} opinions={opinions} reactions={reactions} />
           </CardContent>
         </div>
       </Card>
-    </div>
+    </Container>
   );
 }
 
 function UserPublicProfilePageSkeleton() {
   return (
-    <div className="flex size-full">
-      <Card className="flex size-full max-w-none flex-row gap-12">
-        <div className="flex min-w-0 flex-1 flex-col">
-          <CardHeader className="flex h-30 flex-1 flex-row items-start">
-            <Skeleton className="h-6 w-48" />
-            <Skeleton className=" ml-auto h-8 w-20" />
+    <Container>
+      <Card className="relative w-full items-center justify-center">
+        <Skeleton className="absolute top-4 right-4 h-9 w-16" />
+        <div className="flex w-full max-w-5xl flex-col gap-2">
+          <CardHeader className="flex h-auto items-center justify-center gap-6">
+            <Skeleton className="h-12 w-64" />
           </CardHeader>
-          <CardContent className="flex flex-1 flex-row gap-8">
-            <div className="flex flex-col items-center gap-2 text-center">
-              <Skeleton className="h-4 w-16" />
-              <Skeleton className="h-6 w-16" />
+          <CardContent className="flex justify-center gap-8">
+            <div className="flex items-center gap-2">
+              <Skeleton className="size-4" />
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-4 w-24" />
             </div>
-            <div className="flex flex-col items-center gap-2 text-center">
-              <Skeleton className="h-4 w-16" />
-              <Skeleton className="h-6 w-16" />
+            <div className="flex items-center gap-2">
+              <Skeleton className="size-4" />
+              <Skeleton className="h-4 w-24" />
             </div>
-            <div className="flex flex-col items-center gap-2 text-center">
-              <Skeleton className="h-4 w-16" />
-              <Skeleton className="h-6 w-16" />
+          </CardContent>
+          <CardContent className="mt-4 grid w-full grid-cols-1 gap-y-8 md:grid-cols-3 md:gap-y-0">
+            <div className="order-2 flex flex-col items-center gap-4 text-center md:order-0">
+              <Skeleton className="h-9 w-32" />
+              <Skeleton className="h-9 w-16" />
+            </div>
+            <div className="order-first flex flex-col items-center gap-3 text-center md:order-0">
+              <Skeleton className="h-10 w-24" />
+              <Skeleton className="h-10 w-16" />
+            </div>
+            <div className="order-3 flex flex-col items-center gap-2 text-center md:order-0">
+              <Skeleton className="h-9 w-24" />
+              <Skeleton className="h-9 w-16" />
             </div>
           </CardContent>
         </div>
       </Card>
-    </div>
+    </Container>
   );
 }
