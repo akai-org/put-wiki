@@ -11,7 +11,7 @@ test('responds with the user', async () => {
 });
 
 test('responds with a public profile by nickname slug', async () => {
-  const response = await fetch('/user/lolek');
+  const response = await fetch('/profiles/lolek');
 
   await expect(response.json()).resolves.toEqual({
     nickname: 'Lolek',
