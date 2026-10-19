@@ -3,7 +3,7 @@ import { z } from 'zod';
 const UserPublicSchema = z.object({
   nickname: z.string(),
   joinedDate: z.iso.date(),
-  userStatus: z.enum(['Active', 'Inactive']),
+  userStatus: z.enum(['Aktywny', 'Nieaktywny']),
   opinions: z.number(),
   reactions: z.number(),
   karma: z.number(),
