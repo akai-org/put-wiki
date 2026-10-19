@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 
 type ContainerProps = ComponentProps<'div'>;
 
