@@ -1,5 +1,7 @@
 import { http, HttpResponse } from 'msw';
 import { lecturersHandlers } from './lecturersHandlers';
+import { coursesHandlers } from './coursesHandlers';
+import { degreeCoursesHandlers } from './degreeCoursesHandlers';
 
 export const handlers = [
   http.get('https://api.example.com/user', () => {
@@ -11,4 +13,6 @@ export const handlers = [
   }),
 
   ...lecturersHandlers,
+  ...coursesHandlers,
+  ...degreeCoursesHandlers,
 ];
