@@ -18,20 +18,20 @@ using Moq;
 
 namespace PutWiki.UnitTests.Application;
 
-public class UpdateNicknameUseCaseTests
+public class UpdateNicknameCommandHandlerTests
 {
     private readonly Mock<IUserRepository> _userRepositoryMock;
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
-    private readonly UpdateNicknameUseCase _sut;
+    private readonly UpdateNicknameCommandHandler _sut;
 
-    public UpdateNicknameUseCaseTests()
+    public UpdateNicknameCommandHandlerTests()
     {
         _userRepositoryMock = new Mock<IUserRepository>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
 
-        _sut = new UpdateNicknameUseCase(
+        _sut = new UpdateNicknameCommandHandler(
             _userRepositoryMock.Object,
-            NullLogger<UpdateNicknameUseCase>.Instance,
+            NullLogger<UpdateNicknameCommandHandler>.Instance,
             _unitOfWorkMock.Object
         );
     }
