@@ -18,7 +18,7 @@ public static class ApplicationConfiguration
 
         services.AddScoped<ProvisionUserCommandHandler>();
         services.AddScoped<GetAcademicTeacherQueryHandler>();
-        services.AddScoped<UpdateNicknameUseCase>();
+        services.AddScoped<UpdateNicknameCommandHandler>();
 
         return services;
     }

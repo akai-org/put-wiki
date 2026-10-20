@@ -22,10 +22,19 @@ public class UserRepository(AppDbContext context) : IUserRepository
         return context.Users.SingleOrDefaultAsync(u => u.Id == id, cancellationToken);
     }
 
-    public Task<bool> ExistsWithNicknameAsync(string nickname, Guid excludedUserId, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsWithNicknameAsync(string nickname, Guid excludedUserId, CancellationToken cancellationToken = default)
     {
-        return context.Users.AnyAsync(
-            u => u.Id != excludedUserId && u.Nickname != null && u.Nickname.Value == nickname,
+        var nicknameObjectResult = Nickname.Create(nickname);
+
+        if (nicknameObjectResult.IsFailed)
+        {
+            return false;
+        }
+
+        var nicknameObject = nicknameObjectResult.Value;
+
+        return await context.Users.AnyAsync(
+            u => u.Id != excludedUserId && u.Nickname == nicknameObject,
             cancellationToken);
     }
 

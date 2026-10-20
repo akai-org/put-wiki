@@ -13,12 +13,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Features.Users.Commands.UpdateNickname;
 
-public partial class UpdateNicknameUseCase(
+public partial class UpdateNicknameCommandHandler(
     IUserRepository userRepository,
-    ILogger<UpdateNicknameUseCase> logger,
+    ILogger<UpdateNicknameCommandHandler> logger,
     IUnitOfWork unitOfWork)
 {
-
     public async Task<Result> ExecuteAsync(UpdateNicknameCommand cmd,
         CancellationToken ct = default)
     {
@@ -33,20 +32,17 @@ public partial class UpdateNicknameUseCase(
             return Result.Ok();
         }
 
+        var nicknameTaken = await userRepository.ExistsWithNicknameAsync(cmd.Nickname, cmd.UserId, ct);
+        if (nicknameTaken)
+        {
+            return Result.Fail(new ConflictError("This nickname is already taken."));
+        }
+
         var updateResult = user.UpdateNickname(cmd.Nickname);
         if (updateResult.IsFailed)
         {
             return Result.Fail(new ValidationError("Failed to update nickname")
                 .CausedBy(updateResult.Errors));
-        }
-
-        if (user.Nickname is not null)
-        {
-            var nicknameTaken = await userRepository.ExistsWithNicknameAsync(user.Nickname.Value, cmd.UserId, ct);
-            if (nicknameTaken)
-            {
-                return Result.Fail(new ConflictError("This nickname is already taken."));
-            }
         }
 
         await unitOfWork.SaveChangesAsync(ct);

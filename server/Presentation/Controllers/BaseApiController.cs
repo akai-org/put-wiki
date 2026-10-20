@@ -26,8 +26,41 @@ public class BaseApiController : ControllerBase
 
     protected IActionResult HandleResult(Result result)
     {
-        if (result.IsSuccess) return Ok();
-        return HandleError(result.Errors);
+        if (result.IsSuccess)
+        {
+            return Ok();
+        }
+
+        var errors = new List<string>();
+
+        for (var i = 0; i < result.Errors.Count; i++)
+        {
+            var error = result.Errors[i];
+            errors.Add(error.Message);
+
+            for (var j = 0; j < error.Reasons.Count; j++)
+            {
+                if (error.Reasons[j] is IError reason)
+                {
+                    errors.Add(reason.Message);
+                }
+            }
+        }
+
+        var firstDetail = result.Errors.Count > 0 ? result.Errors[0].Message : null;
+
+        var problemDetails = new ProblemDetails
+        {
+            Title = "Bad Request",
+            Status = StatusCodes.Status400BadRequest,
+            Detail = firstDetail,
+            Extensions =
+        {
+            ["errors"] = errors
+        }
+        };
+
+        return BadRequest(problemDetails);
     }
 
     private ObjectResult HandleError(IReadOnlyList<IError> errors)

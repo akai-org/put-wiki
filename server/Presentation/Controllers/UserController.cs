@@ -12,7 +12,7 @@ namespace Presentation.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class UserController(
-    UpdateNicknameUseCase updateNicknameUseCase) : BaseApiController
+    UpdateNicknameCommandHandler updateNicknameCommandHandler) : BaseApiController
 {
     [HttpPatch("{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -25,7 +25,7 @@ public class UserController(
         CancellationToken ct)
     {
         var command = new UpdateNicknameCommand(userId, request.Nickname);
-        var result = await updateNicknameUseCase.ExecuteAsync(command, ct);
+        var result = await updateNicknameCommandHandler.ExecuteAsync(command, ct);
 
         return HandleResult(result);
     }
