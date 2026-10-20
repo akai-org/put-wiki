@@ -19,7 +19,7 @@ public partial class UpdateNicknameCommandHandler(
     IUnitOfWork unitOfWork)
 {
     public async Task<Result> ExecuteAsync(UpdateNicknameCommand cmd,
-        CancellationToken ct = default)
+    CancellationToken ct = default)
     {
         var user = await userRepository.GetByIdAsync(cmd.UserId, ct);
         if (user is null)
@@ -32,17 +32,19 @@ public partial class UpdateNicknameCommandHandler(
             return Result.Ok();
         }
 
-        var nicknameTaken = await userRepository.ExistsWithNicknameAsync(cmd.Nickname, cmd.UserId, ct);
-        if (nicknameTaken)
-        {
-            return Result.Fail(new ConflictError("This nickname is already taken."));
-        }
-
+        // 1. Najpierw sprawdzamy poprawność formatu/długości (walidacja w domenie)
         var updateResult = user.UpdateNickname(cmd.Nickname);
         if (updateResult.IsFailed)
         {
             return Result.Fail(new ValidationError("Failed to update nickname")
                 .CausedBy(updateResult.Errors));
+        }
+
+        // 2. Dopiero po pomyślnej walidacji sprawdzamy unikalność w bazie danych
+        var nicknameTaken = await userRepository.ExistsWithNicknameAsync(cmd.Nickname, cmd.UserId, ct);
+        if (nicknameTaken)
+        {
+            return Result.Fail(new ConflictError("This nickname is already taken."));
         }
 
         await unitOfWork.SaveChangesAsync(ct);
