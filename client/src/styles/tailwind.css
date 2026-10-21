@@ -187,9 +187,4 @@
     height: 100%;
     width: 100%;
   }
-
-  @layer components {
-    container {
-    }
-  }
 }
