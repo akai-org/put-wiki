@@ -1,4 +1,4 @@
-import { createFileRoute, useParams } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -20,9 +20,9 @@ export const Route = createFileRoute('/profiles/$slug')({
 });
 
 function UserPublicProfilePage() {
-  const { slug: nicknameSlug } = useParams({ from: '/profiles/$slug' });
+  const { slug: nicknameSlug } = Route.useParams();
   const { data } = useSuspenseQuery(userPublicProfileQueries.bySlug(nicknameSlug));
-  const { nickname, joinedDate, userStatus, karma, opinions, reactions } = data || {};
+  const { nickname, joinedDate, userStatus, karma, opinions, reactions } = data;
 
   return (
     <Container>

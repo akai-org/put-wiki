@@ -1,11 +1,8 @@
 import { type ComponentProps } from 'react';
+import { cn } from '@/utils';
 
 type ContainerProps = ComponentProps<'div'>;
 
-export function Container({ children, className = '', ...props }: ContainerProps) {
-  return (
-    <div {...props} className={`max-w-[1440px] mx-auto w-full ${className}`.trim()}>
-      {children}
-    </div>
-  );
+export function Container({ children, className }: ContainerProps) {
+  return <div className={cn(`mx-auto w-full max-w-360 px-24`, className)}>{children}</div>;
 }
