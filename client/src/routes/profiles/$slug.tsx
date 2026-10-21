@@ -9,13 +9,19 @@ import {
 } from '@/features/user-public-profile';
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
+import throwRouteError from '@/utils/throwRouteError';
+
 export const Route = createFileRoute('/profiles/$slug')({
   component: UserPublicProfilePage,
   pendingComponent: UserPublicProfilePageSkeleton,
   loader: ({ context: { queryClient }, params: { slug: nicknameSlug } }) => {
-    return queryClient.query({
-      ...userPublicProfileQueries.bySlug(nicknameSlug),
-    });
+    try {
+      return queryClient.query({
+        ...userPublicProfileQueries.bySlug(nicknameSlug),
+      });
+    } catch (error) {
+      throwRouteError(error);
+    }
   },
 });
 
