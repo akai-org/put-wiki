@@ -10,8 +10,8 @@ export function OnboardingStepIndicator({ currentStep, totalSteps }: OnboardingS
       {Array.from({ length: totalSteps }).map((_, index) => (
         <div
           className={cn(
-            "h-2 rounded-full transition-all duration-300",
-            index === currentStep ? "w-6 bg-primary" : "w-2 bg-border"
+            'h-2 rounded-full transition-all duration-300',
+            index === currentStep ? 'w-6 bg-primary' : 'w-2 bg-border'
           )}
           key={index}
         />
