@@ -6,7 +6,7 @@ test('responds with a public profile by nickname slug', async () => {
   await expect(response.json()).resolves.toEqual({
     nickname: 'Lolek',
     joinedDate: '2022-01-01',
-    userStatus: 'Active',
+    userStatus: 'Aktywny',
     opinions: 10,
     reactions: 5,
     karma: 100,
