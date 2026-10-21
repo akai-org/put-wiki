@@ -16,7 +16,9 @@ export const Route = createFileRoute('/lecturers/$slug')({
   pendingComponent: LecturerPageSkeleton,
   loader: async ({ context: { queryClient }, params: { slug } }) => {
     try {
-      await queryClient.ensureQueryData(lecturerQueries.bySlug(slug));
+      return queryClient.query({
+        ...lecturerQueries.bySlug(slug),
+      });
     } catch (error) {
       throwRouteError(error);
     }
