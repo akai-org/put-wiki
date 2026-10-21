@@ -1,9 +1,10 @@
+import { api } from '@/lib/api';
 import { test, expect } from 'vitest';
 
 test('responds with a public profile by nickname slug', async () => {
-  const response = await fetch('/profiles/lolek');
+  const response = await api.get('/profiles/lolek');
 
-  await expect(response.json()).resolves.toEqual({
+  expect(response.data).toMatchObject({
     nickname: 'Lolek',
     joinedDate: '2022-01-01',
     userStatus: 'Aktywny',
