@@ -4,7 +4,7 @@ import { courseKeys } from './queryKeys';
 import { type Course, CourseSchema } from '@/features/courses/courseSchema';
 
 async function getCourse(slug: string): Promise<Course> {
-  const response = await api.get(`/mocks/${slug}.json`);
+  const response = await api.get(`/courses/${slug}`);
   return CourseSchema.parse(response.data);
 }
 

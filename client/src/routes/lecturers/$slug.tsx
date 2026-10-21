@@ -1,6 +1,5 @@
-import { createFileRoute, useParams, notFound } from '@tanstack/react-router';
+import { createFileRoute, useParams } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import axios from 'axios';
 
 import {
   ContactCard,
@@ -10,6 +9,7 @@ import {
   LecturersCoursesCard,
   lecturerQueries,
 } from '@/features/lecturers';
+import throwRouteError from '@/utils/throwRouteError';
 
 export const Route = createFileRoute('/lecturers/$slug')({
   component: LecturerPage,
@@ -18,11 +18,7 @@ export const Route = createFileRoute('/lecturers/$slug')({
     try {
       await queryClient.ensureQueryData(lecturerQueries.bySlug(slug));
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 404) {
-        throw notFound();
-      }
-
-      throw error;
+      throwRouteError(error);
     }
   },
 });
