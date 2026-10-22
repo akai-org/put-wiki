@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Auth.Configuration;
 
-public class JwtTokensSettingsValidator : AbstractValidator<JwtTokensSettings>
+public class JwtTokensSettingsValidator : AbstractValidator<JwtSettings>
 {
     public JwtTokensSettingsValidator()
     {

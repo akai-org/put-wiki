@@ -15,7 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace Infrastructure.Auth;
 
 public sealed class JwtUserSessionService(
-    IOptions<JwtTokensSettings> settings,
+    IOptions<JwtSettings> settings,
     AppDbContext dbContext,
     TimeProvider timeProvider
     ) : IUserSessionService
@@ -29,7 +29,7 @@ public sealed class JwtUserSessionService(
             Id = Guid.NewGuid(),
             UserId = userId,
             Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-            ExpiresAt = timeProvider.GetUtcNow().AddDays(7).DateTime,
+            ExpiresAt = timeProvider.GetUtcNow().Add(settings.Value.RefreshTokenLifetime).DateTime,
             CreatedAt = timeProvider.GetUtcNow().DateTime
         };
 
@@ -53,7 +53,7 @@ public sealed class JwtUserSessionService(
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = timeProvider.GetUtcNow().AddMinutes(30).DateTime,
+            Expires = timeProvider.GetUtcNow().Add(settings.Value.AccessTokenLifetime).DateTime,
             SigningCredentials = credentials,
             Issuer = settings.Value.Issuer,
             Audience = settings.Value.Audience

@@ -54,8 +54,8 @@ public static partial class InfrastructureConfiguration
 
     private static void AddJwtAuth(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddOptions<JwtTokensSettings>()
-            .Bind(configuration.GetSection("Jwt"))
+        services.AddOptions<JwtSettings>()
+            .Bind(configuration.GetSection(JwtSettings.SectionName))
             .Validate(settings =>
             {
                 var validator = new JwtTokensSettingsValidator();
@@ -63,8 +63,8 @@ public static partial class InfrastructureConfiguration
                 if (!validationResult.IsValid)
                 {
                     throw new OptionsValidationException(
-                        "JwtTokensSettings",
-                        typeof(JwtTokensSettings),
+                        "JwtSettings",
+                        typeof(JwtSettings),
                         validationResult.Errors.Select(e => e.ErrorMessage)
                     );
                 }
@@ -78,7 +78,7 @@ public static partial class InfrastructureConfiguration
     private static void AddUsosOAuth(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddOptions<UsosOAuthSettings>()
-            .Bind(configuration.GetSection("UsosOAuth"))
+            .Bind(configuration.GetSection(UsosOAuthSettings.SectionName))
             .Validate(settings =>
             {
                 var validator = new UsosOAuthSettingsValidator();
