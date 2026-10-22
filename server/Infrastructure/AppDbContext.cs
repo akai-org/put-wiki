@@ -14,8 +14,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 {
     public required DbSet<User> Users { get; set; }
     public required DbSet<AcademicTeacher> AcademicTeachers { get; set; }
-    public required DbSet<RefreshToken> RefreshTokens { get; set; }
-
+    public virtual required DbSet<RefreshToken> RefreshTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

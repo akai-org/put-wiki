@@ -81,13 +81,16 @@ public static class PresentationConfiguration
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
                     ValidIssuer = settings.Issuer,
+
+                    ValidateAudience = true,
                     ValidAudience = settings.Audience,
+
+                    ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(settings.SecretKey)),
+
+                    ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
                 };
             });
