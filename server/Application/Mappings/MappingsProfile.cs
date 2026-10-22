@@ -8,8 +8,5 @@ namespace Application.Mappings;
 
 public class MappingsProfile : Profile
 {
-    public MappingsProfile()
-    {
-        CreateMap<User, UserDto>();
-    }
+    public MappingsProfile() { }
 }

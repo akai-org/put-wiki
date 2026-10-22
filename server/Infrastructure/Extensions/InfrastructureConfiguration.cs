@@ -71,6 +71,7 @@ public static partial class InfrastructureConfiguration
             .ValidateOnStart();
 
         services.AddScoped<IUsosOAuthService, UsosOAuthService>();
+        services.AddScoped<IUserSessionService, JwtUserSessionService>();
     }
 
     // NOTE: don't use this method in PRODUCTION enviroment to apply migrations during app startup.
