@@ -23,5 +23,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
         new UserEntityTypeConfiguration().Configure(modelBuilder.Entity<User>());
         new AcademicTeacherEntityTypeConfiguration().Configure(modelBuilder.Entity<AcademicTeacher>());
+
+        modelBuilder.Entity<RefreshToken>()
+            .HasIndex(b => b.Token);
     }
 }
