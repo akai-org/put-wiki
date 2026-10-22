@@ -3,13 +3,15 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+using Infrastructure.Auth.Configuration;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 
@@ -68,12 +70,13 @@ public static class PresentationConfiguration
         });
     }
 
-    private static void AddPutWikiAuthentication(this IServiceCollection services, IConfiguration configuration)
+    private static void AddPutWikiAuthentication(this IServiceCollection services)
     {
-        services
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+        services.AddOptions<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme)
+            .Configure<IOptions<JwtSettings>>((options, jwtOptions) =>
             {
+                var settings = jwtOptions.Value;
+
                 options.MapInboundClaims = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -81,13 +84,17 @@ public static class PresentationConfiguration
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = configuration["Jwt:Issuer"],
-                    ValidAudience = configuration["Jwt:Audience"],
+                    ValidIssuer = settings.Issuer,
+                    ValidAudience = settings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!)),
+                        Encoding.UTF8.GetBytes(settings.SecretKey)),
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer();
 
         services.AddAuthorization();
     }
@@ -115,7 +122,7 @@ public static class PresentationConfiguration
         return app;
     }
 
-    public static IServiceCollection AddPresentation(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
         services.AddControllers(opts =>
                 opts.Conventions.Add(
@@ -140,7 +147,7 @@ public static class PresentationConfiguration
         });
 
         services.AddPutWikiOpenApi();
-        services.AddPutWikiAuthentication(configuration);
+        services.AddPutWikiAuthentication();
 
         return services;
     }
