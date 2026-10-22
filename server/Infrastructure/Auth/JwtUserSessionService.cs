@@ -29,8 +29,8 @@ public sealed class JwtUserSessionService(
             Id = Guid.NewGuid(),
             UserId = userId,
             Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-            ExpiresAt = timeProvider.GetUtcNow().Add(settings.Value.RefreshTokenLifetime).DateTime,
-            CreatedAt = timeProvider.GetUtcNow().DateTime
+            ExpiresAt = timeProvider.GetUtcNow().Add(settings.Value.RefreshTokenLifetime),
+            CreatedAt = timeProvider.GetUtcNow()
         };
 
         dbContext.RefreshTokens.Add(refreshToken);
@@ -53,7 +53,7 @@ public sealed class JwtUserSessionService(
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = timeProvider.GetUtcNow().Add(settings.Value.AccessTokenLifetime).DateTime,
+            Expires = timeProvider.GetUtcNow().Add(settings.Value.AccessTokenLifetime).UtcDateTime,
             SigningCredentials = credentials,
             Issuer = settings.Value.Issuer,
             Audience = settings.Value.Audience
