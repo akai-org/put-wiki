@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Domain.AcademicTeachers;
 using Domain.Users;
 
+using Infrastructure.Auth;
 using Infrastructure.EntitiesConfiguration;
 
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 {
     public required DbSet<User> Users { get; set; }
     public required DbSet<AcademicTeacher> AcademicTeachers { get; set; }
+    public required DbSet<RefreshToken> RefreshTokens { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
