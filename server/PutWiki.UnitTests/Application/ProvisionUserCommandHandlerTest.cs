@@ -20,7 +20,7 @@ using Moq;
 
 namespace PutWiki.UnitTests.Application;
 
-public class ProvisionUserCommandHandlerTests
+public class ProvisionUserCommandHandlerTest
 {
     private readonly Mock<IUsosOAuthService> _usosOAuthServiceMock;
     private readonly Mock<IUsosIdHasher> _idHasherMock;
@@ -30,7 +30,7 @@ public class ProvisionUserCommandHandlerTests
     private readonly Mock<IUserSessionService> _userSessionServiceMock;
     private readonly ProvisionUserCommandHandler _sut;
 
-    public ProvisionUserCommandHandlerTests()
+    public ProvisionUserCommandHandlerTest()
     {
         _usosOAuthServiceMock = new Mock<IUsosOAuthService>();
         _idHasherMock = new Mock<IUsosIdHasher>();
