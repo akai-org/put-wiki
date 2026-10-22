@@ -6,14 +6,16 @@ using System.Text;
 
 using Application.Features.Users.Commands.ProvisionUser;
 
-using Microsoft.Extensions.Configuration;
+using Infrastructure.Auth.Configuration;
+
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Auth;
 
 public sealed class JwtUserSessionService(
-    IConfiguration configuration,
+    IOptions<JwtTokensSettings> settings,
     AppDbContext dbContext,
     TimeProvider timeProvider
     ) : IUserSessionService
@@ -44,7 +46,7 @@ public sealed class JwtUserSessionService(
         };
 
         var key = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!));
+            Encoding.UTF8.GetBytes(settings.Value.SecretKey));
 
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -53,8 +55,8 @@ public sealed class JwtUserSessionService(
             Subject = new ClaimsIdentity(claims),
             Expires = timeProvider.GetUtcNow().AddMinutes(30).DateTime,
             SigningCredentials = credentials,
-            Issuer = configuration["Jwt:Issuer"],
-            Audience = configuration["Jwt:Audience"]
+            Issuer = settings.Value.Issuer,
+            Audience = settings.Value.Audience
         };
 
         return new JsonWebTokenHandler().CreateToken(tokenDescriptor);
