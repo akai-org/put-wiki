@@ -24,8 +24,8 @@ builder.Services.AddMemoryCache();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddPresentation();
 builder.Services.AddApplication();
-builder.Services.AddPresentation(builder.Configuration);
 
 var app = builder.Build();
 
