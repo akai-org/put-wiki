@@ -17,5 +17,10 @@ public class JwtTokensSettingsValidator : AbstractValidator<JwtSettings>
         RuleFor(x => x.SecretKey)
             .NotEmpty()
             .WithMessage("Missing jwt signing key.");
+
+        RuleFor(x => x.SecretKey)
+            .MinimumLength(32)
+            .Matches("[a-zA-Z0-9]")
+            .WithMessage("Jwt signing key should be at least 32 ASCII characters (bytes) long.");
     }
 }

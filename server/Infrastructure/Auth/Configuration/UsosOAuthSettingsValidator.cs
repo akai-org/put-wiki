@@ -34,5 +34,10 @@ public class UsosOAuthSettingsValidator : AbstractValidator<UsosOAuthSettings>
         RuleFor(x => x.HashingKey)
             .NotEmpty()
             .WithMessage("Missing user's usos id hashing key.");
+
+        RuleFor(x => x.HashingKey)
+            .Length(64)
+            .Matches("[a-zA-Z0-9]")
+            .WithMessage("Hashing key should be exactly 64 ASCII characters (bytes) long.");
     }
 }
