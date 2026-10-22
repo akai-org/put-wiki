@@ -396,7 +396,7 @@ dotnet_diagnostic.S3400.severity = silent
 dotnet_diagnostic.S1135.severity = suggestion
 
 # --- Naming convention rules for unit tests ---
-[**/*Tests.cs]
+[**/*Test.cs]
 dotnet_diagnostic.CA1707.severity = none
 
 # E.g. <Method>_Should<ExpectedBehavior>_When<Condition>
