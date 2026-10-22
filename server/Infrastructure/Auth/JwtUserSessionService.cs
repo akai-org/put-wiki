@@ -20,7 +20,7 @@ public sealed class JwtUserSessionService(
     TimeProvider timeProvider
     ) : IUserSessionService
 {
-    public (string AccessToken, string RefreshToken) CreateSession(Guid userId)
+    public JwtTokenPair CreateSession(Guid userId)
     {
         var accessToken = GenerateAccessToken(userId);
 
@@ -35,7 +35,7 @@ public sealed class JwtUserSessionService(
 
         dbContext.RefreshTokens.Add(refreshToken);
 
-        return (accessToken, refreshToken.Token);
+        return new JwtTokenPair(accessToken, refreshToken.Token);
     }
 
     private string GenerateAccessToken(Guid userId)

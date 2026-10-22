@@ -54,11 +54,11 @@ public partial class ProvisionUserCommandHandler(
             LogUserLoggedIn(user.Id);
         }
 
-        var (accessToken, refreshToken) = userSessionService.CreateSession(user.Id);
+        var tokens = userSessionService.CreateSession(user.Id);
 
         await unitOfWork.SaveChangesAsync(ct);
 
-        return Result.Ok(new LoginResponse(accessToken, refreshToken));
+        return Result.Ok(new LoginResponse(tokens.AccessToken, tokens.RefreshToken));
     }
 
     [LoggerMessage(LogLevel.Warning, "Provisioning aborted: USOS authentication failed. Error: {error}")]
