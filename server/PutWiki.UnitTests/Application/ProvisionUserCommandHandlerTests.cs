@@ -30,6 +30,7 @@ public class ProvisionUserCommandHandlerTests
     private readonly Mock<IUserRepository> _userRepositoryMock;
     private readonly Mock<IUnitOfWork> _iUnitOfWorkMock;
     private readonly FakeTimeProvider _fakeTimeProvider;
+    private readonly Mock<IUserSessionService> _userSessionServiceMock;
     private readonly ProvisionUserCommandHandler _sut;
 
     public ProvisionUserCommandHandlerTests()
@@ -39,12 +40,7 @@ public class ProvisionUserCommandHandlerTests
         _userRepositoryMock = new Mock<IUserRepository>();
         _iUnitOfWorkMock = new Mock<IUnitOfWork>();
         _fakeTimeProvider = new FakeTimeProvider();
-
-        var mapperConfig = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<MappingsProfile>();
-        }, new NullLoggerFactory());
-        IMapper mapper = mapperConfig.CreateMapper();
+        _userSessionServiceMock = new Mock<IUserSessionService>();
 
         _sut = new ProvisionUserCommandHandler(
             _usosOAuthServiceMock.Object,
@@ -52,8 +48,8 @@ public class ProvisionUserCommandHandlerTests
             _userRepositoryMock.Object,
             _iUnitOfWorkMock.Object,
             NullLogger<ProvisionUserCommandHandler>.Instance,
-            mapper,
-            _fakeTimeProvider
+            _fakeTimeProvider,
+            _userSessionServiceMock.Object
         );
     }
 
@@ -107,8 +103,6 @@ public class ProvisionUserCommandHandlerTests
 
         // Assert
         result.IsSuccess.Should().BeTrue();
-        result.Value.Id.Should().Be(existingUser.Id.ToString());
-        result.Value.HashedUsosId.Should().Be(hashedUsosId);
 
         _userRepositoryMock.Verify(x => x.Add(It.IsAny<User>()), Times.Never);
         _iUnitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
@@ -142,9 +136,6 @@ public class ProvisionUserCommandHandlerTests
         // Assert
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().NotBeNull();
-        result.Value.HashedUsosId.Should().Be(hashedUsosId);
-        result.Value.Id.Should().NotBe(Guid.Empty.ToString());
-        result.Value.JoinedDate.Should().Be(fakeDate);
 
         _userRepositoryMock.Verify(x => x.Add(It.Is<User>(u => u.HashedUsosId == hashedUsosId && u.JoinedDate == fakeDate)), Times.Once);
         _iUnitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);

@@ -1,11 +1,16 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 
 using Presentation.Transformers;
@@ -63,6 +68,30 @@ public static class PresentationConfiguration
         });
     }
 
+    private static void AddPutWikiAuthentication(this IServiceCollection services, IConfiguration configuration)
+    {
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.MapInboundClaims = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration["Jwt:Issuer"],
+                    ValidAudience = configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!)),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+
+        services.AddAuthorization();
+    }
+
     public static IApplicationBuilder UsePutWikiOpenApiDocs(this WebApplication app)
     {
         if (app.Environment.IsDevelopment())
@@ -86,7 +115,7 @@ public static class PresentationConfiguration
         return app;
     }
 
-    public static IServiceCollection AddPresentation(this IServiceCollection services)
+    public static IServiceCollection AddPresentation(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddControllers(opts =>
                 opts.Conventions.Add(
@@ -111,7 +140,10 @@ public static class PresentationConfiguration
         });
 
         services.AddPutWikiOpenApi();
+        services.AddPutWikiAuthentication(configuration);
 
         return services;
     }
+
+
 }
