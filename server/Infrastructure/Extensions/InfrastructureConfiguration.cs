@@ -21,6 +21,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Extensions;
 
@@ -46,8 +47,32 @@ public static partial class InfrastructureConfiguration
         services.AddScoped<IAcademicTeacherRepository, AcademicTeacherRepository>();
 
         services.AddUsosOAuth(configuration);
+        services.AddJwtAuth(configuration);
 
         return services;
+    }
+
+    private static void AddJwtAuth(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddOptions<JwtTokensSettings>()
+            .Bind(configuration.GetSection("Jwt"))
+            .Validate(settings =>
+            {
+                var validator = new JwtTokensSettingsValidator();
+                var validationResult = validator.Validate(settings);
+                if (!validationResult.IsValid)
+                {
+                    throw new OptionsValidationException(
+                        "JwtTokensSettings",
+                        typeof(JwtTokensSettings),
+                        validationResult.Errors.Select(e => e.ErrorMessage)
+                    );
+                }
+                return true;
+            })
+            .ValidateOnStart();
+
+        services.AddScoped<IUserSessionService, JwtUserSessionService>();
     }
 
     private static void AddUsosOAuth(this IServiceCollection services, IConfiguration configuration)
@@ -60,7 +85,7 @@ public static partial class InfrastructureConfiguration
                 var validationResult = validator.Validate(settings);
                 if (!validationResult.IsValid)
                 {
-                    throw new Microsoft.Extensions.Options.OptionsValidationException(
+                    throw new OptionsValidationException(
                         "UsosOAuthSettings",
                         typeof(UsosOAuthSettings),
                         validationResult.Errors.Select(e => e.ErrorMessage)
@@ -71,7 +96,6 @@ public static partial class InfrastructureConfiguration
             .ValidateOnStart();
 
         services.AddScoped<IUsosOAuthService, UsosOAuthService>();
-        services.AddScoped<IUserSessionService, JwtUserSessionService>();
     }
 
     // NOTE: don't use this method in PRODUCTION enviroment to apply migrations during app startup.
