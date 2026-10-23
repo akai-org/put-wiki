@@ -1,31 +1,29 @@
 import { createFileRoute, useParams } from '@tanstack/react-router';
 import { useMemo } from 'react';
-import { useCourseQuery } from '@/features/courses';
 import { calculateAverage } from '@/utils';
 import { courseQueries } from '@/features/courses/api/courseQueries';
+import throwRouteError from '@/utils/throwRouteError';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/courses/$slug')({
   component: CoursePage,
-  loader: ({ context: { queryClient }, params: { slug } }) => {
-    return queryClient.ensureQueryData(courseQueries.bySlug(slug));
+  pendingComponent: CoursePageSkeleton,
+  loader: async ({ context: { queryClient }, params: { slug } }) => {
+    try {
+      return queryClient.query({
+        ...courseQueries.bySlug(slug),
+      });
+    } catch (error) {
+      throwRouteError(error);
+    }
   },
 });
 
 function CoursePage() {
   const { slug } = useParams({ from: '/courses/$slug' });
-  const { data, isLoading, isError } = useCourseQuery(slug);
+  const { data } = useSuspenseQuery(courseQueries.bySlug(slug));
   const averageRating = useMemo(() => calculateAverage(data?.ratings), [data?.ratings]);
 
-  if (isLoading)
-    return <div className="flex items-center justify-center text-7xl text-white">Ładowanie...</div>;
-
-  if (isError)
-    return (
-      <div className="flex items-center justify-center text-7xl text-white">
-        Wystąpił niespodziewany błąd
-      </div>
-    );
-  if (!data) return null;
   return (
     <div className="min-h-screen bg-[#1E1E2E] p-8 md:p-16">
       <div className="mx-auto max-w-full ">
@@ -79,6 +77,22 @@ function CoursePage() {
             </p>
           </section>
         </main>
+      </div>
+    </div>
+  );
+}
+
+function CoursePageSkeleton() {
+  return (
+    <div aria-label="Loading lecturer" className="mx-auto mt-4 w-full max-w-7xl animate-pulse">
+      <div className="grid grid-cols-1 self-stretch md:grid-cols-[7fr_3fr]">
+        <div className="m-3 h-56 rounded-xl bg-muted" />
+        <div className="m-3 h-56 rounded-xl bg-muted" />
+      </div>
+      <div className="m-3 h-40 rounded-xl bg-muted" />
+      <div className="grid grid-cols-1 self-stretch md:grid-cols-2">
+        <div className="m-3 h-56 rounded-xl bg-muted" />
+        <div className="m-3 h-56 rounded-xl bg-muted" />
       </div>
     </div>
   );

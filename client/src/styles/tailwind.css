@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..700&family=Manrope:wght@200..800&display=swap');
+
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
@@ -37,8 +38,8 @@
   --sidebar-accent-foreground: oklch(0.18 0.0188 274.6495);
   --sidebar-border: oklch(0.5189 0.0752 275.1704);
   --sidebar-ring: oklch(0.7884 0.1595 73.8367);
-  --font-sans: Inter, ui-sans-serif, sans-serif, system-ui;
-  --font-display: 'Google Sans Flex', 'Inter', ui-sans-serif, sans-serif;
+  --font-sans: Manrope, ui-sans-serif, sans-serif, system-ui;
+  --font-display: 'Google Sans Flex', Manrope, ui-sans-serif, sans-serif;
   --radius: 0.625rem;
   --shadow-x: 16px;
   --shadow-y: 16px;
@@ -91,8 +92,8 @@
   --sidebar-accent-foreground: oklch(0.9702 0 0);
   --sidebar-border: oklch(0.3406 0.074 274.6498);
   --sidebar-ring: oklch(0.6991 0.1449 73.7274);
-  --font-sans: Inter, ui-sans-serif, sans-serif, system-ui;
-  --font-display: 'Google Sans Flex', 'Inter', ui-sans-serif, sans-serif;
+  --font-sans: Manrope, ui-sans-serif, sans-serif, system-ui;
+  --font-display: 'Google Sans Flex', Manrope, ui-sans-serif, sans-serif;
   --radius: 0.625rem;
   --shadow-x: 14px;
   --shadow-y: 14px;

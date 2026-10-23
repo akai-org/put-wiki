@@ -7,7 +7,7 @@ import {
 import { degreeCourseKeys } from './queryKeys';
 
 async function getDegreeCourse(slug: string): Promise<DegreeCourse> {
-  const response = await api.get(`/mocks/${slug}.json`);
+  const response = await api.get(`/degree-courses/${slug}`);
   return DegreeCourseSchema.parse(response.data);
 }
 
