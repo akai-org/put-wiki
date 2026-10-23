@@ -1,28 +1,22 @@
 import { useState, useEffect } from 'react';
-import { useUserSession } from '@/features/auth';
 
 const ONBOARDING_STORAGE_KEY = 'hasSeenOnboarding';
 
 export function useOnboarding(totalSteps: number) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const { isLoggedIn } = useUserSession();
 
   useEffect(() => {
     const hasSeenOnboarding = localStorage.getItem(ONBOARDING_STORAGE_KEY);
 
-    const timer = setTimeout(() => {
-      if (!isLoggedIn) {
+    if (hasSeenOnboarding !== 'true') {
+      const timer = setTimeout(() => {
         setIsOpen(true);
-      }
-    }, 150);
+      }, 150);
 
-    if (hasSeenOnboarding === 'true') {
-      return;
+      return () => clearTimeout(timer);
     }
-
-    return () => clearTimeout(timer);
-  }, [isLoggedIn]);
+  }, []);
 
   const completeOnboarding = () => {
     localStorage.setItem(ONBOARDING_STORAGE_KEY, 'true');
