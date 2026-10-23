@@ -4,7 +4,7 @@ const ONBOARDING_STORAGE_KEY = 'hasSeenOnboarding';
 
 export function useOnboarding(totalSteps: number) {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentViewIndex, setCurrentViewIndex] = useState(0);
 
   useEffect(() => {
     const hasSeenOnboarding = localStorage.getItem(ONBOARDING_STORAGE_KEY);
@@ -31,21 +31,21 @@ export function useOnboarding(totalSteps: number) {
   };
 
   const goToNextStep = () => {
-    if (currentStep >= totalSteps - 1) {
+    if (currentViewIndex >= totalSteps - 1) {
       completeOnboarding();
     } else {
-      setCurrentStep((prev) => prev + 1);
+      setCurrentViewIndex((prev) => prev + 1);
     }
   };
 
   const goToPrevStep = () => {
-    setCurrentStep((prev) => Math.max(0, prev - 1));
+    setCurrentViewIndex((prev) => Math.max(0, prev - 1));
   };
 
   return {
     isOpen,
-    currentStep,
-    isLastStep: currentStep === totalSteps - 1,
+    currentViewIndex,
+    isLastStep: currentViewIndex === totalSteps - 1,
     completeOnboarding,
     handleOpenChange,
     goToNextStep,

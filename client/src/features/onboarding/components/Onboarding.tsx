@@ -15,7 +15,7 @@ import { cn } from '@/utils';
 export function Onboarding() {
   const {
     isOpen,
-    currentStep,
+    currentViewIndex,
     isLastStep,
     completeOnboarding,
     handleOpenChange,
@@ -23,7 +23,7 @@ export function Onboarding() {
     goToPrevStep,
   } = useOnboarding(onboardingSteps.length);
 
-  const step = onboardingSteps[currentStep];
+  const currentViewBoard = onboardingSteps[currentViewIndex];
 
   return (
     <Dialog onOpenChange={handleOpenChange} open={isOpen}>
@@ -35,22 +35,22 @@ export function Onboarding() {
         <DialogHeader className="flex-1 items-center justify-center text-center">
           <div className="mb-6 flex h-48 w-full items-center justify-center md:h-64">
             <img
-              alt={step.imageAlt}
+              alt={currentViewBoard.imageAlt}
               className="max-h-full max-w-full object-contain drop-shadow-sm"
-              src={step.imageSrc}
+              src={currentViewBoard.imageSrc}
             />
           </div>
 
           <DialogTitle className="mb-4 text-xl font-bold text-card-foreground md:text-2xl">
-            {step.title}
+            {currentViewBoard.title}
           </DialogTitle>
 
-          {step.description ? (
+          {currentViewBoard.description ? (
             <DialogDescription className="flex h-24 w-full items-center justify-center rounded-xl bg-muted/50 p-4 text-sm text-muted-foreground md:h-28 md:text-base">
-              {step.description}
+              {currentViewBoard.description}
             </DialogDescription>
           ) : (
-            <DialogDescription className="sr-only">{step.title}</DialogDescription>
+            <DialogDescription className="sr-only">{currentViewBoard.title}</DialogDescription>
           )}
         </DialogHeader>
 
@@ -66,19 +66,22 @@ export function Onboarding() {
 
             <div className="flex gap-2">
               <Button
-                className={cn('shadow-none active:bg-accent/70', currentStep === 0 && 'invisible')}
-                onClick={goToPrevStep}
-                variant="outline"
-              >
+                  className={cn(
+                    " shadow-none active:bg-accent/70",
+                    currentViewIndex === 0 && "invisible"
+                  )}
+                  onClick={goToPrevStep}
+                  variant="outline"
+                  >
                 Wstecz
               </Button>
-              <Button className="shadow-none active:bg-primary/70" onClick={goToNextStep}>
+              <Button className=" shadow-none active:bg-primary/70" onClick={goToNextStep}>
                 {isLastStep ? 'Zakończ' : 'Dalej'}
               </Button>
             </div>
           </div>
 
-          <OnboardingStepIndicator currentStep={currentStep} totalSteps={onboardingSteps.length} />
+          <OnboardingStepIndicator currentViewIndex={currentViewIndex} totalSteps={onboardingSteps.length} />
         </DialogFooter>
       </DialogContent>
     </Dialog>
