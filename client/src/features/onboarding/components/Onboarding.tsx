@@ -66,13 +66,13 @@ export function Onboarding() {
 
             <div className="flex gap-2">
               <Button
-                  className={cn(
-                    " shadow-none active:bg-accent/70",
-                    currentViewIndex === 0 && "invisible"
-                  )}
-                  onClick={goToPrevStep}
-                  variant="outline"
-                  >
+                className={cn(
+                  ' shadow-none active:bg-accent/70',
+                  currentViewIndex === 0 && 'invisible'
+                )}
+                onClick={goToPrevStep}
+                variant="outline"
+              >
                 Wstecz
               </Button>
               <Button className=" shadow-none active:bg-primary/70" onClick={goToNextStep}>
@@ -81,7 +81,10 @@ export function Onboarding() {
             </div>
           </div>
 
-          <OnboardingStepIndicator currentViewIndex={currentViewIndex} totalSteps={onboardingSteps.length} />
+          <OnboardingStepIndicator
+            currentViewIndex={currentViewIndex}
+            totalSteps={onboardingSteps.length}
+          />
         </DialogFooter>
       </DialogContent>
     </Dialog>

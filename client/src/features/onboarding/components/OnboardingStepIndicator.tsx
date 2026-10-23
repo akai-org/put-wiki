@@ -5,7 +5,10 @@ interface OnboardingStepIndicatorProps {
   totalSteps: number;
 }
 
-export function OnboardingStepIndicator({ currentViewIndex, totalSteps }: OnboardingStepIndicatorProps) {
+export function OnboardingStepIndicator({
+  currentViewIndex,
+  totalSteps,
+}: OnboardingStepIndicatorProps) {
   return (
     <div className="flex justify-center gap-2">
       {Array.from({ length: totalSteps }).map((_, index) => (
