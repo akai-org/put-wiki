@@ -226,4 +226,154 @@ public sealed class JwtUserSessionServiceTest : IDisposable
         jwtToken.Issuer.Should().Be(expectedIssuer);
         jwtToken.Audiences.Should().Contain(expectedAudience);
     }
+
+    [Fact]
+    public async Task RefreshSession_GivenValidRefreshToken_ShouldRevokeIt()
+    {
+        // Arrange
+        var userId = Guid.NewGuid();
+        var refreshTokenString = "valid-refresh-token";
+        var fixedTime = new DateTimeOffset(2026, 10, 24, 19, 0, 0, TimeSpan.Zero);
+        _fakeTimeProvider.SetUtcNow(fixedTime);
+        using var context = CreateContext();
+
+        var refreshToken = new RefreshToken
+        {
+            Id = Guid.NewGuid(),
+            UserId = userId,
+            Token = refreshTokenString,
+            CreatedAt = fixedTime.AddDays(-1),
+            ExpiresAt = fixedTime.AddDays(5),
+            IsRevoked = false
+        };
+        context.Add(refreshToken);
+        await context.SaveChangesAsync();
+
+        var options = CreateOptions();
+        var sut = new JwtUserSessionService(options, context, _fakeTimeProvider);
+
+        // Act
+        await sut.RefreshSession(refreshTokenString);
+
+        // Assert
+        refreshToken.IsRevoked.Should().BeTrue();
+    }
+
+
+    [Fact]
+    public async Task RefreshSession_GivenValidRefreshToken_ShouldReturnNewTokenPair()
+    {
+        // Arrange
+        var userId = Guid.NewGuid();
+        var refreshTokenString = "valid-refresh-token";
+        var fixedTime = new DateTimeOffset(2026, 10, 24, 19, 0, 0, TimeSpan.Zero);
+        _fakeTimeProvider.SetUtcNow(fixedTime);
+        using var context = CreateContext();
+
+        var refreshToken = new RefreshToken
+        {
+            Id = Guid.NewGuid(),
+            UserId = userId,
+            Token = refreshTokenString,
+            CreatedAt = fixedTime.AddDays(-1),
+            ExpiresAt = fixedTime.AddDays(5),
+            IsRevoked = false
+        };
+        context.Add(refreshToken);
+        await context.SaveChangesAsync();
+
+        var options = CreateOptions();
+        var sut = new JwtUserSessionService(options, context, _fakeTimeProvider);
+
+        // Act
+        var result = await sut.RefreshSession(refreshTokenString);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.AccessToken.Should().NotBeNullOrWhiteSpace();
+        result.RefreshToken.Should().NotBeNullOrWhiteSpace();
+        result.RefreshToken.Should().NotBe(refreshTokenString);
+    }
+
+    [Fact]
+    public async Task RefreshSession_GivenInvalidRefreshTokenString_ShouldReturnNull()
+    {
+        // Arrange
+        var fixedTime = new DateTimeOffset(2026, 10, 24, 19, 0, 0, TimeSpan.Zero);
+        _fakeTimeProvider.SetUtcNow(fixedTime);
+        using var context = CreateContext();
+
+        var options = CreateOptions();
+        var sut = new JwtUserSessionService(options, context, _fakeTimeProvider);
+
+        // Act
+        var result = await sut.RefreshSession("non-existent-token");
+
+        // Assert
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task RefreshSession_GivenRevokedRefreshToken_ShouldReturnNull()
+    {
+        // Arrange
+        var userId = Guid.NewGuid();
+        var refreshTokenString = "revoked-refresh-token";
+        var fixedTime = new DateTimeOffset(2026, 10, 24, 19, 0, 0, TimeSpan.Zero);
+        _fakeTimeProvider.SetUtcNow(fixedTime);
+        using var context = CreateContext();
+
+        var refreshToken = new RefreshToken
+        {
+            Id = Guid.NewGuid(),
+            UserId = userId,
+            Token = refreshTokenString,
+            CreatedAt = fixedTime.AddDays(-1),
+            ExpiresAt = fixedTime.AddDays(5),
+            IsRevoked = true
+        };
+        context.Add(refreshToken);
+        await context.SaveChangesAsync();
+
+        var options = CreateOptions();
+        var sut = new JwtUserSessionService(options, context, _fakeTimeProvider);
+
+        // Act
+        var result = await sut.RefreshSession(refreshTokenString);
+
+        // Assert
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task RefreshSession_GivenExpiredRefreshToken_ShouldReturnNull()
+    {
+        // Arrange
+        var userId = Guid.NewGuid();
+        var refreshTokenString = "expired-refresh-token";
+        var fixedTime = new DateTimeOffset(2026, 10, 24, 19, 0, 0, TimeSpan.Zero);
+        _fakeTimeProvider.SetUtcNow(fixedTime);
+        using var context = CreateContext();
+
+        var refreshToken = new RefreshToken
+        {
+            Id = Guid.NewGuid(),
+            UserId = userId,
+            Token = refreshTokenString,
+            CreatedAt = fixedTime.AddDays(-10),
+            ExpiresAt = fixedTime.AddDays(-1),
+            IsRevoked = false
+        };
+        context.Add(refreshToken);
+        await context.SaveChangesAsync();
+
+        var options = CreateOptions();
+        var sut = new JwtUserSessionService(options, context, _fakeTimeProvider);
+
+        // Act
+        var result = await sut.RefreshSession(refreshTokenString);
+
+        // Assert
+        result.Should().BeNull();
+    }
 }

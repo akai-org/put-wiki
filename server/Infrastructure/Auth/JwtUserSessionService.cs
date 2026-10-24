@@ -43,12 +43,9 @@ public sealed class JwtUserSessionService(
     public async Task<JwtTokenPair?> RefreshSession(string refreshToken)
     {
         var storedTokenObject = await dbContext.RefreshTokens
-            .FirstOrDefaultAsync(r =>
-                r.Token == refreshToken &&
-                !r.IsRevoked &&
-                r.ExpiresAt > timeProvider.GetUtcNow());
+            .FirstOrDefaultAsync(r => r.Token == refreshToken && !r.IsRevoked);
 
-        if (storedTokenObject is null)
+        if (storedTokenObject is null || storedTokenObject.ExpiresAt <= timeProvider.GetUtcNow())
         {
             return null;
         }
