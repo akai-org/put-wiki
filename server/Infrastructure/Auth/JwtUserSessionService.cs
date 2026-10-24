@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
-using Application.Features.Users.Commands.ProvisionUser;
+using Application.Auth;
 
 using Infrastructure.Auth.Configuration;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
@@ -36,6 +38,24 @@ public sealed class JwtUserSessionService(
         dbContext.RefreshTokens.Add(refreshToken);
 
         return new JwtTokenPair(accessToken, refreshToken.Token);
+    }
+
+    public async Task<JwtTokenPair?> RefreshSession(string refreshToken)
+    {
+        var storedTokenObject = await dbContext.RefreshTokens
+            .FirstOrDefaultAsync(r =>
+                r.Token == refreshToken &&
+                !r.IsRevoked &&
+                r.ExpiresAt > timeProvider.GetUtcNow());
+
+        if (storedTokenObject is null)
+        {
+            return null;
+        }
+
+        storedTokenObject.IsRevoked = true;
+
+        return CreateSession(storedTokenObject.UserId);
     }
 
     private string GenerateAccessToken(Guid userId)

@@ -24,7 +24,7 @@ public partial class ProvisionUserCommandHandler(
     IUserSessionService userSessionService)
 {
 
-    public async Task<Result<LoginResponse>> ExecuteAsync(ProvisionUserCommand cmd,
+    public async Task<Result<JwtTokenPair>> ExecuteAsync(ProvisionUserCommand cmd,
         CancellationToken ct = default)
     {
         var usosResult = await usosOAuthService.HandleCallbackAndGetUserAsync(cmd.OauthToken, cmd.OauthVerifier, ct);
@@ -58,7 +58,7 @@ public partial class ProvisionUserCommandHandler(
 
         await unitOfWork.SaveChangesAsync(ct);
 
-        return Result.Ok(new LoginResponse(tokens.AccessToken, tokens.RefreshToken));
+        return Result.Ok(new JwtTokenPair(tokens.AccessToken, tokens.RefreshToken));
     }
 
     [LoggerMessage(LogLevel.Warning, "Provisioning aborted: USOS authentication failed. Error: {error}")]
