@@ -1,23 +1,25 @@
-import { type ErrorComponentProps } from '@tanstack/react-router';
+import { Button } from '@/components/ui/Button';
+import { type ErrorComponentProps, useNavigate } from '@tanstack/react-router';
 import { useEffect } from 'react';
 
-export default function GlobalErrorPage({ error, reset, info }: ErrorComponentProps) {
+export default function GlobalErrorPage({ error, info }: ErrorComponentProps) {
   useEffect(() => {
     console.error(`Stack trace: ${info}`);
   }, [info]);
+  const navigate = useNavigate();
 
   return (
-    <div>
-      <h1>Ups! Coś poszło nie tak.</h1>
-      <p>Wystąpił niespodziewany błąd:</p>
-
+    <div className="flex size-full flex-col items-center justify-center p-6">
+      <h1 className="text-6xl font-bold text-destructive">
+        {'status' in error ? String(error.status) : '500'}
+      </h1>
       <div>
         <code>{error.message}</code>
       </div>
 
-      <button onClick={() => reset()} type="button">
-        Spróbuj ponownie
-      </button>
+      <Button onClick={() => navigate({ to: '/' })} variant="secondary">
+        Go back to home
+      </Button>
     </div>
   );
 }

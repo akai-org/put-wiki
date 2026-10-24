@@ -168,6 +168,16 @@ export default defineConfig([
               from: './src/features',
               except: ['./degree-courses'],
             },
+            {
+              target: `./src/features/lectures`,
+              from: './src/features',
+              except: ['./lectures'],
+            },
+            {
+              target: './src/features/user-public-profile',
+              from: './src/features',
+              except: ['./user-public-profile'],
+            },
           ],
         },
       ],
