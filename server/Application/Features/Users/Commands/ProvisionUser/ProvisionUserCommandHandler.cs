@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Application.Abstractions;
 using Application.Auth;
 using Application.Errors;
-using Application.Interfaces;
 
 using Domain.Users;
 
