@@ -31,40 +31,20 @@ public class BaseApiController : ControllerBase
             return Ok();
         }
 
-        var errors = new List<string>();
-
-        for (var i = 0; i < result.Errors.Count; i++)
-        {
-            var error = result.Errors[i];
-            errors.Add(error.Message);
-
-            for (var j = 0; j < error.Reasons.Count; j++)
-            {
-                if (error.Reasons[j] is IError reason)
-                {
-                    errors.Add(reason.Message);
-                }
-            }
-        }
-
-        var firstDetail = result.Errors.Count > 0 ? result.Errors[0].Message : null;
-
-        var problemDetails = new ProblemDetails
-        {
-            Title = "Bad Request",
-            Status = StatusCodes.Status400BadRequest,
-            Detail = firstDetail,
-            Extensions =
-        {
-            ["errors"] = errors
-        }
-        };
-
-        return BadRequest(problemDetails);
+        return HandleError(result.Errors);
     }
 
     private ObjectResult HandleError(IReadOnlyList<IError> errors)
     {
+        if (errors is null || errors.Count == 0)
+        {
+            return Problem(
+                statusCode: StatusCodes.Status500InternalServerError,
+                title: GetTitle(StatusCodes.Status500InternalServerError),
+                detail: "An unknown error occurred."
+            );
+        }
+
         var firstError = errors[0];
 
         var statusCode = firstError switch
@@ -77,9 +57,29 @@ public class BaseApiController : ControllerBase
             _ => StatusCodes.Status500InternalServerError
         };
 
+        var errorMessages = new HashSet<string>();
+
+        foreach (var error in errors)
+        {
+            if (!string.IsNullOrWhiteSpace(error.Message))
+            {
+                errorMessages.Add(error.Message);
+            }
+
+            if (error.Reasons is null) continue;
+
+            foreach (var reason in error.Reasons)
+            {
+                if (!string.IsNullOrWhiteSpace(reason.Message))
+                {
+                    errorMessages.Add(reason.Message);
+                }
+            }
+        }
+
         var extensions = new Dictionary<string, object?>
         {
-            { "errors", errors.Select(e => e.Message).ToArray() }
+            ["errors"] = errorMessages.ToArray()
         };
 
         return Problem(
@@ -92,11 +92,11 @@ public class BaseApiController : ControllerBase
 
     private static string GetTitle(int statusCode) => statusCode switch
     {
-        400 => "Bad Request",
-        401 => "Unauthorized",
-        404 => "Not Found",
-        409 => "Conflict",
-        502 => "Bad Gateway",
+        StatusCodes.Status400BadRequest => "Bad Request",
+        StatusCodes.Status401Unauthorized => "Unauthorized",
+        StatusCodes.Status404NotFound => "Not Found",
+        StatusCodes.Status409Conflict => "Conflict",
+        StatusCodes.Status502BadGateway => "Bad Gateway",
         _ => "Server Error"
     };
 }
