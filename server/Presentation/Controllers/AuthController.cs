@@ -3,7 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Application.Auth;
+using Application.Errors;
 using Application.Features.Users.Commands.ProvisionUser;
+using Application.Features.Users.Commands.RefreshUserSession;
 
 using FluentResults;
 
@@ -16,11 +18,14 @@ using Microsoft.Extensions.Options;
 
 using Presentation.Extensions;
 
+using Scalar.AspNetCore;
+
 namespace Presentation.Controllers;
 
 public class AuthController(
     IUsosOAuthService usosOAuthService,
     ProvisionUserCommandHandler provisionUserCommandHandler,
+    RefreshSessionCommandHandler refreshSessionCommandHandler,
     IOptions<JwtSettings> jwtSettings,
     IHostEnvironment environment) : BaseApiController
 {
@@ -38,7 +43,8 @@ public class AuthController(
     }
 
     [HttpGet("callback")]
-    [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status200OK)]
+    [ExcludeFromApiReference]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status502BadGateway)]
@@ -51,6 +57,42 @@ public class AuthController(
         var command = new ProvisionUserCommand(oauthToken, oauthVerifier);
         var result = await provisionUserCommandHandler.ExecuteAsync(command, ct);
 
+        if (result.IsFailed)
+        {
+            return HandleResult(result);
+        }
+
+        AppendTokenCookies(result.Value);
+
+        return HandleResult(Result.Ok());
+    }
+
+    [HttpGet("refresh")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> Refresh(CancellationToken ct)
+    {
+        var success = Request.Cookies.TryGetValue(AuthConstants.RefreshTokenCookieName, out string? refreshToken);
+        if (!success || refreshToken is null)
+        {
+            return HandleResult(new UnauthorizedError("Refresh token not found"));
+        }
+
+        var command = new RefreshSessionCommand(refreshToken);
+        var result = await refreshSessionCommandHandler.ExecuteAsync(command, ct);
+
+        if (result.IsFailed)
+        {
+            return HandleResult(result);
+        }
+
+        AppendTokenCookies(result.Value);
+
+        return HandleResult(Result.Ok());
+    }
+
+    private void AppendTokenCookies(JwtTokenPair tokenPair)
+    {
         var accessTokenOptions = new CookieOptions
         {
             HttpOnly = true,
@@ -70,9 +112,7 @@ public class AuthController(
             Path = "/api/auth/refresh"
         };
 
-        Response.Cookies.Append(AuthConstants.AccessTokenCookieName, result.Value.AccessToken, accessTokenOptions);
-        Response.Cookies.Append(AuthConstants.RefreshTokenCookieName, result.Value.RefreshToken, refreshTokenOptions);
-
-        return HandleResult(Result.Ok());
+        Response.Cookies.Append(AuthConstants.AccessTokenCookieName, tokenPair.AccessToken, accessTokenOptions);
+        Response.Cookies.Append(AuthConstants.RefreshTokenCookieName, tokenPair.RefreshToken, refreshTokenOptions);
     }
 }
