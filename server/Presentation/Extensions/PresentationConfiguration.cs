@@ -98,7 +98,7 @@ public static class PresentationConfiguration
                 {
                     OnMessageReceived = context =>
                     {
-                        if (context.Request.Cookies.TryGetValue("access_token", out var accessToken))
+                        if (context.Request.Cookies.TryGetValue(AuthConstants.AccessTokenCookieName, out var accessToken))
                         {
                             context.Token = accessToken;
                         }

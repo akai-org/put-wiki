@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
+using Presentation.Extensions;
+
 namespace Presentation.Controllers;
 
 public class AuthController(
@@ -68,8 +70,8 @@ public class AuthController(
             Path = "/api/auth/refresh"
         };
 
-        Response.Cookies.Append("access_token", result.Value.AccessToken, accessTokenOptions);
-        Response.Cookies.Append("refresh_token", result.Value.RefreshToken, refreshTokenOptions);
+        Response.Cookies.Append(AuthConstants.AccessTokenCookieName, result.Value.AccessToken, accessTokenOptions);
+        Response.Cookies.Append(AuthConstants.RefreshTokenCookieName, result.Value.RefreshToken, refreshTokenOptions);
 
         return HandleResult(Result.Ok());
     }
