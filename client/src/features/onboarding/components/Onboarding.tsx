@@ -41,7 +41,7 @@ export function Onboarding() {
             />
           </div>
 
-          <DialogTitle className="mb-4 text-xl font-bold text-card-foreground md:text-2xl">
+          <DialogTitle className="mb-4 font-display text-xl font-bold text-card-foreground md:text-2xl">
             {currentViewBoard.title}
           </DialogTitle>
 
@@ -57,7 +57,7 @@ export function Onboarding() {
         <DialogFooter className="mt-4 flex flex-col gap-6 sm:flex-col">
           <div className="flex w-full items-center justify-between">
             <Button
-              className="shadow-none active:bg-transparent"
+              className="cursor-poiter shadow-none active:bg-transparent"
               onClick={completeOnboarding}
               variant="ghost"
             >
@@ -67,7 +67,7 @@ export function Onboarding() {
             <div className="flex gap-2">
               <Button
                 className={cn(
-                  ' shadow-none active:bg-accent/70',
+                  'cursor-poiter shadow-none active:bg-accent/70',
                   currentViewIndex === 0 && 'invisible'
                 )}
                 onClick={goToPrevStep}
@@ -75,7 +75,10 @@ export function Onboarding() {
               >
                 Wstecz
               </Button>
-              <Button className=" shadow-none active:bg-primary/70" onClick={goToNextStep}>
+              <Button
+                className="cursor-poiter shadow-none active:bg-primary/70"
+                onClick={goToNextStep}
+              >
                 {isLastStep ? 'Zakończ' : 'Dalej'}
               </Button>
             </div>
