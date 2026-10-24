@@ -2,10 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Application.Abstractions;
 using Application.Auth;
 using Application.Errors;
 using Application.Features.Users.Commands.ProvisionUser;
-using Application.Interfaces;
 
 using Domain.Users;
 

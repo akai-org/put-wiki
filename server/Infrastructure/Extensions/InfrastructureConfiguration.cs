@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using Application.Abstractions;
 using Application.Auth;
 using Application.Features.AcademicTeachers.Queries;
 using Application.Features.Users.Commands.ProvisionUser;
-using Application.Interfaces;
 
 using Domain.AcademicTeachers;
 using Domain.Users;
@@ -73,6 +73,9 @@ public static partial class InfrastructureConfiguration
             .ValidateOnStart();
 
         services.AddScoped<IUserSessionService, JwtUserSessionService>();
+
+        services.AddHttpContextAccessor();
+        services.AddScoped<IUserContext, UserContext>();
     }
 
     private static void AddUsosOAuth(this IServiceCollection services, IConfiguration configuration)
