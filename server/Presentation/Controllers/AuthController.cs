@@ -1,17 +1,26 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Application.Auth;
 using Application.Features.Users.Commands.ProvisionUser;
 
+using FluentResults;
+
+using Infrastructure.Auth.Configuration;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace Presentation.Controllers;
 
 public class AuthController(
     IUsosOAuthService usosOAuthService,
-    ProvisionUserCommandHandler provisionUserCommandHandler) : BaseApiController
+    ProvisionUserCommandHandler provisionUserCommandHandler,
+    IOptions<JwtSettings> jwtSettings,
+    IHostEnvironment environment) : BaseApiController
 {
 
     [HttpGet("login")]
@@ -40,6 +49,28 @@ public class AuthController(
         var command = new ProvisionUserCommand(oauthToken, oauthVerifier);
         var result = await provisionUserCommandHandler.ExecuteAsync(command, ct);
 
-        return HandleResult(result);
+        var accessTokenOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = environment.IsProduction(),
+            SameSite = SameSiteMode.Strict,
+            IsEssential = true,
+            Expires = DateTimeOffset.UtcNow.Add(jwtSettings.Value.AccessTokenLifetime)
+        };
+
+        var refreshTokenOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = environment.IsProduction(),
+            SameSite = SameSiteMode.Strict,
+            IsEssential = true,
+            Expires = DateTimeOffset.UtcNow.Add(jwtSettings.Value.RefreshTokenLifetime),
+            Path = "/api/auth/refresh"
+        };
+
+        Response.Cookies.Append("access_token", result.Value.AccessToken, accessTokenOptions);
+        Response.Cookies.Append("refresh_token", result.Value.RefreshToken, refreshTokenOptions);
+
+        return HandleResult(Result.Ok());
     }
 }
