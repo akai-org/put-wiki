@@ -12,9 +12,9 @@ namespace Infrastructure;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IUnitOfWork
 {
-    public required DbSet<User> Users { get; set; }
-    public required DbSet<AcademicTeacher> AcademicTeachers { get; set; }
-    public virtual required DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<User> Users => Set<User>();
+    public DbSet<AcademicTeacher> AcademicTeachers => Set<AcademicTeacher>();
+    public virtual DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
