@@ -1,8 +1,9 @@
-using Application.Interfaces;
+using Application.Abstractions;
 
 using Domain.AcademicTeachers;
 using Domain.Users;
 
+using Infrastructure.Auth;
 using Infrastructure.EntitiesConfiguration;
 
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +12,9 @@ namespace Infrastructure;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IUnitOfWork
 {
-    public required DbSet<User> Users { get; set; }
-    public required DbSet<AcademicTeacher> AcademicTeachers { get; set; }
+    public DbSet<User> Users => Set<User>();
+    public DbSet<AcademicTeacher> AcademicTeachers => Set<AcademicTeacher>();
+    public virtual DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -20,5 +22,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
         new UserEntityTypeConfiguration().Configure(modelBuilder.Entity<User>());
         new AcademicTeacherEntityTypeConfiguration().Configure(modelBuilder.Entity<AcademicTeacher>());
+        new RefreshTokenEntityTypeConfiguration().Configure(modelBuilder.Entity<RefreshToken>());
     }
 }

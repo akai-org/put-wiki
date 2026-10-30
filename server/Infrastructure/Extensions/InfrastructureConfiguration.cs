@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 
+using Application.Abstractions;
 using Application.Auth;
 using Application.Features.AcademicTeachers.Queries;
 using Application.Features.Users.Commands.ProvisionUser;
-using Application.Interfaces;
 
 using Domain.AcademicTeachers;
 using Domain.Users;
@@ -21,6 +21,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Extensions;
 
@@ -46,21 +47,48 @@ public static partial class InfrastructureConfiguration
         services.AddScoped<IAcademicTeacherRepository, AcademicTeacherRepository>();
 
         services.AddUsosOAuth(configuration);
+        services.AddJwtAuth(configuration);
 
         return services;
+    }
+
+    private static void AddJwtAuth(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddOptions<JwtSettings>()
+            .Bind(configuration.GetSection(JwtSettings.SectionName))
+            .Validate(settings =>
+            {
+                var validator = new JwtTokensSettingsValidator();
+                var validationResult = validator.Validate(settings);
+                if (!validationResult.IsValid)
+                {
+                    throw new OptionsValidationException(
+                        "JwtSettings",
+                        typeof(JwtSettings),
+                        validationResult.Errors.Select(e => e.ErrorMessage)
+                    );
+                }
+                return true;
+            })
+            .ValidateOnStart();
+
+        services.AddScoped<IUserSessionService, JwtUserSessionService>();
+
+        services.AddHttpContextAccessor();
+        services.AddScoped<IUserContext, UserContext>();
     }
 
     private static void AddUsosOAuth(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddOptions<UsosOAuthSettings>()
-            .Bind(configuration.GetSection("UsosOAuth"))
+            .Bind(configuration.GetSection(UsosOAuthSettings.SectionName))
             .Validate(settings =>
             {
                 var validator = new UsosOAuthSettingsValidator();
                 var validationResult = validator.Validate(settings);
                 if (!validationResult.IsValid)
                 {
-                    throw new Microsoft.Extensions.Options.OptionsValidationException(
+                    throw new OptionsValidationException(
                         "UsosOAuthSettings",
                         typeof(UsosOAuthSettings),
                         validationResult.Errors.Select(e => e.ErrorMessage)
