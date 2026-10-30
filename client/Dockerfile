@@ -1,4 +1,4 @@
-FROM oven/bun:1.4.3-alpine AS base
+FROM oven/bun:1.4.4-alpine AS base
 WORKDIR /app
 COPY package.json bun.lock ./
 
@@ -7,7 +7,7 @@ RUN bun ci
 COPY . .
 RUN bun run build
 
-FROM nginx:1.31.6-alpine AS prod
+FROM nginx:1.31.7-alpine AS prod
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 8080
