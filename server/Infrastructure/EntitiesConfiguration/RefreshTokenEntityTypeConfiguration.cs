@@ -1,4 +1,6 @@
-﻿using Infrastructure.Auth;
+﻿using Domain.Users;
+
+using Infrastructure.Auth;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -15,5 +17,11 @@ public class RefreshTokenEntityTypeConfiguration : IEntityTypeConfiguration<Refr
         builder.HasIndex(x => x.Token).IsUnique();
 
         builder.HasIndex(x => x.UserId);
+
+        builder.HasOne<User>()
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
