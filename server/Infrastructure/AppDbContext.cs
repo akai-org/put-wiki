@@ -19,11 +19,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
         modelBuilder.HasPostgresExtension("citext");
-
-        new UserEntityTypeConfiguration().Configure(modelBuilder.Entity<User>());
-        new AcademicTeacherEntityTypeConfiguration().Configure(modelBuilder.Entity<AcademicTeacher>());
-        new RefreshTokenEntityTypeConfiguration().Configure(modelBuilder.Entity<RefreshToken>());
+        
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 }
