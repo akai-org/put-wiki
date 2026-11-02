@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react-swc';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
+import { msw } from 'msw/vite';
 
 const dirname = import.meta.dirname;
 
@@ -15,6 +16,7 @@ export default defineConfig({
     }),
     react(),
     tailwindcss(),
+    msw(),
   ],
   resolve: {
     alias: {

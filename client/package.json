@@ -85,10 +85,5 @@
     "vite": "^8.3.2",
     "vitest": "^5.0.3",
     "vitest-localstorage-mock": "^0.1.2"
-  },
-  "msw": {
-    "workerDirectory": [
-      "public"
-    ]
   }
 }

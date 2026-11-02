@@ -4,10 +4,14 @@ import { createRoot } from 'react-dom/client';
 import { App } from '@/App';
 
 async function enableMocking() {
-  if (process.env.NODE_ENV !== 'development') return;
+  if (!import.meta.env.DEV) return;
 
-  const { worker } = await import('./tests/__mocks__/browser');
-  return worker.start();
+  // eslint-disable-next-line import/no-unresolved
+  const { network } = await import('virtual:msw');
+  const { handlers } = await import('./tests/__mocks__/handlers');
+
+  network.configure({ handlers });
+  await network.enable();
 }
 
 enableMocking().then(() =>
