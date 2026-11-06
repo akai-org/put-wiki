@@ -40,8 +40,40 @@ Our app provides a way to users to authenticate using USOS. It allows us to acce
 2. Copy values from `.env.example` and fill in your `UsosOAuth__ConsumerKey`, `UsosOAuth__ConsumerSecret` that we provided you and any other variables.
 
 ### JWT
-here is description of our own token used by frontend to authenticate with backend.
+Authentication flow including USOS OAuth shown as sequence diagram for backend API client:
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client as Client
+    participant API as PutWiki Auth API
+    participant DB as Database
+    participant USOS as External USOS OAuth
 
+    rect
+        Note over Client, USOS: Step 1: login (new/existing user) & OAuth authorization flow
+        Client->>API: GET /api/auth/login
+        API->>USOS: Request authorization URL
+        USOS-->>API: Return external auth URL
+        API-->>Client: 302 Found (redirect to USOS login page)
+        Client->>USOS: User logs in with USOS & grants permissions (when necessary)
+        USOS-->>API: Redirect to /api/auth/callback (with oauth tokens)
+    end
+
+    rect
+        Note over API, DB: Step 2: callback & user provisioning flow
+        API->>DB: Provision user (if new) & persist refresh token
+        DB-->>API: Operations done successfully
+        API->>Client: 200 OK + set HttpOnly cookies (access & refresh tokens)
+    end
+
+    rect
+        Note over Client, DB: Step 3: token refresh flow
+        Client->>API: GET /api/auth/refresh (sends refresh token cookie)
+        API->>DB: Validate token, revoke old token, store new session
+        DB-->>API: Operations done successfully
+        API->>Client: 200 OK + set new HttpOnly cookies
+    end
+```
 ## Configuration
 
 In ASP.NET Core app configuration is loaded in specific order and is read using variety of configuration sources: settings files, environment variables, etc. See [this](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-10.0) for more details.
