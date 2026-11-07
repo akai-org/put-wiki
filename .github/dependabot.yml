@@ -85,6 +85,23 @@ updates:
         update-types:
           - "major"
 
+  - package-ecosystem: "bun"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      husky-bun-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      husky-bun-major-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
+
   - package-ecosystem: "nuget"
     directory: "/server"
     schedule:
