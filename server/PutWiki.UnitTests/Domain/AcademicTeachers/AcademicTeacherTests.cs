@@ -11,12 +11,12 @@ public class AcademicTeacherTests
 {
     private static readonly string[] DefaultValidDegrees = ["dr hab.", "inż."];
 
-    public static TheoryData<string[]> InvalidDegreesData =>
-    [
-        Array.Empty<string>(),
-        [""],
-        ["   ", ""]
-    ];
+    public static TheoryData<string[]> InvalidDegreesData => new TheoryData<string[]>
+    {
+        { Array.Empty<string>() },
+        { [""] },
+        { ["   ", ""] }
+    };
 
     [Fact]
     public void Create_WithValidRequiredParameters_ShouldInitializePropertiesAndGenerateGuid()
