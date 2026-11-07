@@ -9,7 +9,7 @@ services:
       - UsosOAuth__CallbackUrl=http://localhost:8080/api/auth/callback
 
   pgadmin:
-    image: dpage/pgadmin4:9.17
+    image: dpage/pgadmin4:9.19
     container_name: pgadmin
     restart: always
     environment:
