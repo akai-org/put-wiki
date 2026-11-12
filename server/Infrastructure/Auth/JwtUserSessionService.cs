@@ -32,27 +32,31 @@ public sealed partial class JwtUserSessionService(
     {
         var accessToken = GenerateAccessToken(userId);
 
+        var rawRefreshTokenString = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+        var hashedRefreshTokenString = RefreshTokenHasher.CreateHash(rawRefreshTokenString);
         var refreshToken = new RefreshToken
         {
             Id = Guid.NewGuid(),
             UserId = userId,
-            Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+            Token = hashedRefreshTokenString,
             ExpiresAt = timeProvider.GetUtcNow().Add(settings.Value.RefreshTokenLifetime),
             CreatedAt = timeProvider.GetUtcNow()
         };
 
         dbContext.RefreshTokens.Add(refreshToken);
 
-        return new JwtTokenPair(accessToken, refreshToken.Token);
+        return new JwtTokenPair(accessToken, rawRefreshTokenString);
     }
 
     /**
      * NOTE: after calling this method use IUnitOfWork to persist changes
      */
-    public async Task<JwtTokenPair?> RefreshSession(string refreshToken)
+    public async Task<JwtTokenPair?> RefreshSession(string rawRefreshTokenString)
     {
+        var hashedRefreshTokenString = RefreshTokenHasher.CreateHash(rawRefreshTokenString);
+
         var storedTokenObject = await dbContext.RefreshTokens
-            .FirstOrDefaultAsync(r => r.Token == refreshToken);
+            .FirstOrDefaultAsync(r => r.Token == hashedRefreshTokenString);
 
         if (storedTokenObject is null || storedTokenObject.ExpiresAt <= timeProvider.GetUtcNow())
         {
@@ -72,7 +76,7 @@ public sealed partial class JwtUserSessionService(
         }
 
         var rowsAffected = await dbContext.RefreshTokens
-            .Where(r => r.Token == refreshToken && !r.IsRevoked)
+            .Where(r => r.Token == hashedRefreshTokenString && !r.IsRevoked)
             .ExecuteUpdateAsync(s => s
                 .SetProperty(r => r.IsRevoked, true));
         if (rowsAffected == 0)
