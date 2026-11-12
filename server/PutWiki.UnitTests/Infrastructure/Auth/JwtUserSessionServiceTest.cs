@@ -202,6 +202,7 @@ public sealed class JwtUserSessionServiceTest : IDisposable
 
         // Act
         await sut.RefreshSession(refreshTokenString);
+        await context.SaveChangesAsync();
 
         // Assert
         refreshToken.IsRevoked.Should().BeTrue();
@@ -232,6 +233,7 @@ public sealed class JwtUserSessionServiceTest : IDisposable
 
         // Act
         var result = await sut.RefreshSession(refreshTokenString);
+        await context.SaveChangesAsync();
 
         // Assert
         result.Should().NotBeNull();
@@ -247,10 +249,11 @@ public sealed class JwtUserSessionServiceTest : IDisposable
         var fixedTime = new DateTimeOffset(2026, 10, 24, 19, 0, 0, TimeSpan.Zero);
         _fakeTimeProvider.SetUtcNow(fixedTime);
 
-        var (sut, _) = CreateSut();
+        var (sut, context) = CreateSut();
 
         // Act
         var result = await sut.RefreshSession("non-existent-token");
+        await context.SaveChangesAsync();
 
         // Assert
         result.Should().BeNull();
@@ -293,6 +296,7 @@ public sealed class JwtUserSessionServiceTest : IDisposable
 
         // Act
         var result = await sut.RefreshSession(revokedRefreshTokenString);
+        await context.SaveChangesAsync();
 
         // Assert
         var refreshTokens = await context.RefreshTokens.Where(rt => rt.UserId == user.Id && rt.IsRevoked).ToListAsync();
@@ -326,6 +330,7 @@ public sealed class JwtUserSessionServiceTest : IDisposable
 
         // Act
         var result = await sut.RefreshSession(refreshTokenString);
+        await context.SaveChangesAsync();
 
         // Assert
         result.Should().BeNull();
