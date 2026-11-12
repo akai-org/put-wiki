@@ -1,8 +1,9 @@
 ﻿using Application.Features.AcademicTeachers.Queries;
 using Application.Features.Users.Commands.ProvisionUser;
-using Application.Features.Users.Commands.UpdateNickname;
 using Application.Features.Users.Commands.RefreshUserSession;
+using Application.Features.Users.Commands.UpdateNickname;
 using Application.Mappings;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Extensions;
