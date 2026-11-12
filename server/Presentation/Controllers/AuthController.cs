@@ -69,7 +69,7 @@ public class AuthController(
     }
 
     [Authorize]
-    [HttpGet("refresh")]
+    [HttpPost("refresh")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Refresh(CancellationToken ct)
