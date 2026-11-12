@@ -4,17 +4,17 @@ using System.Threading.Tasks;
 
 using Application.Features.Users.Commands.UpdateNickname;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class UserController(
+public class UsersController(
     UpdateNicknameCommandHandler updateNicknameCommandHandler) : BaseApiController
 {
-    [HttpPatch("{userId:guid}")]
+    [Authorize]
+    [HttpPatch("{userId:guid}/nickname")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]

@@ -11,6 +11,7 @@ using FluentResults;
 
 using Infrastructure.Auth.Configuration;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
@@ -67,6 +68,7 @@ public class AuthController(
         return HandleResult(Result.Ok());
     }
 
+    [Authorize]
     [HttpGet("refresh")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
