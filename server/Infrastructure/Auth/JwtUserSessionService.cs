@@ -71,7 +71,14 @@ public sealed partial class JwtUserSessionService(
             return null;
         }
 
-        storedTokenObject.IsRevoked = true;
+        var rowsAffected = await dbContext.RefreshTokens
+            .Where(r => r.Token == refreshToken && !r.IsRevoked)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(r => r.IsRevoked, true));
+        if (rowsAffected == 0)
+        {
+            return null;
+        }
 
         return CreateSession(storedTokenObject.UserId);
     }
