@@ -75,6 +75,45 @@ public sealed class JwtUserSessionServiceTestFixture : IDisposable
         return user;
     }
 
+    public async Task<RefreshToken> CreateRevokedRefreshTokenAsync(
+        Guid userId,
+        TimeProvider timeProvider,
+        string rawTokenString = "raw-refresh-token",
+        TimeSpan? lifetime = null,
+        TimeSpan? age = null)
+    {
+        return await CreateRefreshTokenAsync(userId, timeProvider, rawTokenString, true, lifetime, age);
+    }
+
+    public async Task<RefreshToken> CreateRefreshTokenAsync(
+        Guid userId,
+        TimeProvider timeProvider,
+        string rawTokenString = "raw-refresh-token",
+        bool isRevoked = false,
+        TimeSpan? lifetime = null,
+        TimeSpan? age = null)
+    {
+        using var context = CreateContext();
+        var now = timeProvider.GetUtcNow();
+
+        var createdAt = now.Subtract(age ?? TimeSpan.FromDays(1));
+        var tokenLifetime = lifetime ?? TimeSpan.FromDays(7);
+
+        var refreshToken = new RefreshToken
+        {
+            Id = Guid.NewGuid(),
+            UserId = userId,
+            Token = RefreshTokenHasher.CreateHash(rawTokenString),
+            CreatedAt = createdAt,
+            ExpiresAt = createdAt.Add(tokenLifetime),
+            IsRevoked = isRevoked
+        };
+
+        context.RefreshTokens.Add(refreshToken);
+        await context.SaveChangesAsync();
+        return refreshToken;
+    }
+
     public void Dispose()
     {
         _connection.Dispose();
