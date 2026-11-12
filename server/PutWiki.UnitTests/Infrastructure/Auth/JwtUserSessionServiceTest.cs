@@ -70,9 +70,10 @@ public sealed class JwtUserSessionServiceTest : IDisposable
         await context.SaveChangesAsync();
 
         // Assert
+        var hashedRefreshToken = RefreshTokenHasher.CreateHash(result.RefreshToken);
         var refreshToken = await context.RefreshTokens.SingleAsync(rt =>
             rt.UserId == user.Id &&
-            rt.Token == result.RefreshToken &&
+            rt.Token == hashedRefreshToken &&
             rt.Id != Guid.Empty);
 
         refreshToken.Should().NotBeNull();
@@ -182,30 +183,29 @@ public sealed class JwtUserSessionServiceTest : IDisposable
     {
         // Arrange
         var user = await _fixture.CreateUserAsync(_fakeTimeProvider);
-        var refreshTokenString = "valid-refresh-token";
+        var rawRefreshTokenString = "raw-refresh-token";
         var fixedTime = new DateTimeOffset(2026, 10, 24, 19, 0, 0, TimeSpan.Zero);
         _fakeTimeProvider.SetUtcNow(fixedTime);
 
         var (sut, context) = CreateSut();
 
-        var refreshToken = new RefreshToken
-        {
-            Id = Guid.NewGuid(),
-            UserId = user.Id,
-            Token = refreshTokenString,
-            CreatedAt = fixedTime.AddDays(-1),
-            ExpiresAt = fixedTime.AddDays(5),
-            IsRevoked = false
-        };
-        context.Add(refreshToken);
-        await context.SaveChangesAsync();
+        await _fixture.CreateRefreshTokenAsync(
+            userId: user.Id,
+            timeProvider: _fakeTimeProvider,
+            rawTokenString: rawRefreshTokenString
+            );
 
         // Act
-        await sut.RefreshSession(refreshTokenString);
+        await sut.RefreshSession(rawRefreshTokenString);
         await context.SaveChangesAsync();
 
         // Assert
-        refreshToken.IsRevoked.Should().BeTrue();
+        using var verifyContext = _fixture.CreateContext();
+
+        var refreshTokens = await verifyContext.RefreshTokens.Where(rt => rt.UserId == user.Id).ToListAsync();
+        refreshTokens.Count.Should().Be(2);
+        refreshTokens.Single(rt => rt.IsRevoked).Should().NotBeNull();
+        refreshTokens.Single(rt => !rt.IsRevoked).Should().NotBeNull();
     }
 
     [Fact]
@@ -213,33 +213,27 @@ public sealed class JwtUserSessionServiceTest : IDisposable
     {
         // Arrange
         var user = await _fixture.CreateUserAsync(_fakeTimeProvider);
-        var refreshTokenString = "valid-refresh-token";
+        var rawRefreshTokenString = "valid-refresh-token";
         var fixedTime = new DateTimeOffset(2026, 10, 24, 19, 0, 0, TimeSpan.Zero);
         _fakeTimeProvider.SetUtcNow(fixedTime);
 
         var (sut, context) = CreateSut();
 
-        var refreshToken = new RefreshToken
-        {
-            Id = Guid.NewGuid(),
-            UserId = user.Id,
-            Token = refreshTokenString,
-            CreatedAt = fixedTime.AddDays(-1),
-            ExpiresAt = fixedTime.AddDays(5),
-            IsRevoked = false
-        };
-        context.Add(refreshToken);
-        await context.SaveChangesAsync();
+        await _fixture.CreateRefreshTokenAsync(
+            userId: user.Id,
+            timeProvider: _fakeTimeProvider,
+            rawTokenString: rawRefreshTokenString
+        );
 
         // Act
-        var result = await sut.RefreshSession(refreshTokenString);
+        var result = await sut.RefreshSession(rawRefreshTokenString);
         await context.SaveChangesAsync();
 
         // Assert
         result.Should().NotBeNull();
         result.AccessToken.Should().NotBeNullOrWhiteSpace();
         result.RefreshToken.Should().NotBeNullOrWhiteSpace();
-        result.RefreshToken.Should().NotBe(refreshTokenString);
+        result.RefreshToken.Should().NotBe(rawRefreshTokenString);
     }
 
     [Fact]
@@ -264,43 +258,36 @@ public sealed class JwtUserSessionServiceTest : IDisposable
     {
         // Arrange
         var user = await _fixture.CreateUserAsync(_fakeTimeProvider);
-        var notRevokedRefreshTokenString = "refresh-token-1";
-        var revokedRefreshTokenString = "refresh-token-2";
+        var notRevokedRawRefreshTokenString = "refresh-token-1";
+        var revokedRawRefreshTokenString = "refresh-token-2";
 
         var fixedTime = new DateTimeOffset(2026, 10, 24, 19, 0, 0, TimeSpan.Zero);
         _fakeTimeProvider.SetUtcNow(fixedTime);
 
         var (sut, context) = CreateSut();
 
-        var notRevokedRefreshToken = new RefreshToken
-        {
-            Id = Guid.NewGuid(),
-            UserId = user.Id,
-            Token = notRevokedRefreshTokenString,
-            CreatedAt = fixedTime.AddDays(-1),
-            ExpiresAt = fixedTime.AddDays(5),
-            IsRevoked = false
-        };
-        var revokedRefreshToken = new RefreshToken
-        {
-            Id = Guid.NewGuid(),
-            UserId = user.Id,
-            Token = revokedRefreshTokenString,
-            CreatedAt = fixedTime.AddDays(-1),
-            ExpiresAt = fixedTime.AddDays(5),
-            IsRevoked = true
-        };
-        context.Add(notRevokedRefreshToken);
-        context.Add(revokedRefreshToken);
-        await context.SaveChangesAsync();
+        await _fixture.CreateRefreshTokenAsync(
+            userId: user.Id,
+            timeProvider: _fakeTimeProvider,
+            rawTokenString: notRevokedRawRefreshTokenString
+        );
+
+        await _fixture.CreateRevokedRefreshTokenAsync(
+            userId: user.Id,
+            timeProvider: _fakeTimeProvider,
+            rawTokenString: revokedRawRefreshTokenString
+        );
 
         // Act
-        var result = await sut.RefreshSession(revokedRefreshTokenString);
+        var result = await sut.RefreshSession(revokedRawRefreshTokenString);
         await context.SaveChangesAsync();
 
         // Assert
-        var refreshTokens = await context.RefreshTokens.Where(rt => rt.UserId == user.Id && rt.IsRevoked).ToListAsync();
+        using var verifyContext = _fixture.CreateContext();
+
+        var refreshTokens = await verifyContext.RefreshTokens.Where(rt => rt.UserId == user.Id && rt.IsRevoked).ToListAsync();
         refreshTokens.Count.Should().Be(2);
+        refreshTokens.Should().OnlyContain(rt => rt.IsRevoked);
 
         result.Should().BeNull();
     }
@@ -310,26 +297,22 @@ public sealed class JwtUserSessionServiceTest : IDisposable
     {
         // Arrange
         var user = await _fixture.CreateUserAsync(_fakeTimeProvider);
-        var refreshTokenString = "expired-refresh-token";
+        var rawRefreshTokenString = "expired-refresh-token";
         var fixedTime = new DateTimeOffset(2026, 10, 24, 19, 0, 0, TimeSpan.Zero);
         _fakeTimeProvider.SetUtcNow(fixedTime);
 
         var (sut, context) = CreateSut();
 
-        var refreshToken = new RefreshToken
-        {
-            Id = Guid.NewGuid(),
-            UserId = user.Id,
-            Token = refreshTokenString,
-            CreatedAt = fixedTime.AddDays(-10),
-            ExpiresAt = fixedTime.AddDays(-1),
-            IsRevoked = false
-        };
-        context.Add(refreshToken);
-        await context.SaveChangesAsync();
+        await _fixture.CreateRefreshTokenAsync(
+            userId: user.Id,
+            timeProvider: _fakeTimeProvider,
+            rawTokenString: rawRefreshTokenString,
+            age: TimeSpan.FromDays(5),
+            lifetime: TimeSpan.FromDays(2)
+        );
 
         // Act
-        var result = await sut.RefreshSession(refreshTokenString);
+        var result = await sut.RefreshSession(rawRefreshTokenString);
         await context.SaveChangesAsync();
 
         // Assert
