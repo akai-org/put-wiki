@@ -6,5 +6,5 @@ namespace Application.Auth;
 public interface IUserSessionService
 {
     JwtTokenPair CreateSession(Guid userId);
-    Task<JwtTokenPair?> RefreshSession(string refreshToken);
+    Task<JwtTokenPair?> RefreshSession(string rawRefreshTokenString);
 }
