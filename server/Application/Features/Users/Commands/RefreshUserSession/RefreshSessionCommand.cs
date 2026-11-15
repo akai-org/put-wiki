@@ -1,3 +1,3 @@
 ﻿namespace Application.Features.Users.Commands.RefreshUserSession;
 
-public record RefreshSessionCommand(string RefreshToken);
+public sealed record RefreshSessionCommand(string RefreshToken);

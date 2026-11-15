@@ -1,3 +1,3 @@
 ﻿namespace Application.Auth;
 
-public record JwtTokenPair(string AccessToken, string RefreshToken);
+public sealed record JwtTokenPair(string AccessToken, string RefreshToken);
