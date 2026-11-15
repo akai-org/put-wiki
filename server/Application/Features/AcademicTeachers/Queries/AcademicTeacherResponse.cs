@@ -1,6 +1,6 @@
 ﻿namespace Application.Features.AcademicTeachers.Queries;
 
-public record AcademicTeacherResponse(
+public sealed record AcademicTeacherResponse(
     string Id,
     string Slug,
     AcademicTeacherBaseInfoDto BaseInfo,
@@ -8,13 +8,13 @@ public record AcademicTeacherResponse(
     string? Description
     );
 
-public record AcademicTeacherBaseInfoDto(
+public sealed record AcademicTeacherBaseInfoDto(
     string Name,
     string Title,
     string? PhotoUrl
     );
 
-public record AcademicTeacherContactInfoDto(
+public sealed record AcademicTeacherContactInfoDto(
     string Email,
     string? PhoneNumber,
     string? WebsiteUrl

@@ -2,4 +2,4 @@
 
 namespace Application.Features.AcademicTeachers.Queries;
 
-public record GetAcademicTeacherQuery(Guid Id);
+public sealed record GetAcademicTeacherQuery(Guid Id);
