@@ -7,7 +7,7 @@ namespace Application.Auth;
 
 public interface IUsosOAuthService
 {
-    Task<Result<string>> GetLoginUrlAsync(CancellationToken ct = default);
+    Task<Result<UsosLoginInitiationData>> GetLoginUrlAsync(CancellationToken ct = default);
 
     Task<Result<UsosUserDto>> HandleCallbackAndGetUserAsync(
         string oauthToken,

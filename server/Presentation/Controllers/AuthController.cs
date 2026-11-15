@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Presentation.Extensions;
@@ -23,13 +24,16 @@ using Scalar.AspNetCore;
 
 namespace Presentation.Controllers;
 
-public class AuthController(
+public partial class AuthController(
     IUsosOAuthService usosOAuthService,
     ProvisionUserCommandHandler provisionUserCommandHandler,
     RefreshSessionCommandHandler refreshSessionCommandHandler,
     IOptions<JwtSettings> jwtSettings,
-    IHostEnvironment environment) : BaseApiController
+    IHostEnvironment environment,
+    ILogger<AuthController> logger
+    ) : BaseApiController
 {
+    private const string OAuthStateCookieName = "oauth_state";
 
     [HttpGet("login")]
     [ProducesResponseType(typeof(string), StatusCodes.Status302Found)]
@@ -37,10 +41,20 @@ public class AuthController(
     public async Task<IActionResult> Login(CancellationToken ct)
     {
         var result = await usosOAuthService.GetLoginUrlAsync(ct);
-        if (result.IsSuccess)
-            return Redirect(result.Value);
+        if (result.IsFailed)
+            return HandleResult(result);
 
-        return HandleResult(result);
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = environment.IsProduction(),
+            SameSite = SameSiteMode.Lax,
+            IsEssential = true,
+            Expires = DateTimeOffset.UtcNow.AddMinutes(30)
+        };
+        Response.Cookies.Append(OAuthStateCookieName, result.Value.RequestToken, cookieOptions);
+
+        return Redirect(result.Value.AuthorizeUrl);
     }
 
     [HttpGet("callback")]
@@ -55,6 +69,20 @@ public class AuthController(
         CancellationToken ct
     )
     {
+        if (!Request.Cookies.TryGetValue(OAuthStateCookieName, out var savedToken) || string.IsNullOrEmpty(savedToken))
+        {
+            LogPossibleCsrfAttack("Missing state cookie");
+            return HandleResult(new UnauthorizedError("Missing OAuth state cookie."));
+        }
+
+        if (!string.Equals(savedToken, oauthToken, StringComparison.Ordinal))
+        {
+            LogPossibleCsrfAttack("State cookie mismatch");
+            return HandleResult(new UnauthorizedError("OAuth state cookie mismatch."));
+        }
+
+        Response.Cookies.Delete(OAuthStateCookieName);
+
         var command = new ProvisionUserCommand(oauthToken, oauthVerifier);
         var result = await provisionUserCommandHandler.ExecuteAsync(command, ct);
 
@@ -117,4 +145,7 @@ public class AuthController(
         Response.Cookies.Append(AuthConstants.AccessTokenCookieName, tokenPair.AccessToken, accessTokenOptions);
         Response.Cookies.Append(AuthConstants.RefreshTokenCookieName, tokenPair.RefreshToken, refreshTokenOptions);
     }
+
+    [LoggerMessage(Level = LogLevel.Warning, Message = "Detected possible CSRF attack. Reason: {reason}")]
+    public partial void LogPossibleCsrfAttack(string reason);
 }
