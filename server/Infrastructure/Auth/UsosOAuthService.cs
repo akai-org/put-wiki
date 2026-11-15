@@ -42,7 +42,7 @@ public partial class UsosOAuthService(
         PropertyNameCaseInsensitive = true,
     };
 
-    public async Task<Result<string>> GetLoginUrlAsync(CancellationToken ct = default)
+    public async Task<Result<UsosLoginInitiationData>> GetLoginUrlAsync(CancellationToken ct = default)
     {
         var authParams = new Dictionary<string, string> { ["oauth_callback"] = _settings.CallbackUrl };
         var queryParams = new Dictionary<string, string> { ["scopes"] = _settings.Scopes };
@@ -63,7 +63,8 @@ public partial class UsosOAuthService(
         CacheRequestTokenSecret(tokenPair.Value.Token, tokenPair.Value.Secret);
 
         var authorizeUrl = $"{_settings.BaseUrl.TrimEnd('/')}/{AuthorizeEndpoint}?oauth_token={tokenPair.Value.Token}";
-        return Result.Ok(authorizeUrl);
+
+        return Result.Ok(new UsosLoginInitiationData(authorizeUrl, tokenPair.Value.Token));
     }
 
     public async Task<Result<UsosUserDto>> HandleCallbackAndGetUserAsync(
@@ -170,7 +171,7 @@ public partial class UsosOAuthService(
         return Result.Ok(new OAuthTokenPair(token, secret));
     }
 
-    private readonly record struct OAuthTokenPair(string Token, string Secret);
+    private sealed record OAuthTokenPair(string Token, string Secret);
     private sealed record UsosUserResponse([property: JsonPropertyName("id")] string? Id);
 
     [LoggerMessage(Level = LogLevel.Warning, Message = "USOS callback received unknown/expired request token.")]

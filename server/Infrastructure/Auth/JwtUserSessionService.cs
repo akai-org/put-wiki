@@ -111,6 +111,6 @@ public sealed partial class JwtUserSessionService(
         return new JsonWebTokenHandler().CreateToken(tokenDescriptor);
     }
 
-    [LoggerMessage(LogLevel.Critical, "Tried to refresh session of user with ID: {userId} with refresh token that is already revoked")]
+    [LoggerMessage(LogLevel.Warning, "Tried to refresh session of user with ID: {userId} with refresh token that is already revoked")]
     partial void LogRefreshTokenTheftOccured(string userId);
 }
