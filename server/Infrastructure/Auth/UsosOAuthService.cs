@@ -86,6 +86,8 @@ public partial class UsosOAuthService(
         if (accessToken.IsFailed)
             return accessToken.ToResult();
 
+        // TODO: currently backend throws away OAuthTokenPair when returning from this method. It should be persisted somehow to be able to query USOS API on behalf of our user later on.
+
         var usosUserResult = await FetchUserAsync(accessToken.Value.Token, accessToken.Value.Secret, ct);
         if (usosUserResult.IsFailed)
             return usosUserResult.ToResult();
