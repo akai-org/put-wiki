@@ -2,9 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using Application.Abstractions;
 using Application.Auth;
 using Application.Errors;
+using Application.Interfaces;
+
+using AutoMapper;
 
 using Domain.Users;
 
@@ -20,11 +22,11 @@ public partial class ProvisionUserCommandHandler(
     IUserRepository userRepository,
     IUnitOfWork unitOfWork,
     ILogger<ProvisionUserCommandHandler> logger,
-    TimeProvider timeProvider,
-    IUserSessionService userSessionService)
+    IMapper mapper,
+    TimeProvider timeProvider)
 {
 
-    public async Task<Result<JwtTokenPair>> ExecuteAsync(ProvisionUserCommand cmd,
+    public async Task<Result<UserDto>> ExecuteAsync(ProvisionUserCommand cmd,
         CancellationToken ct = default)
     {
         var usosResult = await usosOAuthService.HandleCallbackAndGetUserAsync(cmd.OauthToken, cmd.OauthVerifier, ct);
@@ -42,31 +44,24 @@ public partial class ProvisionUserCommandHandler(
         var rawUsosId = usosResult.Value.Id;
         var hashedId = hasher.Hash(rawUsosId);
 
-        var user = await userRepository.GetByHashedUsosIdAsync(hashedId, ct);
-        if (user is null)
+        var existingUser = await userRepository.GetByHashedUsosIdAsync(hashedId, ct);
+        if (existingUser != null)
         {
-            user = User.Create(hashedId, timeProvider.GetUtcNow());
-            userRepository.Add(user);
-            LogProvisionedNewUser(user.Id);
-        }
-        else
-        {
-            LogUserLoggedIn(user.Id);
+            return Result.Ok(mapper.Map<UserDto>(existingUser));
         }
 
-        var tokens = userSessionService.CreateSession(user.Id);
-
+        var newUser = User.Create(hashedId, timeProvider.GetUtcNow());
+        userRepository.Add(newUser);
         await unitOfWork.SaveChangesAsync(ct);
 
-        return Result.Ok(new JwtTokenPair(tokens.AccessToken, tokens.RefreshToken));
+        LogProvisionedNewAnonymousUserId(newUser.Id);
+
+        return Result.Ok(mapper.Map<UserDto>(newUser));
     }
 
     [LoggerMessage(LogLevel.Warning, "Provisioning aborted: USOS authentication failed. Error: {error}")]
     partial void LogProvisioningAbortedUsosAuthenticationFailed(string error);
 
-    [LoggerMessage(LogLevel.Information, "Provisioned new user with id: {userId}")]
-    partial void LogProvisionedNewUser(Guid userId);
-
-    [LoggerMessage(LogLevel.Information, "User with id: {userId} has logged in")]
-    partial void LogUserLoggedIn(Guid userId);
+    [LoggerMessage(LogLevel.Information, "Provisioned new anonymous user {userId}")]
+    partial void LogProvisionedNewAnonymousUserId(Guid userId);
 }

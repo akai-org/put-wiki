@@ -10,11 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers;
 
+[Route("api/[controller]")]
+[ApiController]
 public class AcademicTeachersController(
     GetAcademicTeacherQueryHandler getAcademicTeacherQueryHandler) : BaseApiController
 {
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(AcademicTeacherResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(AcademicTeacherDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetAcademicTeacher(string id, CancellationToken ct)
     {

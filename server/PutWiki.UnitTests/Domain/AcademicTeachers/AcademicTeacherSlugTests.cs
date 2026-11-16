@@ -6,7 +6,7 @@ using FluentAssertions;
 
 namespace PutWiki.UnitTests.Domain.AcademicTeachers;
 
-public class AcademicTeacherSlugTest
+public class AcademicTeacherSlugTests
 {
     [Theory]
     [InlineData("Jan Kowalski", "uSOs-1001", "jan-kowalski-usos-1001")]
