@@ -96,7 +96,6 @@ public partial class AuthController(
         return HandleResult(Result.Ok());
     }
 
-    [Authorize]
     [HttpPost("refresh")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
