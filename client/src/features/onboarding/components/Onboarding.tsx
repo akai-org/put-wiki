@@ -1,0 +1,95 @@
+import { onboardingSteps } from './OnboardingImages';
+import { useOnboarding } from '../hooks/useOnboarding';
+import { OnboardingStepIndicator } from './OnboardingStepIndicator';
+import { Button } from '@/components/ui/Button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/Dialog';
+import { cn } from '@/utils';
+
+export function Onboarding() {
+  const {
+    isOpen,
+    currentViewIndex,
+    isLastStep,
+    completeOnboarding,
+    handleOpenChange,
+    goToNextStep,
+    goToPrevStep,
+  } = useOnboarding(onboardingSteps.length);
+
+  const currentViewBoard = onboardingSteps[currentViewIndex];
+
+  return (
+    <Dialog onOpenChange={handleOpenChange} open={isOpen}>
+      <DialogContent
+        className="flex w-full max-w-[95%] flex-col justify-between rounded-3xl border-0 bg-card p-6 shadow-2xl sm:max-w-sm md:max-w-lg md:rounded-xl md:border md:p-8 md:shadow-none"
+        onEscapeKeyDown={(e) => e.preventDefault()}
+        onInteractOutside={(e) => e.preventDefault()}
+      >
+        <DialogHeader className="flex-1 items-center justify-center text-center">
+          <div className="mb-6 flex h-48 w-full items-center justify-center md:h-64">
+            <img
+              alt={currentViewBoard.imageAlt}
+              className="max-h-full max-w-full object-contain drop-shadow-sm"
+              src={currentViewBoard.imageSrc}
+            />
+          </div>
+
+          <DialogTitle className="mb-4 font-display text-xl font-bold text-card-foreground md:text-2xl">
+            {currentViewBoard.title}
+          </DialogTitle>
+
+          {currentViewBoard.description ? (
+            <DialogDescription className="flex h-24 w-full items-center justify-center rounded-xl bg-muted/50 p-4 text-sm text-muted-foreground md:h-28 md:text-base">
+              {currentViewBoard.description}
+            </DialogDescription>
+          ) : (
+            <DialogDescription className="sr-only">{currentViewBoard.title}</DialogDescription>
+          )}
+        </DialogHeader>
+
+        <DialogFooter className="mt-4 flex flex-col gap-6 sm:flex-col">
+          <div className="flex w-full items-center justify-between">
+            <Button
+              className="cursor-poiter shadow-none active:bg-transparent"
+              onClick={completeOnboarding}
+              variant="ghost"
+            >
+              Pomiń
+            </Button>
+
+            <div className="flex gap-2">
+              <Button
+                className={cn(
+                  'cursor-poiter shadow-none active:bg-accent/70',
+                  currentViewIndex === 0 && 'invisible'
+                )}
+                onClick={goToPrevStep}
+                variant="outline"
+              >
+                Wstecz
+              </Button>
+              <Button
+                className="cursor-poiter shadow-none active:bg-primary/70"
+                onClick={goToNextStep}
+              >
+                {isLastStep ? 'Zakończ' : 'Dalej'}
+              </Button>
+            </div>
+          </div>
+
+          <OnboardingStepIndicator
+            currentViewIndex={currentViewIndex}
+            totalSteps={onboardingSteps.length}
+          />
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
