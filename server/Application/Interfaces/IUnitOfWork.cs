@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Abstractions;
+namespace Application.Interfaces;
 
 public interface IUnitOfWork
 {

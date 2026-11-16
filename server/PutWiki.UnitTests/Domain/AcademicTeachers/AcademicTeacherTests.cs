@@ -7,7 +7,7 @@ using FluentAssertions;
 
 namespace PutWiki.UnitTests.Domain.AcademicTeachers;
 
-public class AcademicTeacherTest
+public class AcademicTeacherTests
 {
     private static readonly string[] DefaultValidDegrees = ["dr hab.", "inż."];
 

@@ -2,13 +2,15 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Application.Abstractions;
 using Application.Errors;
 using Application.Features.Users.Commands.UpdateNickname;
+using Application.Interfaces;
 
 using Domain.Users;
 
 using FluentAssertions;
+
+using FluentResults;
 
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -16,21 +18,18 @@ using Moq;
 
 namespace PutWiki.UnitTests.Application;
 
-public class UpdateNicknameCommandHandlerTest
+public class UpdateNicknameCommandHandlerTests
 {
-    private readonly Mock<IUserContext> _userContextMock;
     private readonly Mock<IUserRepository> _userRepositoryMock;
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly UpdateNicknameCommandHandler _sut;
 
-    public UpdateNicknameCommandHandlerTest()
+    public UpdateNicknameCommandHandlerTests()
     {
-        _userContextMock = new Mock<IUserContext>();
         _userRepositoryMock = new Mock<IUserRepository>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
 
         _sut = new UpdateNicknameCommandHandler(
-            _userContextMock.Object,
             _userRepositoryMock.Object,
             NullLogger<UpdateNicknameCommandHandler>.Instance,
             _unitOfWorkMock.Object
@@ -42,11 +41,7 @@ public class UpdateNicknameCommandHandlerTest
     {
         // Arrange
         var user = User.Create("hashed_id", DateTimeOffset.UtcNow);
-        var cmd = new UpdateNicknameCommand("ValidNick");
-
-        _userContextMock
-            .Setup(x => x.UserId)
-            .Returns(user.Id);
+        var cmd = new UpdateNicknameCommand(user.Id, "ValidNick");
 
         _userRepositoryMock
             .Setup(x => x.GetByIdAsync(user.Id, It.IsAny<CancellationToken>()))
@@ -70,11 +65,7 @@ public class UpdateNicknameCommandHandlerTest
     {
         // Arrange
         var userId = Guid.CreateVersion7();
-        var cmd = new UpdateNicknameCommand("ValidNick");
-
-        _userContextMock
-            .Setup(x => x.UserId)
-            .Returns(userId);
+        var cmd = new UpdateNicknameCommand(userId, "ValidNick");
 
         _userRepositoryMock
             .Setup(x => x.GetByIdAsync(userId, It.IsAny<CancellationToken>()))
@@ -94,11 +85,7 @@ public class UpdateNicknameCommandHandlerTest
     {
         // Arrange
         var user = User.Create("hashed_id", DateTimeOffset.UtcNow);
-        var cmd = new UpdateNicknameCommand("ab");
-
-        _userContextMock
-            .Setup(x => x.UserId)
-            .Returns(user.Id);
+        var cmd = new UpdateNicknameCommand(user.Id, "ab");
 
         _userRepositoryMock
             .Setup(x => x.GetByIdAsync(user.Id, It.IsAny<CancellationToken>()))
@@ -111,9 +98,7 @@ public class UpdateNicknameCommandHandlerTest
         result.IsFailed.Should().BeTrue();
         result.Errors.Should().ContainSingle().Which.Should().BeOfType<ValidationError>();
 
-        _userRepositoryMock.Verify(
-            x => x.ExistsWithNicknameAsync(It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<CancellationToken>()),
-            Times.Never);
+        _userRepositoryMock.Verify(x => x.ExistsWithNicknameAsync(It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Never);
         _unitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
@@ -122,11 +107,7 @@ public class UpdateNicknameCommandHandlerTest
     {
         // Arrange
         var user = User.Create("hashed_id", DateTimeOffset.UtcNow);
-        var cmd = new UpdateNicknameCommand("TakenNick");
-
-        _userContextMock
-            .Setup(x => x.UserId)
-            .Returns(user.Id);
+        var cmd = new UpdateNicknameCommand(user.Id, "TakenNick");
 
         _userRepositoryMock
             .Setup(x => x.GetByIdAsync(user.Id, It.IsAny<CancellationToken>()))
@@ -151,11 +132,7 @@ public class UpdateNicknameCommandHandlerTest
         // Arrange
         var user = User.Create("hashed_id", DateTimeOffset.UtcNow);
         user.UpdateNickname("MyNick");
-        var cmd = new UpdateNicknameCommand("MyNick");
-
-        _userContextMock
-            .Setup(x => x.UserId)
-            .Returns(user.Id);
+        var cmd = new UpdateNicknameCommand(user.Id, "MyNick");
 
         _userRepositoryMock
             .Setup(x => x.GetByIdAsync(user.Id, It.IsAny<CancellationToken>()))

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace PutWiki.UnitTests.Infrastructure.Auth;
 
-public class HmacUsosIdHasherTest
+public class HmacUsosIdHasherTests
 {
     private const string TestKey = "secret-hasher-key";
 

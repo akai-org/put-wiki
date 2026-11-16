@@ -11,12 +11,12 @@ namespace Infrastructure.Services;
 
 public class AcademicTeacherQueryService(AppDbContext context) : IAcademicTeacherQueryService
 {
-    public async Task<AcademicTeacherResponse?> GetAcademicTeacherByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<AcademicTeacherDto?> GetAcademicTeacherByIdAsync(Guid id, CancellationToken ct = default)
     {
         return await context.AcademicTeachers
             .AsNoTracking()
             .Where(t => t.Id == id)
-            .Select(t => new AcademicTeacherResponse(
+            .Select(t => new AcademicTeacherDto(
                 t.Id.ToString(),
                 t.Slug.ToString(),
               new AcademicTeacherBaseInfoDto(

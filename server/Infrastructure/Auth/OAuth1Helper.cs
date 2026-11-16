@@ -6,7 +6,6 @@ using System.Text;
 
 namespace Infrastructure.Auth;
 
-// OAuth 1.0a spec: https://oauth.net/core/1.0a/
 internal static class OAuth1Helper
 {
     internal const string SignatureMethod = "HMAC-SHA1";

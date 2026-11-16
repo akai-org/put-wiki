@@ -2,8 +2,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Application.Abstractions;
 using Application.Errors;
+using Application.Interfaces;
 
 using Domain.Users;
 
@@ -14,7 +14,6 @@ using Microsoft.Extensions.Logging;
 namespace Application.Features.Users.Commands.UpdateNickname;
 
 public partial class UpdateNicknameCommandHandler(
-    IUserContext userContext,
     IUserRepository userRepository,
     ILogger<UpdateNicknameCommandHandler> logger,
     IUnitOfWork unitOfWork)
@@ -22,12 +21,10 @@ public partial class UpdateNicknameCommandHandler(
     public async Task<Result> ExecuteAsync(UpdateNicknameCommand cmd,
     CancellationToken ct = default)
     {
-        Guid userId = userContext.UserId;
-
-        var user = await userRepository.GetByIdAsync(userId, ct);
+        var user = await userRepository.GetByIdAsync(cmd.UserId, ct);
         if (user is null)
         {
-            return Result.Fail(new NotFoundError($"User with ID '{userId}' was not found."));
+            return Result.Fail(new NotFoundError($"User with ID '{cmd.UserId}' was not found."));
         }
 
         if (user.Nickname?.Value == cmd.Nickname)
@@ -35,6 +32,7 @@ public partial class UpdateNicknameCommandHandler(
             return Result.Ok();
         }
 
+        // 1. Najpierw sprawdzamy poprawność formatu/długości (walidacja w domenie)
         var updateResult = user.UpdateNickname(cmd.Nickname);
         if (updateResult.IsFailed)
         {
@@ -42,7 +40,8 @@ public partial class UpdateNicknameCommandHandler(
                 .CausedBy(updateResult.Errors));
         }
 
-        var nicknameTaken = await userRepository.ExistsWithNicknameAsync(cmd.Nickname, userId, ct);
+        // 2. Dopiero po pomyślnej walidacji sprawdzamy unikalność w bazie danych
+        var nicknameTaken = await userRepository.ExistsWithNicknameAsync(cmd.Nickname, cmd.UserId, ct);
         if (nicknameTaken)
         {
             return Result.Fail(new ConflictError("This nickname is already taken."));
@@ -50,11 +49,11 @@ public partial class UpdateNicknameCommandHandler(
 
         await unitOfWork.SaveChangesAsync(ct);
 
-        LogNicknameUpdated(userId);
+        LogNicknameUpdated(cmd.UserId, user.Nickname!.Value);
 
         return Result.Ok();
     }
 
-    [LoggerMessage(LogLevel.Information, "User {userId} updated their nickname")]
-    partial void LogNicknameUpdated(Guid userId);
+    [LoggerMessage(LogLevel.Information, "User {userId} updated their nickname to '{nickname}'")]
+    partial void LogNicknameUpdated(Guid userId, string nickname);
 }
