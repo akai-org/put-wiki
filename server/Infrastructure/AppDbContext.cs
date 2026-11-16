@@ -1,9 +1,9 @@
-using Application.Interfaces;
+using Application.Abstractions;
 
 using Domain.AcademicTeachers;
 using Domain.Users;
 
-using Infrastructure.EntitiesConfiguration;
+using Infrastructure.Auth;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -11,16 +11,15 @@ namespace Infrastructure;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IUnitOfWork
 {
-    public required DbSet<User> Users { get; set; }
-    public required DbSet<AcademicTeacher> AcademicTeachers { get; set; }
+    public DbSet<User> Users => Set<User>();
+    public DbSet<AcademicTeacher> AcademicTeachers => Set<AcademicTeacher>();
+    public virtual DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
         modelBuilder.HasPostgresExtension("citext");
 
-        new UserEntityTypeConfiguration().Configure(modelBuilder.Entity<User>());
-        new AcademicTeacherEntityTypeConfiguration().Configure(modelBuilder.Entity<AcademicTeacher>());
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 }

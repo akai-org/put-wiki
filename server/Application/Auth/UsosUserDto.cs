@@ -1,3 +1,3 @@
 ﻿namespace Application.Auth;
 
-public record UsosUserDto(string Id);
+public sealed record UsosUserDto(string Id);

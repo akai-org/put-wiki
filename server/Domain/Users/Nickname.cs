@@ -4,7 +4,7 @@ using FluentResults;
 
 namespace Domain.Users;
 
-public partial record Nickname
+public sealed partial record Nickname
 {
     public const int MinLength = 3;
     public const int MaxLength = 30;

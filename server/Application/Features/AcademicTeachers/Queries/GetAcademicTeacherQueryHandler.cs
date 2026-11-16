@@ -9,7 +9,7 @@ namespace Application.Features.AcademicTeachers.Queries;
 
 public class GetAcademicTeacherQueryHandler(IAcademicTeacherQueryService queryService)
 {
-    public async Task<Result<AcademicTeacherDto>> ExecuteAsync(GetAcademicTeacherQuery query,
+    public async Task<Result<AcademicTeacherResponse>> ExecuteAsync(GetAcademicTeacherQuery query,
         CancellationToken ct = default)
     {
         var teacherDto = await queryService.GetAcademicTeacherByIdAsync(query.Id, ct);

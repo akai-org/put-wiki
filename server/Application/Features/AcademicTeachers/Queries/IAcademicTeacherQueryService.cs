@@ -6,5 +6,5 @@ namespace Application.Features.AcademicTeachers.Queries;
 
 public interface IAcademicTeacherQueryService
 {
-    Task<AcademicTeacherDto?> GetAcademicTeacherByIdAsync(Guid id, CancellationToken ct = default);
+    Task<AcademicTeacherResponse?> GetAcademicTeacherByIdAsync(Guid id, CancellationToken ct = default);
 }

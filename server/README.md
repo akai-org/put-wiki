@@ -6,14 +6,17 @@ You need to install:
 - .NET platform (to choose right version see [notes](./README.md#Notes))
 - Docker
 
+> [!NOTE]
+> Make sure that you've setup precommit git hook to let formatting run automatically before each commit. See [this](https://github.com/akai-org/put-wiki/blob/main/CONTRIBUTING.md#3-git-hooks-optional) for more details.
+
 ## Architecture overview
 
-The project follows the principles of **Clean Architecture** that organizes an application into separate layers with clearly defined responsibilities. Moreover dependencies point inward so that core business logic remains independent of UI, infrastructure, and framework.
+This application follows attributes of [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html). It organizes backend app into separate layers with clearly defined responsibilities. Dependencies point inward so that core business logic remains independent of UI, infrastructure, and framework.
 
-Moreover we take advantage from lightweight **Domain Driven Design**, basic **Command Query Responsibility Segregation** and develop the app as a monolith (with paying attention to loosely coupled dependencies whenever possible). See our `BE-XXX` (BE - **B**ack**E**nd) ADR-s (Architecture Decision Records) for more details [here](../docs/architecture/adr/).
+We take advantage from lightweight Domain Driven Design, basic Command Query Responsibility Segregation and develop the app as a monolith (with paying attention to loosely coupled dependencies whenever possible). See our `BE-XXX` (BE - **B**ack**E**nd) ADR-s (Architecture Decision Records) for more details [here](../docs/architecture/adr/).
 
 > [!NOTE]
-> **API Documentation:** When running backend in the `Development` environment, interactive API documentation page is available at the `/docs` route.
+> **API docs:** When running backend in the `Development` environment, interactive API documentation page is available at the `/docs` route.
 
 ## How to run it?
 
@@ -32,7 +35,7 @@ App will use launch settings from the `Presentation/Properties/launchSettings.js
 
 ## Authentication
 
-Our app provides a way to users to authenticate using USOS. It allows us to access academic related data on behalf of user.
+Our app provides a way to users to authenticate using [USOS](https://apps.usos.edu.pl/developers/api/). It allows us to access academic related data on behalf of our user.
 
 ### USOS OAuth setup
 
@@ -40,9 +43,44 @@ Our app provides a way to users to authenticate using USOS. It allows us to acce
 2. Copy values from `.env.example` and fill in your `UsosOAuth__ConsumerKey`, `UsosOAuth__ConsumerSecret` that we provided you and any other variables.
 
 ### JWT
-here is description of our own token used by frontend to authenticate with backend.
+Authentication flow including USOS OAuth shown as sequence diagram for backend API client:
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client as Client
+    participant API as PutWiki Auth API
+    participant DB as Database
+    participant USOS as External: USOS OAuth 1.0a
 
-## Configuration
+    rect
+        Note over Client, USOS: Step 1: login & OAuth authorization flow
+        Client->>API: GET /api/auth/login
+        API->>USOS: Request request_token
+        USOS-->>API: Return request token & secret
+        Note over API: API sets anti-csrf cookie
+        API-->>Client: 302 Found (redirect to USOS authorization URL)
+        Client->>USOS: User logs in & grants permissions
+        USOS-->>Client: Redirect to /api/auth/callback (with oauth_token & oauth_verifier)
+        Client->>API: GET /api/auth/callback (with oauth_ tokens)
+    end
+
+    rect
+        Note over API, DB: Step 2: callback & user provisioning flow
+        Note over API: API validates anti-csrf cookie & exchanges tokens
+        API->>DB: Check if user exists, provision if new & save session
+        DB-->>API: Operations done successfully
+        API->>Client: 200 OK + set HttpOnly cookies (JWT access token & refresh token)
+    end
+
+    rect
+        Note over Client, DB: Step 3: token refresh flow
+        Client->>API: POST /api/auth/refresh (sends refresh token cookie)
+        API->>DB: Validate token, revoke old token, store new session
+        DB-->>API: Operations done successfully
+        API->>Client: 200 OK + set new HttpOnly cookies (JWT access token & refresh token)
+    end
+```
+## Application configuration
 
 In ASP.NET Core app configuration is loaded in specific order and is read using variety of configuration sources: settings files, environment variables, etc. See [this](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-10.0) for more details.
 
@@ -98,7 +136,7 @@ After adding migration and commiting it into git repo, usually you would apply i
 However on production this had to be done different. See [this ADR](../docs/architecture/adr/BE-006_applying-database-migrations-on-production.md) for more details. Assuming that your merged PR included new migration you will have to follow [additional step](../docs/architecture/deployment.md#applying-database-migrations-to-production-optional-step) during deployment.
 
 ## Testing
-We use xUnit, Fluent Assertions nad Moq libraries to cover the core logic. We stick to the arrange, act, assert pattern. We highly recommend reading this: [Unit testing best practices](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices).
+We use xUnit, Fluent Assertions nad Moq to cover the core domain logic. We stick to the arrange, act, assert pattern. We highly recommend reading this first before writing unit tests: [Unit testing best practices](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices).
 
 ## Notes
 > [!IMPORTANT]

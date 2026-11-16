@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Domain.AcademicTeachers;
 
-public partial record AcademicTeacherSlug
+public sealed partial record AcademicTeacherSlug
 {
     public string Value { get; }
     public const int MaxLength = 150;
