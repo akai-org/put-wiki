@@ -103,7 +103,7 @@ tokens.*
 **/*.md
 **/*.ruleset
 sonar-project.properties
-.editorconfig
+!.editorconfig
 PutWiki.UnitTests/
 
 # ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••

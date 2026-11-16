@@ -22,6 +22,10 @@ indent_size = 2
 # C# files
 [*.cs]
 
+# --- Sonar / .NET SDK Analyzers suspended rules list ---
+dotnet_diagnostic.S3400.severity = silent
+dotnet_diagnostic.S1135.severity = suggestion
+
 #### Core EditorConfig Options ####
 
 # Indentation and spacing
@@ -391,12 +395,8 @@ dotnet_naming_style.s_camelcase.required_suffix =
 dotnet_naming_style.s_camelcase.word_separator = 
 dotnet_naming_style.s_camelcase.capitalization = camel_case
 
-# --- Sonar / .NET SDK Analyzers suspended rules list ---
-dotnet_diagnostic.S3400.severity = silent
-dotnet_diagnostic.S1135.severity = suggestion
-
 # --- Naming convention rules for unit tests ---
-[**/*Tests.cs]
+[**/*Test.cs]
 dotnet_diagnostic.CA1707.severity = none
 
 # E.g. <Method>_Should<ExpectedBehavior>_When<Condition>

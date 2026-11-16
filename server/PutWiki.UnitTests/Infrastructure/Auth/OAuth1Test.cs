@@ -6,7 +6,7 @@ using Infrastructure.Auth;
 
 namespace PutWiki.UnitTests.Infrastructure.Auth;
 
-public class OAuth1Tests
+public class OAuth1Test
 {
     [Theory]
     [InlineData("Ladies + Gentlemen", "Ladies%20%2B%20Gentlemen")]
