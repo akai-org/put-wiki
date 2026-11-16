@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace Application.Features.Users.Commands.UpdateNickname;
 
 public partial class UpdateNicknameCommandHandler(
+    IUserContext userContext,
     IUserRepository userRepository,
     ILogger<UpdateNicknameCommandHandler> logger,
     IUnitOfWork unitOfWork)
@@ -21,10 +22,12 @@ public partial class UpdateNicknameCommandHandler(
     public async Task<Result> ExecuteAsync(UpdateNicknameCommand cmd,
     CancellationToken ct = default)
     {
-        var user = await userRepository.GetByIdAsync(cmd.UserId, ct);
+        Guid userId = userContext.UserId;
+
+        var user = await userRepository.GetByIdAsync(userId, ct);
         if (user is null)
         {
-            return Result.Fail(new NotFoundError($"User with ID '{cmd.UserId}' was not found."));
+            return Result.Fail(new NotFoundError($"User with ID '{userId}' was not found."));
         }
 
         if (user.Nickname?.Value == cmd.Nickname)
@@ -32,7 +35,6 @@ public partial class UpdateNicknameCommandHandler(
             return Result.Ok();
         }
 
-        // 1. Najpierw sprawdzamy poprawność formatu/długości (walidacja w domenie)
         var updateResult = user.UpdateNickname(cmd.Nickname);
         if (updateResult.IsFailed)
         {
@@ -40,8 +42,7 @@ public partial class UpdateNicknameCommandHandler(
                 .CausedBy(updateResult.Errors));
         }
 
-        // 2. Dopiero po pomyślnej walidacji sprawdzamy unikalność w bazie danych
-        var nicknameTaken = await userRepository.ExistsWithNicknameAsync(cmd.Nickname, cmd.UserId, ct);
+        var nicknameTaken = await userRepository.ExistsWithNicknameAsync(cmd.Nickname, userId, ct);
         if (nicknameTaken)
         {
             return Result.Fail(new ConflictError("This nickname is already taken."));
@@ -49,11 +50,11 @@ public partial class UpdateNicknameCommandHandler(
 
         await unitOfWork.SaveChangesAsync(ct);
 
-        LogNicknameUpdated(cmd.UserId, user.Nickname!.Value);
+        LogNicknameUpdated(userId);
 
         return Result.Ok();
     }
 
-    [LoggerMessage(LogLevel.Information, "User {userId} updated their nickname to '{nickname}'")]
-    partial void LogNicknameUpdated(Guid userId, string nickname);
+    [LoggerMessage(LogLevel.Information, "User {userId} updated their nickname")]
+    partial void LogNicknameUpdated(Guid userId);
 }
