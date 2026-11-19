@@ -4,9 +4,9 @@
     "net10.0": {
       "AutoMapper": {
         "type": "Direct",
-        "requested": "[16.3.0, )",
-        "resolved": "16.3.0",
-        "contentHash": "wFTqA37e1I4AOEhTTYlxrqDE8BQ4OB3dqhlv2KwYmHv+a4tn7R1JW2n2bzXb8eTBhWVBSl7iTZ0VxEt0a57D4w==",
+        "requested": "[17.0.0, )",
+        "resolved": "17.0.0",
+        "contentHash": "SQaIR+EKMkvyPqO1siHJXk286tjSSVSpZavFYxhMV4eq9DAL8sXMjNwqEZcu+C1R52aucNEnPkphhtGpGqoTVA==",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
           "Microsoft.Extensions.Options": "10.0.0",
