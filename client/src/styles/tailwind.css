@@ -38,6 +38,10 @@
   --sidebar-accent-foreground: oklch(0.18 0.0188 274.6495);
   --sidebar-border: oklch(0.5189 0.0752 275.1704);
   --sidebar-ring: oklch(0.7884 0.1595 73.8367);
+  --brand: oklch(0.2522 0.0562 264.0043);
+  --brand-foreground: oklch(0.9762 0.0041 271.3698);
+  --search-placeholder: oklch(0.9517 0.0128 266.699);
+  --search-icon: oklch(0.7887 0.0332 260.0199);
   --font-sans: Manrope, ui-sans-serif, sans-serif, system-ui;
   --font-display: 'Google Sans Flex', Manrope, ui-sans-serif, sans-serif;
   --radius: 0.625rem;
@@ -92,6 +96,10 @@
   --sidebar-accent-foreground: oklch(0.9702 0 0);
   --sidebar-border: oklch(0.3406 0.074 274.6498);
   --sidebar-ring: oklch(0.6991 0.1449 73.7274);
+  --brand: oklch(0.2522 0.0562 264.0043);
+  --brand-foreground: oklch(0.9762 0.0041 271.3698);
+  --search-placeholder: oklch(0.9517 0.0128 266.699);
+  --search-icon: oklch(0.7887 0.0332 260.0199);
   --font-sans: Manrope, ui-sans-serif, sans-serif, system-ui;
   --font-display: 'Google Sans Flex', Manrope, ui-sans-serif, sans-serif;
   --radius: 0.625rem;
@@ -146,14 +154,28 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-search-placeholder: var(--search-placeholder);
+  --color-search-icon: var(--search-icon);
 
   --font-sans: var(--font-sans);
   --font-display: var(--font-display);
+
+  --text-logo-mark: 1.3125rem;
+  --text-logo-mark--line-height: 1.5625rem;
+
+  --container-header: 77.625rem;
+  --container-search: 29.5625rem;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-logo: 7px;
+  --radius-search: 12px;
+
+  --shadow-header: 0 8px 24px rgb(22 41 87 / 0.07);
 
   --shadow-2xs: var(--shadow-2xs);
   --shadow-xs: var(--shadow-xs);
