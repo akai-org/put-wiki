@@ -23,7 +23,7 @@ namespace Infrastructure.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "citext");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.AcademicTeachers.AcademicTeacher", b =>
+            modelBuilder.Entity("Domain.Lecturers.Lecturer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,21 +80,21 @@ namespace Infrastructure.Migrations
                         .HasColumnName("website_url");
 
                     b.HasKey("Id")
-                        .HasName("pk_academic_teachers");
+                        .HasName("pk_lecturers");
 
                     b.HasIndex("Email")
                         .IsUnique()
-                        .HasDatabaseName("ix_academic_teachers_email");
+                        .HasDatabaseName("ix_lecturers_email");
 
                     b.HasIndex("Slug")
                         .IsUnique()
-                        .HasDatabaseName("ix_academic_teachers_slug");
+                        .HasDatabaseName("ix_lecturers_slug");
 
                     b.HasIndex("UsosId")
                         .IsUnique()
-                        .HasDatabaseName("ix_academic_teachers_usos_id");
+                        .HasDatabaseName("ix_lecturers_usos_id");
 
-                    b.ToTable("academic_teachers", (string)null);
+                    b.ToTable("lecturers", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Users.User", b =>
