@@ -1,20 +1,25 @@
-import { Globe } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { cn } from '@/utils';
+import { focusRing } from '../focusRing';
 
-export function Logo({ size }: { size: 'desktop' | 'mobile' }) {
-  const isDesktop = size === 'desktop';
-
+export function Logo({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <Link
-      aria-label="PUTwiki - strona główna"
-      className="flex items-center gap-2.5 text-foreground transition-opacity hover:opacity-85"
+      aria-label="PUTWiki – strona główna"
+      className={cn(
+        'flex shrink-0 items-center gap-2.5 rounded-sm text-foreground transition-opacity hover:opacity-85',
+        focusRing
+      )}
+      onClick={onNavigate}
       to="/"
     >
-      <Globe aria-hidden="true" className={isDesktop ? 'size-8' : 'size-6'} strokeWidth={2.25} />
-      <span className={` leading-none tracking-tight ${isDesktop ? 'text-3xl' : 'text-2xl'}`}>
-        <span className="font-black">PUT</span>
-        <span className="font-normal">wiki</span>
+      <span
+        aria-hidden="true"
+        className="flex size-9 items-center justify-center rounded-logo bg-brand text-logo-mark font-extrabold text-brand-foreground"
+      >
+        p.
       </span>
+      <span className="text-2xl leading-tight font-medium">PUTWiki</span>
     </Link>
   );
 }
