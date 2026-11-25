@@ -1,4 +1,4 @@
-﻿using Application.Features.AcademicTeachers.Queries;
+﻿using Application.Features.Lecturers.Queries;
 using Application.Features.Users.Commands.ProvisionUser;
 using Application.Features.Users.Commands.RefreshUserSession;
 using Application.Features.Users.Commands.UpdateNickname;
@@ -20,7 +20,7 @@ public static class ApplicationConfiguration
         services.AddScoped<ProvisionUserCommandHandler>();
         services.AddScoped<RefreshSessionCommandHandler>();
 
-        services.AddScoped<GetAcademicTeacherQueryHandler>();
+        services.AddScoped<GetLecturerQueryHandler>();
         services.AddScoped<UpdateNicknameCommandHandler>();
 
         return services;

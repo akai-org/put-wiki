@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 using Application.Abstractions;
 using Application.Auth;
-using Application.Features.AcademicTeachers.Queries;
+using Application.Features.Lecturers.Queries;
 using Application.Features.Users.Commands.ProvisionUser;
 
-using Domain.AcademicTeachers;
+using Domain.Lecturers;
 using Domain.Users;
 
 using Infrastructure.Auth;
@@ -43,8 +43,8 @@ public static partial class InfrastructureConfiguration
 
         services.AddSingleton(TimeProvider.System);
 
-        services.AddScoped<IAcademicTeacherQueryService, AcademicTeacherQueryService>();
-        services.AddScoped<IAcademicTeacherRepository, AcademicTeacherRepository>();
+        services.AddScoped<ILecturerQueryService, LecturerQueryService>();
+        services.AddScoped<ILecturerRepository, LecturerRepository>();
 
         services.AddUsosOAuth(configuration);
         services.AddJwtAuth(configuration);

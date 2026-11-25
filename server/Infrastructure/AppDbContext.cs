@@ -1,6 +1,6 @@
 using Application.Abstractions;
 
-using Domain.AcademicTeachers;
+using Domain.Lecturers;
 using Domain.Users;
 
 using Infrastructure.Auth;
@@ -12,7 +12,7 @@ namespace Infrastructure;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IUnitOfWork
 {
     public DbSet<User> Users => Set<User>();
-    public DbSet<AcademicTeacher> AcademicTeachers => Set<AcademicTeacher>();
+    public DbSet<Lecturer> Lecturers => Set<Lecturer>();
     public virtual DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Domain.AcademicTeachers;
+namespace Domain.Lecturers;
 
-public class AcademicTeacher
+public class Lecturer
 {
     public required Guid Id { get; init; }
     public required string UsosId { get; init; }
-    public AcademicTeacherSlug Slug { get; private set; } = null!;
+    public LecturerSlug Slug { get; private set; } = null!;
 
     private List<string> _degrees = null!;
     public IReadOnlyList<string> Degrees => _degrees.AsReadOnly();
@@ -20,9 +20,9 @@ public class AcademicTeacher
     public string? WebsiteUrl { get; private set; }
     public string? Description { get; private set; }
 
-    private AcademicTeacher() { }
+    private Lecturer() { }
 
-    public static AcademicTeacher Create(
+    public static Lecturer Create(
         string usosId,
         IEnumerable<string> degrees,
         string name,
@@ -42,11 +42,11 @@ public class AcademicTeacher
         if (degreeList.Count == 0)
             throw new ArgumentException("Degrees collection must contain at least one non-empty value.", nameof(degrees));
 
-        var academicTeacher = new AcademicTeacher()
+        var lecturer = new Lecturer()
         {
             Id = Guid.CreateVersion7(),
             UsosId = usosId,
-            Slug = AcademicTeacherSlug.Create(name, usosId),
+            Slug = LecturerSlug.Create(name, usosId),
 
             _degrees = degreeList,
             Name = name,
@@ -58,6 +58,6 @@ public class AcademicTeacher
             Description = description
         };
 
-        return academicTeacher;
+        return lecturer;
     }
 }

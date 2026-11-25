@@ -1,13 +1,13 @@
-﻿using Domain.AcademicTeachers;
+using Domain.Lecturers;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.EntitiesConfiguration;
 
-public class AcademicTeacherEntityTypeConfiguration : IEntityTypeConfiguration<AcademicTeacher>
+public class LecturerEntityTypeConfiguration : IEntityTypeConfiguration<Lecturer>
 {
-    public void Configure(EntityTypeBuilder<AcademicTeacher> builder)
+    public void Configure(EntityTypeBuilder<Lecturer> builder)
     {
         builder.HasKey(x => x.Id);
 
@@ -21,9 +21,9 @@ public class AcademicTeacherEntityTypeConfiguration : IEntityTypeConfiguration<A
         builder.Property(x => x.Slug)
             .HasConversion(
                 slug => slug.Value,
-                value => AcademicTeacherSlug.Parse(value))
+                value => LecturerSlug.Parse(value))
             .HasColumnName("slug")
-            .HasMaxLength(AcademicTeacherSlug.MaxLength)
+            .HasMaxLength(LecturerSlug.MaxLength)
             .IsRequired();
 
         builder.HasIndex(x => x.Slug)

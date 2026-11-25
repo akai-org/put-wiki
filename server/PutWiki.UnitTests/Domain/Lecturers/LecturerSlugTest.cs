@@ -1,12 +1,12 @@
 ﻿using System;
 
-using Domain.AcademicTeachers;
+using Domain.Lecturers;
 
 using FluentAssertions;
 
-namespace PutWiki.UnitTests.Domain.AcademicTeachers;
+namespace PutWiki.UnitTests.Domain.Lecturers;
 
-public class AcademicTeacherSlugTest
+public class LecturerSlugTest
 {
     [Theory]
     [InlineData("Jan Kowalski", "uSOs-1001", "jan-kowalski-usos-1001")]
@@ -18,7 +18,7 @@ public class AcademicTeacherSlugTest
         // arrange
 
         // act
-        var slug = AcademicTeacherSlug.Create(name, usosId);
+        var slug = LecturerSlug.Create(name, usosId);
 
         // assert
         slug.Should().NotBeNull();
@@ -37,7 +37,7 @@ public class AcademicTeacherSlugTest
         // arrange
 
         // act
-        Action act = () => AcademicTeacherSlug.Create(name!, usosId!);
+        Action act = () => LecturerSlug.Create(name!, usosId!);
 
         // assert
         act.Should().Throw<ArgumentException>();
@@ -47,7 +47,7 @@ public class AcademicTeacherSlugTest
     public void ToString_ShouldReturnUnderlyingValue()
     {
         // arrange
-        var slug = AcademicTeacherSlug.Create("Jan Kowalski", "1001");
+        var slug = LecturerSlug.Create("Jan Kowalski", "1001");
 
         // act
         var stringifiedSlug = slug.ToString();
@@ -62,12 +62,12 @@ public class AcademicTeacherSlugTest
     [InlineData("krzysztof-zwierzynski-2002")]
     [InlineData("123-abc")]
     [InlineData("teacher")]
-    public void Parse_WithValidSlugFormat_ShouldReturnAcademicTeacherSlug(string validSlug)
+    public void Parse_WithValidSlugFormat_ShouldReturnLecturerSlug(string validSlug)
     {
         // arrange
 
         // act
-        var slug = AcademicTeacherSlug.Parse(validSlug);
+        var slug = LecturerSlug.Parse(validSlug);
 
         // assert
         slug.Should().NotBeNull();
@@ -90,7 +90,7 @@ public class AcademicTeacherSlugTest
         // arrange
 
         // act
-        Action act = () => AcademicTeacherSlug.Parse(invalidSlug!);
+        Action act = () => LecturerSlug.Parse(invalidSlug!);
 
         // assert
         act.Should().Throw<ArgumentException>();
@@ -103,7 +103,7 @@ public class AcademicTeacherSlugTest
         // arrange
 
         // act
-        var slug = AcademicTeacherSlug.Create(name, usosId);
+        var slug = LecturerSlug.Create(name, usosId);
 
         // assert
         slug.Value.Should().Be(expectedSlug);
@@ -115,7 +115,7 @@ public class AcademicTeacherSlugTest
         // arrange
 
         // act
-        Action act = () => AcademicTeacherSlug.Create("!!!", "1001");
+        Action act = () => LecturerSlug.Create("!!!", "1001");
 
         // assert
         act.Should().Throw<ArgumentException>();
@@ -127,8 +127,8 @@ public class AcademicTeacherSlugTest
         // arrange
 
         // act
-        var slug1 = AcademicTeacherSlug.Parse("jan-kowalski-1001");
-        var slug2 = AcademicTeacherSlug.Parse("jan-kowalski-1001");
+        var slug1 = LecturerSlug.Parse("jan-kowalski-1001");
+        var slug2 = LecturerSlug.Parse("jan-kowalski-1001");
 
         // assert
         slug1.Should().Be(slug2);
@@ -139,13 +139,13 @@ public class AcademicTeacherSlugTest
     public void Parse_WhenSlugExceedsMaxLength_ShouldThrowArgumentException()
     {
         // arrange
-        var longSlug = new string('a', AcademicTeacherSlug.MaxLength + 1);
+        var longSlug = new string('a', LecturerSlug.MaxLength + 1);
 
         // act
-        Action act = () => AcademicTeacherSlug.Parse(longSlug);
+        Action act = () => LecturerSlug.Parse(longSlug);
 
         // assert
         act.Should().Throw<ArgumentException>()
-            .WithMessage($"*cannot be longer than {AcademicTeacherSlug.MaxLength}*");
+            .WithMessage($"*cannot be longer than {LecturerSlug.MaxLength}*");
     }
 }

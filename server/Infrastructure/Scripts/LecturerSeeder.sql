@@ -1,7 +1,7 @@
-﻿-- Seed script for academic_teachers table (PostgreSQL dialect)
+-- Seed script for lecturers table (PostgreSQL dialect)
 -- Idempotent script: Safe to run multiple times without duplicating records
 
-INSERT INTO academic_teachers (
+INSERT INTO lecturers (
     id,
     usos_id,
     slug,

@@ -1,19 +1,20 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
-namespace Domain.AcademicTeachers;
+namespace Domain.Lecturers;
 
-public sealed partial record AcademicTeacherSlug
+public sealed partial record LecturerSlug
 {
     public string Value { get; }
     public const int MaxLength = 150;
 
-    private AcademicTeacherSlug(string value)
+    private LecturerSlug(string value)
     {
         Value = value;
     }
 
-    public static AcademicTeacherSlug Create(string name, string usosId)
+    public static LecturerSlug Create(string name, string usosId)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ArgumentException.ThrowIfNullOrWhiteSpace(usosId);
@@ -24,7 +25,7 @@ public sealed partial record AcademicTeacherSlug
         return Parse($"{slugifiedName}-{slugifiedUsosId}");
     }
 
-    public static AcademicTeacherSlug Parse(string slug)
+    public static LecturerSlug Parse(string slug)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(slug);
 
@@ -38,7 +39,17 @@ public sealed partial record AcademicTeacherSlug
             throw new ArgumentException($"The provided string '{slug}' is not a valid slug format.", nameof(slug));
         }
 
-        return new AcademicTeacherSlug(slug);
+        return new LecturerSlug(slug);
+    }
+
+    public static bool TryParse(string? slug, [NotNullWhen(true)] out LecturerSlug? lecturerSlug)
+    {
+        lecturerSlug = null;
+        if (string.IsNullOrWhiteSpace(slug) || slug.Length > MaxLength || !MySlugRegex().IsMatch(slug))
+            return false;
+
+        lecturerSlug = new LecturerSlug(slug);
+        return true;
     }
 
     public override string ToString() => Value;

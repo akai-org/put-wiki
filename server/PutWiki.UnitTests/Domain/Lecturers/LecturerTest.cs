@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Domain.AcademicTeachers;
+using Domain.Lecturers;
 
 using FluentAssertions;
 
-namespace PutWiki.UnitTests.Domain.AcademicTeachers;
+namespace PutWiki.UnitTests.Domain.Lecturers;
 
-public class AcademicTeacherTest
+public class LecturerTest
 {
     private static readonly string[] DefaultValidDegrees = ["dr hab.", "inż."];
 
@@ -27,19 +27,19 @@ public class AcademicTeacherTest
         const string email = "jan.kowalski@university.edu.pl";
 
         // act
-        var teacher = AcademicTeacher.Create(usosId, DefaultValidDegrees, name, email);
+        var lecturer = Lecturer.Create(usosId, DefaultValidDegrees, name, email);
 
         // assert
-        teacher.Should().NotBeNull();
-        teacher.Id.Should().NotBeEmpty();
-        teacher.UsosId.Should().Be(usosId);
-        teacher.Name.Should().Be(name);
-        teacher.Email.Should().Be(email);
-        teacher.Degrees.Should().Equal("dr hab.", "inż.");
-        teacher.PhotoUrl.Should().BeNull();
-        teacher.PhoneNumber.Should().BeNull();
-        teacher.WebsiteUrl.Should().BeNull();
-        teacher.Description.Should().BeNull();
+        lecturer.Should().NotBeNull();
+        lecturer.Id.Should().NotBeEmpty();
+        lecturer.UsosId.Should().Be(usosId);
+        lecturer.Name.Should().Be(name);
+        lecturer.Email.Should().Be(email);
+        lecturer.Degrees.Should().Equal("dr hab.", "inż.");
+        lecturer.PhotoUrl.Should().BeNull();
+        lecturer.PhoneNumber.Should().BeNull();
+        lecturer.WebsiteUrl.Should().BeNull();
+        lecturer.Description.Should().BeNull();
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public class AcademicTeacherTest
         string[] degrees = ["dr"];
 
         // act
-        var teacher = AcademicTeacher.Create(
+        var lecturer = Lecturer.Create(
             usosId: "USOS-12345",
             degrees: degrees,
             name: "Anna Nowak",
@@ -64,10 +64,10 @@ public class AcademicTeacherTest
             description: description);
 
         // assert
-        teacher.PhotoUrl.Should().Be(photoUrl);
-        teacher.PhoneNumber.Should().Be(phoneNumber);
-        teacher.WebsiteUrl.Should().Be(websiteUrl);
-        teacher.Description.Should().Be(description);
+        lecturer.PhotoUrl.Should().Be(photoUrl);
+        lecturer.PhoneNumber.Should().Be(phoneNumber);
+        lecturer.WebsiteUrl.Should().Be(websiteUrl);
+        lecturer.Description.Should().Be(description);
     }
 
     [Theory]
@@ -89,7 +89,7 @@ public class AcademicTeacherTest
         string[] degrees = ["mgr"];
 
         // act
-        Action act = () => _ = AcademicTeacher.Create(usosId!, degrees, name!, email!);
+        Action act = () => _ = Lecturer.Create(usosId!, degrees, name!, email!);
 
         // assert
         act.Should().Throw<ArgumentException>();
@@ -102,7 +102,7 @@ public class AcademicTeacherTest
         IReadOnlyList<string> degrees = null!;
 
         // act
-        Action act = () => _ = AcademicTeacher.Create("USOS-1", degrees, "Jan Kowalski", "jan@university.edu.pl");
+        Action act = () => _ = Lecturer.Create("USOS-1", degrees, "Jan Kowalski", "jan@university.edu.pl");
 
         // assert
         act.Should().Throw<ArgumentNullException>()
@@ -116,7 +116,7 @@ public class AcademicTeacherTest
         // arrange
 
         // act
-        Action act = () => _ = AcademicTeacher.Create("USOS-1", degrees, "Jan Kowalski", "jan@university.edu.pl");
+        Action act = () => _ = Lecturer.Create("USOS-1", degrees, "Jan Kowalski", "jan@university.edu.pl");
 
         // assert
         act.Should().Throw<ArgumentException>()
@@ -131,10 +131,10 @@ public class AcademicTeacherTest
         string[] degrees = ["dr", "   ", "inż.", ""];
 
         // act
-        var teacher = AcademicTeacher.Create("USOS-1", degrees, "Jan Kowalski", "jan@university.edu.pl");
+        var lecturer = Lecturer.Create("USOS-1", degrees, "Jan Kowalski", "jan@university.edu.pl");
 
         // assert
-        teacher.Degrees.Should().Equal("dr", "inż.");
+        lecturer.Degrees.Should().Equal("dr", "inż.");
     }
 
     [Fact]
@@ -144,11 +144,11 @@ public class AcademicTeacherTest
         var externalList = new List<string> { "mgr", "inż." };
 
         // act
-        var teacher = AcademicTeacher.Create("USOS-1", externalList, "Jan Kowalski", "jan@university.edu.pl");
+        var lecturer = Lecturer.Create("USOS-1", externalList, "Jan Kowalski", "jan@university.edu.pl");
         externalList.Add("prof.");
 
         // assert
-        teacher.Degrees.Should().Equal("mgr", "inż.");
-        teacher.Degrees.Should().NotContain("prof.");
+        lecturer.Degrees.Should().Equal("mgr", "inż.");
+        lecturer.Degrees.Should().NotContain("prof.");
     }
 }
