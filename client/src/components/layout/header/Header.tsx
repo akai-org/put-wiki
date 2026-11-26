@@ -1,66 +1,44 @@
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
-import { SearchBar } from '@/components/layout/header/components/SearchBar';
+import { cn } from '@/utils';
+import { AppearanceMenu } from '@/components/layout/header/components/AppearanceMenu';
 import { AuthAction } from '@/components/layout/header/components/AuthAction';
-import { MobileMenu } from '@/components/layout/header/components/MobileMenu';
-import { ThemeToggle } from '@/components/layout/header/components/ThemeToggle';
 import { Logo } from '@/components/layout/header/components/Logo';
+import { MobileMenu } from '@/components/layout/header/components/MobileMenu';
+import { NavLinks } from '@/components/layout/header/components/NavLinks';
+import { SearchBar } from '@/components/layout/header/components/SearchBar';
 
-const navLinkClassName =
-  'text-[17px]  font-normal text-foreground/85 hover:text-foreground transition-colors whitespace-nowrap';
+export type HeaderVariant = 'solid' | 'transparent';
 
-export default function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+export interface HeaderProps {
+  variant?: HeaderVariant;
+  showAuthAction?: boolean;
+}
 
+const variantClassName: Record<HeaderVariant, string> = {
+  solid: 'bg-background shadow-header',
+  transparent: '-mb-16 bg-brand/40 backdrop-blur-sm lg:-mb-22',
+};
+
+export default function Header({ variant = 'solid', showAuthAction = true }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background text-foreground select-none">
-      <div className="flex w-full justify-center px-8 md:px-16">
-        <nav
-          aria-label="Główna nawigacja"
-          className="hidden h-20 w-full max-w-300 grid-cols-[auto_1fr_auto] items-center gap-4 md:grid"
-        >
-          <div className="flex items-center justify-start">
-            <Logo size="desktop" />
-          </div>
+    <header
+      aria-label="PUTWiki"
+      className={cn(
+        'sticky top-0 z-50 w-full text-foreground select-none',
+        variantClassName[variant]
+      )}
+    >
+      <div className="mx-auto flex h-16 w-full max-w-header items-center gap-5.5 px-5 sm:px-8 lg:h-22">
+        <Logo />
+        <NavLinks className="hidden lg:block" />
 
-          <div className="flex w-full justify-center">
-            <SearchBar
-              containerClassName="relative flex items-center gap-3.5 bg-muted rounded-full pl-2.5 pr-4 h-12 w-full max-w-[340px] border border-input focus-within:border-ring transition-all"
-              iconWrapperClassName="bg-background w-10 h-10 rounded-full text-muted-foreground flex items-center justify-center shadow-inner flex-shrink-0"
-              inputClassName="w-full bg-transparent text-[15px] text-foreground  placeholder:text-muted-foreground focus:outline-none"
-            />
-          </div>
+        <div className="hidden flex-1 items-center justify-end gap-5.5 lg:flex">
+          <SearchBar className="max-w-search" />
+          <AppearanceMenu />
+          {showAuthAction ? <AuthAction variant="desktop" /> : null}
+        </div>
 
-          <div className="flex items-center justify-end gap-8">
-            <Link className={navLinkClassName} to="/">
-              Prowadzący
-            </Link>
-            <Link className={navLinkClassName} to="/">
-              Przedmioty
-            </Link>
-
-            <div className="flex min-w-10 items-center justify-end gap-4 pl-2">
-              <ThemeToggle />
-              <AuthAction variant="desktop" />
-            </div>
-          </div>
-        </nav>
+        <MobileMenu className="ml-auto lg:hidden" showAuthAction={showAuthAction} />
       </div>
-
-      <div className="flex h-16 w-full items-center justify-between px-8 md:hidden">
-        <Logo size="mobile" />
-
-        <button
-          className="p-2 text-muted-foreground hover:text-foreground focus:outline-none"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          type="button"
-        >
-          {isMobileMenuOpen ? <X className="size-6" /> : <Menu className="size-6" />}
-        </button>
-      </div>
-
-      <MobileMenu onClose={() => setIsMobileMenuOpen(false)} open={isMobileMenuOpen} />
     </header>
   );
 }
