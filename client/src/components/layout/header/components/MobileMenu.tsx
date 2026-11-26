@@ -1,48 +1,70 @@
-import { Link } from '@tanstack/react-router';
-import { Sheet, SheetContent, SheetTitle } from '@/components/ui/Sheet';
-import { SearchBar } from './SearchBar';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/Sheet';
+import { cn } from '@/utils';
+import { focusRing } from '../focusRing';
+import { AppearanceMenu } from './AppearanceMenu';
 import { AuthAction } from './AuthAction';
-import { ThemeToggle } from './ThemeToggle';
+import { Logo } from './Logo';
+import { NavLinks } from './NavLinks';
+import { SearchBar } from './SearchBar';
 
-export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
+const iconButtonClassName = cn(
+  'flex size-10 items-center justify-center rounded-sm text-foreground transition-opacity hover:opacity-85',
+  focusRing
+);
+
+export function MobileMenu({
+  showAuthAction = true,
+  className,
+}: {
+  showAuthAction?: boolean;
+  className?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
+
   return (
-    <Sheet onOpenChange={(open) => !open && onClose()} open={open}>
+    <Sheet onOpenChange={setOpen} open={open}>
+      <SheetTrigger asChild>
+        <button
+          aria-label="Otwórz menu"
+          className={cn(iconButtonClassName, className)}
+          type="button"
+        >
+          <Menu aria-hidden="true" className="size-6" />
+        </button>
+      </SheetTrigger>
+
       <SheetContent
-        className="inset-x-3 top-16 h-auto gap-4 rounded-b-2xl border px-5 py-6 md:hidden"
+        aria-describedby={undefined}
+        className="gap-5 rounded-b-2xl border-border bg-background px-8 pb-6 text-foreground shadow-header lg:hidden"
         showCloseButton={false}
         side="top"
       >
         <SheetTitle className="sr-only">Menu nawigacyjne</SheetTitle>
 
-        <div className="flex items-center justify-between gap-4 border-b border-border pb-4 ">
-          <ThemeToggle />
-          <div className="flex-1">
-            <AuthAction onAction={onClose} variant="mobile" />
-          </div>
+        <div className="flex h-16 items-center justify-between">
+          <Logo onNavigate={close} />
+          <SheetClose asChild>
+            <button aria-label="Zamknij menu" className={iconButtonClassName} type="button">
+              <X aria-hidden="true" className="size-6" />
+            </button>
+          </SheetClose>
         </div>
 
-        <nav aria-label="Główna nawigacja" className="flex flex-col gap-4 ">
-          <Link
-            className="text-lg text-foreground/85 transition-colors hover:text-foreground"
-            onClick={onClose}
-            to="/"
-          >
-            Prowadzący
-          </Link>
-          <Link
-            className="text-lg text-foreground/85 transition-colors hover:text-foreground"
-            onClick={onClose}
-            to="/"
-          >
-            Przedmioty
-          </Link>
-        </nav>
+        <NavLinks onNavigate={close} orientation="vertical" />
 
-        <SearchBar
-          containerClassName="relative flex items-center gap-2 bg-muted rounded-full pl-2 pr-4 h-11 w-full"
-          iconWrapperClassName="bg-background w-10 h-10 rounded-full text-muted-foreground flex items-center justify-center flex-shrink-0"
-          inputClassName="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
-        />
+        <SearchBar />
+
+        <div className="flex items-center gap-4 border-t border-border pt-4">
+          <AppearanceMenu />
+          {showAuthAction ? (
+            <div className="flex flex-1 justify-end">
+              <AuthAction onAction={close} variant="mobile" />
+            </div>
+          ) : null}
+        </div>
       </SheetContent>
     </Sheet>
   );
