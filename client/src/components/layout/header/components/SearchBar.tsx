@@ -4,7 +4,6 @@ import { cn } from '@/utils';
 
 const SEARCH_LABEL = 'Szukaj przedmiotów i prowadzących';
 
-// Search logic is delivered by the Search engine epic (#25); for now the form only renders.
 function handleSubmit(event: FormEvent<HTMLFormElement>) {
   event.preventDefault();
 }

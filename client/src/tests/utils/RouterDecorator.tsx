@@ -1,24 +1,42 @@
-import type { ReactNode } from 'react';
+import { createContext, useContext, useState, type ReactNode } from 'react';
 import {
+  createMemoryHistory,
   createRootRoute,
+  createRoute,
   createRouter,
   RouterProvider,
-  createMemoryHistory,
 } from '@tanstack/react-router';
 
-export function RouterDecorator({ children }: { children: ReactNode }) {
-  const rootRoute = createRootRoute({
-    component: () => children,
-  });
+const RouterChildrenContext = createContext<ReactNode>(null);
 
-  const memoryHistory = createMemoryHistory({
-    initialEntries: ['/'],
-  });
+function RouterChildren() {
+  return useContext(RouterChildrenContext);
+}
 
-  const mockRouter = createRouter({
-    routeTree: rootRoute,
-    history: memoryHistory,
-  });
+function createTestRouter(initialPath: string) {
+  const rootRoute = createRootRoute({ component: RouterChildren });
+  // Index and splat routes let any initial path (e.g. /courses/abc) match without a not-found state.
+  const indexRoute = createRoute({ getParentRoute: () => rootRoute, path: '/' });
+  const splatRoute = createRoute({ getParentRoute: () => rootRoute, path: '$' });
 
-  return <RouterProvider router={mockRouter} />;
+  return createRouter({
+    routeTree: rootRoute.addChildren([indexRoute, splatRoute]),
+    history: createMemoryHistory({ initialEntries: [initialPath] }),
+  });
+}
+
+export function RouterDecorator({
+  children,
+  initialPath = '/',
+}: {
+  children: ReactNode;
+  initialPath?: string;
+}) {
+  const [router] = useState(() => createTestRouter(initialPath));
+
+  return (
+    <RouterChildrenContext value={children}>
+      <RouterProvider router={router} />
+    </RouterChildrenContext>
+  );
 }
