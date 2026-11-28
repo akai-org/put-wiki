@@ -43,7 +43,9 @@ internal static class OAuth1Helper
         var signingKey = $"{UrlEncode(consumerSecret)}&{UrlEncode(tokenSecret ?? string.Empty)}";
 
 #pragma warning disable CA5350 // Do Not Use Weak Cryptographic Algorithms
+#pragma warning disable S4790
         using var hmac = new HMACSHA1(Encoding.ASCII.GetBytes(signingKey));
+#pragma warning restore S4790
 #pragma warning restore CA5350 // Do Not Use Weak Cryptographic Algorithms
 
         var signatureBytes = hmac.ComputeHash(Encoding.ASCII.GetBytes(signatureBaseString));
