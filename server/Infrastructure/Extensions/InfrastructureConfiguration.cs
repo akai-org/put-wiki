@@ -16,7 +16,6 @@ using Infrastructure.Clients;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -99,9 +98,9 @@ public static partial class InfrastructureConfiguration
     }
 
     // NOTE: don't use this method in PRODUCTION enviroment to apply migrations during app startup.
-    public static async Task<IApplicationBuilder> ApplyDatabaseMigrationsAsync(this IApplicationBuilder app)
+    public static async Task ApplyDatabaseMigrationsAsync(this IServiceProvider services)
     {
-        using var scope = app.ApplicationServices.CreateScope();
+        using var scope = services.CreateScope();
 
         try
         {
@@ -115,8 +114,6 @@ public static partial class InfrastructureConfiguration
             LogAnErrorOccurredWhileMigratingTheDatabase(logger, ex);
             throw;
         }
-
-        return app;
     }
 
     [LoggerMessage(Level = LogLevel.Critical, Message = "An error occurred while migrating the database.")]

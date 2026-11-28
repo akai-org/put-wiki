@@ -1,5 +1,7 @@
 using Application.Extensions;
 
+using DotNetEnv;
+
 using Infrastructure.Extensions;
 
 using Microsoft.AspNetCore.Builder;
@@ -14,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 if (builder.Environment.IsDevelopment())
 {
-    DotNetEnv.Env.TraversePath().Load();
+    Env.TraversePath().Load();
 }
 
 builder.Configuration.AddEnvironmentVariables();
@@ -37,7 +39,7 @@ app.UsePutWikiOpenApiDocs();
 
 if (app.Environment.IsDevelopment())
 {
-    await app.ApplyDatabaseMigrationsAsync();
+    await app.Services.ApplyDatabaseMigrationsAsync();
 }
 
 app.MapHealthChecks("/health");
