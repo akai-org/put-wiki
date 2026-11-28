@@ -2,6 +2,7 @@
   <PropertyGroup>
     <!-- Enable central package management, https://learn.microsoft.com/en-us/nuget/consume-packages/Central-Package-Management -->
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <!-- NOTE: PackageVersion also apply when csproj get that package transistively, not only via PackageRefrence in csproj -->
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
 
@@ -21,7 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- NOTE: pins ef core to the same version in entire solution -->
+    <!-- NOTE: Microsoft.EntityFrameworkCore and Microsoft.EntityFrameworkCore.Relational should not be used in PackageReference. 
+    Entries below only pin Microsoft.EntityFrameworkCore.* packages to the same version used by Npgsql.EntityFrameworkCore.PostgreSQL provider. 
+    Keep this version the same as dotnet-ef tool -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.13" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.13" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.13">
