@@ -7,6 +7,5 @@
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="FluentResults" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
-    <PackageReference Include="Moq" />
   </ItemGroup>
 </Project>
