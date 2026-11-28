@@ -16,11 +16,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-using Presentation.Extensions;
+using Presentation.Controllers;
 
 using Scalar.AspNetCore;
 
-namespace Presentation.Controllers;
+namespace Presentation.Auth;
 
 public partial class AuthController(
     IUsosOAuthService usosOAuthService,

@@ -1,4 +1,4 @@
-﻿namespace Presentation.Extensions;
+﻿namespace Presentation.Auth;
 
 public static class AuthConstants
 {
