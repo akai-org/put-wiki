@@ -146,5 +146,5 @@ public partial class AuthController(
     }
 
     [LoggerMessage(Level = LogLevel.Warning, Message = "Detected possible CSRF attack. Reason: {reason}")]
-    public partial void LogPossibleCsrfAttack(string reason);
+    private partial void LogPossibleCsrfAttack(string reason);
 }
