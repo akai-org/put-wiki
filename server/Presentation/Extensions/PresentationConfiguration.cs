@@ -3,6 +3,8 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+using Application.Abstractions;
+
 using Infrastructure.Auth.Configuration;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,6 +17,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 
+using Presentation.Auth;
 using Presentation.Transformers;
 
 using Scalar.AspNetCore;
@@ -164,6 +167,9 @@ public static class PresentationConfiguration
 
         services.AddPutWikiOpenApi();
         services.AddPutWikiAuthentication();
+
+        services.AddHttpContextAccessor();
+        services.AddScoped<IUserContext, UserContext>();
 
         return services;
     }

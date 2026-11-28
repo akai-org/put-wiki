@@ -73,9 +73,6 @@ public static partial class InfrastructureConfiguration
             .ValidateOnStart();
 
         services.AddScoped<IUserSessionService, JwtUserSessionService>();
-
-        services.AddHttpContextAccessor();
-        services.AddScoped<IUserContext, UserContext>();
     }
 
     private static void AddUsosOAuth(this IServiceCollection services, IConfiguration configuration)

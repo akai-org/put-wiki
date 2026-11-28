@@ -5,7 +5,7 @@ using Application.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.JsonWebTokens;
 
-namespace Infrastructure.Auth;
+namespace Presentation.Auth;
 
 public class UserContext(IHttpContextAccessor httpContextAccessor) : IUserContext
 {
