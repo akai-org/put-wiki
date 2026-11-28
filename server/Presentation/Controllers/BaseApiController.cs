@@ -68,13 +68,11 @@ public class BaseApiController : ControllerBase
 
             if (error.Reasons is null) continue;
 
-            foreach (var reason in error.Reasons)
-            {
-                if (!string.IsNullOrWhiteSpace(reason.Message))
-                {
-                    errorMessages.Add(reason.Message);
-                }
-            }
+            var messages = error.Reasons
+                .Where(reason => !string.IsNullOrWhiteSpace(reason.Message))
+                .Select(reason => reason.Message);
+
+            errorMessages.UnionWith(messages);
         }
 
         var extensions = new Dictionary<string, object?>
