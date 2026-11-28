@@ -75,11 +75,6 @@
         "resolved": "10.35.0.4138",
         "contentHash": "T5o/tuyPw9pHRkyWxW07TkSri4I4pLpqwH922JuhphDjHAM7BUHaGE67h/w+65evHsIar8mYB2Ey6OmOLj9QDw=="
       },
-      "FluentValidation": {
-        "type": "Transitive",
-        "resolved": "12.2.0",
-        "contentHash": "DR3lFbdnKucaaj1/8zMNOACMz/64igzox1yVZSFVsLxYB5mxAB+wFP1WZ8fjwrZnbU1KA1DoMzHKYKxUfuZ4wQ=="
-      },
       "Humanizer.Core": {
         "type": "Transitive",
         "resolved": "2.14.1",
@@ -311,8 +306,7 @@
         "type": "Project",
         "dependencies": {
           "Domain": "[1.0.0, )",
-          "FluentResults": "[4.0.0, )",
-          "FluentValidation.DependencyInjectionExtensions": "[12.2.0, )"
+          "FluentResults": "[4.0.0, )"
         }
       },
       "domain": {
@@ -328,6 +322,7 @@
           "Domain": "[1.0.0, )",
           "EFCore.NamingConventions": "[10.0.1, )",
           "FluentResults": "[4.0.0, )",
+          "FluentValidation": "(, )",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "[10.0.13, )",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "[10.0.3, )"
         }
@@ -340,15 +335,6 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "[10.0.1, 11.0.0)",
           "Microsoft.EntityFrameworkCore.Relational": "[10.0.1, 11.0.0)"
-        }
-      },
-      "FluentValidation.DependencyInjectionExtensions": {
-        "type": "CentralTransitive",
-        "requested": "[12.2.0, )",
-        "resolved": "12.2.0",
-        "contentHash": "QpKXgiO9E6wXCh19X2Musn8MZM0xt7KQt/QrD6GDBn3MCUfy8a+rkhCzrYJNCfoxTsTRQ7bpKP8T3geTnJNNeQ==",
-        "dependencies": {
-          "FluentValidation": "12.2.0"
         }
       },
       "Microsoft.EntityFrameworkCore": {
