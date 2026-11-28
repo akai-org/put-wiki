@@ -26,4 +26,8 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\Application\Application.csproj" />
   </ItemGroup>
+  
+  <PropertyGroup>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
 </Project>

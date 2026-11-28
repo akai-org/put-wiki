@@ -17,4 +17,17 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  
+  <Target Name="ForbidTestOnlyPackages"
+          BeforeTargets="CollectPackageReferences"
+          Condition="'$(IsTestProject)' != 'true'">
+    
+    <ItemGroup>
+      <_TestOnlyPackage Include="@(PackageVersion->WithMetadataValue('TestOnly', 'true'))" />
+      <_TestOnlyNotReferenced Include="@(_TestOnlyPackage)" Exclude="@(PackageReference)" />
+      <_ForbiddenTestPackage Include="@(_TestOnlyPackage)" Exclude="@(_TestOnlyNotReferenced)" />
+    </ItemGroup>
+    <Error Condition="'@(_ForbiddenTestPackage)' != ''" Code="PW0001"
+           Text="$(MSBuildProjectName) references test-only package(s): @(_ForbiddenTestPackage). Reference them only from test projects (IsTestProject=true)." />
+  </Target>
 </Project>
