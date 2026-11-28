@@ -42,7 +42,7 @@ public partial class UsosOAuthService(
         PropertyNameCaseInsensitive = true,
     };
 
-    public async Task<Result<UsosLoginInitiationData>> GetLoginUrlAsync(CancellationToken ct = default)
+    public async Task<Result<UsosLoginInitiationDto>> GetLoginUrlAsync(CancellationToken ct = default)
     {
         var authParams = new Dictionary<string, string> { ["oauth_callback"] = _settings.CallbackUrl };
         var queryParams = new Dictionary<string, string> { ["scopes"] = _settings.Scopes };
@@ -64,7 +64,7 @@ public partial class UsosOAuthService(
 
         var authorizeUrl = $"{_settings.BaseUrl.TrimEnd('/')}/{AuthorizeEndpoint}?oauth_token={tokenPair.Value.Token}";
 
-        return Result.Ok(new UsosLoginInitiationData(authorizeUrl, tokenPair.Value.Token));
+        return Result.Ok(new UsosLoginInitiationDto(authorizeUrl, tokenPair.Value.Token));
     }
 
     public async Task<Result<UsosUserDto>> HandleCallbackAndGetUserAsync(

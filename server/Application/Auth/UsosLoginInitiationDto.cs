@@ -1,3 +1,3 @@
 ﻿namespace Application.Auth;
 
-public sealed record UsosLoginInitiationData(string AuthorizeUrl, string RequestToken);
+public sealed record UsosLoginInitiationDto(string AuthorizeUrl, string RequestToken);
