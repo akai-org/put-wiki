@@ -29,7 +29,6 @@ public partial class AuthController(
     ProvisionUserCommandHandler provisionUserCommandHandler,
     RefreshSessionCommandHandler refreshSessionCommandHandler,
     IOptions<JwtSettings> jwtSettings,
-    IHostEnvironment environment,
     ILogger<AuthController> logger
     ) : BaseApiController
 {
@@ -47,7 +46,7 @@ public partial class AuthController(
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
-            Secure = environment.IsProduction(),
+            Secure = true,
             SameSite = SameSiteMode.Lax,
             IsEssential = true,
             Expires = DateTimeOffset.UtcNow.AddMinutes(30)
@@ -125,7 +124,7 @@ public partial class AuthController(
         var accessTokenOptions = new CookieOptions
         {
             HttpOnly = true,
-            Secure = environment.IsProduction(),
+            Secure = true,
             SameSite = SameSiteMode.Strict,
             IsEssential = true,
             Expires = DateTimeOffset.UtcNow.Add(jwtSettings.Value.AccessTokenLifetime)
@@ -134,7 +133,7 @@ public partial class AuthController(
         var refreshTokenOptions = new CookieOptions
         {
             HttpOnly = true,
-            Secure = environment.IsProduction(),
+            Secure = true,
             SameSite = SameSiteMode.Strict,
             IsEssential = true,
             Expires = DateTimeOffset.UtcNow.Add(jwtSettings.Value.RefreshTokenLifetime),
