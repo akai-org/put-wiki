@@ -30,22 +30,32 @@ public sealed partial class JwtUserSessionService(
      */
     public JwtTokenPair CreateSession(Guid userId)
     {
-        var accessToken = GenerateAccessToken(userId);
+        var now = timeProvider.GetUtcNow();
+        var accessTokenExpiresAt = now.Add(settings.Value.AccessTokenLifetime);
+        var refreshTokenExpiresAt = now.Add(settings.Value.RefreshTokenLifetime);
+
+        var accessToken = GenerateAccessToken(userId, accessTokenExpiresAt);
 
         var rawRefreshTokenString = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
         var hashedRefreshTokenString = RefreshTokenHasher.CreateHash(rawRefreshTokenString);
+
         var refreshToken = new RefreshToken
         {
             Id = Guid.NewGuid(),
             UserId = userId,
             Token = hashedRefreshTokenString,
-            ExpiresAt = timeProvider.GetUtcNow().Add(settings.Value.RefreshTokenLifetime),
-            CreatedAt = timeProvider.GetUtcNow()
+            ExpiresAt = refreshTokenExpiresAt,
+            CreatedAt = now
         };
 
         dbContext.RefreshTokens.Add(refreshToken);
 
-        return new JwtTokenPair(accessToken, rawRefreshTokenString);
+        return new JwtTokenPair(
+            AccessToken: accessToken,
+            AccessTokenExpiresAt: accessTokenExpiresAt,
+            RefreshToken: rawRefreshTokenString,
+            RefreshTokenExpiresAt: refreshTokenExpiresAt
+        );
     }
 
     /**
@@ -87,7 +97,7 @@ public sealed partial class JwtUserSessionService(
         return CreateSession(storedTokenObject.UserId);
     }
 
-    private string GenerateAccessToken(Guid userId)
+    private string GenerateAccessToken(Guid userId, DateTimeOffset expiresAt)
     {
         var claims = new List<Claim>
         {
@@ -102,7 +112,7 @@ public sealed partial class JwtUserSessionService(
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = timeProvider.GetUtcNow().Add(settings.Value.AccessTokenLifetime).UtcDateTime,
+            Expires = expiresAt.UtcDateTime,
             SigningCredentials = credentials,
             Issuer = settings.Value.Issuer,
             Audience = settings.Value.Audience

@@ -5,7 +5,7 @@ using FluentResults;
 
 namespace Domain.Users;
 
-public partial class User
+public class User
 {
     public required Guid Id { get; init; }
     public required string HashedUsosId { get; init; } = null!;

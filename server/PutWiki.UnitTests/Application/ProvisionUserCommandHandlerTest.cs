@@ -81,9 +81,16 @@ public class ProvisionUserCommandHandlerTest
         var rawUsosId = "12345";
         var hashedUsosId = "XYZ_HASHED_ID";
         var fakeDate = new DateTimeOffset(2026, 6, 6, 12, 0, 0, TimeSpan.Zero);
+        var accessExpiresAt = fakeDate.AddMinutes(15);
+        var refreshExpiresAt = fakeDate.AddDays(7);
+
         var existingUser = User.Create(hashedUsosId, fakeDate);
         var usosUserDto = new UsosUserDto(rawUsosId);
-        var fakeJwtTokenPair = new JwtTokenPair("ACCESS_TOKEN", "REFRESH_TOKEN");
+        var fakeJwtTokenPair = new JwtTokenPair(
+            "ACCESS_TOKEN",
+            accessExpiresAt,
+            "REFRESH_TOKEN",
+            refreshExpiresAt);
 
         _usosOAuthServiceMock
             .Setup(x => x.HandleCallbackAndGetUserAsync(cmd.OauthToken, cmd.OauthVerifier, It.IsAny<CancellationToken>()))
@@ -107,7 +114,9 @@ public class ProvisionUserCommandHandlerTest
         // Assert
         result.IsSuccess.Should().BeTrue();
         result.Value.AccessToken.Should().Be("ACCESS_TOKEN");
+        result.Value.AccessTokenExpiresAt.Should().Be(accessExpiresAt);
         result.Value.RefreshToken.Should().Be("REFRESH_TOKEN");
+        result.Value.RefreshTokenExpiresAt.Should().Be(refreshExpiresAt);
 
         _userRepositoryMock.Verify(x => x.Add(It.IsAny<User>()), Times.Never);
         _iUnitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
@@ -122,7 +131,13 @@ public class ProvisionUserCommandHandlerTest
         var hashedUsosId = "ABC_HASHED_ID";
         var usosUserDto = new UsosUserDto(rawUsosId);
         var fakeDate = new DateTimeOffset(2026, 6, 6, 12, 0, 0, TimeSpan.Zero);
-        var fakeJwtTokenPair = new JwtTokenPair("ACCESS_TOKEN", "REFRESH_TOKEN");
+        var accessExpiresAt = fakeDate.AddMinutes(15);
+        var refreshExpiresAt = fakeDate.AddDays(7);
+        var fakeJwtTokenPair = new JwtTokenPair(
+            "ACCESS_TOKEN",
+            accessExpiresAt,
+            "REFRESH_TOKEN",
+            refreshExpiresAt);
 
         _usosOAuthServiceMock
             .Setup(x => x.HandleCallbackAndGetUserAsync(cmd.OauthToken, cmd.OauthVerifier, It.IsAny<CancellationToken>()))
@@ -149,7 +164,9 @@ public class ProvisionUserCommandHandlerTest
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().NotBeNull();
         result.Value.AccessToken.Should().Be("ACCESS_TOKEN");
+        result.Value.AccessTokenExpiresAt.Should().Be(accessExpiresAt);
         result.Value.RefreshToken.Should().Be("REFRESH_TOKEN");
+        result.Value.RefreshTokenExpiresAt.Should().Be(refreshExpiresAt);
 
         _idHasherMock.Verify(x => x.Hash(rawUsosId), Times.Once);
         _userRepositoryMock.Verify(x => x.GetByHashedUsosIdAsync(hashedUsosId, It.IsAny<CancellationToken>()), Times.Once);

@@ -58,7 +58,7 @@ public partial class ProvisionUserCommandHandler(
 
         await unitOfWork.SaveChangesAsync(ct);
 
-        return Result.Ok(new JwtTokenPair(tokens.AccessToken, tokens.RefreshToken));
+        return Result.Ok(tokens);
     }
 
     [LoggerMessage(LogLevel.Warning, "Provisioning aborted: USOS authentication failed. Error: {error}")]

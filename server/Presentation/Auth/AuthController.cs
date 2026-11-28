@@ -9,12 +9,9 @@ using Application.Features.Users.Commands.RefreshUserSession;
 
 using FluentResults;
 
-using Infrastructure.Auth.Configuration;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 using Presentation.Controllers;
 
@@ -26,7 +23,6 @@ public partial class AuthController(
     IUsosOAuthService usosOAuthService,
     ProvisionUserCommandHandler provisionUserCommandHandler,
     RefreshSessionCommandHandler refreshSessionCommandHandler,
-    IOptions<JwtSettings> jwtSettings,
     ILogger<AuthController> logger
     ) : BaseApiController
 {
@@ -125,7 +121,7 @@ public partial class AuthController(
             Secure = true,
             SameSite = SameSiteMode.Strict,
             IsEssential = true,
-            Expires = DateTimeOffset.UtcNow.Add(jwtSettings.Value.AccessTokenLifetime)
+            Expires = tokenPair.AccessTokenExpiresAt
         };
 
         var refreshTokenOptions = new CookieOptions
@@ -134,7 +130,7 @@ public partial class AuthController(
             Secure = true,
             SameSite = SameSiteMode.Strict,
             IsEssential = true,
-            Expires = DateTimeOffset.UtcNow.Add(jwtSettings.Value.RefreshTokenLifetime),
+            Expires = tokenPair.RefreshTokenExpiresAt,
             Path = "/api/auth/refresh"
         };
 
